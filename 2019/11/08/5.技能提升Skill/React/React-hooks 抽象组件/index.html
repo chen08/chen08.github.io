@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>React-hooks 抽象组件 | Hexo</title>
+  <script src="./js/jQuery.md5.js"></script>
+  <script>
+    
+    (function(){
+      localStorage.setItem('userinfo',hex_md5('123chen'))
+      
+      var localData = localStorage.getItem("userinfo");
+      // var localState = localStorage.getItem("state");
+        if(localStorage.getItem("state") === null){
+          var reason = window.prompt('请输入访问密码');
+          // var promptVal = window.prompt('请输入访问密码');
+          if(reason){
+              //填写内容并“确定”
+              var md5Prompt = hex_md5(reason)
+              //点击的是“确定” 
+              if (localData !== md5Prompt){
+                alert('密码错误！');
+                // history.back();
+                location.replace(location.href); 
+              }else{
+                // alert('0123');
+                localStorage.setItem('state',"1")
+              }
+          }
+          else if(reason === ""){
+              //未填写但“确定”
+              location.replace(location.href); 
+          }
+          else{
+            //“取消”事件
+            location.replace(location.href); 
+          }
+        }
+
+    })();
+  </script>
+ <link rel="alternate" href="/atom.xml" data="123chen" type="application/atom+xml">
+  <meta name="description" content="React-hooks 抽象组件点击关注本公众号获取文档最新更新,并可以领取配套于本指南的 《前端面试手册》 以及最标准的简历模板. 本文主要内容来源于前端精读系列的怎么用 React Hooks 造轮子 1 引言上周的 精读《React Hooks》 已经实现了对 React Hooks 的基本认知，也许你也看了 React Hooks 基本实现剖析（就是数组），但理解实现原理就可以用好了吗？学">
+<meta name="keywords" content="JavaScript,面试,React">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React-hooks 抽象组件">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;08&#x2F;5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill&#x2F;React&#x2F;React-hooks%20%E6%8A%BD%E8%B1%A1%E7%BB%84%E4%BB%B6&#x2F;index.html">
+<meta property="og:site_name" content="学习的敌人是自己的满足，要认真学习一点东西，必须从不自满开始。对自己，“学而不厌”，对人家，“诲人不倦”，我们应取这种态度。">
+<meta property="og:description" content="React-hooks 抽象组件点击关注本公众号获取文档最新更新,并可以领取配套于本指南的 《前端面试手册》 以及最标准的简历模板. 本文主要内容来源于前端精读系列的怎么用 React Hooks 造轮子 1 引言上周的 精读《React Hooks》 已经实现了对 React Hooks 的基本认知，也许你也看了 React Hooks 基本实现剖析（就是数组），但理解实现原理就可以用好了吗？学">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https:&#x2F;&#x2F;xiaomuzhu-image.oss-cn-beijing.aliyuncs.com&#x2F;d846f65d5025c4b6c4619662a0669503.png">
+<meta property="og:updated_time" content="2019-11-08T09:45:56.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;xiaomuzhu-image.oss-cn-beijing.aliyuncs.com&#x2F;d846f65d5025c4b6c4619662a0669503.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://yoursite.com/2019/11/08/5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill/React/React-hooks%20%E6%8A%BD%E8%B1%A1%E7%BB%84%E4%BB%B6/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="学习的敌人是自己的满足，要认真学习一点东西，必须从不自满开始。对自己，“学而不厌”，对人家，“诲人不倦”，我们应取这种态度。" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/chen08" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">溟海</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer &amp; Designer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Guangzhou, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+          <!-- . -->
+        
+        
+          <li class="menu-item menu-item-home">
+            <a href="/.">
+              
+              <i class="icon icon-home-fill"></i>
+              
+              <span class="menu-title">Home</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- archives -->
+        
+        
+          <li class="menu-item menu-item-archives">
+            <a href="/archives">
+              
+              <i class="icon icon-archives-fill"></i>
+              
+              <span class="menu-title">Archives</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- categories -->
+        
+        
+          <li class="menu-item menu-item-categories">
+            <a href="/categories">
+              
+              <i class="icon icon-folder"></i>
+              
+              <span class="menu-title">Categories</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- tags -->
+        
+        
+          <li class="menu-item menu-item-tags">
+            <a href="/tags">
+              
+              <i class="icon icon-tags"></i>
+              
+              <span class="menu-title">Tags</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- repository -->
+        
+        
+          <li class="menu-item menu-item-repository">
+            <a href="/repository">
+              
+              <i class="icon icon-project"></i>
+              
+              <span class="menu-title">Repository</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- books -->
+        
+        
+          <li class="menu-item menu-item-books">
+            <a href="/books">
+              
+              <i class="icon icon-book-fill"></i>
+              
+              <span class="menu-title">Books</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- links -->
+        
+        
+          <li class="menu-item menu-item-links">
+            <a href="/links">
+              
+              <i class="icon icon-friendship"></i>
+              
+              <span class="menu-title">Links</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- about -->
+        
+        
+          <li class="menu-item menu-item-about">
+            <a href="/about">
+              
+              <i class="icon icon-cup-fill"></i>
+              
+              <span class="menu-title">About</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- navigation/webstack/index.html -->
+        
+        
+          <li class="menu-item menu-item-navigation">
+            <a href="/navigation/webstack/index.html">
+              
+              <i class="icon icon-delicious"></i>
+              
+              <span class="menu-title">Navigation</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- navigation/webstack/word.html -->
+        
+        
+          <li style="display: none;" class="menu-item menu-item-fixed">
+            <a href="/navigation/webstack/word.html">
+              
+              <i class="icon icon-delicious"></i>
+              
+              <span class="menu-title">menu.fixed</span>
+            </a>
+          </li>
+        
+
+
+        
+      </ul>
+
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/1-WEB%E5%89%8D%E7%AB%AF/">1.WEB前端</a><span class="category-list-count">140</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/2-%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">2.编程语言</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/3-%E4%BA%A7%E5%93%81%E8%AE%BE%E8%AE%A1/">3.产品设计</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/4-%E7%AE%A1%E7%90%86%E8%90%A5%E9%94%80/">4.管理营销</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/5-%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87/">5.技能提升</a><span class="category-list-count">155</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/6-%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93/">6.读书总结</a><span class="category-list-count">9</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/" rel="tag">CSS</a><span class="tag-list-count">18</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Dart/" rel="tag">Dart</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES6/" rel="tag">ES6</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES7/" rel="tag">ES7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/English/" rel="tag">English</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flutter/" rel="tag">Flutter</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a><span class="tag-list-count">20</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IMAGE/" rel="tag">IMAGE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JQuery/" rel="tag">JQuery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a><span class="tag-list-count">224</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">JavaScript设计模式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript%E9%AB%98%E7%BA%A7%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" rel="tag">JavaScript高级程序设计</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jquery/" rel="tag">Jquery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mysql/" rel="tag">Mysql</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NETWORK/" rel="tag">NETWORK</a><span class="tag-list-count">13</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node/" rel="tag">Node</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/" rel="tag">PHP</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/" rel="tag">React</a><span class="tag-list-count">31</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJS/" rel="tag">RxJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SVG/" rel="tag">SVG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sass/" rel="tag">Sass</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/" rel="tag">Vue</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%AE%89%E5%85%A8/" rel="tag">WEB安全</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webpack/" rel="tag">Webpack</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/" rel="tag">jQuery</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodeJS/" rel="tag">nodeJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B9%A6%E5%8D%95/" rel="tag">书单</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B9%A6%E7%B1%8D/" rel="tag">书籍</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/" rel="tag">前端安全</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83/" rel="tag">命名规范</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag">小程序</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" rel="tag">性能优化</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8F%92%E4%BB%B6/" rel="tag">插件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A1%86%E6%9E%B6/" rel="tag">框架</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" rel="tag">浏览器</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%84%E4%BB%B6/" rel="tag">组件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%84%E8%8C%83/" rel="tag">规范</a><span class="tag-list-count">67</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6%E5%AD%A6%E4%B9%A0/" rel="tag">软件学习</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a><span class="tag-list-count">153</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/CSS/" style="font-size: 13.71px;">CSS</a> <a href="/tags/Dart/" style="font-size: 13px;">Dart</a> <a href="/tags/ES6/" style="font-size: 13px;">ES6</a> <a href="/tags/ES7/" style="font-size: 13px;">ES7</a> <a href="/tags/English/" style="font-size: 13.18px;">English</a> <a href="/tags/Flutter/" style="font-size: 13px;">Flutter</a> <a href="/tags/Git/" style="font-size: 13.12px;">Git</a> <a href="/tags/HTML/" style="font-size: 13.76px;">HTML</a> <a href="/tags/HTTP/" style="font-size: 13.18px;">HTTP</a> <a href="/tags/IMAGE/" style="font-size: 13px;">IMAGE</a> <a href="/tags/JAVA/" style="font-size: 13.06px;">JAVA</a> <a href="/tags/JQuery/" style="font-size: 13px;">JQuery</a> <a href="/tags/JavaScript/" style="font-size: 14px;">JavaScript</a> <a href="/tags/JavaScript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 13px;">JavaScript设计模式</a> <a href="/tags/JavaScript%E9%AB%98%E7%BA%A7%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 13px;">JavaScript高级程序设计</a> <a href="/tags/Jquery/" style="font-size: 13px;">Jquery</a> <a href="/tags/Mysql/" style="font-size: 13px;">Mysql</a> <a href="/tags/NETWORK/" style="font-size: 13.53px;">NETWORK</a> <a href="/tags/Node/" style="font-size: 13.35px;">Node</a> <a href="/tags/PHP/" style="font-size: 13.24px;">PHP</a> <a href="/tags/React/" style="font-size: 13.82px;">React</a> <a href="/tags/RxJS/" style="font-size: 13px;">RxJS</a> <a href="/tags/SVG/" style="font-size: 13px;">SVG</a> <a href="/tags/Sass/" style="font-size: 13px;">Sass</a> <a href="/tags/TypeScript/" style="font-size: 13.29px;">TypeScript</a> <a href="/tags/Vue/" style="font-size: 13.65px;">Vue</a> <a href="/tags/WEB%E5%AE%89%E5%85%A8/" style="font-size: 13.29px;">WEB安全</a> <a href="/tags/Webpack/" style="font-size: 13.59px;">Webpack</a> <a href="/tags/jQuery/" style="font-size: 13.65px;">jQuery</a> <a href="/tags/nodeJS/" style="font-size: 13px;">nodeJS</a> <a href="/tags/python/" style="font-size: 13px;">python</a> <a href="/tags/%E4%B9%A6%E5%8D%95/" style="font-size: 13px;">书单</a> <a href="/tags/%E4%B9%A6%E7%B1%8D/" style="font-size: 13.06px;">书籍</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 13px;">前端</a> <a href="/tags/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/" style="font-size: 13.06px;">前端安全</a> <a href="/tags/%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83/" style="font-size: 13.41px;">命名规范</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 13px;">小程序</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 13.06px;">工具</a> <a href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" style="font-size: 13.47px;">性能优化</a> <a href="/tags/%E6%8F%92%E4%BB%B6/" style="font-size: 13px;">插件</a> <a href="/tags/%E6%A1%86%E6%9E%B6/" style="font-size: 13px;">框架</a> <a href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" style="font-size: 13px;">浏览器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13.18px;">算法</a> <a href="/tags/%E7%BB%84%E4%BB%B6/" style="font-size: 13px;">组件</a> <a href="/tags/%E8%A7%84%E8%8C%83/" style="font-size: 13.88px;">规范</a> <a href="/tags/%E8%BD%AF%E4%BB%B6%E5%AD%A6%E4%B9%A0/" style="font-size: 13px;">软件学习</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 13.35px;">随笔</a> <a href="/tags/%E9%9D%A2%E8%AF%95/" style="font-size: 13.94px;">面试</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a><span class="archive-list-count">312</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/27/1.WEB%E5%89%8D%E7%AB%AFWeb/React/react-router/" class="title">1.WEB前端Web/React/react-router</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-27T13:24:04.185Z" itemprop="datePublished">2020-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/27/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/sass-guide/" class="title">1.WEB前端Web/Front-End-Standards/sass-guide</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-27T13:24:03.487Z" itemprop="datePublished">2020-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/27/hello-world/" class="title">Hello World</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-27T13:24:03.028Z" itemprop="datePublished">2020-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/6-%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93/">6.读书总结</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/26/6.%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93Book/%E4%BA%BA%E7%94%9F%E9%81%93%E7%90%86/" class="title">人生道理</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-26T01:12:57.000Z" itemprop="datePublished">2020-01-26</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/2-%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">2.编程语言</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/15/2.%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80Programming/English/%E7%94%9F%E6%B4%BB%E8%8B%B1%E8%AF%AD/" class="title">生活英语</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-15T01:12:57.000Z" itemprop="datePublished">2020-01-15</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">Catalogue</h3>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#React-hooks-抽象组件"><span class="toc-number">1.</span> <span class="toc-text">React-hooks 抽象组件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-引言"><span class="toc-number">1.1.</span> <span class="toc-text">1 引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-精读"><span class="toc-number">1.2.</span> <span class="toc-text">2 精读</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#DOM-副作用修改-监听"><span class="toc-number">1.2.1.</span> <span class="toc-text">DOM 副作用修改 / 监听</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#修改页面-title"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">修改页面 title</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#监听页面大小变化，网络是否断开"><span class="toc-number">1.2.1.2.</span> <span class="toc-text">监听页面大小变化，网络是否断开</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#动态注入-css"><span class="toc-number">1.2.1.3.</span> <span class="toc-text">动态注入 css</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#组件辅助"><span class="toc-number">1.2.2.</span> <span class="toc-text">组件辅助</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#获取组件宽高"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">获取组件宽高</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#拿到组件-onChange-抛出的值"><span class="toc-number">1.2.2.2.</span> <span class="toc-text">拿到组件 onChange 抛出的值</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#做动画"><span class="toc-number">1.2.3.</span> <span class="toc-text">做动画</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#在某个时间段内获取-0-1-之间的值"><span class="toc-number">1.2.3.1.</span> <span class="toc-text">在某个时间段内获取 0-1 之间的值</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#弹性动画"><span class="toc-number">1.2.3.2.</span> <span class="toc-text">弹性动画</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Tween-动画"><span class="toc-number">1.2.3.3.</span> <span class="toc-text">Tween 动画</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#发请求"><span class="toc-number">1.2.4.</span> <span class="toc-text">发请求</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#通用-Http-封装"><span class="toc-number">1.2.4.1.</span> <span class="toc-text">通用 Http 封装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Request-Service"><span class="toc-number">1.2.4.2.</span> <span class="toc-text">Request Service</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#填表单"><span class="toc-number">1.2.5.</span> <span class="toc-text">填表单</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Hooks-思维的表单组件"><span class="toc-number">1.2.5.1.</span> <span class="toc-text">Hooks 思维的表单组件</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#模拟生命周期"><span class="toc-number">1.2.6.</span> <span class="toc-text">模拟生命周期</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#componentDidMount"><span class="toc-number">1.2.6.1.</span> <span class="toc-text">componentDidMount</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#componentWillUnmount"><span class="toc-number">1.2.6.2.</span> <span class="toc-text">componentWillUnmount</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#componentDidUpdate"><span class="toc-number">1.2.6.3.</span> <span class="toc-text">componentDidUpdate</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Force-Update"><span class="toc-number">1.2.6.4.</span> <span class="toc-text">Force Update</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#isMounted"><span class="toc-number">1.2.6.5.</span> <span class="toc-text">isMounted</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#存数据"><span class="toc-number">1.2.7.</span> <span class="toc-text">存数据</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#全局-Store"><span class="toc-number">1.2.7.1.</span> <span class="toc-text">全局 Store</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#封装原有库"><span class="toc-number">1.2.8.</span> <span class="toc-text">封装原有库</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#RenderProps-to-Hooks"><span class="toc-number">1.2.8.1.</span> <span class="toc-text">RenderProps to Hooks</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Hooks-to-RenderProps"><span class="toc-number">1.2.8.2.</span> <span class="toc-text">Hooks to RenderProps</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#封装原本对-setState-增强的库"><span class="toc-number">1.2.8.3.</span> <span class="toc-text">封装原本对 setState 增强的库</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-总结"><span class="toc-number">1.3.</span> <span class="toc-text">3 总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#公众号"><span class="toc-number">1.4.</span> <span class="toc-text">公众号</span></a></li></ol></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-5.技能提升Skill/React/React-hooks 抽象组件" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      React-hooks 抽象组件
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/11/08/5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill/React/React-hooks%20%E6%8A%BD%E8%B1%A1%E7%BB%84%E4%BB%B6/" class="article-date">
+	  <time datetime="2019-11-08T01:12:57.000Z" itemprop="datePublished">2019-11-08</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/5-%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87/">5.技能提升</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/JavaScript/" rel="tag">JavaScript</a>, <a class="article-tag-link" href="/tags/React/" rel="tag">React</a>, <a class="article-tag-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a>
+  </span>
+
+
+        
+
+	<span class="article-read hidden-xs">
+    	<i class="icon icon-eye-fill" aria-hidden="true"></i>
+    	<span id="/2019/11/08/5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill/React/React-hooks%20%E6%8A%BD%E8%B1%A1%E7%BB%84%E4%BB%B6/" class="leancloud_visitors"  data-flag-title="React-hooks 抽象组件">0</span>
+    </span>
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/11/08/5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill/React/React-hooks%20%E6%8A%BD%E8%B1%A1%E7%BB%84%E4%BB%B6/#comments" class="article-comment-link">Comments</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count: 5.5k(words)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">Read Count: 22(minutes)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="React-hooks-抽象组件"><a href="#React-hooks-抽象组件" class="headerlink" title="React-hooks 抽象组件"></a>React-hooks 抽象组件</h1><p>点击关注本<a href="#公众号">公众号</a>获取文档最新更新,并可以领取配套于本指南的 <strong>《前端面试手册》</strong> 以及<strong>最标准的简历模板</strong>.</p>
+<p>本文主要内容来源于前端精读系列的<a href="https://github.com/dt-fe/weekly/blob/v2/080.%E7%B2%BE%E8%AF%BB%E3%80%8A%E6%80%8E%E4%B9%88%E7%94%A8%20React%20Hooks%20%E9%80%A0%E8%BD%AE%E5%AD%90%E3%80%8B.md" target="_blank" rel="noopener">怎么用 React Hooks 造轮子</a></p>
+<h2 id="1-引言"><a href="#1-引言" class="headerlink" title="1 引言"></a>1 引言</h2><p>上周的 <a href="https://github.com/dt-fe/weekly/blob/master/79.%E7%B2%BE%E8%AF%BB%E3%80%8AReact%20Hooks%E3%80%8B.md" target="_blank" rel="noopener">精读《React Hooks》</a> 已经实现了对 React Hooks 的基本认知，也许你也看了 React Hooks 基本实现剖析（就是数组），但理解实现原理就可以用好了吗？学的是知识，而用的是技能，看别人的用法就像刷抖音一样（哇，饭还可以这样吃？），你总会有新的收获。</p>
+<p>这篇文章将这些知识实践起来，看看广大程序劳动人民是如何发掘 React Hooks 的潜力的（造什么轮子）。</p>
+<p>首先，站在使用角度，要理解 React Hooks 的特点是 “非常方便的 Connect 一切”，所以无论是数据流、Network，或者是定时器都可以监听，有一点 RXJS 的意味，也就是你可以利用 React Hooks，将 React 组件打造成：任何事物的变化都是输入源，当这些源变化时会重新触发 React 组件的 render，你只需要挑选组件绑定哪些数据源（use 哪些 Hooks），然后只管写 render 函数就行了！</p>
+<h2 id="2-精读"><a href="#2-精读" class="headerlink" title="2 精读"></a>2 精读</h2><p>参考了部分 React Hooks 组件后，笔者按照功能进行了一些分类。</p>
+<blockquote>
+<p>由于 React Hooks 并不是非常复杂，所以就不按照技术实现方式去分类了，毕竟技术总有一天会熟练，而且按照功能分类才有持久的参考价值。</p>
+</blockquote>
+<h3 id="DOM-副作用修改-监听"><a href="#DOM-副作用修改-监听" class="headerlink" title="DOM 副作用修改 / 监听"></a>DOM 副作用修改 / 监听</h3><p>做一个网页，总有一些看上去和组件关系不大的麻烦事，比如修改页面标题（切换页面记得改成默认标题）、监听页面大小变化（组件销毁记得取消监听）、断网时提示（一层层装饰器要堆成小山了）。而 React Hooks 特别擅长做这些事，造这种轮子，大小皆宜。</p>
+<blockquote>
+<p>由于 React Hooks 降低了高阶组件使用成本，那么一套生命周期才能完成的 “杂耍” 将变得非常简单。</p>
+</blockquote>
+<p>下面举几个例子：</p>
+<h4 id="修改页面-title"><a href="#修改页面-title" class="headerlink" title="修改页面 title"></a>修改页面 title</h4><p>效果：在组件里调用 <code>useDocumentTitle</code> 函数即可设置页面标题，且切换页面时，页面标题重置为默认标题 “前端精读”。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">useDocumentTitle(&quot;个人中心&quot;);</span><br></pre></td></tr></table></figure>
+
+<p>实现：直接用 <code>document.title</code> 赋值，不能再简单。在销毁时再次给一个默认标题即可，这个简单的函数可以抽象在项目工具函数里，每个页面组件都需要调用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function useDocumentTitle(title) &#123;</span><br><span class="line">  useEffect(</span><br><span class="line">    () =&gt; &#123;</span><br><span class="line">      document.title = title;</span><br><span class="line">      return () =&gt; (document.title = &quot;前端精读&quot;);</span><br><span class="line">    &#125;,</span><br><span class="line">    [title]</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://codesandbox.io/s/lrnvnx866l" target="_blank" rel="noopener">在线 Demo</a></p>
+<h4 id="监听页面大小变化，网络是否断开"><a href="#监听页面大小变化，网络是否断开" class="headerlink" title="监听页面大小变化，网络是否断开"></a>监听页面大小变化，网络是否断开</h4><p>效果：在组件调用 <code>useWindowSize</code> 时，可以拿到页面大小，并且在浏览器缩放时自动触发组件更新。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const windowSize = useWindowSize();</span><br><span class="line">return &lt;div&gt;页面高度：&#123;windowSize.innerWidth&#125;&lt;/div&gt;;</span><br></pre></td></tr></table></figure>
+
+<p>实现：和标题思路基本一致，这次从 <code>window.innerHeight</code> 等 API 直接拿到页面宽高即可，注意此时可以用 <code>window.addEventListener(&#39;resize&#39;)</code> 监听页面大小变化，此时调用 <code>setValue</code> 将会触发调用自身的 UI 组件 rerender，就是这么简单！</p>
+<p>最后注意在销毁时，<code>removeEventListener</code> 注销监听。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">function getSize() &#123;</span><br><span class="line">  return &#123;</span><br><span class="line">    innerHeight: window.innerHeight,</span><br><span class="line">    innerWidth: window.innerWidth,</span><br><span class="line">    outerHeight: window.outerHeight,</span><br><span class="line">    outerWidth: window.outerWidth</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function useWindowSize() &#123;</span><br><span class="line">  let [windowSize, setWindowSize] = useState(getSize());</span><br><span class="line"></span><br><span class="line">  function handleResize() &#123;</span><br><span class="line">    setWindowSize(getSize());</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  useEffect(() =&gt; &#123;</span><br><span class="line">    window.addEventListener(&quot;resize&quot;, handleResize);</span><br><span class="line">    return () =&gt; &#123;</span><br><span class="line">      window.removeEventListener(&quot;resize&quot;, handleResize);</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;, []);</span><br><span class="line"></span><br><span class="line">  return windowSize;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://codesandbox.io/s/j2rz2mj83" target="_blank" rel="noopener">在线 Demo</a></p>
+<h4 id="动态注入-css"><a href="#动态注入-css" class="headerlink" title="动态注入 css"></a>动态注入 css</h4><p>效果：在页面注入一段 class，并且当组件销毁时，移除这个 class。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const className = useCss(&#123;</span><br><span class="line">  color: &quot;red&quot;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">return &lt;div className=&#123;className&#125;&gt;Text.&lt;/div&gt;;</span><br></pre></td></tr></table></figure>
+
+<p>实现：可以看到，Hooks 方便的地方是在组件销毁时移除副作用，所以我们可以安心的利用 Hooks 做一些副作用。注入 css 自然不必说了，而销毁 css 只要找到注入的那段引用进行销毁即可，具体可以看这个 <a href="https://github.com/streamich/nano-css/blob/c21413ddbed233777886f7c9aa1375af8a221f7b/addon/pipe.js#L51" target="_blank" rel="noopener">代码片段</a>。</p>
+<blockquote>
+<p>DOM 副作用修改 / 监听场景有一些现成的库了，从名字上就能看出来用法：<a href="https://github.com/rehooks/document-visibility" target="_blank" rel="noopener">document-visibility</a>、<a href="https://github.com/rehooks/network-status" target="_blank" rel="noopener">network-status</a>、<a href="https://github.com/rehooks/online-status" target="_blank" rel="noopener">online-status</a>、<a href="https://github.com/rehooks/window-scroll-position" target="_blank" rel="noopener">window-scroll-position</a>、<a href="https://github.com/rehooks/window-size" target="_blank" rel="noopener">window-size</a>、<a href="https://github.com/rehooks/document-title" target="_blank" rel="noopener">document-title</a>。</p>
+</blockquote>
+<h3 id="组件辅助"><a href="#组件辅助" class="headerlink" title="组件辅助"></a>组件辅助</h3><p>Hooks 还可以增强组件能力，比如拿到并监听组件运行时宽高等。</p>
+<h4 id="获取组件宽高"><a href="#获取组件宽高" class="headerlink" title="获取组件宽高"></a>获取组件宽高</h4><p>效果：通过调用 <code>useComponentSize</code> 拿到某个组件 ref 实例的宽高，并且在宽高变化时，rerender 并拿到最新的宽高。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">const ref = useRef(null);</span><br><span class="line">let componentSize = useComponentSize(ref);</span><br><span class="line"></span><br><span class="line">return (</span><br><span class="line">  &lt;&gt;</span><br><span class="line">    &#123;componentSize.width&#125;</span><br><span class="line">    &lt;textArea ref=&#123;ref&#125; /&gt;</span><br><span class="line">  &lt;/&gt;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>实现：和 DOM 监听类似，这次换成了利用 <code>ResizeObserver</code> 对组件 ref 进行监听，同时在组件销毁时，销毁监听。</p>
+<p>其本质还是监听一些副作用，但通过 ref 的传递，我们可以对组件粒度进行监听和操作了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">useLayoutEffect(() =&gt; &#123;</span><br><span class="line">  handleResize();</span><br><span class="line"></span><br><span class="line">  let resizeObserver = new ResizeObserver(() =&gt; handleResize());</span><br><span class="line">  resizeObserver.observe(ref.current);</span><br><span class="line"></span><br><span class="line">  return () =&gt; &#123;</span><br><span class="line">    resizeObserver.disconnect(ref.current);</span><br><span class="line">    resizeObserver = null;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;, []);</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://codesandbox.io/s/zqxp3l9yrm" target="_blank" rel="noopener">在线 Demo</a>，对应组件 <a href="https://github.com/rehooks/component-size" target="_blank" rel="noopener">component-size</a>。</p>
+<h4 id="拿到组件-onChange-抛出的值"><a href="#拿到组件-onChange-抛出的值" class="headerlink" title="拿到组件 onChange 抛出的值"></a>拿到组件 onChange 抛出的值</h4><p>效果：通过 <code>useInputValue()</code> 拿到 Input 框当前用户输入的值，而不是手动监听 onChange 再腾一个 <code>otherInputValue</code> 和一个回调函数把这一堆逻辑写在无关的地方。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">let name = useInputValue(&quot;Jamie&quot;);</span><br><span class="line">// name = &#123; value: &apos;Jamie&apos;, onChange: [Function] &#125;</span><br><span class="line">return &lt;input &#123;...name&#125; /&gt;;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，这样不仅没有占用组件自己的 state，也不需要手写 onChange 回调函数进行处理，这些处理都压缩成了一行 use hook。</p>
+<p>实现：读到这里应该大致可以猜到了，利用 <code>useState</code> 存储组件的值，并抛出 <code>value</code> 与 <code>onChange</code>，监听 <code>onChange</code> 并通过 <code>setValue</code> 修改 <code>value</code>, 就可以在每次 <code>onChange</code> 时触发调用组件的 rerender 了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">function useInputValue(initialValue) &#123;</span><br><span class="line">  let [value, setValue] = useState(initialValue);</span><br><span class="line">  let onChange = useCallback(function(event) &#123;</span><br><span class="line">    setValue(event.currentTarget.value);</span><br><span class="line">  &#125;, []);</span><br><span class="line"></span><br><span class="line">  return &#123;</span><br><span class="line">    value,</span><br><span class="line">    onChange</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里要注意的是，我们对组件增强时，<strong>组件的回调一般不需要销毁监听，而且仅需监听一次，这与 DOM 监听不同</strong>，因此大部分场景，我们需要利用 <code>useCallback</code> 包裹，并传一个空数组，来保证永远只监听一次，而且不需要在组件销毁时注销这个 callback。</p>
+<p><a href="https://codesandbox.io/s/0xlk250l5l" target="_blank" rel="noopener">在线 Demo</a>，对应组件 <a href="https://github.com/rehooks/input-value" target="_blank" rel="noopener">input-value</a>。</p>
+<h3 id="做动画"><a href="#做动画" class="headerlink" title="做动画"></a>做动画</h3><p>利用 React Hooks 做动画，一般是拿到一些具有弹性变化的值，我们可以将值赋给进度条之类的组件，这样其进度变化就符合某种动画曲线。</p>
+<h4 id="在某个时间段内获取-0-1-之间的值"><a href="#在某个时间段内获取-0-1-之间的值" class="headerlink" title="在某个时间段内获取 0-1 之间的值"></a>在某个时间段内获取 0-1 之间的值</h4><p>这个是动画最基本的概念，某个时间内拿到一个线性增长的值。</p>
+<p>效果：通过 <code>useRaf(t)</code> 拿到 t 毫秒内不断刷新的 0-1 之间的数字，期间组件会不断刷新，但刷新频率由 requestAnimationFrame 控制（不会卡顿 UI）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const value = useRaf(1000);</span><br></pre></td></tr></table></figure>
+
+<p>实现：写起来比较冗长，这里简单描述一下。利用 <code>requestAnimationFrame</code> 在给定时间内给出 0-1 之间的值，那每次刷新时，只要判断当前刷新的时间点占总时间的比例是多少，然后做分母，分子是 1 即可。</p>
+<p><a href="https://codesandbox.io/s/n745x9pyy4" target="_blank" rel="noopener">在线 Demo</a>，对应组件 <a href="https://github.com/streamich/react-use/blob/master/docs/useRaf.md" target="_blank" rel="noopener">use-raf</a>。</p>
+<h4 id="弹性动画"><a href="#弹性动画" class="headerlink" title="弹性动画"></a>弹性动画</h4><p>效果：通过 <code>useSpring</code> 拿到动画值，组件以固定频率刷新，而这个动画值以弹性函数进行增减。</p>
+<p>实际调用方式一般是，先通过 <code>useState</code> 拿到一个值，再通过动画函数包住这个值，这样组件就会从原本的刷新一次，变成刷新 N 次，拿到的值也随着动画函数的规则变化，最后这个值会稳定到最终的输入值（如例子中的 <code>50</code>）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const [target, setTarget] = useState(50);</span><br><span class="line">const value = useSpring(target);</span><br><span class="line"></span><br><span class="line">return &lt;div onClick=&#123;() =&gt; setTarget(100)&#125;&gt;&#123;value&#125;&lt;/div&gt;;</span><br></pre></td></tr></table></figure>
+
+<p>实现：为了实现动画效果，需要依赖 <code>rebound</code> 库，它可以实现将一个目标值拆解为符合弹性动画函数过程的功能，那我们需要利用 React Hooks 做的就是在第一次接收到目标值是，调用 <code>spring.setEndValue</code> 来触发动画事件，并在 <code>useEffect</code> 里做一次性监听，再值变时重新 <code>setValue</code> 即可。</p>
+<p>最神奇的 <code>setTarget</code> 联动 <code>useSpring</code> 重新计算弹性动画部分，是通过 <code>useEffect</code> 第二个参数实现的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">useEffect(</span><br><span class="line">  () =&gt; &#123;</span><br><span class="line">    if (spring) &#123;</span><br><span class="line">      spring.setEndValue(targetValue);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  [targetValue]</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>也就是当目标值变化后，才会进行新的一轮 rerender，所以 <code>useSpring</code> 并不需要监听调用处的 <code>setTarget</code>，它只需要监听 <code>target</code> 的变化即可，而巧妙利用 <code>useEffect</code> 的第二个参数可以事半功倍。</p>
+<p><a href="https://codesandbox.io/s/yq0moqo8mv" target="_blank" rel="noopener">在线 Demo</a></p>
+<h4 id="Tween-动画"><a href="#Tween-动画" class="headerlink" title="Tween 动画"></a>Tween 动画</h4><p>明白了弹性动画原理，Tween 动画就更简单了。</p>
+<p>效果：通过 <code>useTween</code> 拿到一个从 0 变化到 1 的值，这个值的动画曲线是 <code>tween</code>。可以看到，由于取值范围是固定的，所以我们不需要给初始值了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const value = useTween();</span><br></pre></td></tr></table></figure>
+
+<p>实现：通过 <code>useRaf</code> 拿到一个线性增长的值（区间也是 0 ～ 1），再通过 <code>easing</code> 库将其映射到 0 ～ 1 到值即可。这里用到了 hook 调用 hook 的联动（通过 <code>useRaf</code> 驱动 <code>useTween</code>），还可以在其他地方举一反三。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const fn: Easing = easing[easingName];</span><br><span class="line">const t = useRaf(ms, delay);</span><br><span class="line"></span><br><span class="line">return fn(t);</span><br></pre></td></tr></table></figure>
+
+<h3 id="发请求"><a href="#发请求" class="headerlink" title="发请求"></a>发请求</h3><p>利用 Hooks，可以将任意请求 Promise 封装为带有标准状态的对象：loading、error、result。</p>
+<h4 id="通用-Http-封装"><a href="#通用-Http-封装" class="headerlink" title="通用 Http 封装"></a>通用 Http 封装</h4><p>效果：通过 <code>useAsync</code> 将一个 Promise 拆解为 loading、error、result 三个对象。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const &#123; loading, error, result &#125; = useAsync(fetchUser, [id]);</span><br></pre></td></tr></table></figure>
+
+<p>实现：在 Promise 的初期设置 loading，结束后设置 result，如果出错则设置 error，这里可以将请求对象包装成 <code>useAsyncState</code> 来处理，这里就不放出来了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">export function useAsync(asyncFunction) &#123;</span><br><span class="line">  const asyncState = useAsyncState(options);</span><br><span class="line"></span><br><span class="line">  useEffect(() =&gt; &#123;</span><br><span class="line">    const promise = asyncFunction();</span><br><span class="line">    asyncState.setLoading();</span><br><span class="line">    promise.then(</span><br><span class="line">      result =&gt; asyncState.setResult(result);,</span><br><span class="line">      error =&gt; asyncState.setError(error);</span><br><span class="line">    );</span><br><span class="line">  &#125;, params);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>具体代码可以参考 <a href="https://github.com/slorber/react-async-hook/blob/master/src/index.js" target="_blank" rel="noopener">react-async-hook</a>，这个功能建议仅了解原理，具体实现因为有一些边界情况需要考虑，比如组件 isMounted 后才能相应请求结果。</p>
+<h4 id="Request-Service"><a href="#Request-Service" class="headerlink" title="Request Service"></a>Request Service</h4><p>业务层一般会抽象一个 <code>request service</code> 做统一取数的抽象（比如统一 url，或者可以统一换 socket 实现等等）。假如以前比较 low 的做法是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">async componentDidMount() &#123;</span><br><span class="line">  // setState: 改 isLoading state</span><br><span class="line">  try &#123;</span><br><span class="line">    const data = await fetchUser()</span><br><span class="line">    // setState: 改 isLoading、error、data</span><br><span class="line">  &#125; catch (error) &#123;</span><br><span class="line">    // setState: 改 isLoading、error</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>后来把请求放在 redux 里，通过 connect 注入的方式会稍微有些改观：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@Connect(...)</span><br><span class="line">class App extends React.PureComponent &#123;</span><br><span class="line">  public componentDidMount() &#123;</span><br><span class="line">    this.props.fetchUser()</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  public render() &#123;</span><br><span class="line">    // this.props.userData.isLoading | error | data</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最后会发现还是 Hooks 简洁明了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function App() &#123;</span><br><span class="line">  const &#123; isLoading, error, data &#125; = useFetchUser();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>而 <code>useFetchUser</code> 利用上面封装的 <code>useAsync</code> 可以很容易编写：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">const fetchUser = id =&gt;</span><br><span class="line">  fetch(`xxx`).then(result =&gt; &#123;</span><br><span class="line">    if (result.status !== 200) &#123;</span><br><span class="line">      throw new Error(&quot;bad status = &quot; + result.status);</span><br><span class="line">    &#125;</span><br><span class="line">    return result.json();</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">function useFetchUser(id) &#123;</span><br><span class="line">  const asyncFetchUser = useAsync(fetchUser, id);</span><br><span class="line">  return asyncUser;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="填表单"><a href="#填表单" class="headerlink" title="填表单"></a>填表单</h3><p>React Hooks 特别适合做表单，尤其是 <a href="https://ant.design/components/form-cn/" target="_blank" rel="noopener">antd form</a> 如果支持 Hooks 版，那用起来会方便许多：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">function App() &#123;</span><br><span class="line">  const &#123; getFieldDecorator &#125; = useAntdForm();</span><br><span class="line"></span><br><span class="line">  return (</span><br><span class="line">    &lt;Form onSubmit=&#123;this.handleSubmit&#125; className=&quot;login-form&quot;&gt;</span><br><span class="line">      &lt;FormItem&gt;</span><br><span class="line">        &#123;getFieldDecorator(&quot;userName&quot;, &#123;</span><br><span class="line">          rules: [&#123; required: true, message: &quot;Please input your username!&quot; &#125;]</span><br><span class="line">        &#125;)(</span><br><span class="line">          &lt;Input</span><br><span class="line">            prefix=&#123;&lt;Icon type=&quot;user&quot; style=&#123;&#123; color: &quot;rgba(0,0,0,.25)&quot; &#125;&#125; /&gt;&#125;</span><br><span class="line">            placeholder=&quot;Username&quot;</span><br><span class="line">          /&gt;</span><br><span class="line">        )&#125;</span><br><span class="line">      &lt;/FormItem&gt;</span><br><span class="line">      &lt;FormItem&gt;</span><br><span class="line">        &lt;Button type=&quot;primary&quot; htmlType=&quot;submit&quot; className=&quot;login-form-button&quot;&gt;</span><br><span class="line">          Log in</span><br><span class="line">        &lt;/Button&gt;</span><br><span class="line">        Or &lt;a href=&quot;&quot;&gt;register now!&lt;/a&gt;</span><br><span class="line">      &lt;/FormItem&gt;</span><br><span class="line">    &lt;/Form&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>不过虽然如此，<code>getFieldDecorator</code> 还是基于 RenderProps 思路的，彻底的 Hooks 思路是利用之前说的 <strong>组件辅助方式，提供一个组件方法集，用解构方式传给组件</strong>。</p>
+<h4 id="Hooks-思维的表单组件"><a href="#Hooks-思维的表单组件" class="headerlink" title="Hooks 思维的表单组件"></a>Hooks 思维的表单组件</h4><p>效果：通过 <code>useFormState</code> 拿到表单值，并且提供一系列 <strong>组件辅助</strong> 方法控制组件状态。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">const [formState, &#123; text, password &#125;] = useFormState();</span><br><span class="line">return (</span><br><span class="line">  &lt;form&gt;</span><br><span class="line">    &lt;input &#123;...text(&quot;username&quot;)&#125; required /&gt;</span><br><span class="line">    &lt;input &#123;...password(&quot;password&quot;)&#125; required minLength=&#123;8&#125; /&gt;</span><br><span class="line">  &lt;/form&gt;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>上面可以通过 <code>formState</code> 随时拿到表单值，和一些校验信息，通过 <code>password(&quot;pwd&quot;)</code> 传给 <code>input</code> 组件，让这个组件达到受控状态，且输入类型是 <code>password</code> 类型，表单 key 是 <code>pwd</code>。而且可以看到使用的 <code>form</code> 是原生标签，这种表单增强是相当解耦的。</p>
+<p>实现：仔细观察一下结构，不难发现，我们只要结合 <strong>组件辅助 小节说的 “拿到组件 onChange 抛出的值” 一节的思路，就能轻松理解 <code>text</code>、<code>password</code> 是如何作用于 <code>input</code> 组件，并拿到其输入状态</strong>。</p>
+<p>往简单的来说，只要把这些状态 Merge 起来，通过 <code>useReducer</code> 聚合到 <code>formState</code> 就可以实现了。</p>
+<p>为了简化，我们只考虑对 <code>input</code> 的增强，源码仅需 30 几行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">export function useFormState(initialState) &#123;</span><br><span class="line">  const [state, setState] = useReducer(stateReducer, initialState || &#123;&#125;);</span><br><span class="line"></span><br><span class="line">  const createPropsGetter = type =&gt; (name, ownValue) =&gt; &#123;</span><br><span class="line">    const hasOwnValue = !!ownValue;</span><br><span class="line">    const hasValueInState = state[name] !== undefined;</span><br><span class="line"></span><br><span class="line">    function setInitialValue() &#123;</span><br><span class="line">      let value = &quot;&quot;;</span><br><span class="line">      setState(&#123; [name]: value &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    const inputProps = &#123;</span><br><span class="line">      name, // 给 input 添加 type: text or password</span><br><span class="line">      get value() &#123;</span><br><span class="line">        if (!hasValueInState) &#123;</span><br><span class="line">          setInitialValue(); // 给初始化值</span><br><span class="line">        &#125;</span><br><span class="line">        return hasValueInState ? state[name] : &quot;&quot;; // 赋值</span><br><span class="line">      &#125;,</span><br><span class="line">      onChange(e) &#123;</span><br><span class="line">        let &#123; value &#125; = e.target;</span><br><span class="line">        setState(&#123; [name]: value &#125;); // 修改对应 Key 的值</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    return inputProps;</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  const inputPropsCreators = [&quot;text&quot;, &quot;password&quot;].reduce(</span><br><span class="line">    (methods, type) =&gt; (&#123; ...methods, [type]: createPropsGetter(type) &#125;),</span><br><span class="line">    &#123;&#125;</span><br><span class="line">  );</span><br><span class="line"></span><br><span class="line">  return [</span><br><span class="line">    &#123; values: state &#125;, // formState</span><br><span class="line">    inputPropsCreators</span><br><span class="line">  ];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面 30 行代码实现了对 <code>input</code> 标签类型的设置，监听 <code>value</code> <code>onChange</code>，最终聚合到大的 <code>values</code> 作为 <code>formState</code> 返回。读到这里应该发现对 React Hooks 的应用都是万变不离其宗的，特别是对组件信息的获取，通过解构方式来做，Hooks 内部再做一下聚合，就完成表单组件基本功能了。</p>
+<p>实际上一个完整的轮子还需要考虑 <code>checkbox</code> <code>radio</code> 的兼容，以及校验问题，这些思路大同小异，具体源码可以看 <a href="https://github.com/wsmd/react-use-form-state" target="_blank" rel="noopener">react-use-form-state</a>。</p>
+<h3 id="模拟生命周期"><a href="#模拟生命周期" class="headerlink" title="模拟生命周期"></a>模拟生命周期</h3><p>有的时候 React15 的 API 还是挺有用的，利用 React Hooks 几乎可以模拟出全套。</p>
+<h4 id="componentDidMount"><a href="#componentDidMount" class="headerlink" title="componentDidMount"></a>componentDidMount</h4><p>效果：通过 <code>useMount</code> 拿到 mount 周期才执行的回调函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">useMount(() =&gt; &#123;</span><br><span class="line">  // quite similar to `componentDidMount`</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>实现：<code>componentDidMount</code> 等价于 <code>useEffect</code> 的回调（仅执行一次时），因此直接把回调函数抛出来即可。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">useEffect(() =&gt; void fn(), []);</span><br></pre></td></tr></table></figure>
+
+<h4 id="componentWillUnmount"><a href="#componentWillUnmount" class="headerlink" title="componentWillUnmount"></a>componentWillUnmount</h4><p>效果：通过 <code>useUnmount</code> 拿到 unmount 周期才执行的回调函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">useUnmount(() =&gt; &#123;</span><br><span class="line">  // quite similar to `componentWillUnmount`</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>实现：<code>componentWillUnmount</code> 等价于 <code>useEffect</code> 的回调函数返回值（仅执行一次时），因此直接把回调函数返回值抛出来即可。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">useEffect(() =&gt; fn, []);</span><br></pre></td></tr></table></figure>
+
+<h4 id="componentDidUpdate"><a href="#componentDidUpdate" class="headerlink" title="componentDidUpdate"></a>componentDidUpdate</h4><p>效果：通过 <code>useUpdate</code> 拿到 didUpdate 周期才执行的回调函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">useUpdate(() =&gt; &#123;</span><br><span class="line">  // quite similar to `componentDidUpdate`</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>实现：<code>componentDidUpdate</code> 等价于 <code>useMount</code> 的逻辑每次执行，除了初始化第一次。因此采用 mouting flag（判断初始状态）+ 不加限制参数确保每次 rerender 都会执行即可。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">const mounting = useRef(true);</span><br><span class="line">useEffect(() =&gt; &#123;</span><br><span class="line">  if (mounting.current) &#123;</span><br><span class="line">    mounting.current = false;</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    fn();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="Force-Update"><a href="#Force-Update" class="headerlink" title="Force Update"></a>Force Update</h4><p>效果：这个最有意思了，我希望拿到一个函数 <code>update</code>，每次调用就强制刷新当前组件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const update = useUpdate();</span><br></pre></td></tr></table></figure>
+
+<p>实现：我们知道 <code>useState</code> 下标为 1 的项是用来更新数据的，而且就算数据没有变化，调用了也会刷新组件，所以我们可以把返回一个没有修改数值的 <code>setValue</code>，这样它的功能就仅剩下刷新组件了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const useUpdate = () =&gt; useState(0)[1];</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>对于 <code>getSnapshotBeforeUpdate</code>, <code>getDerivedStateFromError</code>, <code>componentDidCatch</code> 目前 Hooks 是无法模拟的。</p>
+</blockquote>
+<h4 id="isMounted"><a href="#isMounted" class="headerlink" title="isMounted"></a>isMounted</h4><p>很久以前 React 是提供过这个 API 的，后来移除了，原因是可以通过 <code>componentWillMount</code> 和 <code>componentWillUnmount</code> 推导。自从有了 React Hooks，支持 isMount 简直是分分钟的事。</p>
+<p>效果：通过 <code>useIsMounted</code> 拿到 <code>isMounted</code> 状态。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const isMounted = useIsMounted();</span><br></pre></td></tr></table></figure>
+
+<p>实现：看到这里的话，应该已经很熟悉这个套路了，<code>useEffect</code> 第一次调用时赋值为 true，组件销毁时返回 false，注意这里可以加第二个参数为空数组来优化性能。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">const [isMount, setIsMount] = useState(false);</span><br><span class="line">useEffect(() =&gt; &#123;</span><br><span class="line">  if (!isMount) &#123;</span><br><span class="line">    setIsMount(true);</span><br><span class="line">  &#125;</span><br><span class="line">  return () =&gt; setIsMount(false);</span><br><span class="line">&#125;, []);</span><br><span class="line">return isMount;</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://codesandbox.io/s/5zwr1l1o1n" target="_blank" rel="noopener">在线 Demo</a></p>
+<h3 id="存数据"><a href="#存数据" class="headerlink" title="存数据"></a>存数据</h3><p>上一篇提到过 React Hooks 内置的 <code>useReducer</code> 可以模拟 Redux 的 reducer 行为，那唯一需要补充的就是将数据持久化。我们考虑最小实现，也就是全局 Store + Provider 部分。</p>
+<h4 id="全局-Store"><a href="#全局-Store" class="headerlink" title="全局 Store"></a>全局 Store</h4><p>效果：通过 <code>createStore</code> 创建一个全局 Store，再通过 <code>StoreProvider</code> 将 <code>store</code> 注入到子组件的 <code>context</code> 中，最终通过两个 Hooks 进行获取与操作：<code>useStore</code> 与 <code>useAction</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">const store = createStore(&#123;</span><br><span class="line">  user: &#123;</span><br><span class="line">    name: &quot;小明&quot;,</span><br><span class="line">    setName: (state, payload) =&gt; &#123;</span><br><span class="line">      state.name = payload;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">const App = () =&gt; (</span><br><span class="line">  &lt;StoreProvider store=&#123;store&#125;&gt;</span><br><span class="line">    &lt;YourApp /&gt;</span><br><span class="line">  &lt;/StoreProvider&gt;</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">function YourApp() &#123;</span><br><span class="line">  const userName = useStore(state =&gt; state.user.name);</span><br><span class="line">  const setName = userAction(dispatch =&gt; dispatch.user.setName);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>实现：这个例子的实现可以单独拎出一篇文章了，所以笔者从存数据的角度剖析一下 <code>StoreProvider</code> 的实现。</p>
+<p>对，Hooks 并不解决 Provider 的问题，所以全局状态必须有 Provider，但这个 Provider 可以利用 React 内置的 <code>createContext</code> 简单搞定：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const StoreContext = createContext();</span><br><span class="line"></span><br><span class="line">const StoreProvider = (&#123; children, store &#125;) =&gt; (</span><br><span class="line">  &lt;StoreContext.Provider value=&#123;store&#125;&gt;&#123;children&#125;&lt;/StoreContext.Provider&gt;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>剩下就是 <code>useStore</code> 怎么取到持久化 Store 的问题了，这里利用 <code>useContext</code> 和刚才创建的 Context 对象：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const store = useContext(StoreContext);</span><br><span class="line">return store;</span><br></pre></td></tr></table></figure>
+
+<p>更多源码可以参考 <a href="https://github.com/ctrlplusb/easy-peasy" target="_blank" rel="noopener">easy-peasy</a>，这个库基于 redux 编写，提供了一套 Hooks API。</p>
+<h3 id="封装原有库"><a href="#封装原有库" class="headerlink" title="封装原有库"></a>封装原有库</h3><p>是不是 React Hooks 出现后，所有的库都要重写一次？当然不是，我们看看其他库如何做改造。</p>
+<h4 id="RenderProps-to-Hooks"><a href="#RenderProps-to-Hooks" class="headerlink" title="RenderProps to Hooks"></a>RenderProps to Hooks</h4><p>这里拿 <a href="https://github.com/renatorib/react-powerplug" target="_blank" rel="noopener">react-powerplug</a> 举例。</p>
+<p>比如有一个 renderProps 库，希望改造成 Hooks 的用法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">import &#123; Toggle &#125; from &apos;react-powerplug&apos;</span><br><span class="line"></span><br><span class="line">function App() &#123;</span><br><span class="line">  return (</span><br><span class="line">    &lt;Toggle initial=&#123;true&#125;&gt;</span><br><span class="line">      &#123;(&#123; on, toggle &#125;) =&gt; (</span><br><span class="line">        &lt;Checkbox checked=&#123;on&#125; onChange=&#123;toggle&#125; /&gt;</span><br><span class="line">      )&#125;</span><br><span class="line">    &lt;/Toggle&gt;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br><span class="line">↓ ↓ ↓ ↓ ↓ ↓</span><br><span class="line">import &#123; useToggle &#125; from &apos;react-powerhooks&apos;</span><br><span class="line"></span><br><span class="line">function App() &#123;</span><br><span class="line">  const [on, toggle] = useToggle()</span><br><span class="line">  return &lt;Checkbox checked=&#123;on&#125; onChange=&#123;toggle&#125; /&gt;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>效果：假如我是 <code>react-powerplug</code> 的维护者，怎么样最小成本支持 React Hook? 说实话这个没办法一步做到，但可以通过两步实现。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">export function Toggle() &#123;</span><br><span class="line">  // 这是 Toggle 的源码</span><br><span class="line">  // balabalabala..</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const App = wrap(() =&gt; &#123;</span><br><span class="line">  // 第一步：包 wrap</span><br><span class="line">  const [on, toggle] = useRenderProps(Toggle); // 第二步：包 useRenderProps</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>实现：首先解释一下为什么要包两层，首先 Hooks 必须遵循 React 的规范，我们必须写一个 <code>useRenderProps</code> 函数以符合 Hooks 的格式，<strong>那问题是如何拿到 Toggle 给 render 的 <code>on</code> 与 <code>toggle</code>？</strong>正常方式应该拿不到，所以退而求其次，将 <code>useRenderProps</code> 拿到的 Toggle 传给 <code>wrap</code>，<strong>让 <code>wrap</code> 构造 RenderProps 执行环境拿到 <code>on</code> 与 <code>toggle</code> 后，调用 <code>useRenderProps</code> 内部的 <code>setArgs</code> 函数，让 <code>const [on, toggle] = useRenderProps(Toggle)</code> 实现曲线救国。</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">const wrappers = []; // 全局存储 wrappers</span><br><span class="line"></span><br><span class="line">export const useRenderProps = (WrapperComponent, wrapperProps) =&gt; &#123;</span><br><span class="line">  const [args, setArgs] = useState([]);</span><br><span class="line">  const ref = useRef(&#123;&#125;);</span><br><span class="line">  if (!ref.current.initialized) &#123;</span><br><span class="line">    wrappers.push(&#123;</span><br><span class="line">      WrapperComponent,</span><br><span class="line">      wrapperProps,</span><br><span class="line">      setArgs</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">  useEffect(() =&gt; &#123;</span><br><span class="line">    ref.current.initialized = true;</span><br><span class="line">  &#125;, []);</span><br><span class="line">  return args; // 通过下面 wrap 调用 setArgs 获取值。</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>由于 <code>useRenderProps</code> 会先于 <code>wrap</code> 执行，所以 wrappers 会先拿到 Toggle，<code>wrap</code> 执行时直接调用 <code>wrappers.pop()</code> 即可拿到 Toggle 对象。然后构造出 RenderProps 的执行环境即可：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">export const wrap = FunctionComponent =&gt; props =&gt; &#123;</span><br><span class="line">  const element = FunctionComponent(props);</span><br><span class="line">  const ref = useRef(&#123; wrapper: wrappers.pop() &#125;); // 拿到 useRenderProps 提供的 Toggle</span><br><span class="line">  const &#123; WrapperComponent, wrapperProps &#125; = ref.current.wrapper;</span><br><span class="line">  return createElement(WrapperComponent, wrapperProps, (...args) =&gt; &#123;</span><br><span class="line">    // WrapperComponent =&gt; Toggle，这一步是在构造 RenderProps 执行环境</span><br><span class="line">    if (!ref.current.processed) &#123;</span><br><span class="line">      ref.current.wrapper.setArgs(args); // 拿到 on、toggle 后，通过 setArgs 传给上面的 args。</span><br><span class="line">      ref.current.processed = true;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      ref.current.processed = false;</span><br><span class="line">    &#125;</span><br><span class="line">    return element;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>以上实现方案参考 <a href="https://github.com/dai-shi/react-hooks-render-props" target="_blank" rel="noopener">react-hooks-render-props</a>，有需求要可以拿过来直接用，不过实现思路可以参考，作者的脑洞挺大。</p>
+<h4 id="Hooks-to-RenderProps"><a href="#Hooks-to-RenderProps" class="headerlink" title="Hooks to RenderProps"></a>Hooks to RenderProps</h4><p>好吧，如果希望 Hooks 支持 RenderProps，那一定是希望同时支持这两套语法。</p>
+<p>效果：一套代码同时支持 Hooks 和 RenderProps。</p>
+<p>实现：其实 Hooks 封装为 RenderProps 最方便，因此我们使用 Hooks 写核心的代码，假设我们写一个最简单的 <code>Toggle</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">const useToggle = initialValue =&gt; &#123;</span><br><span class="line">  const [on, setOn] = useState(initialValue);</span><br><span class="line">  return &#123;</span><br><span class="line">    on,</span><br><span class="line">    toggle: () =&gt; setOn(!on)</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://codesandbox.io/s/ppvrpnz80m" target="_blank" rel="noopener">在线 Demo</a></p>
+<p>然后通过 <code>render-props</code> 这个库可以轻松封装出 RenderProps 组件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const Toggle = (&#123; initialValue, children, render = children &#125;) =&gt;</span><br><span class="line">  renderProps(render, useToggle(initialValue));</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://codesandbox.io/s/249n3n4r30" target="_blank" rel="noopener">在线 Demo</a></p>
+<p>其实 <code>renderProps</code> 这个组件的第二个参数，在 Class 形式 React 组件时，接收的是 <code>this.state</code>，现在我们改成 <code>useToggle</code> 返回的对象，也可以理解为 <code>state</code>，利用 Hooks 机制驱动 Toggle 组件 rerender，从而让子组件 rerender。</p>
+<h4 id="封装原本对-setState-增强的库"><a href="#封装原本对-setState-增强的库" class="headerlink" title="封装原本对 setState 增强的库"></a>封装原本对 setState 增强的库</h4><p>Hooks 也特别适合封装原本就作用于 setState 的库，比如 <a href="https://github.com/mweststrate/immer" target="_blank" rel="noopener">immer</a>。</p>
+<p><code>useState</code> 虽然不是 <code>setState</code>，但却可以理解为控制高阶组件的 <code>setState</code>，我们完全可以封装一个自定义的 <code>useState</code>，然后内置对 <code>setState</code> 的优化。</p>
+<p>比如 immer 的语法是通过 <code>produce</code> 包装，将 mutable 代码通过 Proxy 代理为 immutable：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const nextState = produce(baseState, draftState =&gt; &#123;</span><br><span class="line">  draftState.push(&#123; todo: &quot;Tweet about it&quot; &#125;);</span><br><span class="line">  draftState[1].done = true;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>那这个 <code>produce</code> 就可以通过封装一个 <code>useImmer</code> 来隐藏掉：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function useImmer(initialValue) &#123;</span><br><span class="line">  const [val, updateValue] = React.useState(initialValue);</span><br><span class="line">  return [</span><br><span class="line">    val,</span><br><span class="line">    updater =&gt; &#123;</span><br><span class="line">      updateValue(produce(updater));</span><br><span class="line">    &#125;</span><br><span class="line">  ];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用方式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">const [value, setValue] = useImmer(&#123; a: 1 &#125;);</span><br><span class="line"></span><br><span class="line">value(obj =&gt; (obj.a = 2)); // immutable</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-总结"><a href="#3-总结" class="headerlink" title="3 总结"></a>3 总结</h2><p>本文列出了 React Hooks 的以下几种使用方式以及实现思路：</p>
+<ul>
+<li>DOM 副作用修改 / 监听。</li>
+<li>组件辅助。</li>
+<li>做动画。</li>
+<li>发请求。</li>
+<li>填表单。</li>
+<li>模拟生命周期。</li>
+<li>存数据。</li>
+<li>封装原有库。</li>
+</ul>
+<p>欢迎大家的持续补充。</p>
+<hr>
+<h2 id="公众号"><a href="#公众号" class="headerlink" title="公众号"></a>公众号</h2><p>想要实时关注笔者最新的文章和最新的文档更新请关注公众号<strong>程序员面试官</strong>,后续的文章会优先在公众号更新.</p>
+<p><strong>简历模板:</strong> 关注公众号回复「模板」获取</p>
+<p><strong>《前端面试手册》:</strong> 配套于本指南的突击手册,关注公众号回复「fed」获取</p>
+<p><img src="https://xiaomuzhu-image.oss-cn-beijing.aliyuncs.com/d846f65d5025c4b6c4619662a0669503.png" alt="2019-08-12-03-18-41"></p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a style="word-wrap:break-word;" href="http://yoursite.com/2019/11/08/5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill/React/React-hooks%20%E6%8A%BD%E8%B1%A1%E7%BB%84%E4%BB%B6/" title="React-hooks 抽象组件" target="_blank" rel="external">http://yoursite.com/2019/11/08/5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill/React/React-hooks%20%E6%8A%BD%E8%B1%A1%E7%BB%84%E4%BB%B6/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/chen08" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/chen08" target="_blank"><span class="text-dark">溟海</span><small class="ml-1x">Web Developer &amp; Designer</small></a></h3>
+        <div>天行健，君子以自强不息，地势坤，君子以厚德载物。 杀不死我的,终将使我强大 没有吃不了的苦,只有享不了的福</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2019/11/08/5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill/React/React%20Fiber%20%E6%9E%B6%E6%9E%84%E8%A7%A3%E6%9E%90/" title="React Fiber 架构解析"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/11/08/5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill/React/React%E9%9D%A2%E8%AF%95%E9%A2%98/" title="React面试题"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="Catalogue" role="button">
+        <span>[&nbsp;</span><span>Catalogue</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open alipay app scan this qrcode, buy me a coffee!</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open wechat app scan this qrcode, buy me a coffee!</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> alipay</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> wechat payment</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+
+
+<!-- custom analytics part create by xiamo -->
+<!-- <script defer src="https://cdn1.lncld.net/static/js/av-min-1.2.1.js"></script> -->
+<script defer src="/js/av-min-1.2.1.js"></script>
+<script defer>
+AV.init({
+  appId: 'ngFQzHw7z0HgQfrtn4En4WTN-gzGzoHsz',
+  appKey: 'W9hgBBfVDwRGJKoGp5a6HKpx'
+});
+
+function showTime(Counter) {
+	var query = new AV.Query(Counter);
+		var visitors= $('.leancloud_visitors');
+		query.greaterThanOrEqualTo("time", 0);		
+		query.find({
+			success: function(results) {
+				if (results.length == 0) {				
+					return;
+				}
+				var data = results;
+				visitors.each(function(){
+					var url = $(this).attr('id').trim();					
+					for (var i = 0; i < data.length; i++) {
+						var object = data[i];
+						var content = object.get('time');
+						var _url = object.get('url')
+						if(url == _url){
+							$(this).text(content);
+						}
+					}
+				})
+				
+			},
+			error: function(object, error) {
+				console.log("Error: " + error.code + " " + error.message);
+			}
+		});
+}
+
+function addCount(Counter) {
+	var Counter = AV.Object.extend("Counter");
+	url = $(".leancloud_visitors").attr('id').trim();
+	title = $(".leancloud_visitors").attr('data-flag-title').trim();
+	var query = new AV.Query(Counter);
+	query.equalTo("url", url);
+	query.find({
+		success: function(results) {
+			if (results.length > 0) {
+				var counter = results[0];
+				counter.fetchWhenSave(true);
+				counter.increment("time");
+				counter.save(null, {
+					success: function(counter) {
+						var content = counter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(counter, error) {
+						console.log('Failed to save Visitor num, with error message: ' + error.message);
+					}
+				});
+			} else {
+				var newcounter = new Counter();
+				newcounter.set("title", title);
+				newcounter.set("url", url);
+				newcounter.set("time", 1);
+				newcounter.save(null, {
+					success: function(newcounter) {
+					    console.log("newcounter.get('time')="+newcounter.get('time'));
+						var content = newcounter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(newcounter, error) {
+						console.log('Failed to create');
+					}
+				});
+			}
+		},
+		error: function(error) {
+			console.log('Error:' + error.code + " " + error.message);
+		}
+	});
+}
+$(function() {
+	var Counter = AV.Object.extend("Counter");
+	if ($('.leancloud_visitors').length == 1) {
+		addCount(Counter);
+	} else {
+		showTime(Counter);
+	}
+}); 
+</script>
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>

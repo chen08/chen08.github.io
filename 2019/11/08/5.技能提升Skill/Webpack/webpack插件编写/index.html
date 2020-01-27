@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>webpack插件编写 | Hexo</title>
+  <script src="./js/jQuery.md5.js"></script>
+  <script>
+    
+    (function(){
+      localStorage.setItem('userinfo',hex_md5('123chen'))
+      
+      var localData = localStorage.getItem("userinfo");
+      // var localState = localStorage.getItem("state");
+        if(localStorage.getItem("state") === null){
+          var reason = window.prompt('请输入访问密码');
+          // var promptVal = window.prompt('请输入访问密码');
+          if(reason){
+              //填写内容并“确定”
+              var md5Prompt = hex_md5(reason)
+              //点击的是“确定” 
+              if (localData !== md5Prompt){
+                alert('密码错误！');
+                // history.back();
+                location.replace(location.href); 
+              }else{
+                // alert('0123');
+                localStorage.setItem('state',"1")
+              }
+          }
+          else if(reason === ""){
+              //未填写但“确定”
+              location.replace(location.href); 
+          }
+          else{
+            //“取消”事件
+            location.replace(location.href); 
+          }
+        }
+
+    })();
+  </script>
+ <link rel="alternate" href="/atom.xml" data="123chen" type="application/atom+xml">
+  <meta name="description" content="webpack插件编写点击关注本公众号获取文档最新更新,并可以领取配套于本指南的 《前端面试手册》 以及最标准的简历模板. 本文来源于干货！撸一个webpack插件(内含tapable详解+webpack流程)  Webpack可以将其理解是一种基于事件流的编程范例，一个插件合集。 而将这些插件控制在webapck事件流上的运行的就是webpack自己写的基础类Tapable。 Tapable暴露">
+<meta name="keywords" content="JavaScript,面试,Webpack">
+<meta property="og:type" content="article">
+<meta property="og:title" content="webpack插件编写">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;08&#x2F;5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill&#x2F;Webpack&#x2F;webpack%E6%8F%92%E4%BB%B6%E7%BC%96%E5%86%99&#x2F;index.html">
+<meta property="og:site_name" content="学习的敌人是自己的满足，要认真学习一点东西，必须从不自满开始。对自己，“学而不厌”，对人家，“诲人不倦”，我们应取这种态度。">
+<meta property="og:description" content="webpack插件编写点击关注本公众号获取文档最新更新,并可以领取配套于本指南的 《前端面试手册》 以及最标准的简历模板. 本文来源于干货！撸一个webpack插件(内含tapable详解+webpack流程)  Webpack可以将其理解是一种基于事件流的编程范例，一个插件合集。 而将这些插件控制在webapck事件流上的运行的就是webpack自己写的基础类Tapable。 Tapable暴露">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https:&#x2F;&#x2F;cdn.nlark.com&#x2F;yuque&#x2F;0&#x2F;2019&#x2F;webp&#x2F;128853&#x2F;1565281605400-780998aa-3edf-4a9b-9c18-7b86c430eaea.webp#align=left&amp;display=inline&amp;height=216&amp;originHeight=216&amp;originWidth=398&amp;size=0&amp;status=done&amp;width=398">
+<meta property="og:image" content="https:&#x2F;&#x2F;cdn.nlark.com&#x2F;yuque&#x2F;0&#x2F;2019&#x2F;webp&#x2F;128853&#x2F;1565281605308-d70ae2a7-46da-47fe-9bae-d13be288fee2.webp#align=left&amp;display=inline&amp;height=510&amp;originHeight=510&amp;originWidth=1126&amp;size=0&amp;status=done&amp;width=1126">
+<meta property="og:image" content="https:&#x2F;&#x2F;cdn.nlark.com&#x2F;yuque&#x2F;0&#x2F;2019&#x2F;webp&#x2F;128853&#x2F;1565281605308-2594e0ed-f4ec-4570-940d-1bf67fa23d3a.webp#align=left&amp;display=inline&amp;height=365&amp;originHeight=365&amp;originWidth=590&amp;size=0&amp;status=done&amp;width=590">
+<meta property="og:image" content="https:&#x2F;&#x2F;cdn.nlark.com&#x2F;yuque&#x2F;0&#x2F;2019&#x2F;webp&#x2F;128853&#x2F;1565281605287-552f0dec-1bdf-4e57-977c-9a89c4d22094.webp#align=left&amp;display=inline&amp;height=960&amp;originHeight=960&amp;originWidth=1003&amp;size=0&amp;status=done&amp;width=1003">
+<meta property="og:image" content="https:&#x2F;&#x2F;cdn.nlark.com&#x2F;yuque&#x2F;0&#x2F;2019&#x2F;webp&#x2F;128853&#x2F;1565281605338-42bed831-9073-411e-a75a-27162b8c6a4f.webp#align=left&amp;display=inline&amp;height=723&amp;originHeight=723&amp;originWidth=1280&amp;size=0&amp;status=done&amp;width=1280">
+<meta property="og:image" content="https:&#x2F;&#x2F;cdn.nlark.com&#x2F;yuque&#x2F;0&#x2F;2019&#x2F;webp&#x2F;128853&#x2F;1565281605271-46856d5a-01ea-4a0c-b497-445b8662d2d3.webp#align=left&amp;display=inline&amp;height=960&amp;originHeight=960&amp;originWidth=1033&amp;size=0&amp;status=done&amp;width=1033">
+<meta property="og:image" content="https:&#x2F;&#x2F;xiaomuzhu-image.oss-cn-beijing.aliyuncs.com&#x2F;d846f65d5025c4b6c4619662a0669503.png">
+<meta property="og:updated_time" content="2019-11-08T09:57:28.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;cdn.nlark.com&#x2F;yuque&#x2F;0&#x2F;2019&#x2F;webp&#x2F;128853&#x2F;1565281605400-780998aa-3edf-4a9b-9c18-7b86c430eaea.webp#align=left&amp;display=inline&amp;height=216&amp;originHeight=216&amp;originWidth=398&amp;size=0&amp;status=done&amp;width=398">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://yoursite.com/2019/11/08/5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill/Webpack/webpack%E6%8F%92%E4%BB%B6%E7%BC%96%E5%86%99/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="学习的敌人是自己的满足，要认真学习一点东西，必须从不自满开始。对自己，“学而不厌”，对人家，“诲人不倦”，我们应取这种态度。" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/chen08" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">溟海</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer &amp; Designer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Guangzhou, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+          <!-- . -->
+        
+        
+          <li class="menu-item menu-item-home">
+            <a href="/.">
+              
+              <i class="icon icon-home-fill"></i>
+              
+              <span class="menu-title">Home</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- archives -->
+        
+        
+          <li class="menu-item menu-item-archives">
+            <a href="/archives">
+              
+              <i class="icon icon-archives-fill"></i>
+              
+              <span class="menu-title">Archives</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- categories -->
+        
+        
+          <li class="menu-item menu-item-categories">
+            <a href="/categories">
+              
+              <i class="icon icon-folder"></i>
+              
+              <span class="menu-title">Categories</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- tags -->
+        
+        
+          <li class="menu-item menu-item-tags">
+            <a href="/tags">
+              
+              <i class="icon icon-tags"></i>
+              
+              <span class="menu-title">Tags</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- repository -->
+        
+        
+          <li class="menu-item menu-item-repository">
+            <a href="/repository">
+              
+              <i class="icon icon-project"></i>
+              
+              <span class="menu-title">Repository</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- books -->
+        
+        
+          <li class="menu-item menu-item-books">
+            <a href="/books">
+              
+              <i class="icon icon-book-fill"></i>
+              
+              <span class="menu-title">Books</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- links -->
+        
+        
+          <li class="menu-item menu-item-links">
+            <a href="/links">
+              
+              <i class="icon icon-friendship"></i>
+              
+              <span class="menu-title">Links</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- about -->
+        
+        
+          <li class="menu-item menu-item-about">
+            <a href="/about">
+              
+              <i class="icon icon-cup-fill"></i>
+              
+              <span class="menu-title">About</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- navigation/webstack/index.html -->
+        
+        
+          <li class="menu-item menu-item-navigation">
+            <a href="/navigation/webstack/index.html">
+              
+              <i class="icon icon-delicious"></i>
+              
+              <span class="menu-title">Navigation</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- navigation/webstack/word.html -->
+        
+        
+          <li style="display: none;" class="menu-item menu-item-fixed">
+            <a href="/navigation/webstack/word.html">
+              
+              <i class="icon icon-delicious"></i>
+              
+              <span class="menu-title">menu.fixed</span>
+            </a>
+          </li>
+        
+
+
+        
+      </ul>
+
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/1-WEB%E5%89%8D%E7%AB%AF/">1.WEB前端</a><span class="category-list-count">140</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/2-%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">2.编程语言</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/3-%E4%BA%A7%E5%93%81%E8%AE%BE%E8%AE%A1/">3.产品设计</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/4-%E7%AE%A1%E7%90%86%E8%90%A5%E9%94%80/">4.管理营销</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/5-%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87/">5.技能提升</a><span class="category-list-count">155</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/6-%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93/">6.读书总结</a><span class="category-list-count">9</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/" rel="tag">CSS</a><span class="tag-list-count">18</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Dart/" rel="tag">Dart</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES6/" rel="tag">ES6</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES7/" rel="tag">ES7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/English/" rel="tag">English</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flutter/" rel="tag">Flutter</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a><span class="tag-list-count">20</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IMAGE/" rel="tag">IMAGE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JQuery/" rel="tag">JQuery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a><span class="tag-list-count">224</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">JavaScript设计模式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript%E9%AB%98%E7%BA%A7%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" rel="tag">JavaScript高级程序设计</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jquery/" rel="tag">Jquery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mysql/" rel="tag">Mysql</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NETWORK/" rel="tag">NETWORK</a><span class="tag-list-count">13</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node/" rel="tag">Node</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/" rel="tag">PHP</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/" rel="tag">React</a><span class="tag-list-count">31</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJS/" rel="tag">RxJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SVG/" rel="tag">SVG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sass/" rel="tag">Sass</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/" rel="tag">Vue</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%AE%89%E5%85%A8/" rel="tag">WEB安全</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webpack/" rel="tag">Webpack</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/" rel="tag">jQuery</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodeJS/" rel="tag">nodeJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B9%A6%E5%8D%95/" rel="tag">书单</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B9%A6%E7%B1%8D/" rel="tag">书籍</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/" rel="tag">前端安全</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83/" rel="tag">命名规范</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag">小程序</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" rel="tag">性能优化</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8F%92%E4%BB%B6/" rel="tag">插件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A1%86%E6%9E%B6/" rel="tag">框架</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" rel="tag">浏览器</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%84%E4%BB%B6/" rel="tag">组件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%84%E8%8C%83/" rel="tag">规范</a><span class="tag-list-count">67</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6%E5%AD%A6%E4%B9%A0/" rel="tag">软件学习</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a><span class="tag-list-count">153</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/CSS/" style="font-size: 13.71px;">CSS</a> <a href="/tags/Dart/" style="font-size: 13px;">Dart</a> <a href="/tags/ES6/" style="font-size: 13px;">ES6</a> <a href="/tags/ES7/" style="font-size: 13px;">ES7</a> <a href="/tags/English/" style="font-size: 13.18px;">English</a> <a href="/tags/Flutter/" style="font-size: 13px;">Flutter</a> <a href="/tags/Git/" style="font-size: 13.12px;">Git</a> <a href="/tags/HTML/" style="font-size: 13.76px;">HTML</a> <a href="/tags/HTTP/" style="font-size: 13.18px;">HTTP</a> <a href="/tags/IMAGE/" style="font-size: 13px;">IMAGE</a> <a href="/tags/JAVA/" style="font-size: 13.06px;">JAVA</a> <a href="/tags/JQuery/" style="font-size: 13px;">JQuery</a> <a href="/tags/JavaScript/" style="font-size: 14px;">JavaScript</a> <a href="/tags/JavaScript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 13px;">JavaScript设计模式</a> <a href="/tags/JavaScript%E9%AB%98%E7%BA%A7%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 13px;">JavaScript高级程序设计</a> <a href="/tags/Jquery/" style="font-size: 13px;">Jquery</a> <a href="/tags/Mysql/" style="font-size: 13px;">Mysql</a> <a href="/tags/NETWORK/" style="font-size: 13.53px;">NETWORK</a> <a href="/tags/Node/" style="font-size: 13.35px;">Node</a> <a href="/tags/PHP/" style="font-size: 13.24px;">PHP</a> <a href="/tags/React/" style="font-size: 13.82px;">React</a> <a href="/tags/RxJS/" style="font-size: 13px;">RxJS</a> <a href="/tags/SVG/" style="font-size: 13px;">SVG</a> <a href="/tags/Sass/" style="font-size: 13px;">Sass</a> <a href="/tags/TypeScript/" style="font-size: 13.29px;">TypeScript</a> <a href="/tags/Vue/" style="font-size: 13.65px;">Vue</a> <a href="/tags/WEB%E5%AE%89%E5%85%A8/" style="font-size: 13.29px;">WEB安全</a> <a href="/tags/Webpack/" style="font-size: 13.59px;">Webpack</a> <a href="/tags/jQuery/" style="font-size: 13.65px;">jQuery</a> <a href="/tags/nodeJS/" style="font-size: 13px;">nodeJS</a> <a href="/tags/python/" style="font-size: 13px;">python</a> <a href="/tags/%E4%B9%A6%E5%8D%95/" style="font-size: 13px;">书单</a> <a href="/tags/%E4%B9%A6%E7%B1%8D/" style="font-size: 13.06px;">书籍</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 13px;">前端</a> <a href="/tags/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/" style="font-size: 13.06px;">前端安全</a> <a href="/tags/%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83/" style="font-size: 13.41px;">命名规范</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 13px;">小程序</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 13.06px;">工具</a> <a href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" style="font-size: 13.47px;">性能优化</a> <a href="/tags/%E6%8F%92%E4%BB%B6/" style="font-size: 13px;">插件</a> <a href="/tags/%E6%A1%86%E6%9E%B6/" style="font-size: 13px;">框架</a> <a href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" style="font-size: 13px;">浏览器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13.18px;">算法</a> <a href="/tags/%E7%BB%84%E4%BB%B6/" style="font-size: 13px;">组件</a> <a href="/tags/%E8%A7%84%E8%8C%83/" style="font-size: 13.88px;">规范</a> <a href="/tags/%E8%BD%AF%E4%BB%B6%E5%AD%A6%E4%B9%A0/" style="font-size: 13px;">软件学习</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 13.35px;">随笔</a> <a href="/tags/%E9%9D%A2%E8%AF%95/" style="font-size: 13.94px;">面试</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a><span class="archive-list-count">312</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/27/1.WEB%E5%89%8D%E7%AB%AFWeb/React/react-router/" class="title">1.WEB前端Web/React/react-router</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-27T13:24:04.185Z" itemprop="datePublished">2020-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/27/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/sass-guide/" class="title">1.WEB前端Web/Front-End-Standards/sass-guide</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-27T13:24:03.487Z" itemprop="datePublished">2020-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/27/hello-world/" class="title">Hello World</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-27T13:24:03.028Z" itemprop="datePublished">2020-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/6-%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93/">6.读书总结</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/26/6.%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93Book/%E4%BA%BA%E7%94%9F%E9%81%93%E7%90%86/" class="title">人生道理</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-26T01:12:57.000Z" itemprop="datePublished">2020-01-26</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/2-%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">2.编程语言</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/15/2.%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80Programming/English/%E7%94%9F%E6%B4%BB%E8%8B%B1%E8%AF%AD/" class="title">生活英语</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-15T01:12:57.000Z" itemprop="datePublished">2020-01-15</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">Catalogue</h3>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#webpack插件编写"><span class="toc-number">1.</span> <span class="toc-text">webpack插件编写</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Tabable是什么？"><span class="toc-number">1.1.</span> <span class="toc-text">Tabable是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tabable-用法"><span class="toc-number">1.2.</span> <span class="toc-text">Tabable 用法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#进阶一下"><span class="toc-number">1.2.1.</span> <span class="toc-text">进阶一下</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tabable的其他方法"><span class="toc-number">1.3.</span> <span class="toc-text">Tabable的其他方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#webpack流程"><span class="toc-number">1.4.</span> <span class="toc-text">webpack流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-webpack入口（webpack-config-js-shell-options）"><span class="toc-number">1.4.1.</span> <span class="toc-text">1. webpack入口（webpack.config.js+shell options）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-用yargs参数解析（optimist）"><span class="toc-number">1.4.2.</span> <span class="toc-text">2. 用yargs参数解析（optimist）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-webpack初始化"><span class="toc-number">1.4.3.</span> <span class="toc-text">3.webpack初始化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-run-开始编译"><span class="toc-number">1.4.4.</span> <span class="toc-text">4. run 开始编译</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-触发compile"><span class="toc-number">1.4.5.</span> <span class="toc-text">5.触发compile</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-addEntry-make-分析入口文件创建模块对象"><span class="toc-number">1.4.6.</span> <span class="toc-text">6.addEntry() make 分析入口文件创建模块对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-构建模块"><span class="toc-number">1.4.7.</span> <span class="toc-text">7. 构建模块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-封装构建结果（seal）"><span class="toc-number">1.4.8.</span> <span class="toc-text">8. 封装构建结果（seal）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-输出资源（emit）"><span class="toc-number">1.4.9.</span> <span class="toc-text">9. 输出资源（emit）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">1.5.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实战！写一个插件"><span class="toc-number">1.6.</span> <span class="toc-text">实战！写一个插件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#怎么写一个插件？"><span class="toc-number">1.6.1.</span> <span class="toc-text">怎么写一个插件？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#完成插件初始架构"><span class="toc-number">1.6.2.</span> <span class="toc-text">完成插件初始架构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#插件的常用对象"><span class="toc-number">1.6.3.</span> <span class="toc-text">插件的常用对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#编写插件"><span class="toc-number">1.6.4.</span> <span class="toc-text">编写插件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#公众号"><span class="toc-number">1.7.</span> <span class="toc-text">公众号</span></a></li></ol></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-5.技能提升Skill/Webpack/webpack插件编写" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      webpack插件编写
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/11/08/5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill/Webpack/webpack%E6%8F%92%E4%BB%B6%E7%BC%96%E5%86%99/" class="article-date">
+	  <time datetime="2019-11-08T01:12:57.000Z" itemprop="datePublished">2019-11-08</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/5-%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87/">5.技能提升</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/JavaScript/" rel="tag">JavaScript</a>, <a class="article-tag-link" href="/tags/Webpack/" rel="tag">Webpack</a>, <a class="article-tag-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a>
+  </span>
+
+
+        
+
+	<span class="article-read hidden-xs">
+    	<i class="icon icon-eye-fill" aria-hidden="true"></i>
+    	<span id="/2019/11/08/5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill/Webpack/webpack%E6%8F%92%E4%BB%B6%E7%BC%96%E5%86%99/" class="leancloud_visitors"  data-flag-title="webpack插件编写">0</span>
+    </span>
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/11/08/5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill/Webpack/webpack%E6%8F%92%E4%BB%B6%E7%BC%96%E5%86%99/#comments" class="article-comment-link">Comments</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count: 4k(words)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">Read Count: 18(minutes)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="webpack插件编写"><a href="#webpack插件编写" class="headerlink" title="webpack插件编写"></a>webpack插件编写</h1><p>点击关注本<a href="#公众号">公众号</a>获取文档最新更新,并可以领取配套于本指南的 <strong>《前端面试手册》</strong> 以及<strong>最标准的简历模板</strong>.</p>
+<p>本文来源于<a href="https://juejin.im/post/5beb8875e51d455e5c4dd83f" target="_blank" rel="noopener">干货！撸一个webpack插件(内含tapable详解+webpack流程)</a></p>
+<hr>
+<p>Webpack可以将其理解是一种基于事件流的编程范例，一个插件合集。</p>
+<p>而将这些插件控制在webapck事件流上的运行的就是webpack自己写的基础类<code>Tapable</code>。</p>
+<p>Tapable暴露出挂载<code>plugin</code>的方法，使我们能 将plugin控制在webapack事件流上运行（如下图）。后面我们将看到核心的对象 <code>Compiler</code>、<code>Compilation</code>等都是继承于<code>Tabable</code>类。(如下图所示)</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/webp/128853/1565281605400-780998aa-3edf-4a9b-9c18-7b86c430eaea.webp#align=left&display=inline&height=216&originHeight=216&originWidth=398&size=0&status=done&width=398" alt=""></p>
+<h2 id="Tabable是什么？"><a href="#Tabable是什么？" class="headerlink" title="Tabable是什么？"></a>Tabable是什么？</h2><p><a href="https://link.juejin.im/?target=https%3A%2F%2Fgithub.com%2Fwebpack%2Ftapable">tapable库</a>暴露了很多Hook（钩子）类，为插件提供挂载的钩子。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123;</span><br><span class="line">	SyncHook,</span><br><span class="line">	SyncBailHook,</span><br><span class="line">	SyncWaterfallHook,</span><br><span class="line">	SyncLoopHook,</span><br><span class="line">	AsyncParallelHook,</span><br><span class="line">	AsyncParallelBailHook,</span><br><span class="line">	AsyncSeriesHook,</span><br><span class="line">	AsyncSeriesBailHook,</span><br><span class="line">	AsyncSeriesWaterfallHook</span><br><span class="line"> &#125; = <span class="built_in">require</span>(<span class="string">"tapable"</span>);</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.nlark.com/yuque/0/2019/webp/128853/1565281605308-d70ae2a7-46da-47fe-9bae-d13be288fee2.webp#align=left&display=inline&height=510&originHeight=510&originWidth=1126&size=0&status=done&width=1126" alt=""></p>
+<h2 id="Tabable-用法"><a href="#Tabable-用法" class="headerlink" title="Tabable 用法"></a>Tabable 用法</h2><ul>
+<li>1.new Hook 新建钩子<ul>
+<li>tapable 暴露出来的都是类方法，new 一个类方法获得我们需要的钩子。</li>
+<li>class 接受数组参数options，非必传。类方法会根据传参，接受同样数量的参数。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> hook1 = <span class="keyword">new</span> SyncHook([<span class="string">"arg1"</span>, <span class="string">"arg2"</span>, <span class="string">"arg3"</span>]);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>2.使用 tap/tapAsync/tapPromise 绑定钩子</li>
+</ul>
+<p>tabpack提供了<code>同步</code>&amp;<code>异步</code>绑定钩子的方法，并且他们都有<code>绑定事件</code>和<code>执行事件</code>对应的方法。</p>
+<table>
+<thead>
+<tr>
+<th>Async*</th>
+<th>Sync*</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>绑定：tapAsync/tapPromise/tap</td>
+<td>绑定：tap</td>
+</tr>
+<tr>
+<td>执行：callAsync/promise</td>
+<td>执行：call</td>
+</tr>
+</tbody></table>
+<ul>
+<li><p>3.call/callAsync 执行绑定事件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const hook1 = new SyncHook([&quot;arg1&quot;, &quot;arg2&quot;, &quot;arg3&quot;]);</span><br><span class="line">//绑定事件到webapck事件流</span><br><span class="line">hook1.tap(&apos;hook1&apos;, (arg1, arg2, arg3) =&gt; console.log(arg1, arg2, arg3)) //1,2,3</span><br><span class="line">//执行绑定的事件</span><br><span class="line">hook1.call(1,2,3)</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/webp/128853/1565281605308-2594e0ed-f4ec-4570-940d-1bf67fa23d3a.webp#align=left&display=inline&height=365&originHeight=365&originWidth=590&size=0&status=done&width=590" alt=""></p>
+</li>
+<li><p>举个栗子</p>
+<ul>
+<li>定义一个Car方法，在内部hooks上新建钩子。分别是<code>同步钩子</code> accelerate、break（accelerate接受一个参数）、<code>异步钩子</code>calculateRoutes</li>
+<li>使用钩子对应的<code>绑定和执行方法</code></li>
+<li>calculateRoutes使用<code>tapPromise</code>可以返回一个<code>promise</code>对象。<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//引入tapable</span></span><br><span class="line"><span class="keyword">const</span> &#123;</span><br><span class="line">    SyncHook,</span><br><span class="line">    AsyncParallelHook</span><br><span class="line">&#125; = <span class="built_in">require</span>(<span class="string">'tapable'</span>);</span><br><span class="line"><span class="comment">//创建类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Car</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>() &#123;</span><br><span class="line">        <span class="keyword">this</span>.hooks = &#123;</span><br><span class="line">            accelerate: <span class="keyword">new</span> SyncHook([<span class="string">"newSpeed"</span>]),</span><br><span class="line">            <span class="keyword">break</span>: <span class="keyword">new</span> SyncHook(),</span><br><span class="line">            calculateRoutes: <span class="keyword">new</span> AsyncParallelHook([<span class="string">"source"</span>, <span class="string">"target"</span>, <span class="string">"routesList"</span>])</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> myCar = <span class="keyword">new</span> Car();</span><br><span class="line"><span class="comment">//绑定同步钩子</span></span><br><span class="line">myCar.hooks.break.tap(<span class="string">"WarningLampPlugin"</span>, () =&gt; <span class="built_in">console</span>.log(<span class="string">'WarningLampPlugin'</span>));</span><br><span class="line"><span class="comment">//绑定同步钩子 并传参</span></span><br><span class="line">myCar.hooks.accelerate.tap(<span class="string">"LoggerPlugin"</span>, newSpeed =&gt; <span class="built_in">console</span>.log(<span class="string">`Accelerating to <span class="subst">$&#123;newSpeed&#125;</span>`</span>));</span><br><span class="line"><span class="comment">//绑定一个异步Promise钩子</span></span><br><span class="line">myCar.hooks.calculateRoutes.tapPromise(<span class="string">"calculateRoutes tapPromise"</span>, (source, target, routesList, callback) =&gt; &#123;</span><br><span class="line">    <span class="comment">// return a promise</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span>&#123;</span><br><span class="line">        setTimeout(<span class="function"><span class="params">()</span>=&gt;</span>&#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">`tapPromise to <span class="subst">$&#123;source&#125;</span><span class="subst">$&#123;target&#125;</span><span class="subst">$&#123;routesList&#125;</span>`</span>)</span><br><span class="line">            resolve();</span><br><span class="line">        &#125;,<span class="number">1000</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">//执行同步钩子</span></span><br><span class="line">myCar.hooks.break.call();</span><br><span class="line">myCar.hooks.accelerate.call(<span class="string">'hello'</span>);</span><br><span class="line"><span class="built_in">console</span>.time(<span class="string">'cost'</span>);</span><br><span class="line"><span class="comment">//执行异步钩子</span></span><br><span class="line">myCar.hooks.calculateRoutes.promise(<span class="string">'i'</span>, <span class="string">'love'</span>, <span class="string">'tapable'</span>).then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.timeEnd(<span class="string">'cost'</span>);</span><br><span class="line">&#125;, err =&gt; &#123;</span><br><span class="line">    <span class="built_in">console</span>.error(err);</span><br><span class="line">    <span class="built_in">console</span>.timeEnd(<span class="string">'cost'</span>);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+运行结果<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">WarningLampPlugin</span><br><span class="line">Accelerating to hello</span><br><span class="line">tapPromise to ilovetapable</span><br><span class="line">cost: 1003.898ms</span><br></pre></td></tr></table></figure>
+calculateRoutes也可以使用<code>tapAsync</code>绑定钩子，注意：此时用<code>callback</code>结束异步回调。<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">myCar.hooks.calculateRoutes.tapAsync(<span class="string">"calculateRoutes tapAsync"</span>, (source, target, routesList, callback) =&gt; &#123;</span><br><span class="line">    <span class="comment">// return a promise</span></span><br><span class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">`tapAsync to <span class="subst">$&#123;source&#125;</span><span class="subst">$&#123;target&#125;</span><span class="subst">$&#123;routesList&#125;</span>`</span>)</span><br><span class="line">        callback();</span><br><span class="line">    &#125;, <span class="number">2000</span>)</span><br><span class="line">&#125;);</span><br><span class="line">myCar.hooks.calculateRoutes.callAsync(<span class="string">'i'</span>, <span class="string">'like'</span>, <span class="string">'tapable'</span>, err =&gt; &#123;</span><br><span class="line">    <span class="built_in">console</span>.timeEnd(<span class="string">'cost'</span>);</span><br><span class="line">    <span class="keyword">if</span>(err) <span class="built_in">console</span>.log(err)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+运行结果<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">WarningLampPlugin</span><br><span class="line">Accelerating to hello</span><br><span class="line">tapAsync to iliketapable</span><br><span class="line">cost: 2007.850ms</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="进阶一下"><a href="#进阶一下" class="headerlink" title="进阶一下"></a>进阶一下</h3><p>到这里可能已经学会使用tapable了，但是它如何与webapck/webpack插件关联呢？</p>
+<p>我们将刚才的代码稍作改动，拆成两个文件：Compiler.js、Myplugin.js</p>
+<p>Compiler.js</p>
+<ul>
+<li>把Class Car类名改成webpack的核心<code>Compiler</code></li>
+<li>接受options里传入的plugins</li>
+<li>将Compiler作为参数传给plugin</li>
+<li>执行run函数，在编译的每个阶段，都触发执行相对应的钩子函数。</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123;</span><br><span class="line">    SyncHook,</span><br><span class="line">    AsyncParallelHook</span><br><span class="line">&#125; = <span class="built_in">require</span>(<span class="string">'tapable'</span>);</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Compiler</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(options) &#123;</span><br><span class="line">        <span class="keyword">this</span>.hooks = &#123;</span><br><span class="line">            accelerate: <span class="keyword">new</span> SyncHook([<span class="string">"newSpeed"</span>]),</span><br><span class="line">            <span class="keyword">break</span>: <span class="keyword">new</span> SyncHook(),</span><br><span class="line">            calculateRoutes: <span class="keyword">new</span> AsyncParallelHook([<span class="string">"source"</span>, <span class="string">"target"</span>, <span class="string">"routesList"</span>])</span><br><span class="line">        &#125;;</span><br><span class="line">        <span class="keyword">let</span> plugins = options.plugins;</span><br><span class="line">        <span class="keyword">if</span> (plugins &amp;&amp; plugins.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            plugins.forEach(<span class="function"><span class="params">plugin</span> =&gt;</span> plugin.apply(<span class="keyword">this</span>));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    run()&#123;</span><br><span class="line">        <span class="built_in">console</span>.time(<span class="string">'cost'</span>);</span><br><span class="line">        <span class="keyword">this</span>.accelerate(<span class="string">'hello'</span>)</span><br><span class="line">        <span class="keyword">this</span>.break()</span><br><span class="line">        <span class="keyword">this</span>.calculateRoutes(<span class="string">'i'</span>, <span class="string">'like'</span>, <span class="string">'tapable'</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    accelerate(param)&#123;</span><br><span class="line">        <span class="keyword">this</span>.hooks.accelerate.call(param);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">break</span>()&#123;</span><br><span class="line">        <span class="keyword">this</span>.hooks.break.call();</span><br><span class="line">    &#125;</span><br><span class="line">    calculateRoutes()&#123;</span><br><span class="line">        <span class="keyword">const</span> args = <span class="built_in">Array</span>.from(<span class="built_in">arguments</span>)</span><br><span class="line">        <span class="keyword">this</span>.hooks.calculateRoutes.callAsync(...args, err =&gt; &#123;</span><br><span class="line">            <span class="built_in">console</span>.timeEnd(<span class="string">'cost'</span>);</span><br><span class="line">            <span class="keyword">if</span> (err) <span class="built_in">console</span>.log(err)</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">module</span>.exports = Compiler</span><br></pre></td></tr></table></figure>
+
+<p>MyPlugin.js</p>
+<ul>
+<li><p>引入Compiler</p>
+</li>
+<li><p>定义一个自己的插件。</p>
+</li>
+<li><p>apply方法接受 compiler参数。</p>
+<blockquote>
+<p>webpack 插件是一个具有 <code>apply</code> 方法的 JavaScript 对象。<code>apply 属性会被 webpack compiler 调用</code>，并且 compiler 对象可在整个编译生命周期访问。</p>
+</blockquote>
+</li>
+<li><p>给compiler上的钩子绑定方法。</p>
+</li>
+<li><p>仿照webpack规则，<code>向 plugins 属性传入 new 实例</code>。</p>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Compiler = <span class="built_in">require</span>(<span class="string">'./Compiler'</span>)</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyPlugin</span></span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>() &#123;</span><br><span class="line">    &#125;</span><br><span class="line">    apply(conpiler)&#123;<span class="comment">//接受 compiler参数</span></span><br><span class="line">        conpiler.hooks.break.tap(<span class="string">"WarningLampPlugin"</span>, () =&gt; <span class="built_in">console</span>.log(<span class="string">'WarningLampPlugin'</span>));</span><br><span class="line">        conpiler.hooks.accelerate.tap(<span class="string">"LoggerPlugin"</span>, newSpeed =&gt; <span class="built_in">console</span>.log(<span class="string">`Accelerating to <span class="subst">$&#123;newSpeed&#125;</span>`</span>));</span><br><span class="line">        conpiler.hooks.calculateRoutes.tapAsync(<span class="string">"calculateRoutes tapAsync"</span>, (source, target, routesList, callback) =&gt; &#123;</span><br><span class="line">            setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">`tapAsync to <span class="subst">$&#123;source&#125;</span><span class="subst">$&#123;target&#125;</span><span class="subst">$&#123;routesList&#125;</span>`</span>)</span><br><span class="line">                callback();</span><br><span class="line">            &#125;, <span class="number">2000</span>)</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//这里类似于webpack.config.js的plugins配置</span></span><br><span class="line"><span class="comment">//向 plugins 属性传入 new 实例</span></span><br><span class="line"><span class="keyword">const</span> myPlugin = <span class="keyword">new</span> MyPlugin();</span><br><span class="line"><span class="keyword">const</span> options = &#123;</span><br><span class="line">    plugins: [myPlugin]</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> compiler = <span class="keyword">new</span> Compiler(options)</span><br><span class="line">compiler.run()</span><br></pre></td></tr></table></figure>
+<p>运行结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Accelerating to hello</span><br><span class="line">WarningLampPlugin</span><br><span class="line">tapAsync to iliketapable</span><br><span class="line">cost: 2015.866ms</span><br></pre></td></tr></table></figure>
+<p>改造后运行正常，仿照Compiler和webpack插件的思路慢慢得理顺插件的逻辑成功。</p>
+<h2 id="Tabable的其他方法"><a href="#Tabable的其他方法" class="headerlink" title="Tabable的其他方法"></a>Tabable的其他方法</h2><table>
+<thead>
+<tr>
+<th>type</th>
+<th>function</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Hook</td>
+<td>所有钩子的后缀</td>
+</tr>
+<tr>
+<td>Waterfall</td>
+<td>同步方法，但是它会传值给下一个函数</td>
+</tr>
+<tr>
+<td>Bail</td>
+<td>熔断：当函数有任何返回值，就会在当前执行函数停止</td>
+</tr>
+<tr>
+<td>Loop</td>
+<td>监听函数返回true表示继续循环，返回undefine表示结束循环</td>
+</tr>
+<tr>
+<td>Sync</td>
+<td>同步方法</td>
+</tr>
+<tr>
+<td>AsyncSeries</td>
+<td>异步串行钩子</td>
+</tr>
+<tr>
+<td>AsyncParallel</td>
+<td>异步并行执行钩子</td>
+</tr>
+</tbody></table>
+<p>我们可以根据自己的开发需求，选择适合的同步/异步钩子。</p>
+<h2 id="webpack流程"><a href="#webpack流程" class="headerlink" title="webpack流程"></a>webpack流程</h2><p>通过上面的阅读，我们知道了如何在webapck事件流上挂载钩子。<br />假设现在要自定义一个插件更改最后产出资源的内容，我们应该把事件添加在哪个钩子上呢？哪一个步骤能拿到webpack编译的资源从而去修改？<br />所以接下来的任务是：了解webpack的流程。<br />贴一张淘宝团队分享的经典webpack流程图，再慢慢分析~<br /><img src="https://cdn.nlark.com/yuque/0/2019/webp/128853/1565281605287-552f0dec-1bdf-4e57-977c-9a89c4d22094.webp#align=left&display=inline&height=960&originHeight=960&originWidth=1003&size=0&status=done&width=1003" alt=""></p>
+<h3 id="1-webpack入口（webpack-config-js-shell-options）"><a href="#1-webpack入口（webpack-config-js-shell-options）" class="headerlink" title="1. webpack入口（webpack.config.js+shell options）"></a>1. webpack入口<code>（webpack.config.js+shell options）</code></h3><p>从配置文件package.json 和 Shell 语句中读取与合并参数，得出最终的参数；</p>
+<blockquote>
+<p>每次在命令行输入 webpack 后，操作系统都会去调用 <code>./node_modules/.bin/webpack</code> 这个 shell 脚本。这个脚本会去调用 <code>./node_modules/webpack/bin/webpack.js</code> 并追加输入的参数，如 -p , -w 。</p>
+</blockquote>
+<h3 id="2-用yargs参数解析（optimist）"><a href="#2-用yargs参数解析（optimist）" class="headerlink" title="2. 用yargs参数解析（optimist）"></a>2. 用yargs参数解析<code>（optimist）</code></h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yargs.parse(process.argv.slice(<span class="number">2</span>), (err, argv, output) =&gt; &#123;&#125;)</span><br></pre></td></tr></table></figure>
+<p><a href="https://link.juejin.im/?target=https%3A%2F%2Fgithub.com%2Fwebpack%2Fwebpack-cli%2Fblob%2Fmaster%2Fbin%2Fcli.js%23L210">源码地址</a></p>
+<h3 id="3-webpack初始化"><a href="#3-webpack初始化" class="headerlink" title="3.webpack初始化"></a>3.webpack初始化</h3><p>（1）构建compiler对象</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> compiler = <span class="keyword">new</span> Webpack(options)</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://link.juejin.im/?target=https%3A%2F%2Fgithub.com%2Fwebpack%2Fwebpack-cli%2Fblob%2Fmaster%2Fbin%2Fcli.js%23L417">源码地址</a></p>
+<p>（2）注册NOdeEnvironmentPlugin插件</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> NodeEnvironmentPlugin().apply(compiler);</span><br></pre></td></tr></table></figure>
+<p><a href="https://link.juejin.im/?target=https%3A%2F%2Fgithub.com%2Fwebpack%2Fwebpack%2Fblob%2Fmaster%2Flib%2Fwebpack.js%23L41">源码地址</a></p>
+<p>（3）挂在options中的基础插件，调用<code>WebpackOptionsApply</code>库初始化基础插件。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (options.plugins &amp;&amp; <span class="built_in">Array</span>.isArray(options.plugins)) &#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">const</span> plugin <span class="keyword">of</span> options.plugins) &#123;</span><br><span class="line">		<span class="keyword">if</span> (<span class="keyword">typeof</span> plugin === <span class="string">"function"</span>) &#123;</span><br><span class="line">			plugin.apply(compiler);</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			plugin.apply(compiler);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">compiler.hooks.environment.call();</span><br><span class="line">compiler.hooks.afterEnvironment.call();</span><br><span class="line">compiler.options = <span class="keyword">new</span> WebpackOptionsApply().process(options, compiler);</span><br></pre></td></tr></table></figure>
+<p><a href="https://link.juejin.im/?target=https%3A%2F%2Fgithub.com%2Fwebpack%2Fwebpack%2Fblob%2Fmaster%2Flib%2Fwebpack.js%23L53">源码地址</a></p>
+<h3 id="4-run-开始编译"><a href="#4-run-开始编译" class="headerlink" title="4. run 开始编译"></a>4. <code>run</code> 开始编译</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (firstOptions.watch || options.watch) &#123;</span><br><span class="line">	<span class="keyword">const</span> watchOptions = firstOptions.watchOptions || firstOptions.watch || options.watch || &#123;&#125;;</span><br><span class="line">	<span class="keyword">if</span> (watchOptions.stdin) &#123;</span><br><span class="line">		process.stdin.on(<span class="string">"end"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">_</span>) </span>&#123;</span><br><span class="line">			process.exit(); <span class="comment">// eslint-disable-line</span></span><br><span class="line">		&#125;);</span><br><span class="line">		process.stdin.resume();</span><br><span class="line">	&#125;</span><br><span class="line">	compiler.watch(watchOptions, compilerCallback);</span><br><span class="line">	<span class="keyword">if</span> (outputOptions.infoVerbosity !== <span class="string">"none"</span>) <span class="built_in">console</span>.log(<span class="string">"\nwebpack is watching the files…\n"</span>);</span><br><span class="line">&#125; <span class="keyword">else</span> compiler.run(compilerCallback);</span><br></pre></td></tr></table></figure>
+<p>这里分为两种情况：<br />1）Watching：监听文件变化<br />2）run：执行编译<br /><a href="https://link.juejin.im/?target=https%3A%2F%2Fgithub.com%2Fwebpack%2Fwebpack-cli%2Fblob%2Fmaster%2Fbin%2Fcli.js%23L495">源码地址</a></p>
+<h3 id="5-触发compile"><a href="#5-触发compile" class="headerlink" title="5.触发compile"></a>5.触发<code>compile</code></h3><p>（1）在run的过程中，已经触发了一些钩子：<code>beforeRun-&gt;run-&gt;beforeCompile-&gt;compile-&gt;make-&gt;seal</code> (编写插件的时候，就可以将自定义的方挂在对应钩子上，按照编译的顺序被执行)<br />（2）构建了关键的 <code>Compilation</code>对象<br />在run()方法中，执行了this.compile（）<br />this.compile()中创建了compilation</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">this</span>.hooks.beforeRun.callAsync(<span class="keyword">this</span>, err =&gt; &#123;</span><br><span class="line">    ...</span><br><span class="line">	<span class="keyword">this</span>.hooks.run.callAsync(<span class="keyword">this</span>, err =&gt; &#123;</span><br><span class="line">        ...</span><br><span class="line">		<span class="keyword">this</span>.readRecords(<span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">            ...</span><br><span class="line">			<span class="keyword">this</span>.compile(onCompiled);</span><br><span class="line">		&#125;);</span><br><span class="line">	&#125;);</span><br><span class="line">&#125;);</span><br><span class="line">...</span><br><span class="line">compile(callback) &#123;</span><br><span class="line">	<span class="keyword">const</span> params = <span class="keyword">this</span>.newCompilationParams();</span><br><span class="line">	<span class="keyword">this</span>.hooks.beforeCompile.callAsync(params, err =&gt; &#123;</span><br><span class="line">		...</span><br><span class="line">		<span class="keyword">this</span>.hooks.compile.call(params);</span><br><span class="line">		<span class="keyword">const</span> compilation = <span class="keyword">this</span>.newCompilation(params);</span><br><span class="line">		<span class="keyword">this</span>.hooks.make.callAsync(compilation, err =&gt; &#123;</span><br><span class="line">            ...</span><br><span class="line">			compilation.finish();</span><br><span class="line">			compilation.seal(<span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">                ...</span><br><span class="line">				<span class="keyword">this</span>.hooks.afterCompile.callAsync(compilation, err </span><br><span class="line">				    ...</span><br><span class="line">					<span class="keyword">return</span> callback(<span class="literal">null</span>, compilation);</span><br><span class="line">				&#125;);</span><br><span class="line">			&#125;);</span><br><span class="line">		&#125;);</span><br><span class="line">	&#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="https://link.juejin.im/?target=https%3A%2F%2Fgithub.com%2Fwebpack%2Fwebpack%2Fblob%2Fmaster%2Flib%2FCompiler.js%23L265">源码地址</a></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> compilation = <span class="keyword">this</span>.newCompilation(params);</span><br></pre></td></tr></table></figure>
+<p><code>Compilation</code>负责整个编译过程，包含了每个构建环节所对应的方法。对象内部保留了对compiler的引用。<br />当 Webpack 以开发模式运行时，每当检测到文件变化，一次新的 Compilation 将被创建。<br />划重点：Compilation很重要！编译生产资源变换文件都靠它。</p>
+<h3 id="6-addEntry-make-分析入口文件创建模块对象"><a href="#6-addEntry-make-分析入口文件创建模块对象" class="headerlink" title="6.addEntry() make 分析入口文件创建模块对象"></a>6.addEntry() <code>make 分析入口文件创建模块对象</code></h3><p>compile中触发<code>make</code>事件并调用<code>addEntry</code><br />webpack的make钩子中, tapAsync注册了一个<code>DllEntryPlugin</code>, 就是将入口模块通过调用compilation。<br />这一注册在Compiler.compile()方法中被执行。<br />addEntry方法将所有的入口模块添加到编译构建队列中，开启编译流程。<br />DllEntryPlugin.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">compiler.hooks.make.tapAsync(<span class="string">"DllEntryPlugin"</span>, (compilation, callback) =&gt; &#123;</span><br><span class="line">	compilation.addEntry(</span><br><span class="line">		<span class="keyword">this</span>.context,</span><br><span class="line">		<span class="keyword">new</span> DllEntryDependency(</span><br><span class="line">			<span class="keyword">this</span>.entries.map(<span class="function">(<span class="params">e, idx</span>) =&gt;</span> &#123;</span><br><span class="line">				<span class="keyword">const</span> dep = <span class="keyword">new</span> SingleEntryDependency(e);</span><br><span class="line">				dep.loc = &#123;</span><br><span class="line">					name: <span class="keyword">this</span>.name,</span><br><span class="line">					index: idx</span><br><span class="line">				&#125;;</span><br><span class="line">				<span class="keyword">return</span> dep;</span><br><span class="line">			&#125;),</span><br><span class="line">			<span class="keyword">this</span>.name</span><br><span class="line">		),</span><br><span class="line">		<span class="keyword">this</span>.name,</span><br><span class="line">		callback</span><br><span class="line">	);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p><a href="https://link.juejin.im/?target=https%3A%2F%2Fgithub.com%2Fwebpack%2Fwebpack%2Fblob%2Fmaster%2Flib%2FDllEntryPlugin.js%23L33">源码地址</a><br />流程走到这里让我觉得很奇怪：刚刚还在Compiler.js中执行compile，怎么一下子就到了DllEntryPlugin.js?<br />这就要说道之前<code>WebpackOptionsApply.process()初始化插件的时候</code>，执行了<code>compiler.hooks.entryOption.call(options.context, options.entry)</code>;<br />WebpackOptionsApply.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">WebpackOptionsApply</span> <span class="keyword">extends</span> <span class="title">OptionsApply</span> </span>&#123;</span><br><span class="line">	process(options, compiler) &#123;</span><br><span class="line">	    ...</span><br><span class="line">	    compiler.hooks.entryOption.call(options.context, options.entry);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="https://link.juejin.im/?target=https%3A%2F%2Fgithub.com%2Fwebpack%2Fwebpack%2Fblob%2Fmaster%2Flib%2FWebpackOptionsApply.js%23L79">process</a><br /><a href="https://link.juejin.im/?target=https%3A%2F%2Fgithub.com%2Fwebpack%2Fwebpack%2Fblob%2Fmaster%2Flib%2FWebpackOptionsApply.js%23L307">entryOption</a><br />DllPlugin.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">compiler.hooks.entryOption.tap(<span class="string">"DllPlugin"</span>, (context, entry) =&gt; &#123;</span><br><span class="line">	<span class="keyword">const</span> itemToPlugin = <span class="function">(<span class="params">item, name</span>) =&gt;</span> &#123;</span><br><span class="line">		<span class="keyword">if</span> (<span class="built_in">Array</span>.isArray(item)) &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">new</span> DllEntryPlugin(context, item, name);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"DllPlugin: supply an Array as entry"</span>);</span><br><span class="line">	&#125;;</span><br><span class="line">	<span class="keyword">if</span> (<span class="keyword">typeof</span> entry === <span class="string">"object"</span> &amp;&amp; !<span class="built_in">Array</span>.isArray(entry)) &#123;</span><br><span class="line">		<span class="built_in">Object</span>.keys(entry).forEach(<span class="function"><span class="params">name</span> =&gt;</span> &#123;</span><br><span class="line">			itemToPlugin(entry[name], name).apply(compiler);</span><br><span class="line">		&#125;);</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		itemToPlugin(entry, <span class="string">"main"</span>).apply(compiler);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://link.juejin.im/?target=https%3A%2F%2Fgithub.com%2Fwebpack%2Fwebpack%2Fblob%2Fmaster%2Flib%2FDllPlugin.js%23L26">DllPlugin</a><br />其实addEntry方法，存在很多入口，SingleEntryPlugin也注册了compiler.hooks.make.tapAsync钩子。这里主要再强调一下<code>WebpackOptionsApply.process()</code>流程（233）。<br />入口有很多，有兴趣可以调试一下先后顺序~</p>
+<h3 id="7-构建模块"><a href="#7-构建模块" class="headerlink" title="7. 构建模块"></a>7. 构建模块</h3><p><code>compilation.addEntry</code>中执行 <code>_addModuleChain()</code>这个方法主要做了两件事情。一是根据模块的类型获取对应的模块工厂并创建模块，二是构建模块。<br />通过 *ModuleFactory.create方法创建模块，（有NormalModule , MultiModule , ContextModule , DelegatedModule 等）对模块使用的loader进行加载。调用 acorn 解析经 loader 处理后的源文件生成抽象语法树 AST。遍历 AST，构建该模块所依赖的模块</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">addEntry(context, entry, name, callback) &#123;</span><br><span class="line">	const slot = &#123;</span><br><span class="line">		name: name,</span><br><span class="line">		request: entry.request,</span><br><span class="line">		module: null</span><br><span class="line">	&#125;;</span><br><span class="line">	this._preparedEntrypoints.push(slot);</span><br><span class="line">	this._addModuleChain(</span><br><span class="line">		context,</span><br><span class="line">		entry,</span><br><span class="line">		module =&gt; &#123;</span><br><span class="line">			this.entries.push(module);</span><br><span class="line">		&#125;,</span><br><span class="line">		(err, module) =&gt; &#123;</span><br><span class="line">			if (err) &#123;</span><br><span class="line">				return callback(err);</span><br><span class="line">			&#125;</span><br><span class="line">			if (module) &#123;</span><br><span class="line">				slot.module = module;</span><br><span class="line">			&#125; else &#123;</span><br><span class="line">				const idx = this._preparedEntrypoints.indexOf(slot);</span><br><span class="line">				this._preparedEntrypoints.splice(idx, 1);</span><br><span class="line">			&#125;</span><br><span class="line">			return callback(null, module);</span><br><span class="line">		&#125;</span><br><span class="line">	);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="https://link.juejin.im/?target=https%3A%2F%2Fgithub.com%2Fwebpack%2Fwebpack%2Fblob%2Fmaster%2Flib%2FCompilation.js%23L1072">addEntry addModuleChain()源码地址</a></p>
+<h3 id="8-封装构建结果（seal）"><a href="#8-封装构建结果（seal）" class="headerlink" title="8. 封装构建结果（seal）"></a>8. 封装构建结果（seal）</h3><p>webpack 会监听 seal事件调用各插件对构建后的结果进行封装，要逐次对每个 module 和 chunk 进行整理，生成编译后的源码，合并，拆分，生成 hash 。 同时这是我们在开发时进行代码优化和功能添加的关键环节。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">template.getRenderMainfest.render()</span><br></pre></td></tr></table></figure>
+<p>通过模板（MainTemplate、ChunkTemplate）把chunk生产_webpack_requie()的格式。</p>
+<h3 id="9-输出资源（emit）"><a href="#9-输出资源（emit）" class="headerlink" title="9. 输出资源（emit）"></a>9. 输出资源（emit）</h3><p>把Assets输出到output的path中。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>webpack是一个插件合集，由 tapable 控制各插件在 webpack 事件流上运行。主要依赖的是compilation的编译模块和封装。<br />webpack 的入口文件其实就实例了Compiler并调用了run方法开启了编译，webpack的主要编译都按照下面的钩子调用顺序执行。</p>
+<ul>
+<li>Compiler:beforeRun 清除缓存</li>
+<li>Compiler:run 注册缓存数据钩子</li>
+<li>Compiler:beforeCompile</li>
+<li>Compiler:compile 开始编译</li>
+<li>Compiler:make 从入口分析依赖以及间接依赖模块，创建模块对象</li>
+<li>Compilation:buildModule 模块构建</li>
+<li>Compiler:normalModuleFactory 构建</li>
+<li>Compilation:seal 构建结果封装， 不可再更改</li>
+<li>Compiler:afterCompile 完成构建，缓存数据</li>
+<li>Compiler:emit 输出到dist目录</li>
+</ul>
+<p>一个 Compilation 对象包含了当前的模块资源、编译生成资源、变化的文件等。<br />Compilation 对象也提供了很多事件回调供插件做扩展。<br />Compilation中比较重要的部分是assets 如果我们要借助webpack帮你生成文件,就要在assets上添加对应的文件信息。<br />compilation.getStats()能得到生产文件以及chunkhash的一些信息。等等</p>
+<h2 id="实战！写一个插件"><a href="#实战！写一个插件" class="headerlink" title="实战！写一个插件"></a>实战！写一个插件</h2><p>这次尝试写一个简单的插件，帮助我们去除webpack打包生成的bundle.js中多余的注释<br /><img src="https://cdn.nlark.com/yuque/0/2019/webp/128853/1565281605338-42bed831-9073-411e-a75a-27162b8c6a4f.webp#align=left&display=inline&height=723&originHeight=723&originWidth=1280&size=0&status=done&width=1280" alt=""></p>
+<h3 id="怎么写一个插件？"><a href="#怎么写一个插件？" class="headerlink" title="怎么写一个插件？"></a>怎么写一个插件？</h3><p>参照webpack官方教程<a href="https://link.juejin.im/?target=https%3A%2F%2Fwebpack.js.org%2Fcontribute%2Fwriting-a-plugin%2F">Writing a Plugin</a><br />一个webpack plugin由一下几个步骤组成：</p>
+<ol>
+<li>一个JavaScript类函数。</li>
+<li>在函数原型 (prototype)中定义一个注入<code>compiler</code>对象的<code>apply</code>方法。</li>
+<li><code>apply</code>函数中通过compiler插入指定的事件钩子,在钩子回调中拿到compilation对象</li>
+<li>使用compilation操纵修改webapack内部实例数据。</li>
+<li>异步插件，数据处理完后使用callback回调</li>
+</ol>
+<h3 id="完成插件初始架构"><a href="#完成插件初始架构" class="headerlink" title="完成插件初始架构"></a>完成插件初始架构</h3><p>在之前说Tapable的时候，写了一个MyPlugin类函数，它已经满足了webpack plugin结构的前两点（一个JavaScript类函数，在函数原型 (prototype)中定义一个注入<code>compiler</code>）<br />现在我们要让Myplugin满足后三点。首先，使用compiler指定的事件钩子。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyPlugin</span></span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>() &#123;</span><br><span class="line">    &#125;</span><br><span class="line">    apply(conpiler)&#123;</span><br><span class="line">        conpiler.hooks.break.tap(<span class="string">"WarningLampPlugin"</span>, () =&gt; <span class="built_in">console</span>.log(<span class="string">'WarningLampPlugin'</span>));</span><br><span class="line">        conpiler.hooks.accelerate.tap(<span class="string">"LoggerPlugin"</span>, newSpeed =&gt; <span class="built_in">console</span>.log(<span class="string">`Accelerating to <span class="subst">$&#123;newSpeed&#125;</span>`</span>));</span><br><span class="line">        conpiler.hooks.calculateRoutes.tapAsync(<span class="string">"calculateRoutes tapAsync"</span>, (source, target, routesList, callback) =&gt; &#123;</span><br><span class="line">            setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">`tapAsync to <span class="subst">$&#123;source&#125;</span><span class="subst">$&#123;target&#125;</span><span class="subst">$&#123;routesList&#125;</span>`</span>)</span><br><span class="line">                callback();</span><br><span class="line">            &#125;, <span class="number">2000</span>)</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="插件的常用对象"><a href="#插件的常用对象" class="headerlink" title="插件的常用对象"></a>插件的常用对象</h3><table>
+<thead>
+<tr>
+<th>对象</th>
+<th>钩子</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Compiler</td>
+<td>run,compile,compilation,make,emit,done</td>
+</tr>
+<tr>
+<td>Compilation</td>
+<td>buildModule,normalModuleLoader,succeedModule,finishModules,seal,optimize,after-seal</td>
+</tr>
+<tr>
+<td>Module Factory</td>
+<td>beforeResolver,afterResolver,module,parser</td>
+</tr>
+<tr>
+<td>Module</td>
+<td></td>
+</tr>
+<tr>
+<td>Parser</td>
+<td>program,statement,call,expression</td>
+</tr>
+<tr>
+<td>Template</td>
+<td>hash,bootstrap,localVars,render</td>
+</tr>
+</tbody></table>
+<h3 id="编写插件"><a href="#编写插件" class="headerlink" title="编写插件"></a>编写插件</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyPlugin</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(options) &#123;</span><br><span class="line">        <span class="keyword">this</span>.options = options</span><br><span class="line">        <span class="keyword">this</span>.externalModules = &#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">    apply(compiler) &#123;</span><br><span class="line">        <span class="keyword">var</span> reg = <span class="regexp">/("([^\\\"]*(\\.)?)*")|('([^\\\']*(\\.)?)*')|(\/&#123;2,&#125;.*?(\r|\n))|(\/\*(\n|.)*?\*\/)|(\/\*\*\*\*\*\*\/)/g</span></span><br><span class="line">        compiler.hooks.emit.tap(<span class="string">'CodeBeautify'</span>, (compilation)=&gt; &#123;</span><br><span class="line">            <span class="built_in">Object</span>.keys(compilation.assets).forEach(<span class="function">(<span class="params">data</span>)=&gt;</span> &#123;</span><br><span class="line">                <span class="keyword">let</span> content = compilation.assets[data].source() <span class="comment">// 欲处理的文本</span></span><br><span class="line">                content = content.replace(reg, <span class="function"><span class="keyword">function</span> (<span class="params">word</span>) </span>&#123; <span class="comment">// 去除注释后的文本</span></span><br><span class="line">                    <span class="keyword">return</span> <span class="regexp">/^\/&#123;2,&#125;/</span>.test(word) || <span class="regexp">/^\/\*!/</span>.test(word) || <span class="regexp">/^\/\*&#123;3,&#125;\//</span>.test(word) ? <span class="string">""</span> : word;</span><br><span class="line">                &#125;);</span><br><span class="line">                compilation.assets[data] = &#123;</span><br><span class="line">                    source()&#123;</span><br><span class="line">                        <span class="keyword">return</span> content</span><br><span class="line">                    &#125;,</span><br><span class="line">                    size()&#123;</span><br><span class="line">                        <span class="keyword">return</span> content.length</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">module</span>.exports = MyPlugin</span><br></pre></td></tr></table></figure>
+<p>第一步，使用compiler的emit钩子<br />emit事件是将编译好的代码发射到指定的stream中触发，在这个钩子执行的时候，我们能从回调函数返回的compilation对象上拿到编译好的stream。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">compiler.hooks.emit.tap(&apos;xxx&apos;,(compilation)=&gt;&#123;&#125;)</span><br></pre></td></tr></table></figure>
+<p>第二步，访问compilation对象，我们用绑定提供了编译 compilation 引用的emit钩子函数，每一次编译都会拿到新的 compilation 对象。这些 compilation 对象提供了一些钩子函数，来钩入到构建流程的很多步骤中。<br />compilation中会返回很多内部对象,不完全截图如下所示：<br /><img src="https://cdn.nlark.com/yuque/0/2019/webp/128853/1565281605271-46856d5a-01ea-4a0c-b497-445b8662d2d3.webp#align=left&display=inline&height=960&originHeight=960&originWidth=1033&size=0&status=done&width=1033" alt=""><br />其中，我们需要的是<code>compilation.assets</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">assetsCompilation &#123;</span><br><span class="line">  assets:</span><br><span class="line">   &#123; <span class="string">'js/index/main.js'</span>:</span><br><span class="line">      CachedSource &#123;</span><br><span class="line">        _source: [<span class="built_in">Object</span>],</span><br><span class="line">        _cachedSource: <span class="literal">undefined</span>,</span><br><span class="line">        _cachedSize: <span class="literal">undefined</span>,</span><br><span class="line">        _cachedMaps: &#123;&#125; &#125; &#125;,</span><br><span class="line">  errors: [],</span><br><span class="line">  warnings: [],</span><br><span class="line">  children: [],</span><br><span class="line">  dependencyFactories:</span><br><span class="line">   ArrayMap &#123;</span><br><span class="line">     keys:</span><br><span class="line">      [ [<span class="built_in">Object</span>],</span><br><span class="line">        [<span class="built_in">Function</span>: MultiEntryDependency],</span><br><span class="line">        [<span class="built_in">Function</span>: SingleEntryDependency],</span><br><span class="line">        [<span class="built_in">Function</span>: LoaderDependency],</span><br><span class="line">        [<span class="built_in">Object</span>],</span><br><span class="line">        [<span class="built_in">Function</span>: ContextElementDependency],</span><br><span class="line">     values:</span><br><span class="line">      [ NullFactory &#123;&#125;,</span><br><span class="line">        [<span class="built_in">Object</span>],</span><br><span class="line">        NullFactory &#123;&#125; ] &#125;,</span><br><span class="line">  dependencyTemplates:</span><br><span class="line">   ArrayMap &#123;</span><br><span class="line">     keys:</span><br><span class="line">      [ [<span class="built_in">Object</span>],</span><br><span class="line">        [<span class="built_in">Object</span>],</span><br><span class="line">        [<span class="built_in">Object</span>] ],</span><br><span class="line">     values:</span><br><span class="line">      [ ConstDependencyTemplate &#123;&#125;,</span><br><span class="line">        RequireIncludeDependencyTemplate &#123;&#125;,</span><br><span class="line">        NullDependencyTemplate &#123;&#125;,</span><br><span class="line">        RequireEnsureDependencyTemplate &#123;&#125;,</span><br><span class="line">        ModuleDependencyTemplateAsRequireId &#123;&#125;,</span><br><span class="line">        AMDRequireDependencyTemplate &#123;&#125;,</span><br><span class="line">        ModuleDependencyTemplateAsRequireId &#123;&#125;,</span><br><span class="line">        AMDRequireArrayDependencyTemplate &#123;&#125;,</span><br><span class="line">        ContextDependencyTemplateAsRequireCall &#123;&#125;,</span><br><span class="line">        AMDRequireDependencyTemplate &#123;&#125;,</span><br><span class="line">        LocalModuleDependencyTemplate &#123;&#125;,</span><br><span class="line">        ModuleDependencyTemplateAsId &#123;&#125;,</span><br><span class="line">        ContextDependencyTemplateAsRequireCall &#123;&#125;,</span><br><span class="line">        ModuleDependencyTemplateAsId &#123;&#125;,</span><br><span class="line">        ContextDependencyTemplateAsId &#123;&#125;,</span><br><span class="line">        RequireResolveHeaderDependencyTemplate &#123;&#125;,</span><br><span class="line">        RequireHeaderDependencyTemplate &#123;&#125; ] &#125;,</span><br><span class="line">  fileTimestamps: &#123;&#125;,</span><br><span class="line">  contextTimestamps: &#123;&#125;,</span><br><span class="line">  name: <span class="literal">undefined</span>,</span><br><span class="line">  _currentPluginApply: <span class="literal">undefined</span>,</span><br><span class="line">  fullHash: <span class="string">'f4030c2aeb811dd6c345ea11a92f4f57'</span>,</span><br><span class="line">  hash: <span class="string">'f4030c2aeb811dd6c345'</span>,</span><br><span class="line">  fileDependencies: [ <span class="string">'/Users/mac/web/src/js/index/main.js'</span> ],</span><br><span class="line">  contextDependencies: [],</span><br><span class="line">  missingDependencies: [] &#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>优化所有 chunk 资源(asset)。资源(asset)会以key-value的形式被存储在 <code>compilation.assets</code>。</p>
+</blockquote>
+<p>第三步，遍历assets。<br />1）assets数组对象中的key是资源名，在Myplugin插件中，遍历Object.key()我们拿到了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">main.css</span><br><span class="line">bundle.js</span><br><span class="line">index.html</span><br></pre></td></tr></table></figure>
+<p>2）调用Object.source() 方法，得到资源的内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">compilation.assets[data].source()</span><br></pre></td></tr></table></figure>
+<p>3）用正则，去除注释</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Object.keys(compilation.assets).forEach((data)=&gt; &#123;</span><br><span class="line">    let content = compilation.assets[data].source() </span><br><span class="line">    content = content.replace(reg, function (word) &#123; </span><br><span class="line">        return /^\/&#123;2,&#125;/.test(word) || /^\/\*!/.test(word) || /^\/\*&#123;3,&#125;\//.test(word) ? &quot;&quot; : word;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>第四步，更新compilation.assets[data]对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">compilation.assets[data] = &#123;</span><br><span class="line">    source()&#123;</span><br><span class="line">        return content</span><br><span class="line">    &#125;,</span><br><span class="line">    size()&#123;</span><br><span class="line">        return content.length</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>第五步 在webpack中引用插件<br />webpack.config.js</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">const path  = require(&apos;path&apos;)</span><br><span class="line">const MyPlugin = require(&apos;./plugins/MyPlugin&apos;)</span><br><span class="line">module.exports = &#123;</span><br><span class="line">    entry:&apos;./src/index.js&apos;,</span><br><span class="line">    output:&#123;</span><br><span class="line">        path:path.resolve(&apos;dist&apos;),</span><br><span class="line">        filename:&apos;bundle.js&apos;</span><br><span class="line">    &#125;,</span><br><span class="line">    plugins:[</span><br><span class="line">        ...</span><br><span class="line">        new MyPlugin()</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="https://link.juejin.im/?target=https%3A%2F%2Fgithub.com%2Fwallaceyuan%2FCodeBeautify">插件地址</a></p>
+<hr>
+<h2 id="公众号"><a href="#公众号" class="headerlink" title="公众号"></a>公众号</h2><p>想要实时关注笔者最新的文章和最新的文档更新请关注公众号<strong>程序员面试官</strong>,后续的文章会优先在公众号更新.</p>
+<p><strong>简历模板:</strong> 关注公众号回复「模板」获取</p>
+<p><strong>《前端面试手册》:</strong> 配套于本指南的突击手册,关注公众号回复「fed」获取</p>
+<p><img src="https://xiaomuzhu-image.oss-cn-beijing.aliyuncs.com/d846f65d5025c4b6c4619662a0669503.png" alt="2019-08-12-03-18-41"></p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a style="word-wrap:break-word;" href="http://yoursite.com/2019/11/08/5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill/Webpack/webpack%E6%8F%92%E4%BB%B6%E7%BC%96%E5%86%99/" title="webpack插件编写" target="_blank" rel="external">http://yoursite.com/2019/11/08/5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill/Webpack/webpack%E6%8F%92%E4%BB%B6%E7%BC%96%E5%86%99/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/chen08" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/chen08" target="_blank"><span class="text-dark">溟海</span><small class="ml-1x">Web Developer &amp; Designer</small></a></h3>
+        <div>天行健，君子以自强不息，地势坤，君子以厚德载物。 杀不死我的,终将使我强大 没有吃不了的苦,只有享不了的福</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2019/11/08/5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill/Webpack/webpack%20%E6%8F%92%E4%BB%B6%E5%8C%96%E8%AE%BE%E8%AE%A1/" title="webpack 插件化设计"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/11/08/5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill/Webpack/webpack%E9%9D%A2%E8%AF%95%E9%A2%98/" title="webpack面试题"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="Catalogue" role="button">
+        <span>[&nbsp;</span><span>Catalogue</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open alipay app scan this qrcode, buy me a coffee!</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open wechat app scan this qrcode, buy me a coffee!</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> alipay</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> wechat payment</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+
+
+<!-- custom analytics part create by xiamo -->
+<!-- <script defer src="https://cdn1.lncld.net/static/js/av-min-1.2.1.js"></script> -->
+<script defer src="/js/av-min-1.2.1.js"></script>
+<script defer>
+AV.init({
+  appId: 'ngFQzHw7z0HgQfrtn4En4WTN-gzGzoHsz',
+  appKey: 'W9hgBBfVDwRGJKoGp5a6HKpx'
+});
+
+function showTime(Counter) {
+	var query = new AV.Query(Counter);
+		var visitors= $('.leancloud_visitors');
+		query.greaterThanOrEqualTo("time", 0);		
+		query.find({
+			success: function(results) {
+				if (results.length == 0) {				
+					return;
+				}
+				var data = results;
+				visitors.each(function(){
+					var url = $(this).attr('id').trim();					
+					for (var i = 0; i < data.length; i++) {
+						var object = data[i];
+						var content = object.get('time');
+						var _url = object.get('url')
+						if(url == _url){
+							$(this).text(content);
+						}
+					}
+				})
+				
+			},
+			error: function(object, error) {
+				console.log("Error: " + error.code + " " + error.message);
+			}
+		});
+}
+
+function addCount(Counter) {
+	var Counter = AV.Object.extend("Counter");
+	url = $(".leancloud_visitors").attr('id').trim();
+	title = $(".leancloud_visitors").attr('data-flag-title').trim();
+	var query = new AV.Query(Counter);
+	query.equalTo("url", url);
+	query.find({
+		success: function(results) {
+			if (results.length > 0) {
+				var counter = results[0];
+				counter.fetchWhenSave(true);
+				counter.increment("time");
+				counter.save(null, {
+					success: function(counter) {
+						var content = counter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(counter, error) {
+						console.log('Failed to save Visitor num, with error message: ' + error.message);
+					}
+				});
+			} else {
+				var newcounter = new Counter();
+				newcounter.set("title", title);
+				newcounter.set("url", url);
+				newcounter.set("time", 1);
+				newcounter.save(null, {
+					success: function(newcounter) {
+					    console.log("newcounter.get('time')="+newcounter.get('time'));
+						var content = newcounter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(newcounter, error) {
+						console.log('Failed to create');
+					}
+				});
+			}
+		},
+		error: function(error) {
+			console.log('Error:' + error.code + " " + error.message);
+		}
+	});
+}
+$(function() {
+	var Counter = AV.Object.extend("Counter");
+	if ($('.leancloud_visitors').length == 1) {
+		addCount(Counter);
+	} else {
+		showTime(Counter);
+	}
+}); 
+</script>
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>

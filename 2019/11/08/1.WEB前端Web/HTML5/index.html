@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>HTML5 学习 | Hexo</title>
+  <script src="./js/jQuery.md5.js"></script>
+  <script>
+    
+    (function(){
+      localStorage.setItem('userinfo',hex_md5('123chen'))
+      
+      var localData = localStorage.getItem("userinfo");
+      // var localState = localStorage.getItem("state");
+        if(localStorage.getItem("state") === null){
+          var reason = window.prompt('请输入访问密码');
+          // var promptVal = window.prompt('请输入访问密码');
+          if(reason){
+              //填写内容并“确定”
+              var md5Prompt = hex_md5(reason)
+              //点击的是“确定” 
+              if (localData !== md5Prompt){
+                alert('密码错误！');
+                // history.back();
+                location.replace(location.href); 
+              }else{
+                // alert('0123');
+                localStorage.setItem('state',"1")
+              }
+          }
+          else if(reason === ""){
+              //未填写但“确定”
+              location.replace(location.href); 
+          }
+          else{
+            //“取消”事件
+            location.replace(location.href); 
+          }
+        }
+
+    })();
+  </script>
+ <link rel="alternate" href="/atom.xml" data="123chen" type="application/atom+xml">
+  <meta name="description" content="HTML5介绍HTML5是什么HTML5是对 HTML 标准的第五次修订，于2014年10月29日已完工。其主要的目标是将互联网语义化，以便更好地被人类和机器阅读，并同时提供更好地支持各种媒体的嵌入。当然有时我们在谈论HTML5时，还包括一系列让互联网变得更炫的技术。     具体来说 HTML5 新增的东西包括：一些新标签，新标签属性（也不再支持一些元素和属性）；geoloaction；canv">
+<meta name="keywords" content="HTML">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTML5 学习">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;08&#x2F;1.WEB%E5%89%8D%E7%AB%AFWeb&#x2F;HTML5&#x2F;index.html">
+<meta property="og:site_name" content="学习的敌人是自己的满足，要认真学习一点东西，必须从不自满开始。对自己，“学而不厌”，对人家，“诲人不倦”，我们应取这种态度。">
+<meta property="og:description" content="HTML5介绍HTML5是什么HTML5是对 HTML 标准的第五次修订，于2014年10月29日已完工。其主要的目标是将互联网语义化，以便更好地被人类和机器阅读，并同时提供更好地支持各种媒体的嵌入。当然有时我们在谈论HTML5时，还包括一系列让互联网变得更炫的技术。     具体来说 HTML5 新增的东西包括：一些新标签，新标签属性（也不再支持一些元素和属性）；geoloaction；canv">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-11-15T12:46:40.000Z">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://yoursite.com/2019/11/08/1.WEB%E5%89%8D%E7%AB%AFWeb/HTML5/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="学习的敌人是自己的满足，要认真学习一点东西，必须从不自满开始。对自己，“学而不厌”，对人家，“诲人不倦”，我们应取这种态度。" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/chen08" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">溟海</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer &amp; Designer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Guangzhou, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+          <!-- . -->
+        
+        
+          <li class="menu-item menu-item-home">
+            <a href="/.">
+              
+              <i class="icon icon-home-fill"></i>
+              
+              <span class="menu-title">Home</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- archives -->
+        
+        
+          <li class="menu-item menu-item-archives">
+            <a href="/archives">
+              
+              <i class="icon icon-archives-fill"></i>
+              
+              <span class="menu-title">Archives</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- categories -->
+        
+        
+          <li class="menu-item menu-item-categories">
+            <a href="/categories">
+              
+              <i class="icon icon-folder"></i>
+              
+              <span class="menu-title">Categories</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- tags -->
+        
+        
+          <li class="menu-item menu-item-tags">
+            <a href="/tags">
+              
+              <i class="icon icon-tags"></i>
+              
+              <span class="menu-title">Tags</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- repository -->
+        
+        
+          <li class="menu-item menu-item-repository">
+            <a href="/repository">
+              
+              <i class="icon icon-project"></i>
+              
+              <span class="menu-title">Repository</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- books -->
+        
+        
+          <li class="menu-item menu-item-books">
+            <a href="/books">
+              
+              <i class="icon icon-book-fill"></i>
+              
+              <span class="menu-title">Books</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- links -->
+        
+        
+          <li class="menu-item menu-item-links">
+            <a href="/links">
+              
+              <i class="icon icon-friendship"></i>
+              
+              <span class="menu-title">Links</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- about -->
+        
+        
+          <li class="menu-item menu-item-about">
+            <a href="/about">
+              
+              <i class="icon icon-cup-fill"></i>
+              
+              <span class="menu-title">About</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- navigation/webstack/index.html -->
+        
+        
+          <li class="menu-item menu-item-navigation">
+            <a href="/navigation/webstack/index.html">
+              
+              <i class="icon icon-delicious"></i>
+              
+              <span class="menu-title">Navigation</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- navigation/webstack/word.html -->
+        
+        
+          <li style="display: none;" class="menu-item menu-item-fixed">
+            <a href="/navigation/webstack/word.html">
+              
+              <i class="icon icon-delicious"></i>
+              
+              <span class="menu-title">menu.fixed</span>
+            </a>
+          </li>
+        
+
+
+        
+      </ul>
+
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/1-WEB%E5%89%8D%E7%AB%AF/">1.WEB前端</a><span class="category-list-count">140</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/2-%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">2.编程语言</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/3-%E4%BA%A7%E5%93%81%E8%AE%BE%E8%AE%A1/">3.产品设计</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/4-%E7%AE%A1%E7%90%86%E8%90%A5%E9%94%80/">4.管理营销</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/5-%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87/">5.技能提升</a><span class="category-list-count">155</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/6-%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93/">6.读书总结</a><span class="category-list-count">9</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/" rel="tag">CSS</a><span class="tag-list-count">18</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Dart/" rel="tag">Dart</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES6/" rel="tag">ES6</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES7/" rel="tag">ES7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/English/" rel="tag">English</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flutter/" rel="tag">Flutter</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a><span class="tag-list-count">20</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IMAGE/" rel="tag">IMAGE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JQuery/" rel="tag">JQuery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a><span class="tag-list-count">224</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">JavaScript设计模式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript%E9%AB%98%E7%BA%A7%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" rel="tag">JavaScript高级程序设计</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jquery/" rel="tag">Jquery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mysql/" rel="tag">Mysql</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NETWORK/" rel="tag">NETWORK</a><span class="tag-list-count">13</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node/" rel="tag">Node</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/" rel="tag">PHP</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/" rel="tag">React</a><span class="tag-list-count">31</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJS/" rel="tag">RxJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SVG/" rel="tag">SVG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sass/" rel="tag">Sass</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/" rel="tag">Vue</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%AE%89%E5%85%A8/" rel="tag">WEB安全</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webpack/" rel="tag">Webpack</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/" rel="tag">jQuery</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodeJS/" rel="tag">nodeJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B9%A6%E5%8D%95/" rel="tag">书单</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B9%A6%E7%B1%8D/" rel="tag">书籍</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/" rel="tag">前端安全</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83/" rel="tag">命名规范</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag">小程序</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" rel="tag">性能优化</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8F%92%E4%BB%B6/" rel="tag">插件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A1%86%E6%9E%B6/" rel="tag">框架</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" rel="tag">浏览器</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%84%E4%BB%B6/" rel="tag">组件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%84%E8%8C%83/" rel="tag">规范</a><span class="tag-list-count">67</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6%E5%AD%A6%E4%B9%A0/" rel="tag">软件学习</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a><span class="tag-list-count">153</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/CSS/" style="font-size: 13.71px;">CSS</a> <a href="/tags/Dart/" style="font-size: 13px;">Dart</a> <a href="/tags/ES6/" style="font-size: 13px;">ES6</a> <a href="/tags/ES7/" style="font-size: 13px;">ES7</a> <a href="/tags/English/" style="font-size: 13.18px;">English</a> <a href="/tags/Flutter/" style="font-size: 13px;">Flutter</a> <a href="/tags/Git/" style="font-size: 13.12px;">Git</a> <a href="/tags/HTML/" style="font-size: 13.76px;">HTML</a> <a href="/tags/HTTP/" style="font-size: 13.18px;">HTTP</a> <a href="/tags/IMAGE/" style="font-size: 13px;">IMAGE</a> <a href="/tags/JAVA/" style="font-size: 13.06px;">JAVA</a> <a href="/tags/JQuery/" style="font-size: 13px;">JQuery</a> <a href="/tags/JavaScript/" style="font-size: 14px;">JavaScript</a> <a href="/tags/JavaScript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 13px;">JavaScript设计模式</a> <a href="/tags/JavaScript%E9%AB%98%E7%BA%A7%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 13px;">JavaScript高级程序设计</a> <a href="/tags/Jquery/" style="font-size: 13px;">Jquery</a> <a href="/tags/Mysql/" style="font-size: 13px;">Mysql</a> <a href="/tags/NETWORK/" style="font-size: 13.53px;">NETWORK</a> <a href="/tags/Node/" style="font-size: 13.35px;">Node</a> <a href="/tags/PHP/" style="font-size: 13.24px;">PHP</a> <a href="/tags/React/" style="font-size: 13.82px;">React</a> <a href="/tags/RxJS/" style="font-size: 13px;">RxJS</a> <a href="/tags/SVG/" style="font-size: 13px;">SVG</a> <a href="/tags/Sass/" style="font-size: 13px;">Sass</a> <a href="/tags/TypeScript/" style="font-size: 13.29px;">TypeScript</a> <a href="/tags/Vue/" style="font-size: 13.65px;">Vue</a> <a href="/tags/WEB%E5%AE%89%E5%85%A8/" style="font-size: 13.29px;">WEB安全</a> <a href="/tags/Webpack/" style="font-size: 13.59px;">Webpack</a> <a href="/tags/jQuery/" style="font-size: 13.65px;">jQuery</a> <a href="/tags/nodeJS/" style="font-size: 13px;">nodeJS</a> <a href="/tags/python/" style="font-size: 13px;">python</a> <a href="/tags/%E4%B9%A6%E5%8D%95/" style="font-size: 13px;">书单</a> <a href="/tags/%E4%B9%A6%E7%B1%8D/" style="font-size: 13.06px;">书籍</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 13px;">前端</a> <a href="/tags/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/" style="font-size: 13.06px;">前端安全</a> <a href="/tags/%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83/" style="font-size: 13.41px;">命名规范</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 13px;">小程序</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 13.06px;">工具</a> <a href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" style="font-size: 13.47px;">性能优化</a> <a href="/tags/%E6%8F%92%E4%BB%B6/" style="font-size: 13px;">插件</a> <a href="/tags/%E6%A1%86%E6%9E%B6/" style="font-size: 13px;">框架</a> <a href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" style="font-size: 13px;">浏览器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13.18px;">算法</a> <a href="/tags/%E7%BB%84%E4%BB%B6/" style="font-size: 13px;">组件</a> <a href="/tags/%E8%A7%84%E8%8C%83/" style="font-size: 13.88px;">规范</a> <a href="/tags/%E8%BD%AF%E4%BB%B6%E5%AD%A6%E4%B9%A0/" style="font-size: 13px;">软件学习</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 13.35px;">随笔</a> <a href="/tags/%E9%9D%A2%E8%AF%95/" style="font-size: 13.94px;">面试</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a><span class="archive-list-count">312</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/27/1.WEB%E5%89%8D%E7%AB%AFWeb/React/react-router/" class="title">1.WEB前端Web/React/react-router</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-27T13:24:04.185Z" itemprop="datePublished">2020-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/27/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/sass-guide/" class="title">1.WEB前端Web/Front-End-Standards/sass-guide</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-27T13:24:03.487Z" itemprop="datePublished">2020-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/27/hello-world/" class="title">Hello World</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-27T13:24:03.028Z" itemprop="datePublished">2020-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/6-%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93/">6.读书总结</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/26/6.%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93Book/%E4%BA%BA%E7%94%9F%E9%81%93%E7%90%86/" class="title">人生道理</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-26T01:12:57.000Z" itemprop="datePublished">2020-01-26</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/2-%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">2.编程语言</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/15/2.%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80Programming/English/%E7%94%9F%E6%B4%BB%E8%8B%B1%E8%AF%AD/" class="title">生活英语</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-15T01:12:57.000Z" itemprop="datePublished">2020-01-15</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">Catalogue</h3>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#HTML5介绍"><span class="toc-number">1.</span> <span class="toc-text">HTML5介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#HTML5是什么"><span class="toc-number">1.1.</span> <span class="toc-text">HTML5是什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTML5支持情况"><span class="toc-number">1.2.</span> <span class="toc-text">HTML5支持情况</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查看某个属性在浏览器中的支持情况"><span class="toc-number">1.3.</span> <span class="toc-text">查看某个属性在浏览器中的支持情况</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关于HTML5的链接"><span class="toc-number">1.4.</span> <span class="toc-text">关于HTML5的链接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#具体介绍"><span class="toc-number">1.5.</span> <span class="toc-text">具体介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#推荐阅读"><span class="toc-number">1.6.</span> <span class="toc-text">推荐阅读</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#音频-audio"><span class="toc-number">2.</span> <span class="toc-text">音频(audio)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#摄像头"><span class="toc-number">3.</span> <span class="toc-text">摄像头</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#资源"><span class="toc-number">3.1.</span> <span class="toc-text">资源</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#新增的属性"><span class="toc-number">4.</span> <span class="toc-text">新增的属性</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#表单相关的属性"><span class="toc-number">4.1.</span> <span class="toc-text">表单相关的属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#链接相关属性"><span class="toc-number">4.2.</span> <span class="toc-text">链接相关属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他属性"><span class="toc-number">4.3.</span> <span class="toc-text">其他属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number">4.4.</span> <span class="toc-text">参考</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#新增的标签"><span class="toc-number">5.</span> <span class="toc-text">新增的标签</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#canvas"><span class="toc-number">5.1.</span> <span class="toc-text">canvas</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#多媒体"><span class="toc-number">5.2.</span> <span class="toc-text">多媒体</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#表单元素"><span class="toc-number">5.3.</span> <span class="toc-text">表单元素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#语义化-结构元素"><span class="toc-number">5.4.</span> <span class="toc-text">语义化/结构元素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考-1"><span class="toc-number">5.5.</span> <span class="toc-text">参考</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#html5-标签属性"><span class="toc-number">6.</span> <span class="toc-text">html5 标签属性</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#废弃的属性"><span class="toc-number">7.</span> <span class="toc-text">废弃的属性</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#废弃的标签"><span class="toc-number">8.</span> <span class="toc-text">废弃的标签</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#下面的元素被废弃的原因是用CSS处理可以更好地替代他们"><span class="toc-number">8.1.</span> <span class="toc-text">下面的元素被废弃的原因是用CSS处理可以更好地替代他们</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#下面的元素被废弃的原因是他们的使用破坏了可使用性和可访问性"><span class="toc-number">8.2.</span> <span class="toc-text">下面的元素被废弃的原因是他们的使用破坏了可使用性和可访问性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#下面的元素被废弃的原因是不经常使用他们，也会引起混乱，而且其它元素也可以很好地实现他们的功能"><span class="toc-number">8.3.</span> <span class="toc-text">下面的元素被废弃的原因是不经常使用他们，也会引起混乱，而且其它元素也可以很好地实现他们的功能</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Picture元素"><span class="toc-number">9.</span> <span class="toc-text">Picture元素</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#浏览器兼容性"><span class="toc-number">9.1.</span> <span class="toc-text">浏览器兼容性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#拓展阅读"><span class="toc-number">9.2.</span> <span class="toc-text">拓展阅读</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#File-API"><span class="toc-number">10.</span> <span class="toc-text">File API</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#浏览器兼容性-1"><span class="toc-number">10.1.</span> <span class="toc-text">浏览器兼容性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#拓展阅读-1"><span class="toc-number">10.2.</span> <span class="toc-text">拓展阅读</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#地理位置-geoloaction"><span class="toc-number">11.</span> <span class="toc-text">地理位置(geoloaction)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#参考-2"><span class="toc-number">11.1.</span> <span class="toc-text">参考</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Web存储-Web-Storage"><span class="toc-number">12.</span> <span class="toc-text">Web存储(Web Storage)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Web-Storage-提供的客户端存储数据的方法"><span class="toc-number">12.1.</span> <span class="toc-text">Web Storage 提供的客户端存储数据的方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用法"><span class="toc-number">12.2.</span> <span class="toc-text">用法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#写"><span class="toc-number">12.2.1.</span> <span class="toc-text">写</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#读"><span class="toc-number">12.2.2.</span> <span class="toc-text">读</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删除"><span class="toc-number">12.2.3.</span> <span class="toc-text">删除</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#遍历"><span class="toc-number">12.2.4.</span> <span class="toc-text">遍历</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#浏览器支持"><span class="toc-number">12.3.</span> <span class="toc-text">浏览器支持</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#更多"><span class="toc-number">12.4.</span> <span class="toc-text">更多</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#应用缓存-Offline-Web-Applications"><span class="toc-number">13.</span> <span class="toc-text">应用缓存(Offline Web Applications)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#示例"><span class="toc-number">13.1.</span> <span class="toc-text">示例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MANIFEST-字段说明"><span class="toc-number">13.2.</span> <span class="toc-text">MANIFEST 字段说明</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CACHE"><span class="toc-number">13.2.1.</span> <span class="toc-text">CACHE:</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#NETWORK"><span class="toc-number">13.2.1.1.</span> <span class="toc-text">NETWORK</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#FALLBACK"><span class="toc-number">13.2.2.</span> <span class="toc-text">FALLBACK</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他"><span class="toc-number">13.3.</span> <span class="toc-text">其他</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考-3"><span class="toc-number">13.4.</span> <span class="toc-text">参考</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#交互"><span class="toc-number">14.</span> <span class="toc-text">交互</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#工作线程-web-workers"><span class="toc-number">15.</span> <span class="toc-text">工作线程(web workers)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#概述"><span class="toc-number">15.1.</span> <span class="toc-text">概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#使用场景"><span class="toc-number">15.1.1.</span> <span class="toc-text">使用场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#浏览器兼容性-2"><span class="toc-number">15.1.2.</span> <span class="toc-text">浏览器兼容性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#上下文"><span class="toc-number">15.1.3.</span> <span class="toc-text">上下文</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他-1"><span class="toc-number">15.1.4.</span> <span class="toc-text">其他</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用法-1"><span class="toc-number">15.2.</span> <span class="toc-text">用法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建worker"><span class="toc-number">15.2.1.</span> <span class="toc-text">创建worker</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#信息通信"><span class="toc-number">15.2.2.</span> <span class="toc-text">信息通信</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#终止Web-Worker"><span class="toc-number">15.2.3.</span> <span class="toc-text">终止Web Worker</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考-4"><span class="toc-number">16.</span> <span class="toc-text">参考</span></a></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-1.WEB前端Web/HTML5" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      HTML5 学习
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/11/08/1.WEB%E5%89%8D%E7%AB%AFWeb/HTML5/" class="article-date">
+	  <time datetime="2019-11-08T01:12:57.000Z" itemprop="datePublished">2019-11-08</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/1-WEB%E5%89%8D%E7%AB%AF/">1.WEB前端</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/HTML/" rel="tag">HTML</a>
+  </span>
+
+
+        
+
+	<span class="article-read hidden-xs">
+    	<i class="icon icon-eye-fill" aria-hidden="true"></i>
+    	<span id="/2019/11/08/1.WEB%E5%89%8D%E7%AB%AFWeb/HTML5/" class="leancloud_visitors"  data-flag-title="HTML5 学习">0</span>
+    </span>
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/11/08/1.WEB%E5%89%8D%E7%AB%AFWeb/HTML5/#comments" class="article-comment-link">Comments</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count: 5k(words)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">Read Count: 20(minutes)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="HTML5介绍"><a href="#HTML5介绍" class="headerlink" title="HTML5介绍"></a>HTML5介绍</h1><h2 id="HTML5是什么"><a href="#HTML5是什么" class="headerlink" title="HTML5是什么"></a>HTML5是什么</h2><p>HTML5是对 HTML 标准的第五次修订，于2014年10月29日已完工。<br>其主要的目标是将互联网语义化，以便更好地被人类和机器阅读，并同时提供更好地支持各种媒体的嵌入。当然有时我们在谈论HTML5时，还包括一系列让互联网变得更炫的技术。    </p>
+<p>具体来说 HTML5 新增的东西包括：一些新标签，新标签属性（也不再支持一些元素和属性）；geoloaction；canvas；Microdata；Offline Web Applications；Web Storage等。</p>
+<h2 id="HTML5支持情况"><a href="#HTML5支持情况" class="headerlink" title="HTML5支持情况"></a>HTML5支持情况</h2><p>我们可以通过 <a href="http://html5test.com/" target="_blank" rel="noopener">HTML5 test</a>来查看浏览器对HTML5的支持情况。得分越高，则说明对HTML5的支持越好。<br>截止到现在(2015/07/08),桌面浏览器的得分为：Chrome 43: 526，Firefox 38: 467,IE 11:336，Opera 29:519分，Safari 8.0：396。总分为555分。</p>
+<p>各浏览器在可访问性的支持查看 <a href="http://html5accessibility.com/" target="_blank" rel="noopener">http://html5accessibility.com/</a></p>
+<h2 id="查看某个属性在浏览器中的支持情况"><a href="#查看某个属性在浏览器中的支持情况" class="headerlink" title="查看某个属性在浏览器中的支持情况"></a>查看某个属性在浏览器中的支持情况</h2><ul>
+<li>在浏览器中查看 <a href="http://caniuse.com/" target="_blank" rel="noopener">http://caniuse.com/</a></li>
+<li>在代码中探测 <a href="http://modernizr.com/" target="_blank" rel="noopener">http://modernizr.com/</a></li>
+</ul>
+<h2 id="关于HTML5的链接"><a href="#关于HTML5的链接" class="headerlink" title="关于HTML5的链接"></a>关于HTML5的链接</h2><ul>
+<li><a href="http://html5demos.com/" target="_blank" rel="noopener">HTML5的demo</a></li>
+<li><a href="w3.org/TR/html5/">W3C 的 HTML5 草案</a></li>
+<li><a href="http://en.wikipedia.org/wiki/HTML5" target="_blank" rel="noopener">http://en.wikipedia.org/wiki/HTML5</a></li>
+<li><a href="http://blog.whatwg.org/html-is-the-new-html5" target="_blank" rel="noopener">http://blog.whatwg.org/html-is-the-new-html5</a></li>
+<li><a href="http://www.html5rocks.com/zh/" target="_blank" rel="noopener">http://www.html5rocks.com/zh/</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5" target="_blank" rel="noopener">https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5</a></li>
+<li><a href="http://fortuito.us/diveintohtml5/introduction.html" target="_blank" rel="noopener">http://fortuito.us/diveintohtml5/introduction.html</a></li>
+</ul>
+<h2 id="具体介绍"><a href="#具体介绍" class="headerlink" title="具体介绍"></a>具体介绍</h2><ul>
+<li><a href="elements-and-attrs">标签,属性</a><ul>
+<li><a href="elements-and-attrs/new-elements.md">新增的标签</a></li>
+<li><a href="elements-and-attrs/removed-elements.md">废弃的标签</a></li>
+<li><a href="elements-and-attrs/new-attrs.md">新增的属性</a></li>
+<li><a href="elements-and-attrs/removed-attrs.md">废弃的属性</a></li>
+<li><a href="picture">Picture元素</a> 用Picture元素做响应式图片</li>
+</ul>
+</li>
+<li><a href="web-storage">Web存储</a></li>
+<li><a href="web-workers">Web workers</a></li>
+<li><a href="file-api">File API</a> 可以做图片预览之类的</li>
+<li><a href="geoloaction">地理位置</a> 待完善</li>
+<li><a href="canvas">画布</a> 待完善</li>
+<li><a href="video">视频</a> 待完善</li>
+<li><a href="audio">音频</a> 待完善</li>
+<li><a href="drag-and-drop">拖放</a> 待完善</li>
+<li><a href="microdata">微数据</a> 待完善</li>
+<li><del><a href="offline-web-applications">应用缓存</a></del> 该特性已经从 Web 标准中删除</li>
+<li><a href="server-send-events">服务器发送事件</a> 待完善</li>
+<li><a href="camera">摄像头</a></li>
+</ul>
+<h2 id="推荐阅读"><a href="#推荐阅读" class="headerlink" title="推荐阅读"></a>推荐阅读</h2><ul>
+<li><a href="http://code.tutsplus.com/series/html5-mastery-class--cms-897" target="_blank" rel="noopener">HTML5 Mastery Class</a> 掌握 HTML5 系列。该系列比较多的写一些底层的介绍。比如，浏览器的上下文，编码之类的。</li>
+<li><a href="http://www.ruanyifeng.com/blog/2008/02/codes_for_language_names.html" target="_blank" rel="noopener">语种名称代码(html lang的值)</a></li>
+</ul>
+<h1 id="音频-audio"><a href="#音频-audio" class="headerlink" title="音频(audio)"></a>音频(audio)</h1><p>移动端不支持自动播放（autoplay 属性）：</p>
+<blockquote>
+<p>由于自动播放网页中的音频或视频，会给用户带来一些困扰或者不必要的流量消耗，所以苹果系统和安卓系统通常都会禁止自动播放和使用 JS 的触发播放，必须由用户来触发才可以播放。</p>
+</blockquote>
+<p>解决方案,在用户点击屏幕后，就播放。依赖用户点击屏幕，呵呵</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var autoElem = vm.$refs.audio</span><br><span class="line">var autoPlay = () =&gt; &#123;</span><br><span class="line">  autoElem.play()</span><br><span class="line">  document.removeEventListener(&apos;touchstart&apos;, autoPlay)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">document.addEventListener(&apos;touchstart&apos;, autoPlay)</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="摄像头"><a href="#摄像头" class="headerlink" title="摄像头"></a>摄像头</h1><h2 id="资源"><a href="#资源" class="headerlink" title="资源"></a>资源</h2><ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia" target="_blank" rel="noopener">MDN getUserMedia</a></li>
+<li><a href="https://davidwalsh.name/browser-camera" target="_blank" rel="noopener">Camera and Video Control with HTML5</a></li>
+</ul>
+<h1 id="新增的属性"><a href="#新增的属性" class="headerlink" title="新增的属性"></a>新增的属性</h1><h2 id="表单相关的属性"><a href="#表单相关的属性" class="headerlink" title="表单相关的属性"></a>表单相关的属性</h2><ul>
+<li>对input（type=text）、select、textarea与button指定autofocus属性。它以指定属性的方式让元素在画面打开时自动获得焦点。</li>
+<li>对input（type=text）、textarea指定placeholder属性，它会对用户的输入进行提示，提示用户可以输入的内容。</li>
+<li>对input、output、select、textarea、button与fieldset指定form属性。它声明属于哪个表单（通过form属性的值与form的id值一致来指定），然后将其放置在页面的任何位置，而不是表单之内。</li>
+<li>对input（type=text）、textarea指定required属性。该属性表示用户提交时进行检查，检查该元素内必定要有输入内容。</li>
+<li>为input标签增加几个新的属性：autocomplete、min、max、multiple、pattern与step。<ul>
+<li>list,autocomplete属性与datalist元素配合使用[注1]。</li>
+<li>multiple属性允许上传时一次上传多个文件</li>
+<li>pattern属性用于验证输入字段的模式，其实就是正则表达式</li>
+<li>step, min, max 属性与数字输入框一起使用(type=number)。step规定输入字段的合法数字间隔（如 step=”3”，则合法数字应该是 -3、0、3、6，以此类推），step 属性可以与 max 以及 min 属性配合使用，以创建合法值的范围。</li>
+</ul>
+</li>
+<li>为input、button元素增加formaction、formenctype、formmethod、formnovalidate与formtarget属性。用户重载form元素的action、enctype、method、novalidate与target属性。为fieldset元素增加disabled属性，可以把它的子元素设为disabled状态。</li>
+<li>为input、button、form增加novalidate属性，可以取消提交时进行的有关检查，表单可以被无条件地提交。</li>
+</ul>
+<p>注1:<br>input 的内容可以从 datalist 中选。input 中 list 属性的值为对应的 datalist 的id。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;input list=&quot;browsers&quot; name=&quot;myBrowser&quot; /&gt;</span><br><span class="line">&lt;datalist id=&quot;browsers&quot;&gt;</span><br><span class="line">  &lt;option value=&quot;Chrome&quot;&gt;</span><br><span class="line">  &lt;option value=&quot;Firefox&quot;&gt;</span><br><span class="line">  &lt;option value=&quot;Internet Explorer&quot;&gt;</span><br><span class="line">  &lt;option value=&quot;Opera&quot;&gt;</span><br><span class="line">  &lt;option value=&quot;Safari&quot;&gt;</span><br><span class="line">  &lt;option value=&quot;Microsoft Edge&quot;&gt;</span><br><span class="line">&lt;/datalist&gt;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="链接相关属性"><a href="#链接相关属性" class="headerlink" title="链接相关属性"></a>链接相关属性</h2><ul>
+<li>为a、area增加media属性。规定目标 URL 是为什么类型的媒介/设备进行优化的。该属性用于规定目标 URL 是为特殊设备（比如 iPhone）、语音或打印媒介设计的。该属性可接受多个值。只能在 href 属性存在时使用。</li>
+<li>为area增加herflang和rel属性。hreflang 属性规定在被链接文档中的文本的语言。只有当设置了 href 属性时，才能使用该属性。注释：该属性是纯咨询性的。rel 属性规定当前文档与被链接文档/资源之间的关系。只有当使用 href 属性时，才能使用 rel 属性。</li>
+<li>为link增加size属性。sizes 属性规定被链接资源的尺寸。只有当被链接资源是图标时 (rel=”icon”)，才能使用该属性。该属性可接受多个值。值由空格分隔。<br>  为base元素增加target属性，主要是保持与a元素的一致性。</li>
+</ul>
+<h2 id="其他属性"><a href="#其他属性" class="headerlink" title="其他属性"></a>其他属性</h2><ul>
+<li>为ol增加reversed属性，它指定列表倒序显示。</li>
+<li>为meta增加charset属性。 <code>&lt;meta charset=”utf-8″ /&gt;</code></li>
+<li>为menu增加type和label属性。label为菜单定义一个课件的标注，type属性让才当可以以上下文菜单、工具条与列表cande但三种形式出现。</li>
+<li>为style增加scoped属性。它允许我们为文档的指定部分定义样式，而不是整个文档。如果使用 “scoped” 属性，那么所规定的样式只能应用到 style 元素的父元素及其子元素。</li>
+<li>为script增减属性，它定义脚本是否异步执行。async 属性仅适用于外部脚本（只有在使用 src 属性时）有多种执行外部脚本的方法：<ul>
+<li>如果 async=”async”：脚本相对于页面的其余部分异步地执行（当页面继续进行解析时，脚本将被执行）</li>
+<li>如果不使用 async 且 defer=”defer”：脚本将在页面完成解析时执行<br>如果既不使用 async 也不使用 defer：在浏览器继续解析页面之前，立即读取并执行脚本</li>
+</ul>
+</li>
+<li>为html元素增加manifest，开发离线web应用程序时他与API结合使用，定义一个URL，在这个URL上描述文档的缓存信息。</li>
+<li>为iframe增加撒个属性，sandbox、seamless、srcdoc。用来提高页面安全性，防止不信任的web页面执行某些操作。</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="http://www.cnblogs.com/mzwhj/archive/2013/02/19/2917779.html" target="_blank" rel="noopener">http://www.cnblogs.com/mzwhj/archive/2013/02/19/2917779.html</a></p>
+<h1 id="新增的标签"><a href="#新增的标签" class="headerlink" title="新增的标签"></a>新增的标签</h1><h2 id="canvas"><a href="#canvas" class="headerlink" title="canvas"></a>canvas</h2><ul>
+<li><code>&lt;canvas&gt;</code>  : 定义图形，比如图表和其他图像。</li>
+</ul>
+<h2 id="多媒体"><a href="#多媒体" class="headerlink" title="多媒体"></a>多媒体</h2><ul>
+<li><code>&lt;audio&gt;</code>  : 定义声音，比如音乐或其他音频流。</li>
+<li><code>&lt;embed&gt;</code> ：为外部应用（比如插件）定义容器</li>
+<li><code>&lt;source&gt;</code>  : 为媒介元素（比如 <code>&lt;video&gt;</code>  和 <code>&lt;audio&gt;</code> ）定义媒介资源。</li>
+<li><code>&lt;track&gt;</code> : 为<code>&lt;video&gt;</code>和<code>&lt;audio&gt;</code>定义磁道</li>
+<li><code>&lt;video&gt;</code>  : 定义视频，比如电影片段或其他视频流。</li>
+</ul>
+<h2 id="表单元素"><a href="#表单元素" class="headerlink" title="表单元素"></a>表单元素</h2><ul>
+<li><code>&lt;datalist&gt;</code>  : 定义选项列表。请与 input 元素配合使用该元素，来定义 input 可能的值。datalist 及其选项不会被想显示出来，它仅仅是合法的输入值列表。请使用 input 元素的 list 属性来绑定 datalist。</li>
+<li><code>&lt;keygen&gt;</code>  : 定义生成密钥。</li>
+<li><code>&lt;output&gt;</code>  : 定义不同类型的输出，比如脚本的输出。</li>
+</ul>
+<h2 id="语义化-结构元素"><a href="#语义化-结构元素" class="headerlink" title="语义化/结构元素"></a>语义化/结构元素</h2><ul>
+<li><code>&lt;article&gt;</code>  : 定义外部的内容，外部内容可以是来自一个外部的新闻提供者的一篇新的文章，或者来自 blog 的文本，或者是来自论坛的文本。亦或是来自其他外部源内容。</li>
+<li><code>&lt;aside&gt;</code>  : 定义 article 以外的内容。aside 的内容应该与 article 的内容相关。</li>
+<li><code>&lt;command&gt;</code>  : 定义命令按钮，比如单选按钮、复选框或按钮。</li>
+<li><code>&lt;details&gt;</code>  : 用于描述文档或文档某个部分的细节。与 <code>&lt;summary&gt;</code> 标签配合使用可以为 details 定义标题。标题是可见的，用户点击标题时，会显示出 details。</li>
+<li><code>&lt;figure&gt;</code>  : 定义媒介内容的分组，以及它们的标题。用于对元素进行组合。</li>
+<li><code>&lt;figcaption&gt;</code>  : 定义 figure 元素的标题。”figcaption” 元素应该被置于 “figure” 元素的第一个或最后一个子元素的位置。</li>
+<li><code>&lt;footer&gt;</code>  : 定义 section 或 document 的页脚。</li>
+<li><code>&lt;header&gt;</code>  : 定义文档的页眉（介绍信息）。</li>
+<li><code>&lt;hgroup&gt;</code>  : 定义有关文档中的 section 的信息。用于对网页或区段（section）的标题进行组合。</li>
+<li><code>&lt;mark&gt;</code>  : 定义带有记号的文本。请在需要突出显示文本时使用 <code>&lt;m&gt;</code>  标签。</li>
+<li><code>&lt;meter&gt;</code>  : 定义度量衡。仅用于已知最大和最小值的度量。</li>
+<li><code>&lt;nav&gt;</code>  : 定义导航链接的部分。</li>
+<li><code>&lt;progress&gt;</code>  : 定义任何类型的任务的进度。可以使用 <code>&lt;progress&gt;</code>  标签来显示 JavaScript 中耗费时间的函数的进度。</li>
+<li><code>&lt;ruby&gt;</code>  : 定义 ruby 注释（中文注音或字符）。</li>
+<li><code>&lt;rp&gt;</code>  : 定义若浏览器不支持 ruby 元素显示的内容。</li>
+<li><code>&lt;rt&gt;</code>  : 定义字符（中文注音或字符）的解释或发音。</li>
+<li><code>&lt;section&gt;</code>  : 定义文档中的节（section、区段）。比如章节、页眉、页脚或文档中的其他部分。</li>
+<li><code>&lt;summary&gt;</code>  : 定义 details 元素的标题。</li>
+<li><code>&lt;time&gt;</code>  : 定义日期或时间，或者两者。</li>
+</ul>
+<h2 id="参考-1"><a href="#参考-1" class="headerlink" title="参考"></a>参考</h2><p><a href="http://www.w3schools.com/html/html5_new_elements.asp" target="_blank" rel="noopener">http://www.w3schools.com/html/html5_new_elements.asp</a><br><a href="http://www.w3schools.com/html/html5_semantic_elements.asp" target="_blank" rel="noopener">http://www.w3schools.com/html/html5_semantic_elements.asp</a></p>
+<h1 id="html5-标签属性"><a href="#html5-标签属性" class="headerlink" title="html5 标签属性"></a>html5 标签属性</h1><p>html5添加和废弃了一些标签，以及属性。<br>新标签使得web更语义化，提供了更友好的SEO等。</p>
+<h1 id="废弃的属性"><a href="#废弃的属性" class="headerlink" title="废弃的属性"></a>废弃的属性</h1><p>|   对应元素   |属性名称      |<br>|———-|:————-:|——:|<br>| caption, iframe, img, input, object, legend, table, hr, div, h1, h2, h3, h4, h5, h6, p, col, colgroup, tbody, td, tfoot, th, thead, tr |  align |<br>| body | alink, link, text, vlink |<br>| body | background |<br>| table, tr, td, th, body | bgcolor |<br>| object | border |<br>| table | cellpadding, cellspacing |<br>| table | frame |<br>| table | rules |<br>| col, colgroup, tbody, td, tfoot, th, thead, tr | char, charoff |<br>| br | clear |<br>| dl, menu, ol, ul | compact |<br>| table | frame |<br>| iframe | frameborder |<br>| iframe | marginheight, marginwidth |<br>| iframe | scrolling |<br>| td, th | height |<br>| img, object | hspace, vspace |<br>| hr | noshade |<br>| hr | size |<br>| li, ol, ul | type |<br>| col, colgroup, tbody, td, tfoot, th, thead, tr | valign |<br>| hr, table, td, th, col, colgroup, pre | width |</p>
+<p>HTML5的规范里有对这些属性的代替方案，<a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/obsolete.html#non-conforming-features" target="_blank" rel="noopener">点击访问</a></p>
+<h1 id="废弃的标签"><a href="#废弃的标签" class="headerlink" title="废弃的标签"></a>废弃的标签</h1><h2 id="下面的元素被废弃的原因是用CSS处理可以更好地替代他们"><a href="#下面的元素被废弃的原因是用CSS处理可以更好地替代他们" class="headerlink" title="下面的元素被废弃的原因是用CSS处理可以更好地替代他们"></a>下面的元素被废弃的原因是用CSS处理可以更好地替代他们</h2><ul>
+<li>basefont</li>
+<li>big</li>
+<li>center</li>
+<li>font</li>
+<li>strike</li>
+<li>tt</li>
+</ul>
+<h2 id="下面的元素被废弃的原因是他们的使用破坏了可使用性和可访问性"><a href="#下面的元素被废弃的原因是他们的使用破坏了可使用性和可访问性" class="headerlink" title="下面的元素被废弃的原因是他们的使用破坏了可使用性和可访问性"></a>下面的元素被废弃的原因是他们的使用破坏了可使用性和可访问性</h2><ul>
+<li>frame</li>
+<li>frameset</li>
+<li>noframes</li>
+</ul>
+<h2 id="下面的元素被废弃的原因是不经常使用他们，也会引起混乱，而且其它元素也可以很好地实现他们的功能"><a href="#下面的元素被废弃的原因是不经常使用他们，也会引起混乱，而且其它元素也可以很好地实现他们的功能" class="headerlink" title="下面的元素被废弃的原因是不经常使用他们，也会引起混乱，而且其它元素也可以很好地实现他们的功能"></a>下面的元素被废弃的原因是不经常使用他们，也会引起混乱，而且其它元素也可以很好地实现他们的功能</h2><ul>
+<li>acronym被废弃是因为它经常使页面错乱，可以使用abbr代替</li>
+<li>applet被废弃是因为可以使用object代替</li>
+<li>isindex被废弃是因为使用表单控件代替</li>
+<li>dir被废弃是因为使用ul代替</li>
+</ul>
+<p>转自 <a href="http://www.cnblogs.com/TomXu/archive/2011/12/17/2269168.html" target="_blank" rel="noopener">http://www.cnblogs.com/TomXu/archive/2011/12/17/2269168.html</a></p>
+<h1 id="Picture元素"><a href="#Picture元素" class="headerlink" title="Picture元素"></a>Picture元素</h1><p>我们希望在不同尺寸的屏幕的屏幕上加载不同的图片，用Picture元素就可以实现这样的效果。例如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;picture&gt;</span><br><span class="line">    &lt;source srcset=&quot;image/extralarge.jpg&quot; media=&quot;(min-width: 1200px)&quot;&gt;</span><br><span class="line">    &lt;source srcset=&quot;image/large.jpg&quot;  media=&quot;(min-width: 960px)&quot;&gt;</span><br><span class="line">    &lt;source srcset=&quot;image/small.jpg&quot;  media=&quot;(max-width: 768px)&quot;&gt;</span><br><span class="line">    &lt;img srcset=&quot;image/medium.jpg&quot; alt=&quot;My default image&quot;&gt;</span><br><span class="line">&lt;/picture&gt;</span><br></pre></td></tr></table></figure>
+
+<p>如果要不同像素密度下用不同的图片，可以用<code>图片地址 nx</code>的方式，如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;picture&gt;</span><br><span class="line">    &lt;source srcset=&quot;smaller.jpg, smaller_retina.jpg 2x&quot; media=&quot;(max-width: 768px)&quot;&gt;</span><br><span class="line">    &lt;source srcset=&quot;default.jpg, default_retina.jpg 2x&quot;&gt;</span><br><span class="line">    &lt;img srcset=&quot;default.jpg, default_retina.jpg 2x&quot; alt=&quot;My default image&quot;&gt;</span><br><span class="line">&lt;/picture&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="浏览器兼容性"><a href="#浏览器兼容性" class="headerlink" title="浏览器兼容性"></a>浏览器兼容性</h2><p>IE，Safari,低版本的Firefox都不支持，但通过使用<a href="http://scottjehl.github.io/picturefill/" target="_blank" rel="noopener">picturefill</a>就支持了。</p>
+<p>比较好用，只需要引入picturefill.js。使用类似这样的结构</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;picture&gt;</span><br><span class="line">    &lt;!--[if IE 9]&gt;&lt;video style=&quot;display: none;&quot;&gt;&lt;![endif]--&gt;</span><br><span class="line">    &lt;source srcset=&quot;image/extralarge.jpg&quot; media=&quot;(min-width: 1200px)&quot;&gt;</span><br><span class="line">    &lt;source srcset=&quot;image/large.jpg&quot;  media=&quot;(min-width: 960px)&quot;&gt;</span><br><span class="line">    &lt;source srcset=&quot;image/small.jpg&quot; media=&quot;(max-width: 768px)&quot;&gt;</span><br><span class="line">    &lt;!--[if IE 9]&gt;&lt;/video&gt;&lt;![endif]--&gt;</span><br><span class="line">    &lt;img srcset=&quot;image/medium.jpg&quot; alt=&quot;My default image&quot;&gt;</span><br><span class="line">&lt;/picture&gt;</span><br></pre></td></tr></table></figure>
+<p>如果要兼容IE8-，加上</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--[if lt IE 9]&gt;&lt;video style=&quot;display: none;&quot;&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line">        // Picture element HTML shim|v it for old IE (pairs with Picturefill.js)</span><br><span class="line">        document.createElement( &quot;picture&quot; );</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">&lt;![endif]--&gt;</span><br></pre></td></tr></table></figure>
+<p>即可。</p>
+<h2 id="拓展阅读"><a href="#拓展阅读" class="headerlink" title="拓展阅读"></a>拓展阅读</h2><ul>
+<li><a href="http://webdesign.tutsplus.com/tutorials/quick-tip-how-to-use-html5-picture-for-responsive-images--cms-21015" target="_blank" rel="noopener">Quick Tip: How to Use HTML5 “picture” for Responsive Images</a></li>
+</ul>
+<h1 id="File-API"><a href="#File-API" class="headerlink" title="File API"></a>File API</h1><p>读取通过文件框或拖拽的文件。<br>可以读到的信息有</p>
+<ul>
+<li>name</li>
+<li>size</li>
+<li>type</li>
+<li>type</li>
+<li>lastModified 时间戳</li>
+</ul>
+<p>api</p>
+<ul>
+<li>File.getAsDataURL() 经过base64编码的字符串</li>
+<li>File.getAsText(string encoding)</li>
+</ul>
+<h2 id="浏览器兼容性-1"><a href="#浏览器兼容性-1" class="headerlink" title="浏览器兼容性"></a>浏览器兼容性</h2><p>IE10+支持FileReader，但不支持File。<a href="http://caniuse.com/#feat=fileapi" target="_blank" rel="noopener">Can I use</a></p>
+<h2 id="拓展阅读-1"><a href="#拓展阅读-1" class="headerlink" title="拓展阅读"></a>拓展阅读</h2><ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/File" target="_blank" rel="noopener">MDN File</a></li>
+</ul>
+<h1 id="地理位置-geoloaction"><a href="#地理位置-geoloaction" class="headerlink" title="地理位置(geoloaction)"></a>地理位置(geoloaction)</h1><p>geolocation API使用户可以向网站可以提供他的地理位置信息。出于隐私的原因，网站要获取用户的地理信息，是需要许可的。</p>
+<h2 id="参考-2"><a href="#参考-2" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Geolocation/Using_geolocation" target="_blank" rel="noopener">https://developer.mozilla.org/en-US/docs/Web/API/Geolocation/Using_geolocation</a></li>
+</ul>
+<h1 id="Web存储-Web-Storage"><a href="#Web存储-Web-Storage" class="headerlink" title="Web存储(Web Storage)"></a>Web存储(Web Storage)</h1><p>Web存储即在客户端存储数据。</p>
+<p>在没有Web Storage之前，是通过cookie来在客户端存储数据的。但是由于</p>
+<ul>
+<li>浏览器能存cookie数比较少。如IE8，Firefox,opera每个域可以保存的50个cookie,Safari/WebKit没有限制。一个cookie最多可以存放4096B左右的数据（见<a href="http://www.ietf.org/rfc/rfc2965.txt）。" target="_blank" rel="noopener">http://www.ietf.org/rfc/rfc2965.txt）。</a></li>
+<li>每次请求时，cookie都会存放在请求头中，传输到服务器端。但如果请求头<br>大小超过了限制，服务器会处理不了。</li>
+</ul>
+<p>因此cookie不适合大量数据的存储。相比用Web Storage更适合存储大量数据:</p>
+<ul>
+<li>每个域Chrome，Firefox和Opera是5M，IE是10M。 可以用这个来测 <a href="http://dev-test.nemikor.com/web-storage/support-test/" target="_blank" rel="noopener">http://dev-test.nemikor.com/web-storage/support-test/</a> 。</li>
+<li>请求时不会带web stroge的内容。</li>
+</ul>
+<h2 id="Web-Storage-提供的客户端存储数据的方法"><a href="#Web-Storage-提供的客户端存储数据的方法" class="headerlink" title="Web Storage 提供的客户端存储数据的方法"></a>Web Storage 提供的客户端存储数据的方法</h2><p>包括localStorage和sessionStorage。他们都只能读写当前域的数据，区别是，localStorage存储的数据不会过期，sessionStorage存储的数据每次关闭浏览器后都会被清空。</p>
+<p>ps:</p>
+<ul>
+<li>现在很多浏览器都提供了“匿名访问”，“安全模式”，“隐身窗口”等等功能。在这种情况下，浏览器都是会重新建立一个新的localStorage，所以这些模式下的页面是没法访问在正常模式下的页面中的数据。</li>
+<li>曾经，Firefox支持globalStorage：能读写所有域的存储数据的localStorage。但globalStorage没有成为标准。Firefox 13.0后被废弃了。更多见 <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Storage" target="_blank" rel="noopener">https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Storage</a> 。</li>
+</ul>
+<h2 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h2><p>localStorage和sessionStorage的api是一样的。这里以localStorage为例</p>
+<h3 id="写"><a href="#写" class="headerlink" title="写"></a>写</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line">* value会被调用 .toString方法转化成字符串。因此，如果要储存的对象，调用JSON.stringify(obj)来序列化成字符串</span><br><span class="line">*/</span><br><span class="line">localStorage.setItem(&apos;key&apos;, &apos;value&apos;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="读"><a href="#读" class="headerlink" title="读"></a>读</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">localStorage.getItem(&apos;key&apos;);</span><br><span class="line">localStorage.key(index);//localStorage数组中下标是index的key</span><br></pre></td></tr></table></figure>
+
+<h3 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">localStorage.removeItem(&apos;key&apos;);//删除某一个localStorage</span><br><span class="line">localStorage.clear();//清空所有localStorage</span><br></pre></td></tr></table></figure>
+
+<h3 id="遍历"><a href="#遍历" class="headerlink" title="遍历"></a>遍历</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">var output = &quot;LOCALSTORAGE DATA:\n------------------------------------\n&quot;;</span><br><span class="line">if (window.localStorage) &#123;</span><br><span class="line">    if (localStorage.length) &#123;</span><br><span class="line">       for (var i = 0; i &lt; localStorage.length; i++) &#123;</span><br><span class="line">           output += localStorage.key(i) + &apos;: &apos; + localStorage.getItem(localStorage.key(i)) + &apos;\n&apos;;</span><br><span class="line">       &#125;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">       output += &apos;There is no data stored for this domain.&apos;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    output += &apos;Your browser does not support local storage.&apos;</span><br><span class="line">&#125;</span><br><span class="line">console.log(output);</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="浏览器支持"><a href="#浏览器支持" class="headerlink" title="浏览器支持"></a>浏览器支持</h2><p>IE8+,Firefox 28.0+,chrome 33.0+,Safari 7.0+。更多支持的浏览器见 <a href="http://caniuse.com/#search=Storage" target="_blank" rel="noopener">http://caniuse.com/#search=Storage</a></p>
+<h2 id="更多"><a href="#更多" class="headerlink" title="更多"></a>更多</h2><ul>
+<li><a href="http://html5doctor.com/introducing-web-sql-databases/" target="_blank" rel="noopener">web sql Database</a></li>
+<li><a href="http://msdn.microsoft.com/en-us/library/ie/ms533007%28v=vs.85%29.aspx" target="_blank" rel="noopener">ie储存数据的方式：userData之类</a></li>
+</ul>
+<h1 id="应用缓存-Offline-Web-Applications"><a href="#应用缓存-Offline-Web-Applications" class="headerlink" title="应用缓存(Offline Web Applications)"></a>应用缓存(Offline Web Applications)</h1><p>应用程序缓存为应用带来三个优势：</p>
+<ul>
+<li>离线浏览 - 用户可在应用离线时使用它们</li>
+<li>速度 - 已缓存资源加载得更快</li>
+<li>减少服务器负载 - 浏览器将只从服务器下载更新过或更改过的资源</li>
+</ul>
+<p>注意：该特性已经从 Web 标准中删除，虽然一些浏览器目前仍然支持它，但也许会在未来的某个时间停止支持，请尽量不要使用该特性。</p>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p>index.html</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;html lang=&quot;en&quot; manifest=&quot;index.manifest&quot;&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<p>index.manifest</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">CACHE MANIFEST</span><br><span class="line"># v1 2011-08-14</span><br><span class="line"># This is another comment</span><br><span class="line">index.html</span><br><span class="line">cache.html</span><br><span class="line">style.css</span><br><span class="line">image1.png</span><br><span class="line"></span><br><span class="line"># Use from network if available</span><br><span class="line">NETWORK:</span><br><span class="line">network.html</span><br><span class="line"></span><br><span class="line"># Fallback content</span><br><span class="line">FALLBACK:</span><br><span class="line">/ fallback.html</span><br><span class="line">a.png image1.png</span><br></pre></td></tr></table></figure>
+
+<h2 id="MANIFEST-字段说明"><a href="#MANIFEST-字段说明" class="headerlink" title="MANIFEST 字段说明"></a>MANIFEST 字段说明</h2><h3 id="CACHE"><a href="#CACHE" class="headerlink" title="CACHE:"></a>CACHE:</h3><p>这是缓存文件中记录所属的默认段落。在 CACHE: 段落标题后(或直接跟在 CACHE MANIFEST 行后)列出的文件会在它们第一次下载完毕后缓存起来。</p>
+<h4 id="NETWORK"><a href="#NETWORK" class="headerlink" title="NETWORK"></a>NETWORK</h4><p>在 NETWORK: 段落标题下列出的文件是需要与服务器连接的白名单资源。所有类似资源的请求都会绕过缓存，即使用户处于离线状态。可以使用通配符。</p>
+<h3 id="FALLBACK"><a href="#FALLBACK" class="headerlink" title="FALLBACK"></a>FALLBACK</h3><p>FALLBACK: 段指定了一个后备页面，当资源无法访问时，浏览器会使用该页面。该段落的每条记录都列出两个 URI—第一个表示资源，第二个表示后备页面。两个 URI 都必须使用相对路径并且与清单文件同源。可以使用通配符。</p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>发现微信 6.x 不支持该特性。原生的手机浏览器支持。</p>
+<h2 id="参考-3"><a href="#参考-3" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Using_the_application_cache" target="_blank" rel="noopener">MDN 应用缓存</a></li>
+</ul>
+<h1 id="交互"><a href="#交互" class="headerlink" title="交互"></a>交互</h1><p>一个交互框被两个<code>---</code>包围。中间放交互内容。第一行是进行交互框的描述。下面第一块js代码是开始显示的代码内容。第二块js是当用户点解决方案时，显示的答案。第三块js是来验证，用户提交的代码是否正确。 以下是个简单的demo。</p>
+<hr>
+<p>创建一个变量<code>c</code>,让变量<code>c</code>的值为变量<code>a</code>和<code>b</code>的和。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">var</span> b = <span class="number">2</span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">var</span> b = <span class="number">2</span>;</span><br><span class="line"><span class="keyword">var</span> c = a + b;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">assert(c === a + b);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="工作线程-web-workers"><a href="#工作线程-web-workers" class="headerlink" title="工作线程(web workers)"></a>工作线程(web workers)</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>Web Workers可以让脚本文件在浏览器创建的独立线程里运行。在脚本中，我们可以创建worker，创建worker的脚本可以和worker进行双向的通信。worker是在浏览器创建的独立线程里运行的，因此，即使在worker中运行再复杂的任务也不会冻结浏览器的用户界面。</p>
+<h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><ul>
+<li>执行一些大计算量的操作</li>
+<li>异步加载资源</li>
+</ul>
+<h3 id="浏览器兼容性-2"><a href="#浏览器兼容性-2" class="headerlink" title="浏览器兼容性"></a>浏览器兼容性</h3><p>支持的浏览器ie10+,Firefox,Chrome。更多见<a href="http://caniuse.com/webworkers" target="_blank" rel="noopener">这里</a>。</p>
+<h3 id="上下文"><a href="#上下文" class="headerlink" title="上下文"></a>上下文</h3><p>在Worker中，其上下文是<a href="https://developer.mozilla.org/en-US/docs/Web/API/DedicatedWorkerGlobalScope" target="_blank" rel="noopener">DedicatedWorkerGlobalScope</a>，而不是window。DedicatedWorkerGlobalScope中只支持很一小部分与DOM相关的API。DedicatedWorkerGlobalScope的所有api见<a href="https://developer.mozilla.org/en-US/docs/Web/API/Worker/Functions_and_classes_available_to_workers" target="_blank" rel="noopener">这里</a>。</p>
+<p>简单了说，就是worker不能进行DOM操作。不支持alert，console等。</p>
+<p>如果Worker中想要操作DOM，就只能向创建Worker的脚本发个信息，让创建Worker的脚本来操作DOM。</p>
+<h3 id="其他-1"><a href="#其他-1" class="headerlink" title="其他"></a>其他</h3><p>创建worker的页面必须是和worker文件是同域的。</p>
+<p>web worker分为dedicated worker和shared worker。本文只介绍dedicated worker。本文中指的web worker指的是dedicated worker。对shared worker感兴趣的见<a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/workers.html#sharedworker" target="_blank" rel="noopener">这里</a>。</p>
+<h2 id="用法-1"><a href="#用法-1" class="headerlink" title="用法"></a>用法</h2><p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Worker" target="_blank" rel="noopener">web worker api</a></p>
+<h3 id="创建worker"><a href="#创建worker" class="headerlink" title="创建worker"></a>创建worker</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var worker = new Worker(&apos;worker.js&apos;);//必须是同域的</span><br></pre></td></tr></table></figure>
+
+<h3 id="信息通信"><a href="#信息通信" class="headerlink" title="信息通信"></a>信息通信</h3><p>主页面</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var worker = new Worker(&apos;worker.js&apos;);</span><br><span class="line">worker.postMessage(msg);//主页面向worker发消息。msg可以是对象，字符串之类。</span><br></pre></td></tr></table></figure>
+
+<p>worker.js</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">onmessage = function(evt) &#123;// 处理主页面发来的消息</span><br><span class="line">    postMessage(&apos;reveive data &apos; + evt.data + &apos;from page&apos;);// 向主页面发消息</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="终止Web-Worker"><a href="#终止Web-Worker" class="headerlink" title="终止Web Worker"></a>终止Web Worker</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">worker.terminate();</span><br></pre></td></tr></table></figure>
+<p>完整demo见<a href="http://iamjoel.github.io/html5-demo/web-worker/index.html" target="_blank" rel="noopener">这里</a>。</p>
+<p>更多的demo见<a href="https://developer.mozilla.org/en-US/docs/Web/Guide/Performance/Using_web_workers#Examples" target="_blank" rel="noopener">这里</a>。</p>
+<h1 id="参考-4"><a href="#参考-4" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/Guide/Performance/Using_web_workers" target="_blank" rel="noopener">https://developer.mozilla.org/en-US/docs/Web/Guide/Performance/Using_web_workers</a></li>
+<li><a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/workers.html" target="_blank" rel="noopener">http://www.whatwg.org/specs/web-apps/current-work/multipage/workers.html</a></li>
+<li><a href="http://www.cnblogs.com/feng_013/archive/2011/09/20/2175007.html" target="_blank" rel="noopener">http://www.cnblogs.com/feng_013/archive/2011/09/20/2175007.html</a></li>
+<li><a href="http://www.ituring.com.cn/article/841" target="_blank" rel="noopener">http://www.ituring.com.cn/article/841</a></li>
+<li><a href="http://www.html5rocks.com/en/tutorials/workers/basics/" target="_blank" rel="noopener">http://www.html5rocks.com/en/tutorials/workers/basics/</a></li>
+</ul>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a style="word-wrap:break-word;" href="http://yoursite.com/2019/11/08/1.WEB%E5%89%8D%E7%AB%AFWeb/HTML5/" title="HTML5 学习" target="_blank" rel="external">http://yoursite.com/2019/11/08/1.WEB%E5%89%8D%E7%AB%AFWeb/HTML5/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/chen08" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/chen08" target="_blank"><span class="text-dark">溟海</span><small class="ml-1x">Web Developer &amp; Designer</small></a></h3>
+        <div>天行健，君子以自强不息，地势坤，君子以厚德载物。 杀不死我的,终将使我强大 没有吃不了的苦,只有享不了的福</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2019/11/08/1.WEB%E5%89%8D%E7%AB%AFWeb/1.WEB%E5%89%8D%E7%AB%AF%20-%20%E5%89%AF%E6%9C%AC/" title="web前端"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/11/08/1.WEB%E5%89%8D%E7%AB%AFWeb/HTTP/" title="HTTP"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="Catalogue" role="button">
+        <span>[&nbsp;</span><span>Catalogue</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open alipay app scan this qrcode, buy me a coffee!</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open wechat app scan this qrcode, buy me a coffee!</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> alipay</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> wechat payment</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+
+
+<!-- custom analytics part create by xiamo -->
+<!-- <script defer src="https://cdn1.lncld.net/static/js/av-min-1.2.1.js"></script> -->
+<script defer src="/js/av-min-1.2.1.js"></script>
+<script defer>
+AV.init({
+  appId: 'ngFQzHw7z0HgQfrtn4En4WTN-gzGzoHsz',
+  appKey: 'W9hgBBfVDwRGJKoGp5a6HKpx'
+});
+
+function showTime(Counter) {
+	var query = new AV.Query(Counter);
+		var visitors= $('.leancloud_visitors');
+		query.greaterThanOrEqualTo("time", 0);		
+		query.find({
+			success: function(results) {
+				if (results.length == 0) {				
+					return;
+				}
+				var data = results;
+				visitors.each(function(){
+					var url = $(this).attr('id').trim();					
+					for (var i = 0; i < data.length; i++) {
+						var object = data[i];
+						var content = object.get('time');
+						var _url = object.get('url')
+						if(url == _url){
+							$(this).text(content);
+						}
+					}
+				})
+				
+			},
+			error: function(object, error) {
+				console.log("Error: " + error.code + " " + error.message);
+			}
+		});
+}
+
+function addCount(Counter) {
+	var Counter = AV.Object.extend("Counter");
+	url = $(".leancloud_visitors").attr('id').trim();
+	title = $(".leancloud_visitors").attr('data-flag-title').trim();
+	var query = new AV.Query(Counter);
+	query.equalTo("url", url);
+	query.find({
+		success: function(results) {
+			if (results.length > 0) {
+				var counter = results[0];
+				counter.fetchWhenSave(true);
+				counter.increment("time");
+				counter.save(null, {
+					success: function(counter) {
+						var content = counter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(counter, error) {
+						console.log('Failed to save Visitor num, with error message: ' + error.message);
+					}
+				});
+			} else {
+				var newcounter = new Counter();
+				newcounter.set("title", title);
+				newcounter.set("url", url);
+				newcounter.set("time", 1);
+				newcounter.save(null, {
+					success: function(newcounter) {
+					    console.log("newcounter.get('time')="+newcounter.get('time'));
+						var content = newcounter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(newcounter, error) {
+						console.log('Failed to create');
+					}
+				});
+			}
+		},
+		error: function(error) {
+			console.log('Error:' + error.code + " " + error.message);
+		}
+	});
+}
+$(function() {
+	var Counter = AV.Object.extend("Counter");
+	if ($('.leancloud_visitors').length == 1) {
+		addCount(Counter);
+	} else {
+		showTime(Counter);
+	}
+}); 
+</script>
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>

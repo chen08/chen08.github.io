@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>团队代码规范-Mysql规范 | Hexo</title>
+  <script src="./js/jQuery.md5.js"></script>
+  <script>
+    
+    (function(){
+      localStorage.setItem('userinfo',hex_md5('123chen'))
+      
+      var localData = localStorage.getItem("userinfo");
+      // var localState = localStorage.getItem("state");
+        if(localStorage.getItem("state") === null){
+          var reason = window.prompt('请输入访问密码');
+          // var promptVal = window.prompt('请输入访问密码');
+          if(reason){
+              //填写内容并“确定”
+              var md5Prompt = hex_md5(reason)
+              //点击的是“确定” 
+              if (localData !== md5Prompt){
+                alert('密码错误！');
+                // history.back();
+                location.replace(location.href); 
+              }else{
+                // alert('0123');
+                localStorage.setItem('state',"1")
+              }
+          }
+          else if(reason === ""){
+              //未填写但“确定”
+              location.replace(location.href); 
+          }
+          else{
+            //“取消”事件
+            location.replace(location.href); 
+          }
+        }
+
+    })();
+  </script>
+ <link rel="alternate" href="/atom.xml" data="123chen" type="application/atom+xml">
+  <meta name="description" content="[TOC] MySQL 编码规范1 前言 2 代码风格 3 设计规范 　　3.1 表　 4 使用规范 　　4.1 查询　　 1 前言本规范适用于 MYSQL 数据库设计，对其他数据库设计也有参考价值。 2 命名规范[强制] 库名、表名、字段名必须使用小写字母，并采用下划线分割[强制] 库名、表名、字段名尽可能简短，禁止超过 32 个字符为了统一规范、易于辨识以及减少传输量。 [强制] 库名、表名">
+<meta name="keywords" content="JavaScript,规范,Mysql">
+<meta property="og:type" content="article">
+<meta property="og:title" content="团队代码规范-Mysql规范">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;15&#x2F;1.WEB%E5%89%8D%E7%AB%AFWeb&#x2F;Front-End-Standards&#x2F;teamCode&#x2F;mysql&#x2F;index.html">
+<meta property="og:site_name" content="学习的敌人是自己的满足，要认真学习一点东西，必须从不自满开始。对自己，“学而不厌”，对人家，“诲人不倦”，我们应取这种态度。">
+<meta property="og:description" content="[TOC] MySQL 编码规范1 前言 2 代码风格 3 设计规范 　　3.1 表　 4 使用规范 　　4.1 查询　　 1 前言本规范适用于 MYSQL 数据库设计，对其他数据库设计也有参考价值。 2 命名规范[强制] 库名、表名、字段名必须使用小写字母，并采用下划线分割[强制] 库名、表名、字段名尽可能简短，禁止超过 32 个字符为了统一规范、易于辨识以及减少传输量。 [强制] 库名、表名">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-11-15T03:54:58.000Z">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://yoursite.com/2019/11/15/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/teamCode/mysql/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="学习的敌人是自己的满足，要认真学习一点东西，必须从不自满开始。对自己，“学而不厌”，对人家，“诲人不倦”，我们应取这种态度。" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/chen08" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">溟海</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer &amp; Designer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Guangzhou, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+          <!-- . -->
+        
+        
+          <li class="menu-item menu-item-home">
+            <a href="/.">
+              
+              <i class="icon icon-home-fill"></i>
+              
+              <span class="menu-title">Home</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- archives -->
+        
+        
+          <li class="menu-item menu-item-archives">
+            <a href="/archives">
+              
+              <i class="icon icon-archives-fill"></i>
+              
+              <span class="menu-title">Archives</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- categories -->
+        
+        
+          <li class="menu-item menu-item-categories">
+            <a href="/categories">
+              
+              <i class="icon icon-folder"></i>
+              
+              <span class="menu-title">Categories</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- tags -->
+        
+        
+          <li class="menu-item menu-item-tags">
+            <a href="/tags">
+              
+              <i class="icon icon-tags"></i>
+              
+              <span class="menu-title">Tags</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- repository -->
+        
+        
+          <li class="menu-item menu-item-repository">
+            <a href="/repository">
+              
+              <i class="icon icon-project"></i>
+              
+              <span class="menu-title">Repository</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- books -->
+        
+        
+          <li class="menu-item menu-item-books">
+            <a href="/books">
+              
+              <i class="icon icon-book-fill"></i>
+              
+              <span class="menu-title">Books</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- links -->
+        
+        
+          <li class="menu-item menu-item-links">
+            <a href="/links">
+              
+              <i class="icon icon-friendship"></i>
+              
+              <span class="menu-title">Links</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- about -->
+        
+        
+          <li class="menu-item menu-item-about">
+            <a href="/about">
+              
+              <i class="icon icon-cup-fill"></i>
+              
+              <span class="menu-title">About</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- navigation/webstack/index.html -->
+        
+        
+          <li class="menu-item menu-item-navigation">
+            <a href="/navigation/webstack/index.html">
+              
+              <i class="icon icon-delicious"></i>
+              
+              <span class="menu-title">Navigation</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- navigation/webstack/word.html -->
+        
+        
+          <li style="display: none;" class="menu-item menu-item-fixed">
+            <a href="/navigation/webstack/word.html">
+              
+              <i class="icon icon-delicious"></i>
+              
+              <span class="menu-title">menu.fixed</span>
+            </a>
+          </li>
+        
+
+
+        
+      </ul>
+
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/1-WEB%E5%89%8D%E7%AB%AF/">1.WEB前端</a><span class="category-list-count">140</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/2-%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">2.编程语言</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/3-%E4%BA%A7%E5%93%81%E8%AE%BE%E8%AE%A1/">3.产品设计</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/4-%E7%AE%A1%E7%90%86%E8%90%A5%E9%94%80/">4.管理营销</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/5-%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87/">5.技能提升</a><span class="category-list-count">155</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/6-%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93/">6.读书总结</a><span class="category-list-count">9</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/" rel="tag">CSS</a><span class="tag-list-count">18</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Dart/" rel="tag">Dart</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES6/" rel="tag">ES6</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES7/" rel="tag">ES7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/English/" rel="tag">English</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flutter/" rel="tag">Flutter</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a><span class="tag-list-count">20</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IMAGE/" rel="tag">IMAGE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JQuery/" rel="tag">JQuery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a><span class="tag-list-count">224</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">JavaScript设计模式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript%E9%AB%98%E7%BA%A7%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" rel="tag">JavaScript高级程序设计</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jquery/" rel="tag">Jquery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mysql/" rel="tag">Mysql</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NETWORK/" rel="tag">NETWORK</a><span class="tag-list-count">13</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node/" rel="tag">Node</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/" rel="tag">PHP</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/" rel="tag">React</a><span class="tag-list-count">31</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJS/" rel="tag">RxJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SVG/" rel="tag">SVG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sass/" rel="tag">Sass</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/" rel="tag">Vue</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%AE%89%E5%85%A8/" rel="tag">WEB安全</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webpack/" rel="tag">Webpack</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/" rel="tag">jQuery</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodeJS/" rel="tag">nodeJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B9%A6%E5%8D%95/" rel="tag">书单</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B9%A6%E7%B1%8D/" rel="tag">书籍</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/" rel="tag">前端安全</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83/" rel="tag">命名规范</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag">小程序</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" rel="tag">性能优化</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8F%92%E4%BB%B6/" rel="tag">插件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A1%86%E6%9E%B6/" rel="tag">框架</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" rel="tag">浏览器</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%84%E4%BB%B6/" rel="tag">组件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%84%E8%8C%83/" rel="tag">规范</a><span class="tag-list-count">67</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6%E5%AD%A6%E4%B9%A0/" rel="tag">软件学习</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a><span class="tag-list-count">153</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/CSS/" style="font-size: 13.71px;">CSS</a> <a href="/tags/Dart/" style="font-size: 13px;">Dart</a> <a href="/tags/ES6/" style="font-size: 13px;">ES6</a> <a href="/tags/ES7/" style="font-size: 13px;">ES7</a> <a href="/tags/English/" style="font-size: 13.18px;">English</a> <a href="/tags/Flutter/" style="font-size: 13px;">Flutter</a> <a href="/tags/Git/" style="font-size: 13.12px;">Git</a> <a href="/tags/HTML/" style="font-size: 13.76px;">HTML</a> <a href="/tags/HTTP/" style="font-size: 13.18px;">HTTP</a> <a href="/tags/IMAGE/" style="font-size: 13px;">IMAGE</a> <a href="/tags/JAVA/" style="font-size: 13.06px;">JAVA</a> <a href="/tags/JQuery/" style="font-size: 13px;">JQuery</a> <a href="/tags/JavaScript/" style="font-size: 14px;">JavaScript</a> <a href="/tags/JavaScript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 13px;">JavaScript设计模式</a> <a href="/tags/JavaScript%E9%AB%98%E7%BA%A7%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 13px;">JavaScript高级程序设计</a> <a href="/tags/Jquery/" style="font-size: 13px;">Jquery</a> <a href="/tags/Mysql/" style="font-size: 13px;">Mysql</a> <a href="/tags/NETWORK/" style="font-size: 13.53px;">NETWORK</a> <a href="/tags/Node/" style="font-size: 13.35px;">Node</a> <a href="/tags/PHP/" style="font-size: 13.24px;">PHP</a> <a href="/tags/React/" style="font-size: 13.82px;">React</a> <a href="/tags/RxJS/" style="font-size: 13px;">RxJS</a> <a href="/tags/SVG/" style="font-size: 13px;">SVG</a> <a href="/tags/Sass/" style="font-size: 13px;">Sass</a> <a href="/tags/TypeScript/" style="font-size: 13.29px;">TypeScript</a> <a href="/tags/Vue/" style="font-size: 13.65px;">Vue</a> <a href="/tags/WEB%E5%AE%89%E5%85%A8/" style="font-size: 13.29px;">WEB安全</a> <a href="/tags/Webpack/" style="font-size: 13.59px;">Webpack</a> <a href="/tags/jQuery/" style="font-size: 13.65px;">jQuery</a> <a href="/tags/nodeJS/" style="font-size: 13px;">nodeJS</a> <a href="/tags/python/" style="font-size: 13px;">python</a> <a href="/tags/%E4%B9%A6%E5%8D%95/" style="font-size: 13px;">书单</a> <a href="/tags/%E4%B9%A6%E7%B1%8D/" style="font-size: 13.06px;">书籍</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 13px;">前端</a> <a href="/tags/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/" style="font-size: 13.06px;">前端安全</a> <a href="/tags/%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83/" style="font-size: 13.41px;">命名规范</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 13px;">小程序</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 13.06px;">工具</a> <a href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" style="font-size: 13.47px;">性能优化</a> <a href="/tags/%E6%8F%92%E4%BB%B6/" style="font-size: 13px;">插件</a> <a href="/tags/%E6%A1%86%E6%9E%B6/" style="font-size: 13px;">框架</a> <a href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" style="font-size: 13px;">浏览器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13.18px;">算法</a> <a href="/tags/%E7%BB%84%E4%BB%B6/" style="font-size: 13px;">组件</a> <a href="/tags/%E8%A7%84%E8%8C%83/" style="font-size: 13.88px;">规范</a> <a href="/tags/%E8%BD%AF%E4%BB%B6%E5%AD%A6%E4%B9%A0/" style="font-size: 13px;">软件学习</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 13.35px;">随笔</a> <a href="/tags/%E9%9D%A2%E8%AF%95/" style="font-size: 13.94px;">面试</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a><span class="archive-list-count">312</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/27/1.WEB%E5%89%8D%E7%AB%AFWeb/React/react-router/" class="title">1.WEB前端Web/React/react-router</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-27T13:24:04.185Z" itemprop="datePublished">2020-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/27/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/sass-guide/" class="title">1.WEB前端Web/Front-End-Standards/sass-guide</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-27T13:24:03.487Z" itemprop="datePublished">2020-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/27/hello-world/" class="title">Hello World</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-27T13:24:03.028Z" itemprop="datePublished">2020-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/6-%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93/">6.读书总结</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/26/6.%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93Book/%E4%BA%BA%E7%94%9F%E9%81%93%E7%90%86/" class="title">人生道理</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-26T01:12:57.000Z" itemprop="datePublished">2020-01-26</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/2-%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">2.编程语言</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/15/2.%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80Programming/English/%E7%94%9F%E6%B4%BB%E8%8B%B1%E8%AF%AD/" class="title">生活英语</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-15T01:12:57.000Z" itemprop="datePublished">2020-01-15</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">Catalogue</h3>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#MySQL-编码规范"><span class="toc-number">1.</span> <span class="toc-text">MySQL 编码规范</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-前言"><span class="toc-number">1.1.</span> <span class="toc-text">1 前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-命名规范"><span class="toc-number">1.2.</span> <span class="toc-text">2 命名规范</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#强制-库名、表名、字段名必须使用小写字母，并采用下划线分割"><span class="toc-number">1.2.0.0.1.</span> <span class="toc-text">[强制] 库名、表名、字段名必须使用小写字母，并采用下划线分割</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#强制-库名、表名、字段名尽可能简短，禁止超过-32-个字符"><span class="toc-number">1.2.0.0.2.</span> <span class="toc-text">[强制] 库名、表名、字段名尽可能简短，禁止超过 32 个字符</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#强制-库名、表名、字段名禁止使用-MySQL-保留字"><span class="toc-number">1.2.0.0.3.</span> <span class="toc-text">[强制] 库名、表名、字段名禁止使用 MySQL 保留字</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-表命名规范"><span class="toc-number">1.2.1.</span> <span class="toc-text">2.1 表命名规范</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#建议-表名加前缀"><span class="toc-number">1.2.1.0.1.</span> <span class="toc-text">[建议] 表名加前缀</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#建议-临时库、表名必须以tmp为前缀，并以日期为后缀"><span class="toc-number">1.2.1.0.2.</span> <span class="toc-text">[建议] 临时库、表名必须以tmp为前缀，并以日期为后缀</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#建议-备份库、表必须以bak为前缀，并以日期为后缀"><span class="toc-number">1.2.1.0.3.</span> <span class="toc-text">[建议] 备份库、表必须以bak为前缀，并以日期为后缀</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#建议-表名不可以太长，最好不要超过3个英文单词长度（22个字母）。"><span class="toc-number">1.2.1.0.4.</span> <span class="toc-text">[建议] 表名不可以太长，最好不要超过3个英文单词长度（22个字母）。</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#强制-使用英文单词的单数形式"><span class="toc-number">1.2.1.0.5.</span> <span class="toc-text">[强制] 使用英文单词的单数形式</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#字段命名规范"><span class="toc-number">1.2.2.</span> <span class="toc-text">字段命名规范</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#建议-简短、有意义、易于理解的英文单词"><span class="toc-number">1.2.2.0.1.</span> <span class="toc-text">[建议] 简短、有意义、易于理解的英文单词</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#建议-不要在字段中包含数据类型，如：datetime"><span class="toc-number">1.2.2.0.2.</span> <span class="toc-text">[建议] 不要在字段中包含数据类型，如：datetime</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-视图命名规范"><span class="toc-number">1.2.3.</span> <span class="toc-text">2.2 视图命名规范</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#存储过程命名规范"><span class="toc-number">1.2.4.</span> <span class="toc-text">存储过程命名规范</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#触发器命名规范"><span class="toc-number">1.2.5.</span> <span class="toc-text">触发器命名规范</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-设计规范"><span class="toc-number">1.3.</span> <span class="toc-text">3 设计规范</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-表设计规范"><span class="toc-number">1.3.1.</span> <span class="toc-text">3.1 表设计规范</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#建议-使用INNODB存储引擎"><span class="toc-number">1.3.1.0.1.</span> <span class="toc-text">[建议] 使用INNODB存储引擎</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#建议-建议使用-UNSIGNED-存储非负数值"><span class="toc-number">1.3.1.0.2.</span> <span class="toc-text">[建议] 建议使用 UNSIGNED 存储非负数值</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#建议-强烈建议使用TINYINT来代替ENUM类型"><span class="toc-number">1.3.1.0.3.</span> <span class="toc-text">[建议] 强烈建议使用TINYINT来代替ENUM类型</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#建议-根据第三范式（3NF）来设计数据库，再根据效率做必要反范式设计"><span class="toc-number">1.3.1.0.4.</span> <span class="toc-text">[建议] 根据第三范式（3NF）来设计数据库，再根据效率做必要反范式设计</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#建议-避免使用NULL字段"><span class="toc-number">1.3.1.0.5.</span> <span class="toc-text">[建议] 避免使用NULL字段</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#建议-合理选择字段类型"><span class="toc-number">1.3.1.0.6.</span> <span class="toc-text">[建议] 合理选择字段类型</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#建议-用好字段类型"><span class="toc-number">1.3.1.0.7.</span> <span class="toc-text">[建议] 用好字段类型</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#强制-请为每一张表设计一个与业务无关的主键字段。"><span class="toc-number">1.3.1.0.8.</span> <span class="toc-text">[强制] 请为每一张表设计一个与业务无关的主键字段。</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#建议-不用联合主键"><span class="toc-number">1.3.1.0.9.</span> <span class="toc-text">[建议] 不用联合主键</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#建议-使用自增主键"><span class="toc-number">1.3.1.0.10.</span> <span class="toc-text">[建议] 使用自增主键</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#建议-varchar-主键不建议使用-UUID"><span class="toc-number">1.3.1.0.11.</span> <span class="toc-text">[建议] varchar 主键不建议使用 UUID</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#索引"><span class="toc-number">1.3.2.</span> <span class="toc-text">索引</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#建议-谨慎合理使用索引"><span class="toc-number">1.3.2.0.1.</span> <span class="toc-text">[建议] 谨慎合理使用索引</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#建议-为搜索字段建索引"><span class="toc-number">1.3.2.0.2.</span> <span class="toc-text">[建议] 为搜索字段建索引</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#建议-不在低基数列上建立索引"><span class="toc-number">1.3.2.0.3.</span> <span class="toc-text">[建议] 不在低基数列上建立索引</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#强制-禁止重复索引。"><span class="toc-number">1.3.2.0.4.</span> <span class="toc-text">[强制] 禁止重复索引。</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#强制-字符字段必须使用前缀索引（MySQL）"><span class="toc-number">1.3.2.0.5.</span> <span class="toc-text">[强制] 字符字段必须使用前缀索引（MySQL）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#视图设计规范"><span class="toc-number">1.3.3.</span> <span class="toc-text">视图设计规范</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#存储过程设计规范"><span class="toc-number">1.3.4.</span> <span class="toc-text">存储过程设计规范</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安全"><span class="toc-number">1.3.5.</span> <span class="toc-text">安全</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#强制-禁止在数据库中存储明文密码"><span class="toc-number">1.3.5.0.1.</span> <span class="toc-text">[强制] 禁止在数据库中存储明文密码</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-使用规范"><span class="toc-number">1.4.</span> <span class="toc-text">4 使用规范</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-查询"><span class="toc-number">1.4.1.</span> <span class="toc-text">4.1 查询</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#强制-不用-select"><span class="toc-number">1.4.1.0.1.</span> <span class="toc-text">[强制] 不用 select *</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#建议-用-IN-代替-OR"><span class="toc-number">1.4.1.0.2.</span> <span class="toc-text">[建议] 用 IN 代替 OR</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#建议-用-UNION-代替-OR"><span class="toc-number">1.4.1.0.3.</span> <span class="toc-text">[建议] 用 UNION 代替 OR</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#建议-SQL-语句中-IN-包含的值不应过多，控制在-200-个以内，最多不得超过300"><span class="toc-number">1.4.1.0.4.</span> <span class="toc-text">[建议] SQL 语句中 IN 包含的值不应过多，控制在 200 个以内，最多不得超过300</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#建议-平衡范式与冗余，效率优先，往往牺牲范式"><span class="toc-number">1.4.1.0.5.</span> <span class="toc-text">[建议] 平衡范式与冗余，效率优先，往往牺牲范式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#强制-禁止在数据库中存储图片、文件等大数据"><span class="toc-number">1.4.1.0.6.</span> <span class="toc-text">[强制] 禁止在数据库中存储图片、文件等大数据</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#建议-高并发环境不要使用外键"><span class="toc-number">1.4.1.0.7.</span> <span class="toc-text">[建议] 高并发环境不要使用外键</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#建议-合理控制单表数据量"><span class="toc-number">1.4.1.0.8.</span> <span class="toc-text">[建议] 合理控制单表数据量</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#建议-限制单库表数量在300以内，最多不要超过500个表"><span class="toc-number">1.4.1.0.9.</span> <span class="toc-text">[建议] 限制单库表数量在300以内，最多不要超过500个表</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#建议-单表字段数不要太多，字段数建议在20以内，最多不要大于50个"><span class="toc-number">1.4.1.0.10.</span> <span class="toc-text">[建议] 单表字段数不要太多，字段数建议在20以内，最多不要大于50个</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#建议-sql语句尽可能简单"><span class="toc-number">1.4.1.0.11.</span> <span class="toc-text">[建议] sql语句尽可能简单</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#建议-事务时间尽可能短"><span class="toc-number">1.4.1.0.12.</span> <span class="toc-text">[建议] 事务时间尽可能短</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#强制-保证冗余字段数据的一致性"><span class="toc-number">1.4.1.0.13.</span> <span class="toc-text">[强制] 保证冗余字段数据的一致性</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#建议-合理分离冷热数据"><span class="toc-number">1.4.1.0.14.</span> <span class="toc-text">[建议] 合理分离冷热数据</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#建议-不在数据库做运算"><span class="toc-number">1.4.1.0.15.</span> <span class="toc-text">[建议] 不在数据库做运算</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#建议-当只要一行数据时使用-LIMIT-1"><span class="toc-number">1.4.1.0.16.</span> <span class="toc-text">[建议] 当只要一行数据时使用 LIMIT 1</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#强制-禁止在线上做数据库压力测试"><span class="toc-number">1.4.1.0.17.</span> <span class="toc-text">[强制] 禁止在线上做数据库压力测试</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#建议-减少与数据库交互次数，尽量采用批量SQL语句"><span class="toc-number">1.4.1.0.18.</span> <span class="toc-text">[建议] 减少与数据库交互次数，尽量采用批量SQL语句</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#建议-获取大量数据时，建议分批次获取数据，每次获取数据少于-2000-条，结果集应小于-1M"><span class="toc-number">1.4.1.0.19.</span> <span class="toc-text">[建议] 获取大量数据时，建议分批次获取数据，每次获取数据少于 2000 条，结果集应小于 1M</span></a></li></ol></li></ol></li></ol></li></ol></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-1.WEB前端Web/Front-End-Standards/teamCode/mysql" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      团队代码规范-Mysql规范
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/11/15/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/teamCode/mysql/" class="article-date">
+	  <time datetime="2019-11-15T01:12:57.000Z" itemprop="datePublished">2019-11-15</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/1-WEB%E5%89%8D%E7%AB%AF/">1.WEB前端</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/JavaScript/" rel="tag">JavaScript</a>, <a class="article-tag-link" href="/tags/Mysql/" rel="tag">Mysql</a>, <a class="article-tag-link" href="/tags/%E8%A7%84%E8%8C%83/" rel="tag">规范</a>
+  </span>
+
+
+        
+
+	<span class="article-read hidden-xs">
+    	<i class="icon icon-eye-fill" aria-hidden="true"></i>
+    	<span id="/2019/11/15/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/teamCode/mysql/" class="leancloud_visitors"  data-flag-title="团队代码规范-Mysql规范">0</span>
+    </span>
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/11/15/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/teamCode/mysql/#comments" class="article-comment-link">Comments</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count: 3.8k(words)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">Read Count: 13(minutes)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p> [TOC]</p>
+<h1 id="MySQL-编码规范"><a href="#MySQL-编码规范" class="headerlink" title="MySQL 编码规范"></a>MySQL 编码规范</h1><p><a href="#user-content-1-前言">1 前言</a></p>
+<p><a href="#user-content-2-代码风格">2 代码风格</a></p>
+<p><a href="#user-content-3-语言特性">3 设计规范</a></p>
+<p>　　<a href="#user-content-31-表">3.1 表</a>　</p>
+<p><a href="#user-content-4-使用规范">4 使用规范</a></p>
+<p>　　<a href="#user-content-41-查询">4.1 查询</a>　　</p>
+<h2 id="1-前言"><a href="#1-前言" class="headerlink" title="1 前言"></a>1 前言</h2><p>本规范适用于 MYSQL 数据库设计，对其他数据库设计也有参考价值。</p>
+<h2 id="2-命名规范"><a href="#2-命名规范" class="headerlink" title="2 命名规范"></a>2 命名规范</h2><h5 id="强制-库名、表名、字段名必须使用小写字母，并采用下划线分割"><a href="#强制-库名、表名、字段名必须使用小写字母，并采用下划线分割" class="headerlink" title="[强制] 库名、表名、字段名必须使用小写字母，并采用下划线分割"></a>[强制] 库名、表名、字段名必须使用小写字母，并采用下划线分割</h5><h5 id="强制-库名、表名、字段名尽可能简短，禁止超过-32-个字符"><a href="#强制-库名、表名、字段名尽可能简短，禁止超过-32-个字符" class="headerlink" title="[强制] 库名、表名、字段名尽可能简短，禁止超过 32 个字符"></a>[强制] 库名、表名、字段名尽可能简短，禁止超过 32 个字符</h5><p>为了统一规范、易于辨识以及减少传输量。</p>
+<h5 id="强制-库名、表名、字段名禁止使用-MySQL-保留字"><a href="#强制-库名、表名、字段名禁止使用-MySQL-保留字" class="headerlink" title="[强制] 库名、表名、字段名禁止使用 MySQL 保留字"></a>[强制] 库名、表名、字段名禁止使用 MySQL 保留字</h5><p>当库名、表名、字段名等属性含有保留字时,SQL语句必须用反引号引用属性名称,这将使得SQL语句书写、SHELL脚本中变量的转义等变得非常复杂。</p>
+<p>常见关键字，如：name,time ,datetime password 等。</p>
+<h3 id="2-1-表命名规范"><a href="#2-1-表命名规范" class="headerlink" title="2.1 表命名规范"></a>2.1 表命名规范</h3><p>简短、有意义、易于理解的英文单词。<br>谨慎使用缩写。<br>必要的注释。</p>
+<h5 id="建议-表名加前缀"><a href="#建议-表名加前缀" class="headerlink" title="[建议] 表名加前缀"></a>[建议] 表名加前缀</h5><p>表的前缀一般用系统或模块的名称缩写，而不是没有意义的t（table）。</p>
+<h5 id="建议-临时库、表名必须以tmp为前缀，并以日期为后缀"><a href="#建议-临时库、表名必须以tmp为前缀，并以日期为后缀" class="headerlink" title="[建议] 临时库、表名必须以tmp为前缀，并以日期为后缀"></a>[建议] 临时库、表名必须以tmp为前缀，并以日期为后缀</h5><p>例如 tmp_test01_20130704。</p>
+<h5 id="建议-备份库、表必须以bak为前缀，并以日期为后缀"><a href="#建议-备份库、表必须以bak为前缀，并以日期为后缀" class="headerlink" title="[建议] 备份库、表必须以bak为前缀，并以日期为后缀"></a>[建议] 备份库、表必须以bak为前缀，并以日期为后缀</h5><p>例如 bak_test01_20130704。</p>
+<h5 id="建议-表名不可以太长，最好不要超过3个英文单词长度（22个字母）。"><a href="#建议-表名不可以太长，最好不要超过3个英文单词长度（22个字母）。" class="headerlink" title="[建议] 表名不可以太长，最好不要超过3个英文单词长度（22个字母）。"></a>[建议] 表名不可以太长，最好不要超过3个英文单词长度（22个字母）。</h5><h5 id="强制-使用英文单词的单数形式"><a href="#强制-使用英文单词的单数形式" class="headerlink" title="[强制] 使用英文单词的单数形式"></a>[强制] 使用英文单词的单数形式</h5><h3 id="字段命名规范"><a href="#字段命名规范" class="headerlink" title="字段命名规范"></a>字段命名规范</h3><h5 id="建议-简短、有意义、易于理解的英文单词"><a href="#建议-简短、有意义、易于理解的英文单词" class="headerlink" title="[建议] 简短、有意义、易于理解的英文单词"></a>[建议] 简短、有意义、易于理解的英文单词</h5><p>例如 UI_UserID(表tb_user_info-list)</p>
+<p>系统中属于是业务内的编号字段，代表一定业务信息，建议字段命名为code , 如工作单编号wf_code .</p>
+<h5 id="建议-不要在字段中包含数据类型，如：datetime"><a href="#建议-不要在字段中包含数据类型，如：datetime" class="headerlink" title="[建议] 不要在字段中包含数据类型，如：datetime"></a>[建议] 不要在字段中包含数据类型，如：datetime</h5><p>不要在数据库表字段（列名）命名时重复表名，可以使用表名首字母（不包含数据库表名前缀）</p>
+<h3 id="2-2-视图命名规范"><a href="#2-2-视图命名规范" class="headerlink" title="2.2 视图命名规范"></a>2.2 视图命名规范</h3><p>视图的命名请遵循以下命名规范：UV _ + 系统模块缩写（与表前缀类似）+_ + 功能标识 + 代表视图查询的主要表名（不带前缀）或功能的英文单词或英文单词缩写。<br>如果一个视图只对一个表进行查询，建议视图的名称就用视图所查询的表的表名（不带前缀）。这样有利于根据表名找到相应的视图。<br>注：UV是userView缩写</p>
+<h3 id="存储过程命名规范"><a href="#存储过程命名规范" class="headerlink" title="存储过程命名规范"></a>存储过程命名规范</h3><p>存贮过程的命名请遵循以下命名规范：USP_ + 系统模块缩写（与表前缀类似）+_ + 功能标识 + 代表存贮过程操作的主要表名（不带前缀）或功能的英文单词或英文单词缩写。<br>如果一个存贮过程只对一个表进行操作，建议存贮过程的名称就用存贮过程所操作的表的表名（不带前缀）。这样有利于根据表名找到相应的存贮过程。例如：<br>用于新增的存贮过程USP_MESSAGE_Add_Model<br>用于修改的存贮过程USP_ MESSAGE_Upt_Model<br>用于删除的存贮过程USP_ MESSAGE_Del_ Modele<br>注：USP是user stored procedure</p>
+<h3 id="触发器命名规范"><a href="#触发器命名规范" class="headerlink" title="触发器命名规范"></a>触发器命名规范</h3><h2 id="3-设计规范"><a href="#3-设计规范" class="headerlink" title="3 设计规范"></a>3 设计规范</h2><h3 id="3-1-表设计规范"><a href="#3-1-表设计规范" class="headerlink" title="3.1 表设计规范"></a>3.1 表设计规范</h3><h5 id="建议-使用INNODB存储引擎"><a href="#建议-使用INNODB存储引擎" class="headerlink" title="[建议] 使用INNODB存储引擎"></a>[建议] 使用INNODB存储引擎</h5><p>INNODB引擎是MySQL5.5版本以后的默认引擘,支持事务、行级锁,有更好的数据恢复能力、更好的并发性能,同时对多核、大内存、SSD等硬件支持更好,支持数据热备份等,因此INNODB相比MyISAM有明显优势。</p>
+<h5 id="建议-建议使用-UNSIGNED-存储非负数值"><a href="#建议-建议使用-UNSIGNED-存储非负数值" class="headerlink" title="[建议] 建议使用 UNSIGNED 存储非负数值"></a>[建议] 建议使用 UNSIGNED 存储非负数值</h5><p>同样的字节数,非负存储的数值范围更大。如TINYINT有符号为 -128-127,无符号为0-255。</p>
+<h5 id="建议-强烈建议使用TINYINT来代替ENUM类型"><a href="#建议-强烈建议使用TINYINT来代替ENUM类型" class="headerlink" title="[建议] 强烈建议使用TINYINT来代替ENUM类型"></a>[建议] 强烈建议使用TINYINT来代替ENUM类型</h5><p>ENUM类型在需要修改或增加枚举值时,需要在线DDL,成本较大;ENUM列值如果含有数字类型,可能会引起默认值混淆。</p>
+<h5 id="建议-根据第三范式（3NF）来设计数据库，再根据效率做必要反范式设计"><a href="#建议-根据第三范式（3NF）来设计数据库，再根据效率做必要反范式设计" class="headerlink" title="[建议] 根据第三范式（3NF）来设计数据库，再根据效率做必要反范式设计"></a>[建议] 根据第三范式（3NF）来设计数据库，再根据效率做必要反范式设计</h5><h5 id="建议-避免使用NULL字段"><a href="#建议-避免使用NULL字段" class="headerlink" title="[建议] 避免使用NULL字段"></a>[建议] 避免使用NULL字段</h5><p>原因：</p>
+<ol>
+<li>NULL字段很难查询优化；</li>
+<li>NULL字段的索引需要额外空间；</li>
+<li>NULL字段的复合索引无效；</li>
+</ol>
+<p>建议用 0、空串、当前时间或特殊值代替 NULL 值。</p>
+<h5 id="建议-合理选择字段类型"><a href="#建议-合理选择字段类型" class="headerlink" title="[建议] 合理选择字段类型"></a>[建议] 合理选择字段类型</h5><p>INT 类型占存储空间小，速度快。</p>
+<p>例如：用UNSIGNED INT 而不是 char(15) 存储 IPv4。</p>
+<p>通过MySQL函数inet_ntoa和inet_aton来进行转化IPv4。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT INET_ATON(&apos;209.207.224.40&apos;); 3520061480</span><br><span class="line"> </span><br><span class="line">SELECT INET_NTOA(3520061480); 209.207.224.40</span><br></pre></td></tr></table></figure>
+
+
+<h5 id="建议-用好字段类型"><a href="#建议-用好字段类型" class="headerlink" title="[建议] 用好字段类型"></a>[建议] 用好字段类型</h5><p>整型：</p>
+<ul>
+<li>tinyint（1Byte）最大255</li>
+<li>smallint（2Byte）最大 3 万多，无符号最大 6 万多</li>
+<li>mediumint（3Byte）最大 800 多万，无符号最大 1600 多万</li>
+<li>int（4Byte）最大 21 亿多，无符号最大 42 亿多</li>
+<li>bigint（8Byte）</li>
+</ul>
+<p>建议：</p>
+<ul>
+<li>无符号整型除非超过了某个级别的最大值，否则不允许使用更大范围的类型。比如储存的整型是无符号的，且最大不超过 1600 万，就用 mediumint 而不是 int。</li>
+<li>自增序列类型的字段只能使用unsigned int，防止超出违反（比如用户大批量导入数据）。</li>
+</ul>
+<p>浮点型：</p>
+<p>建议：</p>
+<ul>
+<li>使用 DECIMAL(M,D) 而不是 DECIMAL；</li>
+<li>建议乘以固定倍数转换成整数存储，可以节省存储空间，且不会带来任何附加维护成本。 </li>
+</ul>
+<p>字符型：</p>
+<ul>
+<li>text（2Byte）最大 65,535</li>
+<li>MEDIUMTEXT 最大长度为16,777,215。</li>
+<li>LONGTEXT 最大长度为4,294,967,295</li>
+</ul>
+<p>建议：</p>
+<ul>
+<li>varchar的性能会比text高很多。</li>
+<li>尽量不要用text。</li>
+<li>禁用blob，实在避免不了blob，请拆表。</li>
+</ul>
+<p>时间型：</p>
+<p>建议：</p>
+<ul>
+<li>如果时间字段只需要精确到天，那就用date类型。</li>
+<li>需要精确（年月日时分秒）的时间字段，可以使用datetime，timestamp</li>
+</ul>
+<p><strong>优先使用enum或set</strong><br>例如：<code>sex</code> enum (‘F’, ‘M’)。</p>
+<p>(4)字段的描述<br>a.字段必须填写描述信息（注释）</p>
+<p>(5)加索引规则<br>a.表建好后数据库自动为表生成一个索引（为<br>自动增长的列生成唯一索引），如果在对这列添加索引，数据库会给一个警告,内容大概是，已经为这列添加了索引，建议修改索引名称和自动增长列名保持一致，为了方便使用。<br>b.如果在添加索引时，建议索引名称和数据库列名保持一致，为了方便使用<br>c.如果字段事实上是与其它表的关键字相关联而未设计为外键引用，需建索引。<br>d.如果字段与其它表的字段相关联，需建索引。<br>e.如果字段需做模糊查询之外的条件查询，需建索引。<br>f.除了主关键字允许建立簇索引外，其它字段所建索引必须为非簇索引。</p>
+<h5 id="强制-请为每一张表设计一个与业务无关的主键字段。"><a href="#强制-请为每一张表设计一个与业务无关的主键字段。" class="headerlink" title="[强制] 请为每一张表设计一个与业务无关的主键字段。"></a>[强制] 请为每一张表设计一个与业务无关的主键字段。</h5><p>主键是不可修改的，当业务变更时，与业务有关的主键会造成很多问题。比如你用int型做文章的id，但是如果在未来某一天文章数超过了无符号整形的最大值，你将没法将主键修改成bigint。或者为了给用户起一个唯一id用了自增主键，但是如果未来有其他的项目用户要合并进来，他也是这么做的。这时候为了区分不同的项目可能要在这个用户id前加一个前缀，这时候也没法修改主键的值。主键之所以叫做主键就是到什么时候都不能改，所以最好的方案就是使用自增数字id做主键，并且不要给这个主键赋予一个业务相关的意义。</p>
+<p>根据数据量，可以采用自增 INT 主键或者其他类型的主键。</p>
+<p>典型错误例子：<br>使用学号作为学生表的主键；使用用户名作为用户表的主键。</p>
+<h5 id="建议-不用联合主键"><a href="#建议-不用联合主键" class="headerlink" title="[建议] 不用联合主键"></a>[建议] 不用联合主键</h5><p>应尽量避免在库表中引入与业务逻辑相关的主键关系。<br>复合主键的引入，很大程度上意味着业务逻辑已经侵入到数据存储逻辑之中。</p>
+<p>给原来的“复合主键”做唯一索引。</p>
+<h5 id="建议-使用自增主键"><a href="#建议-使用自增主键" class="headerlink" title="[建议] 使用自增主键"></a>[建议] 使用自增主键</h5><p>如果是非互联网应用，数据量不是很大，优先考虑使用自增主键。</p>
+<ul>
+<li>占用存储空间小。</li>
+<li>insert等操作执行效率高。</li>
+</ul>
+<p>互联网等数据量大的应用，因为要分库分表，不推荐使用自增主键。</p>
+<h5 id="建议-varchar-主键不建议使用-UUID"><a href="#建议-varchar-主键不建议使用-UUID" class="headerlink" title="[建议] varchar 主键不建议使用 UUID"></a>[建议] varchar 主键不建议使用 UUID</h5><p>原因：</p>
+<ul>
+<li>InnoDB 采用聚合索引（按照主键的顺序来排放数据)，而 UUID 是无序的，会造成插入时的排序和数据移动，带来很大的I/O，会影响效率。</li>
+<li>效率不高。数据在索引的时候效率会随着体积的增加而降低。</li>
+<li>uuid主键id显得冗长，不够友好。</li>
+<li>存储一个UUID要花费更多的空间。</li>
+</ul>
+<p>制定合适的主键生成策略，保证主键的唯一性，有序性和简短。</p>
+<p>自增 id 作为主键（或者是改用有特定顺序的键），uuid作为唯一键。</p>
+<h3 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h3><h5 id="建议-谨慎合理使用索引"><a href="#建议-谨慎合理使用索引" class="headerlink" title="[建议] 谨慎合理使用索引"></a>[建议] 谨慎合理使用索引</h5><p>改善查询、减慢更新；<br>索引一定不是越多越好能不加就不加，要加的一定得加；<br>覆盖记录条数过多不适合建索引，例如“性别”；</p>
+<h5 id="建议-为搜索字段建索引"><a href="#建议-为搜索字段建索引" class="headerlink" title="[建议] 为搜索字段建索引"></a>[建议] 为搜索字段建索引</h5><h5 id="建议-不在低基数列上建立索引"><a href="#建议-不在低基数列上建立索引" class="headerlink" title="[建议] 不在低基数列上建立索引"></a>[建议] 不在低基数列上建立索引</h5><p>例如“性别”。</p>
+<p>大部分场景下,低基数列上建立索引的精确查找,相对于不建立索引的全表扫描没有任何优势,而且增大了IO负担。</p>
+<h5 id="强制-禁止重复索引。"><a href="#强制-禁止重复索引。" class="headerlink" title="[强制] 禁止重复索引。"></a>[强制] 禁止重复索引。</h5><p>重复索引增加维护负担、占用磁盘空间，且没有任何好处。</p>
+<h5 id="强制-字符字段必须使用前缀索引（MySQL）"><a href="#强制-字符字段必须使用前缀索引（MySQL）" class="headerlink" title="[强制] 字符字段必须使用前缀索引（MySQL）"></a>[强制] 字符字段必须使用前缀索引（MySQL）</h5><h3 id="视图设计规范"><a href="#视图设计规范" class="headerlink" title="视图设计规范"></a>视图设计规范</h3><p>在视图中必须说明以下内容：</p>
+<ol>
+<li>目的：说明此视图的作用。</li>
+<li>创建者：首次创建此视图的人的姓名。在此请使用中文全名，不允许使用英文简称。</li>
+<li>修改者、修改日期、修改原因：如果有人对此视图进行了修改，则必须在此视图的前面加注修改者姓名、修改日期及修改原因。</li>
+<li>对视图各参数及变量的中文注解</li>
+</ol>
+<p>建议：在数据库中创建一个文本文件保存创建脚本</p>
+<h3 id="存储过程设计规范"><a href="#存储过程设计规范" class="headerlink" title="存储过程设计规范"></a>存储过程设计规范</h3><p>在存贮过程中必须说明以下内容：</p>
+<ol>
+<li>目的：说明此存贮过程的作用。</li>
+<li>作者：首次创建此存贮过程的人的姓名。在此请使用中文全名，不允许使用英文简称。</li>
+<li>创建日期：创建存贮过程时的日期。</li>
+<li>修改记录：</li>
+</ol>
+<p>修改记录需包含修改顺序号、修改者、修改日期、修改原因，修改时不能直接在原来的代码上修改，也不能删除原来的代码，只能先将原来的代码注释掉，再重新增加正确的代码。修改顺序号的形式为：log1，log2，log3。。。，根据修改次数顺序增加，同时在注释掉的原来的代码块和新增的正确代码块前后注明修改顺序号。<br>5. 对存贮过程各参数及变量的中文注解。</p>
+<p>建议：在数据库中创建一个文本文件保存创建脚本</p>
+<h3 id="安全"><a href="#安全" class="headerlink" title="安全"></a>安全</h3><h5 id="强制-禁止在数据库中存储明文密码"><a href="#强制-禁止在数据库中存储明文密码" class="headerlink" title="[强制] 禁止在数据库中存储明文密码"></a>[强制] 禁止在数据库中存储明文密码</h5><p>采用加密字符串存储密码，并保证密码不可解密，同时采用随机字符串加盐保证密码安全。防止数据库数据被公司内部人员或黑客获取后，采用字典攻击等方式暴力破解用户密码。</p>
+<h2 id="4-使用规范"><a href="#4-使用规范" class="headerlink" title="4 使用规范"></a>4 使用规范</h2><h3 id="4-1-查询"><a href="#4-1-查询" class="headerlink" title="4.1 查询"></a>4.1 查询</h3><h5 id="强制-不用-select"><a href="#强制-不用-select" class="headerlink" title="[强制] 不用 select *"></a>[强制] 不用 <code>select *</code></h5><p>SELECT 只获取必要的字段。</p>
+<p>消耗cpu，io，内存，带宽；这种程序不具有扩展性；</p>
+<p>减少网络带宽消耗;</p>
+<p>能有效利用覆盖索引;</p>
+<p>表结构变更对程序基本无影响。</p>
+<h5 id="建议-用-IN-代替-OR"><a href="#建议-用-IN-代替-OR" class="headerlink" title="[建议] 用 IN 代替 OR"></a>[建议] 用 IN 代替 OR</h5><p>IN是范围查找,MySQL内部会对IN的列表值进行排序后查找,比OR效率更高。</p>
+<p>or的效率是n级别；<br>in的效率是log(n)级别；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/* good */</span><br><span class="line">select id from t where phone in (&apos;159&apos;, &apos;136&apos;);</span><br><span class="line"></span><br><span class="line">/* bad */</span><br><span class="line">select id from t where phone=&apos;159&apos; or phone=&apos;136&apos;;</span><br></pre></td></tr></table></figure>
+<h5 id="建议-用-UNION-代替-OR"><a href="#建议-用-UNION-代替-OR" class="headerlink" title="[建议] 用 UNION 代替 OR"></a>[建议] 用 UNION 代替 OR</h5><p>MySQL 的索引合并很弱智。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">/* good */</span><br><span class="line">select id from t where phone=&apos;159&apos;</span><br><span class="line">union</span><br><span class="line">select id from t where name=&apos;jonh&apos;</span><br><span class="line"></span><br><span class="line">/* bad */</span><br><span class="line">select id from t where phone = &apos;159&apos; or name = &apos;john&apos;;</span><br></pre></td></tr></table></figure>
+
+
+<h5 id="建议-SQL-语句中-IN-包含的值不应过多，控制在-200-个以内，最多不得超过300"><a href="#建议-SQL-语句中-IN-包含的值不应过多，控制在-200-个以内，最多不得超过300" class="headerlink" title="[建议] SQL 语句中 IN 包含的值不应过多，控制在 200 个以内，最多不得超过300"></a>[建议] SQL 语句中 IN 包含的值不应过多，控制在 200 个以内，最多不得超过300</h5><h5 id="建议-平衡范式与冗余，效率优先，往往牺牲范式"><a href="#建议-平衡范式与冗余，效率优先，往往牺牲范式" class="headerlink" title="[建议] 平衡范式与冗余，效率优先，往往牺牲范式"></a>[建议] 平衡范式与冗余，效率优先，往往牺牲范式</h5><h5 id="强制-禁止在数据库中存储图片、文件等大数据"><a href="#强制-禁止在数据库中存储图片、文件等大数据" class="headerlink" title="[强制] 禁止在数据库中存储图片、文件等大数据"></a>[强制] 禁止在数据库中存储图片、文件等大数据</h5><p>数据库通常存储的是文件的路径（多用相对路径）。</p>
+<h5 id="建议-高并发环境不要使用外键"><a href="#建议-高并发环境不要使用外键" class="headerlink" title="[建议] 高并发环境不要使用外键"></a>[建议] 高并发环境不要使用外键</h5><p>高并发环境不要使用外键，太容易产生死锁，应由程序保证约束。</p>
+<h5 id="建议-合理控制单表数据量"><a href="#建议-合理控制单表数据量" class="headerlink" title="[建议] 合理控制单表数据量"></a>[建议] 合理控制单表数据量</h5><p>int型不超过1000w，含char则不超过500w。</p>
+<p>mysql在处理大表（char的表&gt;500W行，或int表&gt;1000W）时，性能就开始明显降低，所以要采用不同的方式控制单表容量</p>
+<p>A：根据数据冷热，对数据分级存储，历史归档</p>
+<p>B：采用分库/分表/分区表，横向拆分控制单表容量</p>
+<p>C：对于OLTP系统，控制单事务的资源消耗，遇到大事务可以拆解，采用化整为零模式，避免特例影响大众</p>
+<h5 id="建议-限制单库表数量在300以内，最多不要超过500个表"><a href="#建议-限制单库表数量在300以内，最多不要超过500个表" class="headerlink" title="[建议] 限制单库表数量在300以内，最多不要超过500个表"></a>[建议] 限制单库表数量在300以内，最多不要超过500个表</h5><h5 id="建议-单表字段数不要太多，字段数建议在20以内，最多不要大于50个"><a href="#建议-单表字段数不要太多，字段数建议在20以内，最多不要大于50个" class="headerlink" title="[建议] 单表字段数不要太多，字段数建议在20以内，最多不要大于50个"></a>[建议] 单表字段数不要太多，字段数建议在20以内，最多不要大于50个</h5><h5 id="建议-sql语句尽可能简单"><a href="#建议-sql语句尽可能简单" class="headerlink" title="[建议] sql语句尽可能简单"></a>[建议] sql语句尽可能简单</h5><p>拆分复杂 SQL 为多个小 SQL,避免大事务，减少锁时间。</p>
+<ul>
+<li>一条 sql 只能在一个 cpu 运算，拆分后可以使用多核 CPU。</li>
+<li>简单的 SQL 容易使用到 MySQL 的 QUERY CACHE。</li>
+<li>减少锁表时间特别是 MyISAM。</li>
+</ul>
+<h5 id="建议-事务时间尽可能短"><a href="#建议-事务时间尽可能短" class="headerlink" title="[建议] 事务时间尽可能短"></a>[建议] 事务时间尽可能短</h5><p>bad case：<br>上传图片事务</p>
+<h5 id="强制-保证冗余字段数据的一致性"><a href="#强制-保证冗余字段数据的一致性" class="headerlink" title="[强制] 保证冗余字段数据的一致性"></a>[强制] 保证冗余字段数据的一致性</h5><p>确保数据更新的同时冗余字段也被更新。</p>
+<h5 id="建议-合理分离冷热数据"><a href="#建议-合理分离冷热数据" class="headerlink" title="[建议] 合理分离冷热数据"></a>[建议] 合理分离冷热数据</h5><p>将大字段、访问频率低的字段拆分到单独的表中存储，分离冷热数据。</p>
+<p>有利于有效利用缓存，防止读入无用的冷数据，较少磁盘IO，同时保证热数据常驻内存提高缓存命中率。</p>
+<h5 id="建议-不在数据库做运算"><a href="#建议-不在数据库做运算" class="headerlink" title="[建议] 不在数据库做运算"></a>[建议] 不在数据库做运算</h5><p>不在索引列上进行数学运算或函数运算。</p>
+<p>cpu计算务必移至业务层。</p>
+<h5 id="建议-当只要一行数据时使用-LIMIT-1"><a href="#建议-当只要一行数据时使用-LIMIT-1" class="headerlink" title="[建议] 当只要一行数据时使用 LIMIT 1"></a>[建议] 当只要一行数据时使用 LIMIT 1</h5><h5 id="强制-禁止在线上做数据库压力测试"><a href="#强制-禁止在线上做数据库压力测试" class="headerlink" title="[强制] 禁止在线上做数据库压力测试"></a>[强制] 禁止在线上做数据库压力测试</h5><h5 id="建议-减少与数据库交互次数，尽量采用批量SQL语句"><a href="#建议-减少与数据库交互次数，尽量采用批量SQL语句" class="headerlink" title="[建议] 减少与数据库交互次数，尽量采用批量SQL语句"></a>[建议] 减少与数据库交互次数，尽量采用批量SQL语句</h5><h5 id="建议-获取大量数据时，建议分批次获取数据，每次获取数据少于-2000-条，结果集应小于-1M"><a href="#建议-获取大量数据时，建议分批次获取数据，每次获取数据少于-2000-条，结果集应小于-1M" class="headerlink" title="[建议] 获取大量数据时，建议分批次获取数据，每次获取数据少于 2000 条，结果集应小于 1M"></a>[建议] 获取大量数据时，建议分批次获取数据，每次获取数据少于 2000 条，结果集应小于 1M</h5>
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a style="word-wrap:break-word;" href="http://yoursite.com/2019/11/15/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/teamCode/mysql/" title="团队代码规范-Mysql规范" target="_blank" rel="external">http://yoursite.com/2019/11/15/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/teamCode/mysql/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/chen08" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/chen08" target="_blank"><span class="text-dark">溟海</span><small class="ml-1x">Web Developer &amp; Designer</small></a></h3>
+        <div>天行健，君子以自强不息，地势坤，君子以厚德载物。 杀不死我的,终将使我强大 没有吃不了的苦,只有享不了的福</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2019/11/15/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/teamCode/javascript/" title="团队代码规范-JavaScript规范"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/11/15/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/teamCode/version/" title="团队代码规范-版本规范"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="Catalogue" role="button">
+        <span>[&nbsp;</span><span>Catalogue</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open alipay app scan this qrcode, buy me a coffee!</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open wechat app scan this qrcode, buy me a coffee!</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> alipay</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> wechat payment</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+
+
+<!-- custom analytics part create by xiamo -->
+<!-- <script defer src="https://cdn1.lncld.net/static/js/av-min-1.2.1.js"></script> -->
+<script defer src="/js/av-min-1.2.1.js"></script>
+<script defer>
+AV.init({
+  appId: 'ngFQzHw7z0HgQfrtn4En4WTN-gzGzoHsz',
+  appKey: 'W9hgBBfVDwRGJKoGp5a6HKpx'
+});
+
+function showTime(Counter) {
+	var query = new AV.Query(Counter);
+		var visitors= $('.leancloud_visitors');
+		query.greaterThanOrEqualTo("time", 0);		
+		query.find({
+			success: function(results) {
+				if (results.length == 0) {				
+					return;
+				}
+				var data = results;
+				visitors.each(function(){
+					var url = $(this).attr('id').trim();					
+					for (var i = 0; i < data.length; i++) {
+						var object = data[i];
+						var content = object.get('time');
+						var _url = object.get('url')
+						if(url == _url){
+							$(this).text(content);
+						}
+					}
+				})
+				
+			},
+			error: function(object, error) {
+				console.log("Error: " + error.code + " " + error.message);
+			}
+		});
+}
+
+function addCount(Counter) {
+	var Counter = AV.Object.extend("Counter");
+	url = $(".leancloud_visitors").attr('id').trim();
+	title = $(".leancloud_visitors").attr('data-flag-title').trim();
+	var query = new AV.Query(Counter);
+	query.equalTo("url", url);
+	query.find({
+		success: function(results) {
+			if (results.length > 0) {
+				var counter = results[0];
+				counter.fetchWhenSave(true);
+				counter.increment("time");
+				counter.save(null, {
+					success: function(counter) {
+						var content = counter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(counter, error) {
+						console.log('Failed to save Visitor num, with error message: ' + error.message);
+					}
+				});
+			} else {
+				var newcounter = new Counter();
+				newcounter.set("title", title);
+				newcounter.set("url", url);
+				newcounter.set("time", 1);
+				newcounter.save(null, {
+					success: function(newcounter) {
+					    console.log("newcounter.get('time')="+newcounter.get('time'));
+						var content = newcounter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(newcounter, error) {
+						console.log('Failed to create');
+					}
+				});
+			}
+		},
+		error: function(error) {
+			console.log('Error:' + error.code + " " + error.message);
+		}
+	});
+}
+$(function() {
+	var Counter = AV.Object.extend("Counter");
+	if ($('.leancloud_visitors').length == 1) {
+		addCount(Counter);
+	} else {
+		showTime(Counter);
+	}
+}); 
+</script>
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>

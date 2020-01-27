@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>如何开发Babel插件 | Hexo</title>
+  <script src="./js/jQuery.md5.js"></script>
+  <script>
+    
+    (function(){
+      localStorage.setItem('userinfo',hex_md5('123chen'))
+      
+      var localData = localStorage.getItem("userinfo");
+      // var localState = localStorage.getItem("state");
+        if(localStorage.getItem("state") === null){
+          var reason = window.prompt('请输入访问密码');
+          // var promptVal = window.prompt('请输入访问密码');
+          if(reason){
+              //填写内容并“确定”
+              var md5Prompt = hex_md5(reason)
+              //点击的是“确定” 
+              if (localData !== md5Prompt){
+                alert('密码错误！');
+                // history.back();
+                location.replace(location.href); 
+              }else{
+                // alert('0123');
+                localStorage.setItem('state',"1")
+              }
+          }
+          else if(reason === ""){
+              //未填写但“确定”
+              location.replace(location.href); 
+          }
+          else{
+            //“取消”事件
+            location.replace(location.href); 
+          }
+        }
+
+    })();
+  </script>
+ <link rel="alternate" href="/atom.xml" data="123chen" type="application/atom+xml">
+  <meta name="description" content="如何开发Babel插件点击关注本公众号获取文档最新更新,并可以领取配套于本指南的 《前端面试手册》 以及最标准的简历模板. 本文来源于通过开发 Babel 插件理解抽象语法树（AST）,原文来源于understanding-asts-building-babel-plugin  每天数以千计的 JavaScript 开发者使用的语言版本现在浏览器都还没有完全实现，许多他们使用的语言特性仅仅还只是建">
+<meta name="keywords" content="JavaScript,面试,插件">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何开发Babel插件">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;08&#x2F;5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill&#x2F;JavaScript&#x2F;%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91Babel%E6%8F%92%E4%BB%B6&#x2F;index.html">
+<meta property="og:site_name" content="学习的敌人是自己的满足，要认真学习一点东西，必须从不自满开始。对自己，“学而不厌”，对人家，“诲人不倦”，我们应取这种态度。">
+<meta property="og:description" content="如何开发Babel插件点击关注本公众号获取文档最新更新,并可以领取配套于本指南的 《前端面试手册》 以及最标准的简历模板. 本文来源于通过开发 Babel 插件理解抽象语法树（AST）,原文来源于understanding-asts-building-babel-plugin  每天数以千计的 JavaScript 开发者使用的语言版本现在浏览器都还没有完全实现，许多他们使用的语言特性仅仅还只是建">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https:&#x2F;&#x2F;cdn.nlark.com&#x2F;yuque&#x2F;0&#x2F;2019&#x2F;png&#x2F;128853&#x2F;1565281206766-207e0e64-8da2-4631-921d-134fc227231f.png#align=left&amp;display=inline&amp;height=228&amp;originHeight=228&amp;originWidth=880&amp;size=0&amp;status=done&amp;width=880">
+<meta property="og:image" content="https:&#x2F;&#x2F;cdn.nlark.com&#x2F;yuque&#x2F;0&#x2F;2019&#x2F;png&#x2F;128853&#x2F;1565281206766-78776ee0-0d15-4914-9d52-ff44fc0f4d19.png#align=left&amp;display=inline&amp;height=531&amp;originHeight=531&amp;originWidth=600&amp;size=0&amp;status=done&amp;width=600">
+<meta property="og:image" content="https:&#x2F;&#x2F;cdn.nlark.com&#x2F;yuque&#x2F;0&#x2F;2019&#x2F;png&#x2F;128853&#x2F;1565281206762-1bfc081e-1122-46dc-bb33-d7406a7e40b2.png#align=left&amp;display=inline&amp;height=415&amp;originHeight=415&amp;originWidth=900&amp;size=0&amp;status=done&amp;width=900">
+<meta property="og:image" content="https:&#x2F;&#x2F;cdn.nlark.com&#x2F;yuque&#x2F;0&#x2F;2019&#x2F;png&#x2F;128853&#x2F;1565281206770-ca69aab5-e3ba-4bcc-aa64-00d4739ea912.png#align=left&amp;display=inline&amp;height=416&amp;originHeight=416&amp;originWidth=780&amp;size=0&amp;status=done&amp;width=780">
+<meta property="og:image" content="https:&#x2F;&#x2F;cdn.nlark.com&#x2F;yuque&#x2F;0&#x2F;2019&#x2F;png&#x2F;128853&#x2F;1565281206714-85e6c1c8-9c9e-4adf-a1bc-b74b92e34c1a.png#align=left&amp;display=inline&amp;height=418&amp;originHeight=418&amp;originWidth=897&amp;size=0&amp;status=done&amp;width=897">
+<meta property="og:image" content="https:&#x2F;&#x2F;cdn.nlark.com&#x2F;yuque&#x2F;0&#x2F;2019&#x2F;png&#x2F;128853&#x2F;1565281206786-0c52275b-7e79-49da-ab35-eba61ffb0ec6.png#align=left&amp;display=inline&amp;height=411&amp;originHeight=411&amp;originWidth=704&amp;size=0&amp;status=done&amp;width=704">
+<meta property="og:image" content="https:&#x2F;&#x2F;xiaomuzhu-image.oss-cn-beijing.aliyuncs.com&#x2F;d846f65d5025c4b6c4619662a0669503.png">
+<meta property="og:updated_time" content="2019-11-08T09:29:06.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;cdn.nlark.com&#x2F;yuque&#x2F;0&#x2F;2019&#x2F;png&#x2F;128853&#x2F;1565281206766-207e0e64-8da2-4631-921d-134fc227231f.png#align=left&amp;display=inline&amp;height=228&amp;originHeight=228&amp;originWidth=880&amp;size=0&amp;status=done&amp;width=880">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://yoursite.com/2019/11/08/5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill/JavaScript/%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91Babel%E6%8F%92%E4%BB%B6/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="学习的敌人是自己的满足，要认真学习一点东西，必须从不自满开始。对自己，“学而不厌”，对人家，“诲人不倦”，我们应取这种态度。" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/chen08" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">溟海</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer &amp; Designer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Guangzhou, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+          <!-- . -->
+        
+        
+          <li class="menu-item menu-item-home">
+            <a href="/.">
+              
+              <i class="icon icon-home-fill"></i>
+              
+              <span class="menu-title">Home</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- archives -->
+        
+        
+          <li class="menu-item menu-item-archives">
+            <a href="/archives">
+              
+              <i class="icon icon-archives-fill"></i>
+              
+              <span class="menu-title">Archives</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- categories -->
+        
+        
+          <li class="menu-item menu-item-categories">
+            <a href="/categories">
+              
+              <i class="icon icon-folder"></i>
+              
+              <span class="menu-title">Categories</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- tags -->
+        
+        
+          <li class="menu-item menu-item-tags">
+            <a href="/tags">
+              
+              <i class="icon icon-tags"></i>
+              
+              <span class="menu-title">Tags</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- repository -->
+        
+        
+          <li class="menu-item menu-item-repository">
+            <a href="/repository">
+              
+              <i class="icon icon-project"></i>
+              
+              <span class="menu-title">Repository</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- books -->
+        
+        
+          <li class="menu-item menu-item-books">
+            <a href="/books">
+              
+              <i class="icon icon-book-fill"></i>
+              
+              <span class="menu-title">Books</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- links -->
+        
+        
+          <li class="menu-item menu-item-links">
+            <a href="/links">
+              
+              <i class="icon icon-friendship"></i>
+              
+              <span class="menu-title">Links</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- about -->
+        
+        
+          <li class="menu-item menu-item-about">
+            <a href="/about">
+              
+              <i class="icon icon-cup-fill"></i>
+              
+              <span class="menu-title">About</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- navigation/webstack/index.html -->
+        
+        
+          <li class="menu-item menu-item-navigation">
+            <a href="/navigation/webstack/index.html">
+              
+              <i class="icon icon-delicious"></i>
+              
+              <span class="menu-title">Navigation</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- navigation/webstack/word.html -->
+        
+        
+          <li style="display: none;" class="menu-item menu-item-fixed">
+            <a href="/navigation/webstack/word.html">
+              
+              <i class="icon icon-delicious"></i>
+              
+              <span class="menu-title">menu.fixed</span>
+            </a>
+          </li>
+        
+
+
+        
+      </ul>
+
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/1-WEB%E5%89%8D%E7%AB%AF/">1.WEB前端</a><span class="category-list-count">140</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/2-%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">2.编程语言</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/3-%E4%BA%A7%E5%93%81%E8%AE%BE%E8%AE%A1/">3.产品设计</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/4-%E7%AE%A1%E7%90%86%E8%90%A5%E9%94%80/">4.管理营销</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/5-%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87/">5.技能提升</a><span class="category-list-count">155</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/6-%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93/">6.读书总结</a><span class="category-list-count">9</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/" rel="tag">CSS</a><span class="tag-list-count">18</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Dart/" rel="tag">Dart</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES6/" rel="tag">ES6</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES7/" rel="tag">ES7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/English/" rel="tag">English</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flutter/" rel="tag">Flutter</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a><span class="tag-list-count">20</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IMAGE/" rel="tag">IMAGE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JQuery/" rel="tag">JQuery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a><span class="tag-list-count">224</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">JavaScript设计模式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript%E9%AB%98%E7%BA%A7%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" rel="tag">JavaScript高级程序设计</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jquery/" rel="tag">Jquery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mysql/" rel="tag">Mysql</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NETWORK/" rel="tag">NETWORK</a><span class="tag-list-count">13</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node/" rel="tag">Node</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/" rel="tag">PHP</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/" rel="tag">React</a><span class="tag-list-count">31</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJS/" rel="tag">RxJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SVG/" rel="tag">SVG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sass/" rel="tag">Sass</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/" rel="tag">Vue</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%AE%89%E5%85%A8/" rel="tag">WEB安全</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webpack/" rel="tag">Webpack</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/" rel="tag">jQuery</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodeJS/" rel="tag">nodeJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B9%A6%E5%8D%95/" rel="tag">书单</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B9%A6%E7%B1%8D/" rel="tag">书籍</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/" rel="tag">前端安全</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83/" rel="tag">命名规范</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag">小程序</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" rel="tag">性能优化</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8F%92%E4%BB%B6/" rel="tag">插件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A1%86%E6%9E%B6/" rel="tag">框架</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" rel="tag">浏览器</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%84%E4%BB%B6/" rel="tag">组件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%84%E8%8C%83/" rel="tag">规范</a><span class="tag-list-count">67</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6%E5%AD%A6%E4%B9%A0/" rel="tag">软件学习</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a><span class="tag-list-count">153</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/CSS/" style="font-size: 13.71px;">CSS</a> <a href="/tags/Dart/" style="font-size: 13px;">Dart</a> <a href="/tags/ES6/" style="font-size: 13px;">ES6</a> <a href="/tags/ES7/" style="font-size: 13px;">ES7</a> <a href="/tags/English/" style="font-size: 13.18px;">English</a> <a href="/tags/Flutter/" style="font-size: 13px;">Flutter</a> <a href="/tags/Git/" style="font-size: 13.12px;">Git</a> <a href="/tags/HTML/" style="font-size: 13.76px;">HTML</a> <a href="/tags/HTTP/" style="font-size: 13.18px;">HTTP</a> <a href="/tags/IMAGE/" style="font-size: 13px;">IMAGE</a> <a href="/tags/JAVA/" style="font-size: 13.06px;">JAVA</a> <a href="/tags/JQuery/" style="font-size: 13px;">JQuery</a> <a href="/tags/JavaScript/" style="font-size: 14px;">JavaScript</a> <a href="/tags/JavaScript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 13px;">JavaScript设计模式</a> <a href="/tags/JavaScript%E9%AB%98%E7%BA%A7%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 13px;">JavaScript高级程序设计</a> <a href="/tags/Jquery/" style="font-size: 13px;">Jquery</a> <a href="/tags/Mysql/" style="font-size: 13px;">Mysql</a> <a href="/tags/NETWORK/" style="font-size: 13.53px;">NETWORK</a> <a href="/tags/Node/" style="font-size: 13.35px;">Node</a> <a href="/tags/PHP/" style="font-size: 13.24px;">PHP</a> <a href="/tags/React/" style="font-size: 13.82px;">React</a> <a href="/tags/RxJS/" style="font-size: 13px;">RxJS</a> <a href="/tags/SVG/" style="font-size: 13px;">SVG</a> <a href="/tags/Sass/" style="font-size: 13px;">Sass</a> <a href="/tags/TypeScript/" style="font-size: 13.29px;">TypeScript</a> <a href="/tags/Vue/" style="font-size: 13.65px;">Vue</a> <a href="/tags/WEB%E5%AE%89%E5%85%A8/" style="font-size: 13.29px;">WEB安全</a> <a href="/tags/Webpack/" style="font-size: 13.59px;">Webpack</a> <a href="/tags/jQuery/" style="font-size: 13.65px;">jQuery</a> <a href="/tags/nodeJS/" style="font-size: 13px;">nodeJS</a> <a href="/tags/python/" style="font-size: 13px;">python</a> <a href="/tags/%E4%B9%A6%E5%8D%95/" style="font-size: 13px;">书单</a> <a href="/tags/%E4%B9%A6%E7%B1%8D/" style="font-size: 13.06px;">书籍</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 13px;">前端</a> <a href="/tags/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/" style="font-size: 13.06px;">前端安全</a> <a href="/tags/%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83/" style="font-size: 13.41px;">命名规范</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 13px;">小程序</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 13.06px;">工具</a> <a href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" style="font-size: 13.47px;">性能优化</a> <a href="/tags/%E6%8F%92%E4%BB%B6/" style="font-size: 13px;">插件</a> <a href="/tags/%E6%A1%86%E6%9E%B6/" style="font-size: 13px;">框架</a> <a href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" style="font-size: 13px;">浏览器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13.18px;">算法</a> <a href="/tags/%E7%BB%84%E4%BB%B6/" style="font-size: 13px;">组件</a> <a href="/tags/%E8%A7%84%E8%8C%83/" style="font-size: 13.88px;">规范</a> <a href="/tags/%E8%BD%AF%E4%BB%B6%E5%AD%A6%E4%B9%A0/" style="font-size: 13px;">软件学习</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 13.35px;">随笔</a> <a href="/tags/%E9%9D%A2%E8%AF%95/" style="font-size: 13.94px;">面试</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a><span class="archive-list-count">312</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/27/1.WEB%E5%89%8D%E7%AB%AFWeb/React/react-router/" class="title">1.WEB前端Web/React/react-router</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-27T13:24:04.185Z" itemprop="datePublished">2020-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/27/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/sass-guide/" class="title">1.WEB前端Web/Front-End-Standards/sass-guide</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-27T13:24:03.487Z" itemprop="datePublished">2020-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/27/hello-world/" class="title">Hello World</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-27T13:24:03.028Z" itemprop="datePublished">2020-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/6-%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93/">6.读书总结</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/26/6.%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93Book/%E4%BA%BA%E7%94%9F%E9%81%93%E7%90%86/" class="title">人生道理</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-26T01:12:57.000Z" itemprop="datePublished">2020-01-26</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/2-%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">2.编程语言</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/15/2.%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80Programming/English/%E7%94%9F%E6%B4%BB%E8%8B%B1%E8%AF%AD/" class="title">生活英语</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-15T01:12:57.000Z" itemprop="datePublished">2020-01-15</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">Catalogue</h3>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#如何开发Babel插件"><span class="toc-number">1.</span> <span class="toc-text">如何开发Babel插件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#语言概述"><span class="toc-number">1.1.</span> <span class="toc-text">语言概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Babel-概述"><span class="toc-number">1.2.</span> <span class="toc-text">Babel 概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#解析"><span class="toc-number">1.2.1.</span> <span class="toc-text">解析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#转换"><span class="toc-number">1.2.2.</span> <span class="toc-text">转换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#生成"><span class="toc-number">1.2.3.</span> <span class="toc-text">生成</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是抽象语法树（AST）"><span class="toc-number">1.3.</span> <span class="toc-text">什么是抽象语法树（AST）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装"><span class="toc-number">1.4.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数组"><span class="toc-number">1.5.</span> <span class="toc-text">数组</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#对象"><span class="toc-number">1.6.</span> <span class="toc-text">对象</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#赋值"><span class="toc-number">1.7.</span> <span class="toc-text">赋值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#成员"><span class="toc-number">1.8.</span> <span class="toc-text">成员</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#结尾"><span class="toc-number">1.9.</span> <span class="toc-text">结尾</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#公众号"><span class="toc-number">1.10.</span> <span class="toc-text">公众号</span></a></li></ol></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-5.技能提升Skill/JavaScript/如何开发Babel插件" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      如何开发Babel插件
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/11/08/5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill/JavaScript/%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91Babel%E6%8F%92%E4%BB%B6/" class="article-date">
+	  <time datetime="2019-11-08T01:12:57.000Z" itemprop="datePublished">2019-11-08</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/5-%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87/">5.技能提升</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/JavaScript/" rel="tag">JavaScript</a>, <a class="article-tag-link" href="/tags/%E6%8F%92%E4%BB%B6/" rel="tag">插件</a>, <a class="article-tag-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a>
+  </span>
+
+
+        
+
+	<span class="article-read hidden-xs">
+    	<i class="icon icon-eye-fill" aria-hidden="true"></i>
+    	<span id="/2019/11/08/5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill/JavaScript/%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91Babel%E6%8F%92%E4%BB%B6/" class="leancloud_visitors"  data-flag-title="如何开发Babel插件">0</span>
+    </span>
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/11/08/5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill/JavaScript/%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91Babel%E6%8F%92%E4%BB%B6/#comments" class="article-comment-link">Comments</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count: 3.5k(words)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">Read Count: 14(minutes)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="如何开发Babel插件"><a href="#如何开发Babel插件" class="headerlink" title="如何开发Babel插件"></a>如何开发Babel插件</h1><p>点击关注本<a href="#公众号">公众号</a>获取文档最新更新,并可以领取配套于本指南的 <strong>《前端面试手册》</strong> 以及<strong>最标准的简历模板</strong>.</p>
+<p>本文来源于<a href="https://www.zcfy.cc/article/347" target="_blank" rel="noopener">通过开发 Babel 插件理解抽象语法树（AST）</a>,原文来源于<a href="https://www.sitepoint.com/understanding-asts-building-babel-plugin/" target="_blank" rel="noopener">understanding-asts-building-babel-plugin</a></p>
+<hr>
+<p>每天数以千计的 JavaScript 开发者使用的语言版本现在浏览器都还没有完全实现，许多他们使用的语言特性仅仅还只是建议，并没有保证说一定会纳入规范。因为有 Babel 项目使现在就能使用这些特性变成了可能。<br />Babel 是我们知道的将 ES6 代码转译为 ES5 代码且能安全稳定运行最好的工具，同时它允许开发者开发插件，能够在编译时期转换 JavaScript 的结构。<br />现在，我们来看看如何开发一个给 JavaScript 添加默认不可变数据的 Babel 插件，代码可以从 <a href="https://github.com/sitepoint-editors/moriscript" target="_blank" rel="noopener">GitHub repo</a> 下载。<br><a name="LFdKz"></a></p>
+<h2 id="语言概述"><a href="#语言概述" class="headerlink" title="语言概述"></a>语言概述</h2><p>我们想设计一个通过 <a href="http://www.sitepoint.com/immutable-data-functional-javascript-mori/" target="_blank" rel="noopener">Mori</a> 将普通对象和数组字面量转换为持久数据结构的插件。<br />我们希望写出来的代码类似这样：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> foo = &#123; <span class="attr">a</span>: <span class="number">1</span> &#125;;</span><br><span class="line"><span class="keyword">var</span> baz = foo.a = <span class="number">2</span>;</span><br><span class="line">foo.a === <span class="number">1</span>;</span><br><span class="line">baz.a === <span class="number">2</span>;</span><br></pre></td></tr></table></figure>
+<p>然后将代码转换为：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> foo = mori.hashMap(<span class="string">'a'</span>, <span class="number">1</span>);</span><br><span class="line"><span class="keyword">var</span> baz = mori.assoc(foo, <span class="string">'a'</span>, <span class="number">2</span>);</span><br><span class="line">mori.get(foo, <span class="string">'a'</span>) === <span class="number">1</span>;</span><br><span class="line">mori.get(baz, <span class="string">'a'</span>) === <span class="number">2</span>;</span><br></pre></td></tr></table></figure>
+<p>我们借助 <em>MoriScript</em> 来开始吧。<br><a name="a06UI"></a></p>
+<h2 id="Babel-概述"><a href="#Babel-概述" class="headerlink" title="Babel 概述"></a>Babel 概述</h2><p>如果我们想更深入的了解 Babel，我们需要知道 3 个处理流程中很重要的工具。<br /><img src="https://cdn.nlark.com/yuque/0/2019/png/128853/1565281206766-207e0e64-8da2-4631-921d-134fc227231f.png#align=left&display=inline&height=228&originHeight=228&originWidth=880&size=0&status=done&width=880" alt=""><br><a name="9M02C"></a></p>
+<h3 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h3><p><a href="https://github.com/babel/babylon" target="_blank" rel="noopener">Babylon</a> 是一个解析器，它可以将 JavaScript 字符串转换为对计算机来说更加友好的表现形式，称之为抽象语法树（AST）。<br><a name="pKjBZ"></a></p>
+<h3 id="转换"><a href="#转换" class="headerlink" title="转换"></a>转换</h3><p><a href="https://www.npmjs.com/package/babel-traverse" target="_blank" rel="noopener">babel-traverse</a> 模块允许你浏览、分析和修改抽象语法树（AST）。<br><a name="f8Peb"></a></p>
+<h3 id="生成"><a href="#生成" class="headerlink" title="生成"></a>生成</h3><p>最后，<a href="https://www.npmjs.com/package/babel-generator" target="_blank" rel="noopener">babel-generator</a> 模块用来将转换后的抽象语法树（AST）转换为 JavaScript 字符串。<br><a name="bB5kX"></a></p>
+<h2 id="什么是抽象语法树（AST）"><a href="#什么是抽象语法树（AST）" class="headerlink" title="什么是抽象语法树（AST）"></a>什么是抽象语法树（AST）</h2><p>在继续本教程之前，我们有必要先了解抽象语法树（AST）的用途，所以先来看看它是什么以及我们为什么需要它。<br />JavaScript 程序通常是由一系列的字符组成的，每一个在我们的大脑中都有一些可视的含义。这对我们来说非常方便，可以让我们使用匹配的字符（<code>[]</code>, <code>{}</code>, <code>()</code>），成对的字符（<code>&#39;&#39;</code>, <code>&quot;&quot;</code>）和缩进让程序解析起来更加简单。<br />然而，这对计算机来说并不是很有用，这些字符在内存中仅仅是个数值，而且计算机也不能询问一些像『在这个申明中有多少个变量』这种高级的问题。所以我们需要一些妥协，寻找一种可以让我们编程同时让计算机也能理解的方式。<br />我们来看看下面的代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">3</span>;</span><br><span class="line">a + <span class="number">5</span></span><br></pre></td></tr></table></figure>
+<p>当我们把这个代码转换成抽象语法树（AST）的时候，会得到一个类似下面的结构图：<br /><img src="https://cdn.nlark.com/yuque/0/2019/png/128853/1565281206766-78776ee0-0d15-4914-9d52-ff44fc0f4d19.png#align=left&display=inline&height=531&originHeight=531&originWidth=600&size=0&status=done&width=600" alt=""><br />所有的抽象语法树（AST）根节点都是 <code>Program</code> 节点，这个节点包含了所有的最顶层语句。这个例子中，包含了 2 部分：</p>
+<ol>
+<li>一个变量声明，将标识符 <code>a</code> 赋值为数值 <code>3</code>。<br /></li>
+<li>一个二元表达式语句，描述为标志符为 <code>a</code>，操作符 <code>+</code> 和数值 <code>5</code>。<br /></li>
+</ol>
+<p>尽管它们看上去只是由一些简单的元素组成的，对应的抽象语法树（AST）通常情况下也比较复杂，尤其是一些复杂的程序。我们不要试图自己去分析抽象语法树（AST），可以通过 <a href="https://astexplorer.net/" target="_blank" rel="noopener">astexplorer.net</a> 网站帮助我们来完成，它允许我们在左边输入 JavaScript 代码，右侧会出可浏览的抽象语法树（AST），我们可以通过这个工具辅助理解和试验一些代码。<br /><em>为了保持使用 Babel 的一致性，确保选择的解析器为 “babylon6”</em><br />当我们开发 Babel 插件时，我们的任务就是插入/移动/替换/删除一些节点，然后创建一个新的抽象语法树（AST）用来生成代码。<br><a name="MHDXS"></a></p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>开始之前确保你安装了 <code>node</code> 和 <code>npm</code>，然后创建一个项目目录，添加文件 <code>package.json</code>，并安装开发环境下的依赖。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir moriscript &amp;&amp; cd moriscript</span><br><span class="line">npm init -y</span><br><span class="line">npm install --save-dev babel-core</span><br></pre></td></tr></table></figure>
+<p>此时，我们为插件创建一个文件，内容为导出一个默认的函数：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// moriscript.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span>(<span class="params">babel</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> t = babel.types;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    visitor: &#123;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>这个函数给 <a href="https://en.wikipedia.org/wiki/Visitor_pattern" target="_blank" rel="noopener">visitor pattern</a> 导出了一个接口，我们后续再来介绍它。<br />最后，我们创建一个测试插件的运行器。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// run.js</span></span><br><span class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</span><br><span class="line"><span class="keyword">var</span> babel = <span class="built_in">require</span>(<span class="string">'babel-core'</span>);</span><br><span class="line"><span class="keyword">var</span> moriscript = <span class="built_in">require</span>(<span class="string">'./moriscript'</span>);</span><br><span class="line"><span class="comment">// read the filename from the command line arguments</span></span><br><span class="line"><span class="keyword">var</span> fileName = process.argv[<span class="number">2</span>];</span><br><span class="line"><span class="comment">// read the code from this file</span></span><br><span class="line">fs.readFile(fileName, <span class="function"><span class="keyword">function</span>(<span class="params">err, data</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(err) <span class="keyword">throw</span> err;</span><br><span class="line">  <span class="comment">// convert from a buffer to a string</span></span><br><span class="line">  <span class="keyword">var</span> src = data.toString();</span><br><span class="line">  <span class="comment">// use our plugin to transform the source</span></span><br><span class="line">  <span class="keyword">var</span> out = babel.transform(src, &#123;</span><br><span class="line">    plugins: [moriscript]</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="comment">// print the generated code to screen</span></span><br><span class="line">  <span class="built_in">console</span>.log(out.code);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>我们通过指定 MoriScript 文件来运行这个脚本，用来检查生成的 JavaScript 代码是不是我们期望的。如：<code>node run.js example.ms</code><br><a name="gITfa"></a></p>
+<h2 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h2><p>MoriScript 首要和最重要的目标就是将普通对象和数组字面量转换为 Mori 对应的部分：HashMaps and Vectors。我们先来看看数组，它会相对简单一些：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> bar = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"><span class="comment">// should become</span></span><br><span class="line"><span class="keyword">var</span> bar = mori.vector(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>);</span><br></pre></td></tr></table></figure>
+<p>拷贝上面的代码到 <a href="https://astexplorer.net/" target="_blank" rel="noopener">astexplorer</a>，选中数组字面量 <code>[1, 2, 3]</code>，查看对应的抽象语法树（AST）节点。<br /><em>为了更好的可读性，我们忽略了元数据字段，因为我们不用关心它</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;type&quot;: &quot;ArrayExpression&quot;,</span><br><span class="line">  &quot;elements&quot;: [</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;type&quot;: &quot;NumericLiteral&quot;,</span><br><span class="line">      &quot;value&quot;: 1</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;type&quot;: &quot;NumericLiteral&quot;,</span><br><span class="line">      &quot;value&quot;: 2</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;type&quot;: &quot;NumericLiteral&quot;,</span><br><span class="line">      &quot;value&quot;: 3</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>现在我们对 <code>mori.vector(1, 2, 3)</code> 进行相同的操作。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;type&quot;: &quot;CallExpression&quot;,</span><br><span class="line">  &quot;callee&quot;: &#123;</span><br><span class="line">    &quot;type&quot;: &quot;MemberExpression&quot;,</span><br><span class="line">    &quot;object&quot;: &#123;</span><br><span class="line">      &quot;type&quot;: &quot;Identifier&quot;,</span><br><span class="line">      &quot;name&quot;: &quot;mori&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;property&quot;: &#123;</span><br><span class="line">      &quot;type&quot;: &quot;Identifier&quot;,</span><br><span class="line">      &quot;name&quot;: &quot;vector&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;arguments&quot;: [</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;type&quot;: &quot;NumericLiteral&quot;,</span><br><span class="line">      &quot;value&quot;: 1</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;type&quot;: &quot;NumericLiteral&quot;,</span><br><span class="line">      &quot;value&quot;: 2</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;type&quot;: &quot;NumericLiteral&quot;,</span><br><span class="line">      &quot;value&quot;: 3</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果我们通过可视化方式看的话，可以更好的看到 2 个语法树之间需要修改的部分。<br /><img src="https://cdn.nlark.com/yuque/0/2019/png/128853/1565281206762-1bfc081e-1122-46dc-bb33-d7406a7e40b2.png#align=left&display=inline&height=415&originHeight=415&originWidth=900&size=0&status=done&width=900" alt=""><br />现在我们可以非常清晰的看到我们需要替换顶层的表达式，同时要保留 2 个语法数之间共同的数值字面量。<br />我们给 visitor 对象添加 <code>ArrayExpression</code> 方法。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span>(<span class="params">babel</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> t = babel.types;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    visitor: &#123;</span><br><span class="line">      ArrayExpression: <span class="function"><span class="keyword">function</span>(<span class="params">path</span>) </span>&#123;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>当 Babel 遍历抽象语法树（AST）时，它会查看每一个节点。当发现插件里 visitor 对象上有相应的方法时，会调用这个方法，并将上下文传递进去。所以我们可以进行分析或者替换操作。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ArrayExpression: <span class="function"><span class="keyword">function</span>(<span class="params">path</span>) </span>&#123;</span><br><span class="line">  path.replaceWith(</span><br><span class="line">    t.callExpression(</span><br><span class="line">      t.memberExpression(t.identifier(<span class="string">'mori'</span>), t.identifier(<span class="string">'vector'</span>)),</span><br><span class="line">      path.node.elements</span><br><span class="line">    )</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们可以通过 babel-types 模块的文档 <a href="https://github.com/babel/babel/tree/master/packages/babel-types#babel-types" target="_blank" rel="noopener">documentation</a> 查看每个表达式的类型。在这个例子下，我们可需要将 <code>ArrayExpression</code> 替换为 <code>CallExpression</code>，它可以通过 <code>t.callExpression(callee, arguments)</code> 来生成。实际上需要调用的是 <code>MemberExpression</code>，后者可以通过 <code>t.memberExpression(object, property)</code> 来生成。<br /><em>同样地，你可以在网站 <a href="https://astexplorer.net/" target="_blank" rel="noopener">astexplorer</a> 上运行，点击 “transform” 下拉菜单，然后选择 “babelv6”</em><br><a name="QZJac"></a></p>
+<h2 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h2><p>接下来我们来看看对象：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> foo = &#123; <span class="attr">bar</span>: <span class="number">1</span> &#125;;</span><br><span class="line"><span class="comment">// should become</span></span><br><span class="line"><span class="keyword">var</span> foo = mori.hashMap(<span class="string">'bar'</span>, <span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+<p>对象字面量和前面的 <code>ArrayExpression</code> 含有类似的结构。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">"type"</span>: <span class="string">"ObjectExpression"</span>,</span><br><span class="line">  <span class="string">"properties"</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">"type"</span>: <span class="string">"ObjectProperty"</span>,</span><br><span class="line">      <span class="string">"key"</span>: &#123;</span><br><span class="line">        <span class="string">"type"</span>: <span class="string">"Identifier"</span>,</span><br><span class="line">        <span class="string">"name"</span>: <span class="string">"bar"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="string">"value"</span>: &#123;</span><br><span class="line">        <span class="string">"type"</span>: <span class="string">"NumericLiteral"</span>,</span><br><span class="line">        <span class="string">"value"</span>: <span class="number">1</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个相当直白，properties 是个数组，每个元素都包含一个 key 和 一个 value。现在选中 <code>mori.hashMap(&#39;bar&#39;, 1)</code> 然后看相对应生成的结构是如何构成的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;type&quot;: &quot;CallExpression&quot;,</span><br><span class="line">  &quot;callee&quot;: &#123;</span><br><span class="line">    &quot;type&quot;: &quot;MemberExpression&quot;,</span><br><span class="line">    &quot;object&quot;: &#123;</span><br><span class="line">      &quot;type&quot;: &quot;Identifier&quot;,</span><br><span class="line">      &quot;name&quot;: &quot;mori&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;property&quot;: &#123;</span><br><span class="line">      &quot;type&quot;: &quot;Identifier&quot;,</span><br><span class="line">      &quot;name&quot;: &quot;hashMap&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;arguments&quot;: [</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;type&quot;: &quot;StringLiteral&quot;,</span><br><span class="line">      &quot;value&quot;: &quot;bar&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;type&quot;: &quot;NumericLiteral&quot;,</span><br><span class="line">      &quot;value&quot;: 1</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>同样地，我们通过可视化的方式看看抽象语法树（AST）。<br /><img src="https://cdn.nlark.com/yuque/0/2019/png/128853/1565281206770-ca69aab5-e3ba-4bcc-aa64-00d4739ea912.png#align=left&display=inline&height=416&originHeight=416&originWidth=780&size=0&status=done&width=780" alt=""><br />像之前一样，<code>CallExpression</code> 里面包含了 <code>MemberExpression</code>，这个可以从上面数组的代码里借用。但是为了将属性和值放在一个扁平化的数组里我们需要做一点复杂的事情。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">ObjectExpression: <span class="function"><span class="keyword">function</span>(<span class="params">path</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> props = [];</span><br><span class="line">  path.node.properties.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">prop</span>) </span>&#123;</span><br><span class="line">    props.push(</span><br><span class="line">      t.stringLiteral(prop.key.name),</span><br><span class="line">      prop.value.value</span><br><span class="line">    );</span><br><span class="line">  &#125;);</span><br><span class="line">  path.replaceWith(</span><br><span class="line">    t.callExpression(</span><br><span class="line">      t.memberExpression(t.identifier(<span class="string">'mori'</span>), t.identifier(<span class="string">'hashMap'</span>)),</span><br><span class="line">      props</span><br><span class="line">    )</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个实现跟数组的实现方式非常类似，除了我们不得不将 <code>Identifier</code> 转换为 <code>StringLiteral</code> 以防止最终得到的代码类似于：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// before</span></span><br><span class="line"><span class="keyword">var</span> foo = &#123; <span class="attr">bar</span>: <span class="number">1</span> &#125;;</span><br><span class="line"><span class="comment">// after</span></span><br><span class="line"><span class="keyword">var</span> foo = mori.hashMap(bar, <span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+<p>最后，我们创建一个助手函数迁去创建 Mori <code>MemberExpressions</code> 好让我们能继续使用。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">moriMethod</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> t.memberExpression(</span><br><span class="line">    t.identifier(<span class="string">'mori'</span>),</span><br><span class="line">    t.identifier(name)</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// now rewrite</span></span><br><span class="line">t.memberExpression(t.identifier(<span class="string">'mori'</span>), t.identifier(<span class="string">'methodName'</span>));</span><br><span class="line"><span class="comment">// as</span></span><br><span class="line">moriMethod(<span class="string">'methodName'</span>);</span><br></pre></td></tr></table></figure>
+<p>现在我们可以创建并运行一些测试用例，看看插件是否正常工作：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir test</span><br><span class="line">echo -e &quot;var foo = &#123; a: 1 &#125;;\nvar baz = foo.a = 2;&quot; &gt; test/case.ms</span><br><span class="line">node run.js test/case.ms</span><br></pre></td></tr></table></figure>
+<p>你可以在终端下看到类似下面的信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var foo = mori.hashMap(&quot;a&quot;, 1);</span><br><span class="line">var baz = foo.a = 2;</span><br></pre></td></tr></table></figure>
+<p><a name="o6DEe"></a></p>
+<h2 id="赋值"><a href="#赋值" class="headerlink" title="赋值"></a>赋值</h2><p>为了让新的 Mori 数据结构有效，我们需要将新的属性覆盖到原生的语法结构上。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">foo.bar = <span class="number">3</span>;</span><br><span class="line"><span class="comment">// needs to become</span></span><br><span class="line">mori.assoc(foo, <span class="string">'bar'</span>, <span class="number">3</span>);</span><br></pre></td></tr></table></figure>
+<p>这次我们就不再给出抽象语法树（AST），只看图示和插件代码，但你自己可以通过<a href="https://astexplorer.net/" target="_blank" rel="noopener">astexplorer</a> 来查看相应的抽象语法树（AST）。<br /><img src="https://cdn.nlark.com/yuque/0/2019/png/128853/1565281206714-85e6c1c8-9c9e-4adf-a1bc-b74b92e34c1a.png#align=left&display=inline&height=418&originHeight=418&originWidth=897&size=0&status=done&width=897" alt=""><br />我们需要展开并转换节点，将每一个 <code>AssignmentExpression</code> 变成想要的 <code>CallExpression</code>。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">AssignmentExpression: <span class="function"><span class="keyword">function</span>(<span class="params">path</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> lhs = path.node.left;</span><br><span class="line">  <span class="keyword">var</span> rhs = path.node.right;</span><br><span class="line">  <span class="keyword">if</span>(t.isMemberExpression(lhs)) &#123;</span><br><span class="line">    <span class="keyword">if</span>(t.isIdentifier(lhs.property)) &#123;</span><br><span class="line">      lhs.property = t.stringLiteral(lhs.property.name);</span><br><span class="line">    &#125;</span><br><span class="line">    path.replaceWith(</span><br><span class="line">      t.callExpression(</span><br><span class="line">        moriMethod(<span class="string">'assoc'</span>),</span><br><span class="line">        [lhs.object, lhs.property, rhs]</span><br><span class="line">      )</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>AssignmentExpressions</code> 处理方法先是初步检测表达式左侧是否有 <code>MemberExpression</code>（因为我们不希望类似 <code>var a = 3</code> 混淆进去），然后替换为 <code>CallExpression</code>，它通过 Mori <code>assoc</code> 方法创建的。<br />像之前一样，我们处理使用了 <code>Identifier</code> 的地方，将其转换为 <code>StringLiteral</code>。<br />现在创建另一个测试用例来检查代码是否正常工作：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">echo -e &quot;foo.bar = 3;&quot; &gt;&gt; test/case.ms</span><br><span class="line">node run.js test/case.ms</span><br><span class="line">$ mori.assoc(foo, &quot;bar&quot;, 3);</span><br></pre></td></tr></table></figure>
+<p><a name="kak9N"></a></p>
+<h2 id="成员"><a href="#成员" class="headerlink" title="成员"></a>成员</h2><p>最后，我们需要替换访问一个对象的原生语法：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">foo.bar;</span><br><span class="line"><span class="comment">// needs to become</span></span><br><span class="line">mori.get(foo, <span class="string">'bar'</span>);</span><br></pre></td></tr></table></figure>
+<p>这里是 2 个可视化的抽象语法树（AST）。<br /><img src="https://cdn.nlark.com/yuque/0/2019/png/128853/1565281206786-0c52275b-7e79-49da-ab35-eba61ffb0ec6.png#align=left&display=inline&height=411&originHeight=411&originWidth=704&size=0&status=done&width=704" alt=""><br />我们差不多可以直接使用 <code>MemberExpression</code> 属性，然后当属性是个 <code>Identifier</code> 的时候，需要将其转换。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">MemberExpression: <span class="function"><span class="keyword">function</span>(<span class="params">path</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(t.isAssignmentExpression(path.parent)) <span class="keyword">return</span>;</span><br><span class="line">  <span class="keyword">if</span>(t.isIdentifier(path.node.property)) &#123;</span><br><span class="line">    path.node.property = t.stringLiteral(path.node.property.name);</span><br><span class="line">  &#125;</span><br><span class="line">  path.replaceWith(</span><br><span class="line">    t.callExpression(</span><br><span class="line">      moriMethod(<span class="string">'get'</span>),</span><br><span class="line">      [path.node.object, path.node.property]</span><br><span class="line">    )</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>首先最重要的一个不同点是当父级节点是 <code>AssignmentExpression</code> 时需要尽早的结束函数执行，这是因为我们希望 <code>AssignmentExpression</code> 访问器处理这些情况。<br />这看起来比较美好，当你运行这个代码的时候，你会发现出现堆栈溢出错误。这是因为使用 <code>mori.get</code> 替换 <code>MemberExpression</code>(<code>foo.bar</code>) 时，Babel 会遍历这个新的节点，并且重新递归的访问 <code>MemberExpression</code> 这个方法。<br />为了避免出现这个情况，我们可以对 <code>moriMethod</code> 返回值进行标记，然后在 <code>MemberExpression</code> 方法里根据标记进行忽略。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">moriMethod</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> expr = t.memberExpression(</span><br><span class="line">    t.identifier(<span class="string">'mori'</span>),</span><br><span class="line">    t.identifier(name)</span><br><span class="line">  );</span><br><span class="line">  expr.isClean = <span class="literal">true</span>;</span><br><span class="line">  <span class="keyword">return</span> expr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>一旦被标记后，函数内部可以添加另一个返回判断条件。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">MemberExpression: <span class="function"><span class="keyword">function</span>(<span class="params">path</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(path.node.isClean) <span class="keyword">return</span>;</span><br><span class="line">  <span class="keyword">if</span>(t.isAssignmentExpression(path.parent)) <span class="keyword">return</span>;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>创建最后一个测试用例，编译代码并且检查是否正常工作。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">echo -e &quot;foo.bar&quot; &gt;&gt; test/case.ms</span><br><span class="line">node run.js test/case.ms</span><br><span class="line">$ mori.get(foo, &quot;bar&quot;);</span><br></pre></td></tr></table></figure>
+<p>如果一切顺利的话，现在你会了一门类似于 JavaScript 的语言。不同的是，在不影响原来语法的情况下，默认就有了不可变的数据结构。<br><a name="dMeED"></a></p>
+<h2 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h2><p>这是一篇偏重代码的文章，但是覆盖到了所有设计和构建 Babel 插件的基础，可以作为一种有效的方式用来转换 JavaScript 文件。你可以通过 REPL <a href="https://danprince.github.io/moriscript/" target="_blank" rel="noopener">here</a> 的方式来使用 MoriScript，完整的代码可以在 <a href="https://github.com/sitepoint-editors/moriscript" target="_blank" rel="noopener">on GitHub</a> 找到。<br />如果你想更深入的了解 Babel 插件，你可以检出 GitHub 上仓库代码 <a href="https://github.com/thejameskyle/babel-handbook" target="_blank" rel="noopener">Babel Handbook</a> 和 <a href="https://github.com/RReverser/babel-plugin-hello-world" target="_blank" rel="noopener">babel-plugin-hello-world</a>，还可以通过阅读更多的插件源代码 <a href="https://www.npmjs.com/search?q=babel-plugin" target="_blank" rel="noopener">700+ Babel plugins already on npm</a>。同样地还有创建插件的脚手架 <a href="https://www.npmjs.com/package/generator-babel-plugin" target="_blank" rel="noopener">Yeoman generator</a>。<br />希望这篇文章可以激发你去创建 Babel 插件。在你去实施下一个转译语言之前，这里有一些比较接地气的规则需要关注。Babel 是一个 JavaScript 到 JavaScript 的编译器，这意味着不能将 CoffeeScript 写成一个 Babel 插件。<strong>我们只能转换 <a href="https://github.com/babel/babylon" target="_blank" rel="noopener">Babel’s parser</a> 可以理解的 JavaScript 超集</strong>。<br />建议你通过 novel 插件来开始，你可以使用二进制操作符 <code>|</code> 创建一个函数式管道，类似于 F#, Elm 和 LiveScript 语言里的功能。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2</span> | double | square</span><br><span class="line"><span class="comment">// would become</span></span><br><span class="line">square(double(<span class="number">2</span>))</span><br></pre></td></tr></table></figure>
+<p>或者内置一个箭头函数：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> doubleAndSquare = <span class="function"><span class="params">x</span> =&gt;</span> x | double | square</span><br><span class="line"><span class="comment">// would become</span></span><br><span class="line"><span class="keyword">const</span> doubleAndSquare = <span class="function"><span class="params">x</span> =&gt;</span> square(double(x));</span><br><span class="line"><span class="comment">// then use babel-preset-es2015</span></span><br><span class="line"><span class="keyword">var</span> doubleAndSquare = <span class="function"><span class="keyword">function</span> <span class="title">doubleAndSquare</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> square(double(x));</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>一旦你理解了这些规则，唯一的限制就是解析器和你的想象力。</p>
+<hr>
+<h2 id="公众号"><a href="#公众号" class="headerlink" title="公众号"></a>公众号</h2><p>想要实时关注笔者最新的文章和最新的文档更新请关注公众号<strong>程序员面试官</strong>,后续的文章会优先在公众号更新.</p>
+<p><strong>简历模板:</strong> 关注公众号回复「模板」获取</p>
+<p><strong>《前端面试手册》:</strong> 配套于本指南的突击手册,关注公众号回复「fed」获取</p>
+<p><img src="https://xiaomuzhu-image.oss-cn-beijing.aliyuncs.com/d846f65d5025c4b6c4619662a0669503.png" alt="2019-08-12-03-18-41"></p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a style="word-wrap:break-word;" href="http://yoursite.com/2019/11/08/5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill/JavaScript/%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91Babel%E6%8F%92%E4%BB%B6/" title="如何开发Babel插件" target="_blank" rel="external">http://yoursite.com/2019/11/08/5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill/JavaScript/%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91Babel%E6%8F%92%E4%BB%B6/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/chen08" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/chen08" target="_blank"><span class="text-dark">溟海</span><small class="ml-1x">Web Developer &amp; Designer</small></a></h3>
+        <div>天行健，君子以自强不息，地势坤，君子以厚德载物。 杀不死我的,终将使我强大 没有吃不了的苦,只有享不了的福</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2019/11/08/5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill/JavaScript/%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AAEvent/" title="如何实现一个Event"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/11/08/5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill/JavaScript/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AA%E7%BB%84%E4%BB%B6%E5%BA%93%E7%9A%84%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/" title="如何搭建一个组件库的开发环境"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="Catalogue" role="button">
+        <span>[&nbsp;</span><span>Catalogue</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open alipay app scan this qrcode, buy me a coffee!</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open wechat app scan this qrcode, buy me a coffee!</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> alipay</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> wechat payment</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+
+
+<!-- custom analytics part create by xiamo -->
+<!-- <script defer src="https://cdn1.lncld.net/static/js/av-min-1.2.1.js"></script> -->
+<script defer src="/js/av-min-1.2.1.js"></script>
+<script defer>
+AV.init({
+  appId: 'ngFQzHw7z0HgQfrtn4En4WTN-gzGzoHsz',
+  appKey: 'W9hgBBfVDwRGJKoGp5a6HKpx'
+});
+
+function showTime(Counter) {
+	var query = new AV.Query(Counter);
+		var visitors= $('.leancloud_visitors');
+		query.greaterThanOrEqualTo("time", 0);		
+		query.find({
+			success: function(results) {
+				if (results.length == 0) {				
+					return;
+				}
+				var data = results;
+				visitors.each(function(){
+					var url = $(this).attr('id').trim();					
+					for (var i = 0; i < data.length; i++) {
+						var object = data[i];
+						var content = object.get('time');
+						var _url = object.get('url')
+						if(url == _url){
+							$(this).text(content);
+						}
+					}
+				})
+				
+			},
+			error: function(object, error) {
+				console.log("Error: " + error.code + " " + error.message);
+			}
+		});
+}
+
+function addCount(Counter) {
+	var Counter = AV.Object.extend("Counter");
+	url = $(".leancloud_visitors").attr('id').trim();
+	title = $(".leancloud_visitors").attr('data-flag-title').trim();
+	var query = new AV.Query(Counter);
+	query.equalTo("url", url);
+	query.find({
+		success: function(results) {
+			if (results.length > 0) {
+				var counter = results[0];
+				counter.fetchWhenSave(true);
+				counter.increment("time");
+				counter.save(null, {
+					success: function(counter) {
+						var content = counter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(counter, error) {
+						console.log('Failed to save Visitor num, with error message: ' + error.message);
+					}
+				});
+			} else {
+				var newcounter = new Counter();
+				newcounter.set("title", title);
+				newcounter.set("url", url);
+				newcounter.set("time", 1);
+				newcounter.save(null, {
+					success: function(newcounter) {
+					    console.log("newcounter.get('time')="+newcounter.get('time'));
+						var content = newcounter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(newcounter, error) {
+						console.log('Failed to create');
+					}
+				});
+			}
+		},
+		error: function(error) {
+			console.log('Error:' + error.code + " " + error.message);
+		}
+	});
+}
+$(function() {
+	var Counter = AV.Object.extend("Counter");
+	if ($('.leancloud_visitors').length == 1) {
+		addCount(Counter);
+	} else {
+		showTime(Counter);
+	}
+}); 
+</script>
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>

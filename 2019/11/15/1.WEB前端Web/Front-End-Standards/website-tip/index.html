@@ -1,0 +1,2140 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>网站规范 | Hexo</title>
+  <script src="./js/jQuery.md5.js"></script>
+  <script>
+    
+    (function(){
+      localStorage.setItem('userinfo',hex_md5('123chen'))
+      
+      var localData = localStorage.getItem("userinfo");
+      // var localState = localStorage.getItem("state");
+        if(localStorage.getItem("state") === null){
+          var reason = window.prompt('请输入访问密码');
+          // var promptVal = window.prompt('请输入访问密码');
+          if(reason){
+              //填写内容并“确定”
+              var md5Prompt = hex_md5(reason)
+              //点击的是“确定” 
+              if (localData !== md5Prompt){
+                alert('密码错误！');
+                // history.back();
+                location.replace(location.href); 
+              }else{
+                // alert('0123');
+                localStorage.setItem('state',"1")
+              }
+          }
+          else if(reason === ""){
+              //未填写但“确定”
+              location.replace(location.href); 
+          }
+          else{
+            //“取消”事件
+            location.replace(location.href); 
+          }
+        }
+
+    })();
+  </script>
+ <link rel="alternate" href="/atom.xml" data="123chen" type="application/atom+xml">
+  <meta name="description" content="按分类导航语言 HTML HTML介绍 标签和属性 转义字符 浏览器渲染模式 最佳实践 HTML5 网页访问无障碍 favicon   Markdown SVG CSS 概览 基础 CSS 介绍 样式写在哪   选择器 样式规则 背景 过渡 动画 等等   样式规则值的类型 样式的继承和层叠 继承 层叠   布局 布局介绍 元素类型 盒模型 布局技术 positon float inline-bl">
+<meta name="keywords" content="JavaScript,规范">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网站规范">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;15&#x2F;1.WEB%E5%89%8D%E7%AB%AFWeb&#x2F;Front-End-Standards&#x2F;website-tip&#x2F;index.html">
+<meta property="og:site_name" content="学习的敌人是自己的满足，要认真学习一点东西，必须从不自满开始。对自己，“学而不厌”，对人家，“诲人不倦”，我们应取这种态度。">
+<meta property="og:description" content="按分类导航语言 HTML HTML介绍 标签和属性 转义字符 浏览器渲染模式 最佳实践 HTML5 网页访问无障碍 favicon   Markdown SVG CSS 概览 基础 CSS 介绍 样式写在哪   选择器 样式规则 背景 过渡 动画 等等   样式规则值的类型 样式的继承和层叠 继承 层叠   布局 布局介绍 元素类型 盒模型 布局技术 positon float inline-bl">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;15&#x2F;1.WEB%E5%89%8D%E7%AB%AFWeb&#x2F;Front-End-Standards&#x2F;website-tip&#x2F;image&#x2F;show-fps.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;15&#x2F;1.WEB%E5%89%8D%E7%AB%AFWeb&#x2F;Front-End-Standards&#x2F;website-tip&#x2F;image&#x2F;show-composited-layer.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;upload-images.jianshu.io&#x2F;upload_images&#x2F;16777-14aeadfda6241c7b.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;camo.githubusercontent.com&#x2F;771f9df16f29a134369cbcb0913f55932d156983&#x2F;687474703a2f2f646c2e64726f70626f782e636f6d2f752f3334323639382f427261636b6574486967686c6967687465722f4578616d706c65312e706e67">
+<meta property="og:image" content="https:&#x2F;&#x2F;camo.githubusercontent.com&#x2F;9c427039fb2e97570edf760c4abeaf43d208f702&#x2F;687474703a2f2f646c2e64726f70626f782e636f6d2f752f34333539363434392f7469746f2f7375626c696d652f536964654261722f73637265656e73686f742e706e67">
+<meta property="og:updated_time" content="2019-11-15T08:46:32.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;15&#x2F;1.WEB%E5%89%8D%E7%AB%AFWeb&#x2F;Front-End-Standards&#x2F;website-tip&#x2F;image&#x2F;show-fps.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://yoursite.com/2019/11/15/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/website-tip/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="学习的敌人是自己的满足，要认真学习一点东西，必须从不自满开始。对自己，“学而不厌”，对人家，“诲人不倦”，我们应取这种态度。" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/chen08" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">溟海</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer &amp; Designer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Guangzhou, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+          <!-- . -->
+        
+        
+          <li class="menu-item menu-item-home">
+            <a href="/.">
+              
+              <i class="icon icon-home-fill"></i>
+              
+              <span class="menu-title">Home</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- archives -->
+        
+        
+          <li class="menu-item menu-item-archives">
+            <a href="/archives">
+              
+              <i class="icon icon-archives-fill"></i>
+              
+              <span class="menu-title">Archives</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- categories -->
+        
+        
+          <li class="menu-item menu-item-categories">
+            <a href="/categories">
+              
+              <i class="icon icon-folder"></i>
+              
+              <span class="menu-title">Categories</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- tags -->
+        
+        
+          <li class="menu-item menu-item-tags">
+            <a href="/tags">
+              
+              <i class="icon icon-tags"></i>
+              
+              <span class="menu-title">Tags</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- repository -->
+        
+        
+          <li class="menu-item menu-item-repository">
+            <a href="/repository">
+              
+              <i class="icon icon-project"></i>
+              
+              <span class="menu-title">Repository</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- books -->
+        
+        
+          <li class="menu-item menu-item-books">
+            <a href="/books">
+              
+              <i class="icon icon-book-fill"></i>
+              
+              <span class="menu-title">Books</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- links -->
+        
+        
+          <li class="menu-item menu-item-links">
+            <a href="/links">
+              
+              <i class="icon icon-friendship"></i>
+              
+              <span class="menu-title">Links</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- about -->
+        
+        
+          <li class="menu-item menu-item-about">
+            <a href="/about">
+              
+              <i class="icon icon-cup-fill"></i>
+              
+              <span class="menu-title">About</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- navigation/webstack/index.html -->
+        
+        
+          <li class="menu-item menu-item-navigation">
+            <a href="/navigation/webstack/index.html">
+              
+              <i class="icon icon-delicious"></i>
+              
+              <span class="menu-title">Navigation</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- navigation/webstack/word.html -->
+        
+        
+          <li style="display: none;" class="menu-item menu-item-fixed">
+            <a href="/navigation/webstack/word.html">
+              
+              <i class="icon icon-delicious"></i>
+              
+              <span class="menu-title">menu.fixed</span>
+            </a>
+          </li>
+        
+
+
+        
+      </ul>
+
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/1-WEB%E5%89%8D%E7%AB%AF/">1.WEB前端</a><span class="category-list-count">140</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/2-%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">2.编程语言</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/3-%E4%BA%A7%E5%93%81%E8%AE%BE%E8%AE%A1/">3.产品设计</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/4-%E7%AE%A1%E7%90%86%E8%90%A5%E9%94%80/">4.管理营销</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/5-%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87/">5.技能提升</a><span class="category-list-count">155</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/6-%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93/">6.读书总结</a><span class="category-list-count">9</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/" rel="tag">CSS</a><span class="tag-list-count">18</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Dart/" rel="tag">Dart</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES6/" rel="tag">ES6</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES7/" rel="tag">ES7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/English/" rel="tag">English</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flutter/" rel="tag">Flutter</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a><span class="tag-list-count">20</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IMAGE/" rel="tag">IMAGE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JQuery/" rel="tag">JQuery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a><span class="tag-list-count">224</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">JavaScript设计模式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript%E9%AB%98%E7%BA%A7%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" rel="tag">JavaScript高级程序设计</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jquery/" rel="tag">Jquery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mysql/" rel="tag">Mysql</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NETWORK/" rel="tag">NETWORK</a><span class="tag-list-count">13</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node/" rel="tag">Node</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/" rel="tag">PHP</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/" rel="tag">React</a><span class="tag-list-count">31</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJS/" rel="tag">RxJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SVG/" rel="tag">SVG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sass/" rel="tag">Sass</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/" rel="tag">Vue</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%AE%89%E5%85%A8/" rel="tag">WEB安全</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webpack/" rel="tag">Webpack</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/" rel="tag">jQuery</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodeJS/" rel="tag">nodeJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B9%A6%E5%8D%95/" rel="tag">书单</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B9%A6%E7%B1%8D/" rel="tag">书籍</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/" rel="tag">前端安全</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83/" rel="tag">命名规范</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag">小程序</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" rel="tag">性能优化</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8F%92%E4%BB%B6/" rel="tag">插件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A1%86%E6%9E%B6/" rel="tag">框架</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" rel="tag">浏览器</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%84%E4%BB%B6/" rel="tag">组件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%84%E8%8C%83/" rel="tag">规范</a><span class="tag-list-count">67</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6%E5%AD%A6%E4%B9%A0/" rel="tag">软件学习</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a><span class="tag-list-count">153</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/CSS/" style="font-size: 13.71px;">CSS</a> <a href="/tags/Dart/" style="font-size: 13px;">Dart</a> <a href="/tags/ES6/" style="font-size: 13px;">ES6</a> <a href="/tags/ES7/" style="font-size: 13px;">ES7</a> <a href="/tags/English/" style="font-size: 13.18px;">English</a> <a href="/tags/Flutter/" style="font-size: 13px;">Flutter</a> <a href="/tags/Git/" style="font-size: 13.12px;">Git</a> <a href="/tags/HTML/" style="font-size: 13.76px;">HTML</a> <a href="/tags/HTTP/" style="font-size: 13.18px;">HTTP</a> <a href="/tags/IMAGE/" style="font-size: 13px;">IMAGE</a> <a href="/tags/JAVA/" style="font-size: 13.06px;">JAVA</a> <a href="/tags/JQuery/" style="font-size: 13px;">JQuery</a> <a href="/tags/JavaScript/" style="font-size: 14px;">JavaScript</a> <a href="/tags/JavaScript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 13px;">JavaScript设计模式</a> <a href="/tags/JavaScript%E9%AB%98%E7%BA%A7%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 13px;">JavaScript高级程序设计</a> <a href="/tags/Jquery/" style="font-size: 13px;">Jquery</a> <a href="/tags/Mysql/" style="font-size: 13px;">Mysql</a> <a href="/tags/NETWORK/" style="font-size: 13.53px;">NETWORK</a> <a href="/tags/Node/" style="font-size: 13.35px;">Node</a> <a href="/tags/PHP/" style="font-size: 13.24px;">PHP</a> <a href="/tags/React/" style="font-size: 13.82px;">React</a> <a href="/tags/RxJS/" style="font-size: 13px;">RxJS</a> <a href="/tags/SVG/" style="font-size: 13px;">SVG</a> <a href="/tags/Sass/" style="font-size: 13px;">Sass</a> <a href="/tags/TypeScript/" style="font-size: 13.29px;">TypeScript</a> <a href="/tags/Vue/" style="font-size: 13.65px;">Vue</a> <a href="/tags/WEB%E5%AE%89%E5%85%A8/" style="font-size: 13.29px;">WEB安全</a> <a href="/tags/Webpack/" style="font-size: 13.59px;">Webpack</a> <a href="/tags/jQuery/" style="font-size: 13.65px;">jQuery</a> <a href="/tags/nodeJS/" style="font-size: 13px;">nodeJS</a> <a href="/tags/python/" style="font-size: 13px;">python</a> <a href="/tags/%E4%B9%A6%E5%8D%95/" style="font-size: 13px;">书单</a> <a href="/tags/%E4%B9%A6%E7%B1%8D/" style="font-size: 13.06px;">书籍</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 13px;">前端</a> <a href="/tags/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/" style="font-size: 13.06px;">前端安全</a> <a href="/tags/%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83/" style="font-size: 13.41px;">命名规范</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 13px;">小程序</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 13.06px;">工具</a> <a href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" style="font-size: 13.47px;">性能优化</a> <a href="/tags/%E6%8F%92%E4%BB%B6/" style="font-size: 13px;">插件</a> <a href="/tags/%E6%A1%86%E6%9E%B6/" style="font-size: 13px;">框架</a> <a href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" style="font-size: 13px;">浏览器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13.18px;">算法</a> <a href="/tags/%E7%BB%84%E4%BB%B6/" style="font-size: 13px;">组件</a> <a href="/tags/%E8%A7%84%E8%8C%83/" style="font-size: 13.88px;">规范</a> <a href="/tags/%E8%BD%AF%E4%BB%B6%E5%AD%A6%E4%B9%A0/" style="font-size: 13px;">软件学习</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 13.35px;">随笔</a> <a href="/tags/%E9%9D%A2%E8%AF%95/" style="font-size: 13.94px;">面试</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a><span class="archive-list-count">312</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/27/1.WEB%E5%89%8D%E7%AB%AFWeb/React/react-router/" class="title">1.WEB前端Web/React/react-router</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-27T13:24:04.185Z" itemprop="datePublished">2020-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/27/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/sass-guide/" class="title">1.WEB前端Web/Front-End-Standards/sass-guide</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-27T13:24:03.487Z" itemprop="datePublished">2020-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/27/hello-world/" class="title">Hello World</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-27T13:24:03.028Z" itemprop="datePublished">2020-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/6-%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93/">6.读书总结</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/26/6.%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93Book/%E4%BA%BA%E7%94%9F%E9%81%93%E7%90%86/" class="title">人生道理</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-26T01:12:57.000Z" itemprop="datePublished">2020-01-26</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/2-%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">2.编程语言</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/15/2.%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80Programming/English/%E7%94%9F%E6%B4%BB%E8%8B%B1%E8%AF%AD/" class="title">生活英语</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-15T01:12:57.000Z" itemprop="datePublished">2020-01-15</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">Catalogue</h3>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#按分类导航"><span class="toc-number">1.</span> <span class="toc-text">按分类导航</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#语言"><span class="toc-number">1.1.</span> <span class="toc-text">语言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#框架"><span class="toc-number">1.2.</span> <span class="toc-text">框架</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#算法"><span class="toc-number">1.3.</span> <span class="toc-text">算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#综合"><span class="toc-number">1.4.</span> <span class="toc-text">综合</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#前端工程化"><span class="toc-number">1.5.</span> <span class="toc-text">前端工程化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安全"><span class="toc-number">1.6.</span> <span class="toc-text">安全</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#软件"><span class="toc-number">1.7.</span> <span class="toc-text">软件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#资源"><span class="toc-number">1.8.</span> <span class="toc-text">资源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#找工作"><span class="toc-number">1.9.</span> <span class="toc-text">找工作</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#关于浏览器"><span class="toc-number">2.</span> <span class="toc-text">关于浏览器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#W3C和WHATWG的纠葛"><span class="toc-number">3.</span> <span class="toc-text">W3C和WHATWG的纠葛</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number">3.1.</span> <span class="toc-text">参考</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#写给大家看的算法书"><span class="toc-number">4.</span> <span class="toc-text">写给大家看的算法书</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是算法"><span class="toc-number">4.1.</span> <span class="toc-text">什么是算法</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数据结构"><span class="toc-number">5.</span> <span class="toc-text">数据结构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#资源-1"><span class="toc-number">5.1.</span> <span class="toc-text">资源</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#算法-1"><span class="toc-number">6.</span> <span class="toc-text">算法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#资源-2"><span class="toc-number">6.1.</span> <span class="toc-text">资源</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#设计模式"><span class="toc-number">7.</span> <span class="toc-text">设计模式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#缓存"><span class="toc-number">7.1.</span> <span class="toc-text">缓存</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#装饰器模式"><span class="toc-number">7.2.</span> <span class="toc-text">装饰器模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#策略模式"><span class="toc-number">7.3.</span> <span class="toc-text">策略模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他"><span class="toc-number">7.4.</span> <span class="toc-text">其他</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#拓展阅读"><span class="toc-number">7.4.1.</span> <span class="toc-text">拓展阅读</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#浏览器"><span class="toc-number">8.</span> <span class="toc-text">浏览器</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#浏览器探测"><span class="toc-number">8.1.</span> <span class="toc-text">浏览器探测</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#特性探测"><span class="toc-number">8.2.</span> <span class="toc-text">特性探测</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Polyfill"><span class="toc-number">8.3.</span> <span class="toc-text">Polyfill</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Polyfill列表"><span class="toc-number">8.3.1.</span> <span class="toc-text">Polyfill列表</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#更多"><span class="toc-number">8.3.1.1.</span> <span class="toc-text">更多</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cookie"><span class="toc-number">8.4.</span> <span class="toc-text">cookie</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#专题"><span class="toc-number">9.</span> <span class="toc-text">专题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Web动画性能介绍"><span class="toc-number">10.</span> <span class="toc-text">Web动画性能介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#帧率（FPS）"><span class="toc-number">10.1.</span> <span class="toc-text">帧率（FPS）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#网页不同帧率的体验"><span class="toc-number">10.2.</span> <span class="toc-text">网页不同帧率的体验</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#动画的流畅程度具备的特点"><span class="toc-number">10.3.</span> <span class="toc-text">动画的流畅程度具备的特点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#浏览器从DOM到渲染到页面上的过程"><span class="toc-number">10.4.</span> <span class="toc-text">浏览器从DOM到渲染到页面上的过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#硬件加速"><span class="toc-number">10.5.</span> <span class="toc-text">硬件加速</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#优化方式"><span class="toc-number">10.6.</span> <span class="toc-text">优化方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#减少重绘和重排"><span class="toc-number">10.6.1.</span> <span class="toc-text">减少重绘和重排</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用硬件加速"><span class="toc-number">10.6.2.</span> <span class="toc-text">使用硬件加速</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#用CSS3动画时，使用绘制效率比较高的属性"><span class="toc-number">10.6.3.</span> <span class="toc-text">用CSS3动画时，使用绘制效率比较高的属性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考-1"><span class="toc-number">10.7.</span> <span class="toc-text">参考</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#拓展阅读-1"><span class="toc-number">10.8.</span> <span class="toc-text">拓展阅读</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#动画"><span class="toc-number">11.</span> <span class="toc-text">动画</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#实现方式"><span class="toc-number">11.1.</span> <span class="toc-text">实现方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#性能"><span class="toc-number">11.2.</span> <span class="toc-text">性能</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Web-前端性能优化概要"><span class="toc-number">12.</span> <span class="toc-text">Web 前端性能优化概要</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#优化方向"><span class="toc-number">12.1.</span> <span class="toc-text">优化方向</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#优化的方法"><span class="toc-number">12.2.</span> <span class="toc-text">优化的方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#提升页面加载速度"><span class="toc-number">12.3.</span> <span class="toc-text">提升页面加载速度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#提升代码运行速度"><span class="toc-number">12.4.</span> <span class="toc-text">提升代码运行速度</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#JS"><span class="toc-number">12.4.1.</span> <span class="toc-text">JS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CSS"><span class="toc-number">12.4.2.</span> <span class="toc-text">CSS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTML"><span class="toc-number">12.4.3.</span> <span class="toc-text">HTML</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#工具"><span class="toc-number">12.5.</span> <span class="toc-text">工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考-2"><span class="toc-number">12.6.</span> <span class="toc-text">参考</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#减少网站响应时间概要"><span class="toc-number">13.</span> <span class="toc-text">减少网站响应时间概要</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#概要"><span class="toc-number">13.1.</span> <span class="toc-text">概要</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#术语"><span class="toc-number">13.2.</span> <span class="toc-text">术语</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#TTFB（Time-To-First-Byte）"><span class="toc-number">13.2.1.</span> <span class="toc-text">TTFB（Time To First Byte）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DNS时间"><span class="toc-number">13.2.2.</span> <span class="toc-text">DNS时间</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#建立连接时间"><span class="toc-number">13.2.3.</span> <span class="toc-text">建立连接时间</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#服务器处理时间"><span class="toc-number">13.2.4.</span> <span class="toc-text">服务器处理时间</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据传输时间"><span class="toc-number">13.2.5.</span> <span class="toc-text">数据传输时间</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#白屏时间"><span class="toc-number">13.2.6.</span> <span class="toc-text">白屏时间</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#首屏时间"><span class="toc-number">13.2.7.</span> <span class="toc-text">首屏时间</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#用户可操作时间-dom-ready"><span class="toc-number">13.2.8.</span> <span class="toc-text">用户可操作时间(dom ready)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#页面总下载时间-onload"><span class="toc-number">13.2.9.</span> <span class="toc-text">页面总下载时间(onload)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考-3"><span class="toc-number">13.3.</span> <span class="toc-text">参考</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#拓展阅读-2"><span class="toc-number">13.4.</span> <span class="toc-text">拓展阅读</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#cookie-1"><span class="toc-number">14.</span> <span class="toc-text">cookie</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#出现cookie的原因"><span class="toc-number">14.1.</span> <span class="toc-text">出现cookie的原因</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cookie包含的属性"><span class="toc-number">14.2.</span> <span class="toc-text">cookie包含的属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#属性详解"><span class="toc-number">14.3.</span> <span class="toc-text">属性详解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#name-和-value"><span class="toc-number">14.3.1.</span> <span class="toc-text">name 和 value</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#domain"><span class="toc-number">14.3.2.</span> <span class="toc-text">domain</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#path"><span class="toc-number">14.3.3.</span> <span class="toc-text">path</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#http-only"><span class="toc-number">14.3.4.</span> <span class="toc-text">http only</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#security"><span class="toc-number">14.3.5.</span> <span class="toc-text">security</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cookie的发送"><span class="toc-number">14.4.</span> <span class="toc-text">cookie的发送</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他注意点"><span class="toc-number">14.5.</span> <span class="toc-text">其他注意点</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#firefox"><span class="toc-number">15.</span> <span class="toc-text">firefox</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#常用快捷键"><span class="toc-number">15.1.</span> <span class="toc-text">常用快捷键</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#标签页操作"><span class="toc-number">15.2.</span> <span class="toc-text">标签页操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#网址搜索（在地址栏中输入）"><span class="toc-number">15.3.</span> <span class="toc-text">网址搜索（在地址栏中输入）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#浏览器启动时，打开多个页面的设置"><span class="toc-number">15.4.</span> <span class="toc-text">浏览器启动时，打开多个页面的设置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常用插件"><span class="toc-number">15.5.</span> <span class="toc-text">常用插件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#鼠标手势插件-firegestures"><span class="toc-number">15.5.1.</span> <span class="toc-text">鼠标手势插件 firegestures</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#拦截广告插件"><span class="toc-number">15.5.2.</span> <span class="toc-text">拦截广告插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#下载页面上播放的视频插件"><span class="toc-number">15.5.3.</span> <span class="toc-text">下载页面上播放的视频插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RSS-订阅插件"><span class="toc-number">15.5.4.</span> <span class="toc-text">RSS 订阅插件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#阅读器"><span class="toc-number">15.6.</span> <span class="toc-text">阅读器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#让用markdown写邮件成为可能"><span class="toc-number">15.6.1.</span> <span class="toc-text">让用markdown写邮件成为可能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#设置迅雷作为默认下载器"><span class="toc-number">15.6.2.</span> <span class="toc-text">设置迅雷作为默认下载器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#web开发"><span class="toc-number">15.7.</span> <span class="toc-text">web开发</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#插件"><span class="toc-number">15.7.1.</span> <span class="toc-text">插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#web开发快捷键"><span class="toc-number">15.7.2.</span> <span class="toc-text">web开发快捷键</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#禁用浏览器缓存"><span class="toc-number">15.7.3.</span> <span class="toc-text">禁用浏览器缓存</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#开发工具使用"><span class="toc-number">16.</span> <span class="toc-text">开发工具使用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#浏览器-1"><span class="toc-number">16.1.</span> <span class="toc-text">浏览器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IDE"><span class="toc-number">16.2.</span> <span class="toc-text">IDE</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码版本控制"><span class="toc-number">16.3.</span> <span class="toc-text">代码版本控制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#图片查看"><span class="toc-number">16.4.</span> <span class="toc-text">图片查看</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#静态服务器"><span class="toc-number">16.5.</span> <span class="toc-text">静态服务器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#发送web请求的命令行工具"><span class="toc-number">16.6.</span> <span class="toc-text">发送web请求的命令行工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Web调试工具"><span class="toc-number">16.7.</span> <span class="toc-text">Web调试工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他-1"><span class="toc-number">16.8.</span> <span class="toc-text">其他</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sublime"><span class="toc-number">16.9.</span> <span class="toc-text">sublime</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#目录"><span class="toc-number">16.10.</span> <span class="toc-text">目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装package-manager"><span class="toc-number">16.11.</span> <span class="toc-text">安装package manager</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Ctrl-打开控制台"><span class="toc-number">16.11.1.</span> <span class="toc-text">1. Ctrl+` 打开控制台</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-如果是sublime3，粘入"><span class="toc-number">16.11.2.</span> <span class="toc-text">2. 如果是sublime3，粘入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-打开命令面板，键入install-若出现Package-Control-Install-Package。则说明安装成功"><span class="toc-number">16.11.3.</span> <span class="toc-text">3. 打开命令面板，键入install,若出现Package Control: Install Package。则说明安装成功</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#插件推荐"><span class="toc-number">16.12.</span> <span class="toc-text">插件推荐</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#BracketHighlighter"><span class="toc-number">16.12.1.</span> <span class="toc-text">BracketHighlighter</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SideBarEnhancements"><span class="toc-number">16.12.2.</span> <span class="toc-text">SideBarEnhancements</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#html-css-js-prettify"><span class="toc-number">16.12.3.</span> <span class="toc-text">html-css-js prettify</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Emmet"><span class="toc-number">16.12.4.</span> <span class="toc-text">Emmet</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#prefixr"><span class="toc-number">16.12.5.</span> <span class="toc-text">prefixr</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTML5"><span class="toc-number">16.12.6.</span> <span class="toc-text">HTML5</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CSSComb"><span class="toc-number">16.12.7.</span> <span class="toc-text">CSSComb</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Markdown-Preview"><span class="toc-number">16.12.8.</span> <span class="toc-text">Markdown Preview</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Trailing​Spaces"><span class="toc-number">16.12.9.</span> <span class="toc-text">Trailing​Spaces</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DashDoc"><span class="toc-number">16.12.10.</span> <span class="toc-text">DashDoc</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GitGutter-在文件的行号旁边显示文件的修改状态"><span class="toc-number">16.12.11.</span> <span class="toc-text">GitGutter 在文件的行号旁边显示文件的修改状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AutoFileName"><span class="toc-number">16.12.12.</span> <span class="toc-text">AutoFileName</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#更多-1"><span class="toc-number">16.12.13.</span> <span class="toc-text">更多</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sulime-插件排行"><span class="toc-number">16.12.14.</span> <span class="toc-text">sulime 插件排行</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#snippets"><span class="toc-number">16.13.</span> <span class="toc-text">snippets</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Bootstrap-3-Snippets"><span class="toc-number">16.13.1.</span> <span class="toc-text">Bootstrap 3 Snippets</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#快捷键"><span class="toc-number">16.14.</span> <span class="toc-text">快捷键</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#查找定位"><span class="toc-number">16.14.1.</span> <span class="toc-text">查找定位</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#编辑"><span class="toc-number">16.14.2.</span> <span class="toc-text">编辑</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文件操作"><span class="toc-number">16.14.3.</span> <span class="toc-text">文件操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#便签页操作-浏览器的的大部分标签操作快捷键类似）"><span class="toc-number">16.14.4.</span> <span class="toc-text">便签页操作(浏览器的的大部分标签操作快捷键类似）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#书签操作-文件关闭后，文件上的书签会被删除"><span class="toc-number">16.14.5.</span> <span class="toc-text">书签操作(文件关闭后，文件上的书签会被删除)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他-2"><span class="toc-number">16.14.6.</span> <span class="toc-text">其他</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#官方整理的快捷键"><span class="toc-number">16.15.</span> <span class="toc-text">官方整理的快捷键</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#mac"><span class="toc-number">16.15.1.</span> <span class="toc-text">mac</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Windows-Linux"><span class="toc-number">16.16.</span> <span class="toc-text">Windows/Linux</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#关于sublime"><span class="toc-number">16.16.1.</span> <span class="toc-text">关于sublime</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Brackets"><span class="toc-number">17.</span> <span class="toc-text">Brackets</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#下载安装"><span class="toc-number">17.1.</span> <span class="toc-text">下载安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#功能"><span class="toc-number">17.2.</span> <span class="toc-text">功能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#插件-1"><span class="toc-number">17.3.</span> <span class="toc-text">插件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Emmet-1"><span class="toc-number">17.3.1.</span> <span class="toc-text">Emmet</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#markdown"><span class="toc-number">17.3.2.</span> <span class="toc-text">markdown</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#beautify"><span class="toc-number">17.3.3.</span> <span class="toc-text">beautify</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#快捷键-1"><span class="toc-number">17.3.4.</span> <span class="toc-text">快捷键</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#与sublime的比较"><span class="toc-number">17.4.</span> <span class="toc-text">与sublime的比较</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#待探究"><span class="toc-number">17.5.</span> <span class="toc-text">待探究</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#官网"><span class="toc-number">17.6.</span> <span class="toc-text">官网</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#前端规范"><span class="toc-number">17.7.</span> <span class="toc-text">前端规范</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#网站建设小贴士"><span class="toc-number">18.</span> <span class="toc-text">网站建设小贴士</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#图片"><span class="toc-number">18.1.</span> <span class="toc-text">图片</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#flash"><span class="toc-number">18.2.</span> <span class="toc-text">flash</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#关闭当前窗口-兼容-ie6-ch-ff"><span class="toc-number">18.2.1.</span> <span class="toc-text">关闭当前窗口 兼容 ie6+ ch ff</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常用特殊符号编码"><span class="toc-number">18.2.2.</span> <span class="toc-text">常用特殊符号编码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#css-字体Unicode-编码"><span class="toc-number">18.2.3.</span> <span class="toc-text">css 字体Unicode 编码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#标签的嵌套不符合标签的嵌套规则时，可能会导致浏览器的错误解析。"><span class="toc-number">18.2.4.</span> <span class="toc-text">标签的嵌套不符合标签的嵌套规则时，可能会导致浏览器的错误解析。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ie中有input-a获得焦点会有虚线虚线框解决方式"><span class="toc-number">18.2.5.</span> <span class="toc-text">ie中有input,a获得焦点会有虚线虚线框解决方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#让iframe背景透明的方式"><span class="toc-number">18.2.6.</span> <span class="toc-text">让iframe背景透明的方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#css做箭头"><span class="toc-number">18.2.7.</span> <span class="toc-text">css做箭头</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#调试-amp-日志"><span class="toc-number">19.</span> <span class="toc-text">调试&amp;日志</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#一个项目包括的内容"><span class="toc-number">19.1.</span> <span class="toc-text">一个项目包括的内容</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#前端项目架构设计"><span class="toc-number">20.</span> <span class="toc-text">前端项目架构设计</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#自我介绍"><span class="toc-number">20.1.</span> <span class="toc-text">自我介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#架构设计的目标"><span class="toc-number">20.2.</span> <span class="toc-text">架构设计的目标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#具体步骤"><span class="toc-number">20.3.</span> <span class="toc-text">具体步骤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#具体项目-Demo"><span class="toc-number">20.4.</span> <span class="toc-text">具体项目 Demo</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#cordova"><span class="toc-number">21.</span> <span class="toc-text">cordova</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装及环境设置"><span class="toc-number">21.1.</span> <span class="toc-text">安装及环境设置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#操作"><span class="toc-number">21.2.</span> <span class="toc-text">操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在-android-模拟器中查看"><span class="toc-number">21.3.</span> <span class="toc-text">在 android 模拟器中查看</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#构建安卓-app"><span class="toc-number">21.4.</span> <span class="toc-text">构建安卓 app</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在浏览器中预览"><span class="toc-number">21.5.</span> <span class="toc-text">在浏览器中预览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#目录结构"><span class="toc-number">21.6.</span> <span class="toc-text">目录结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置"><span class="toc-number">21.7.</span> <span class="toc-text">配置</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Weex"><span class="toc-number">22.</span> <span class="toc-text">Weex</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#工具-1"><span class="toc-number">22.1.</span> <span class="toc-text">工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#坑"><span class="toc-number">22.2.</span> <span class="toc-text">坑</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Chrome-插件开发"><span class="toc-number">23.</span> <span class="toc-text">Chrome 插件开发</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Mainfast"><span class="toc-number">23.1.</span> <span class="toc-text">Mainfast</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#content-scripts"><span class="toc-number">23.2.</span> <span class="toc-text">content-scripts</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#动态注入资源"><span class="toc-number">23.3.</span> <span class="toc-text">动态注入资源</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#注入-JS"><span class="toc-number">23.3.1.</span> <span class="toc-text">注入 JS</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#事件"><span class="toc-number">23.4.</span> <span class="toc-text">事件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Popup-和-background-的通信"><span class="toc-number">23.5.</span> <span class="toc-text">Popup 和 background 的通信</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#popup-和-background-向-content-发信息"><span class="toc-number">23.6.</span> <span class="toc-text">popup 和 background 向 content 发信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#content-script主动发消息给后台"><span class="toc-number">23.7.</span> <span class="toc-text">content-script主动发消息给后台</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#本地存储"><span class="toc-number">23.8.</span> <span class="toc-text">本地存储</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#打包和发布"><span class="toc-number">23.9.</span> <span class="toc-text">打包和发布</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#资源-3"><span class="toc-number">23.10.</span> <span class="toc-text">资源</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Electron"><span class="toc-number">24.</span> <span class="toc-text">Electron</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#资源-4"><span class="toc-number">24.1.</span> <span class="toc-text">资源</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#微信公众号"><span class="toc-number">25.</span> <span class="toc-text">微信公众号</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#网页授权"><span class="toc-number">25.1.</span> <span class="toc-text">网页授权</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#支付"><span class="toc-number">25.2.</span> <span class="toc-text">支付</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#判断是否在微信"><span class="toc-number">25.3.</span> <span class="toc-text">判断是否在微信</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#分享"><span class="toc-number">25.4.</span> <span class="toc-text">分享</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#判断是否已关注公众号"><span class="toc-number">25.5.</span> <span class="toc-text">判断是否已关注公众号</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一些可能不知道的微信提供的功能"><span class="toc-number">25.6.</span> <span class="toc-text">一些可能不知道的微信提供的功能</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#小程序"><span class="toc-number">26.</span> <span class="toc-text">小程序</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#目录-1"><span class="toc-number">26.1.</span> <span class="toc-text">目录</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#API"><span class="toc-number">27.</span> <span class="toc-text">API</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#同步，异步-API"><span class="toc-number">27.0.1.</span> <span class="toc-text">同步，异步 API</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#生命周期"><span class="toc-number">27.0.2.</span> <span class="toc-text">生命周期</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#事件-1"><span class="toc-number">27.0.3.</span> <span class="toc-text">事件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常用-API"><span class="toc-number">27.0.4.</span> <span class="toc-text">常用 API</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#路由"><span class="toc-number">27.0.4.1.</span> <span class="toc-text">路由</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#显示信息"><span class="toc-number">27.0.4.2.</span> <span class="toc-text">显示信息</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#导航"><span class="toc-number">27.0.4.3.</span> <span class="toc-text">导航</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据存储"><span class="toc-number">27.0.4.4.</span> <span class="toc-text">数据存储</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#获取用户信息"><span class="toc-number">27.0.5.</span> <span class="toc-text">获取用户信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据分析"><span class="toc-number">27.0.6.</span> <span class="toc-text">数据分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#页面滚动"><span class="toc-number">27.0.6.1.</span> <span class="toc-text">页面滚动</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#背景音频"><span class="toc-number">27.0.6.2.</span> <span class="toc-text">背景音频</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#其他-3"><span class="toc-number">27.0.6.3.</span> <span class="toc-text">其他</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#授权"><span class="toc-number">27.0.7.</span> <span class="toc-text">授权</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#客服"><span class="toc-number">27.0.8.</span> <span class="toc-text">客服</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#尺寸单位"><span class="toc-number">27.1.</span> <span class="toc-text">尺寸单位</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#打开-App"><span class="toc-number">27.1.1.</span> <span class="toc-text">打开 App</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#更新机制"><span class="toc-number">27.2.</span> <span class="toc-text">更新机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#真机调试"><span class="toc-number">27.3.</span> <span class="toc-text">真机调试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一些坑"><span class="toc-number">27.4.</span> <span class="toc-text">一些坑</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他资源"><span class="toc-number">27.5.</span> <span class="toc-text">其他资源</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#授权-1"><span class="toc-number">28.</span> <span class="toc-text">授权</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#获取用户的授权设置"><span class="toc-number">28.1.</span> <span class="toc-text">获取用户的授权设置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#打开设置"><span class="toc-number">28.2.</span> <span class="toc-text">打开设置</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#常见问题"><span class="toc-number">29.</span> <span class="toc-text">常见问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#在CSS用背景图用本地路径，图片不显示"><span class="toc-number">29.1.</span> <span class="toc-text">在CSS用背景图用本地路径，图片不显示</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IOS-中设置了Image的图片不显示"><span class="toc-number">29.2.</span> <span class="toc-text">IOS 中设置了Image的图片不显示</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#常见码值"><span class="toc-number">30.</span> <span class="toc-text">常见码值</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#页面"><span class="toc-number">31.</span> <span class="toc-text">页面</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#注册页面"><span class="toc-number">31.1.</span> <span class="toc-text">注册页面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#getCurrentPages"><span class="toc-number">31.2.</span> <span class="toc-text">getCurrentPages</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#生命周期-1"><span class="toc-number">32.</span> <span class="toc-text">生命周期</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#语法"><span class="toc-number">33.</span> <span class="toc-text">语法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#WXML"><span class="toc-number">33.1.</span> <span class="toc-text">WXML</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#条件"><span class="toc-number">33.1.1.</span> <span class="toc-text">条件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#循环"><span class="toc-number">33.1.2.</span> <span class="toc-text">循环</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#引用"><span class="toc-number">33.1.3.</span> <span class="toc-text">引用</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#自定义组件"><span class="toc-number">34.</span> <span class="toc-text">自定义组件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#注意点"><span class="toc-number">34.1.</span> <span class="toc-text">注意点</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#App"><span class="toc-number">35.</span> <span class="toc-text">App</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#注册-App"><span class="toc-number">35.1.</span> <span class="toc-text">注册 App</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#获取-App"><span class="toc-number">35.2.</span> <span class="toc-text">获取 App</span></a></li></ol></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-1.WEB前端Web/Front-End-Standards/website-tip" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      网站规范
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/11/15/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/website-tip/" class="article-date">
+	  <time datetime="2019-11-15T01:12:57.000Z" itemprop="datePublished">2019-11-15</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/1-WEB%E5%89%8D%E7%AB%AF/">1.WEB前端</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/JavaScript/" rel="tag">JavaScript</a>, <a class="article-tag-link" href="/tags/%E8%A7%84%E8%8C%83/" rel="tag">规范</a>
+  </span>
+
+
+        
+
+	<span class="article-read hidden-xs">
+    	<i class="icon icon-eye-fill" aria-hidden="true"></i>
+    	<span id="/2019/11/15/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/website-tip/" class="leancloud_visitors"  data-flag-title="网站规范">0</span>
+    </span>
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/11/15/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/website-tip/#comments" class="article-comment-link">Comments</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count: 14.7k(words)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">Read Count: 59(minutes)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="按分类导航"><a href="#按分类导航" class="headerlink" title="按分类导航"></a>按分类导航</h1><h2 id="语言"><a href="#语言" class="headerlink" title="语言"></a>语言</h2><ul>
+<li>HTML<ul>
+<li>HTML介绍</li>
+<li>标签和属性</li>
+<li>转义字符</li>
+<li>浏览器渲染模式</li>
+<li>最佳实践</li>
+<li>HTML5</li>
+<li>网页访问无障碍</li>
+<li>favicon</li>
+</ul>
+</li>
+<li>Markdown</li>
+<li>SVG</li>
+<li>CSS<ul>
+<li>概览</li>
+<li>基础<ul>
+<li>CSS 介绍</li>
+<li>样式写在哪</li>
+</ul>
+</li>
+<li>选择器</li>
+<li>样式规则<ul>
+<li>背景</li>
+<li>过渡</li>
+<li>动画</li>
+<li>等等</li>
+</ul>
+</li>
+<li>样式规则值的类型</li>
+<li>样式的继承和层叠<ul>
+<li>继承</li>
+<li>层叠</li>
+</ul>
+</li>
+<li>布局<ul>
+<li>布局介绍</li>
+<li>元素类型</li>
+<li>盒模型</li>
+<li>布局技术<ul>
+<li>positon</li>
+<li><del>float</del></li>
+<li>inline-block</li>
+<li>Flex</li>
+<li>Grid</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>统一浏览器的默认样式<ul>
+<li>浏览器默认样式</li>
+<li>reset.css 和 normalize.css</li>
+</ul>
+</li>
+<li>浏览器兼容性</li>
+<li>调试 CSS</li>
+<li>最佳实践</li>
+<li>练习题</li>
+</ul>
+</li>
+<li>Sass</li>
+<li>Postcss</li>
+<li>JS<ul>
+<li>介绍</li>
+<li>语法</li>
+<li>DOM</li>
+<li>BOM</li>
+<li>与服务端交互<ul>
+<li>http</li>
+<li>ajax</li>
+<li>fetch-api</li>
+<li>cookie</li>
+</ul>
+</li>
+<li>同域的页面间传递数据</li>
+<li>ES6</li>
+<li>ES7</li>
+<li>函数式编程</li>
+<li>设计模式</li>
+</ul>
+</li>
+<li>Node.js</li>
+<li>webGL</li>
+</ul>
+<h2 id="框架"><a href="#框架" class="headerlink" title="框架"></a>框架</h2><ul>
+<li>MVVM: <ul>
+<li>Vue.js, ElementUI</li>
+<li>react</li>
+</ul>
+</li>
+<li>jQuery</li>
+<li>APP<ul>
+<li>微信</li>
+<li>cordova</li>
+</ul>
+</li>
+<li>工具<ul>
+<li>underscore&amp;lodash</li>
+<li>Moment.js</li>
+<li>Mock.js</li>
+</ul>
+</li>
+<li>数据可视化<ul>
+<li>d3</li>
+</ul>
+</li>
+<li>Polymer</li>
+<li>游戏引擎的整理</li>
+</ul>
+<h2 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h2><ul>
+<li>数据结构。只列了下，并没有实现。</li>
+<li>给大家看的算法书</li>
+<li>设计模式</li>
+</ul>
+<h2 id="综合"><a href="#综合" class="headerlink" title="综合"></a>综合</h2><ul>
+<li>动画</li>
+<li>前端性能优化</li>
+</ul>
+<h2 id="前端工程化"><a href="#前端工程化" class="headerlink" title="前端工程化"></a>前端工程化</h2><ul>
+<li>模块/组件化<ul>
+<li>介绍</li>
+</ul>
+</li>
+<li>包管理。npm,Yarn。</li>
+<li>构建工具<ul>
+<li>npm scripts</li>
+<li>webpack</li>
+<li>make 只有链接</li>
+</ul>
+</li>
+<li>代码质量<ul>
+<li>eslint</li>
+<li>如何写出优雅的代码</li>
+<li>代码审查（目前还很简单)</li>
+</ul>
+</li>
+<li>关于搭建框架。框架有哪些东西，以及架构框架的注意点。</li>
+</ul>
+<h2 id="安全"><a href="#安全" class="headerlink" title="安全"></a>安全</h2><ul>
+<li>xss</li>
+<li>sql注入</li>
+<li>加密</li>
+<li>术语(term)</li>
+<li>书</li>
+<li>资源</li>
+</ul>
+<h2 id="软件"><a href="#软件" class="headerlink" title="软件"></a>软件</h2><ul>
+<li>浏览器</li>
+<li>Git</li>
+<li>IDE： Sublime, atom 和 编辑器配置。Emmet。</li>
+<li>node-sass 的可用包</li>
+<li>photoshop</li>
+<li>markdown</li>
+<li>weinre</li>
+<li>输入法。RIME中州韻輸入法。</li>
+<li>终端。canisue， 命令行。</li>
+</ul>
+<h2 id="资源"><a href="#资源" class="headerlink" title="资源"></a>资源</h2><ul>
+<li>写的文章归档</li>
+<li>网站收藏。包括博客，播客，工具，学习资源等</li>
+<li>书籍推荐</li>
+<li>代码片段</li>
+<li>优秀源码列表</li>
+</ul>
+<h2 id="找工作"><a href="#找工作" class="headerlink" title="找工作"></a>找工作</h2><ul>
+<li>评估自己的技术</li>
+<li>面试问题， vue 面试问题</li>
+<li>Web前端程序员简历模板</li>
+<li>前端工作招聘网站列表</li>
+<li>向面试官提问</li>
+</ul>
+<h1 id="关于浏览器"><a href="#关于浏览器" class="headerlink" title="关于浏览器"></a>关于浏览器</h1><ul>
+<li><a href="http://taligarsiel.com/Projects/howbrowserswork1.htm" target="_blank" rel="noopener">How browsers work</a></li>
+<li><a href="http://www.chinaw3c.org/about.html" target="_blank" rel="noopener">W3C</a> 和 <a href="https://whatwg.org/" target="_blank" rel="noopener">WHATWG</a> 均为定web标准的组织 <a href="W3C&WHATWG.md">他们的故事</a></li>
+</ul>
+<h1 id="W3C和WHATWG的纠葛"><a href="#W3C和WHATWG的纠葛" class="headerlink" title="W3C和WHATWG的纠葛"></a>W3C和WHATWG的纠葛</h1><p>2004年，由Firefox、Opera、Apple、Google四大浏览器厂商组成的网页超文本技术工作小组(Web Hypertext Application Technology Working Group)，即WHATWG，宣布制定下一代HTML标准，即HTML5。而当时的万维网联盟(W3C)正在发展在XML和HTML基础上设计的XHTML。</p>
+<p>于是，W3C和浏览器厂商的第一次大战开始。互联网的未来究竟是由标准组织W3C决定还是由浏览器厂商决定？这场大战的决定性因素在于开发者们站在哪一边。结果很明显，开发者们当然会站在浏览器那边，毕竟浏览器是普通用户接触互联网的唯一途径。W3C于2007年接纳了WHATWG的HTML5草案，并成立了新的HTML工作团队。</p>
+<p>于是，W3C和浏览器厂商的第一次大战开始。互联网的未来究竟是由标准组织W3C决定还是由浏览器厂商决定？这场大战的决定性因素在于开发者们站在哪一边。结果很明显，开发者们当然会站在浏览器那边，毕竟浏览器是普通用户接触互联网的唯一途径。W3C于2007年接纳了WHATWG的HTML5草案，并成立了新的HTML工作团队。</p>
+<p>W3C拥有微软和苹果，WHATWG拥有谷歌和火狐。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="http://www.techug.com/html5-browsers" target="_blank" rel="noopener">HTML5标准制定完成：浏览器大战能消停吗？</a></li>
+</ul>
+<h1 id="写给大家看的算法书"><a href="#写给大家看的算法书" class="headerlink" title="写给大家看的算法书"></a>写给大家看的算法书</h1><h2 id="什么是算法"><a href="#什么是算法" class="headerlink" title="什么是算法"></a>什么是算法</h2><p>算法是解决问题的步骤。</p>
+<p>现实生活有很多问题的解决方法蕴含了算法的思想。这其中的代表就是菜谱。</p>
+<h1 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h1><ul>
+<li>队列</li>
+<li>栈</li>
+<li>单向列表</li>
+<li>双向列表</li>
+<li>树</li>
+<li>图</li>
+</ul>
+<h2 id="资源-1"><a href="#资源-1" class="headerlink" title="资源"></a>资源</h2><ul>
+<li><a href="http://blog.benoitvallon.com/category/data-structures-in-javascript/" target="_blank" rel="noopener">Data Structures in JavaScript posts</a></li>
+</ul>
+<h1 id="算法-1"><a href="#算法-1" class="headerlink" title="算法"></a>算法</h1><ul>
+<li>时间复杂度，空间复杂度</li>
+<li>数据结构</li>
+<li>常用算法<ul>
+<li>枚举法（暴力破解）</li>
+<li>贪心算法</li>
+<li>迭代法</li>
+<li>递归</li>
+<li>分治</li>
+<li>二分法</li>
+<li>背包算法</li>
+<li>…</li>
+</ul>
+</li>
+</ul>
+<h2 id="资源-2"><a href="#资源-2" class="headerlink" title="资源"></a>资源</h2><ul>
+<li><a href="https://github.com/trekhleb/javascript-algorithms/blob/master/README.zh-CN.md" target="_blank" rel="noopener">JavaScript 算法与数据结构</a></li>
+<li><a href="http://shichuan.github.io/javascript-patterns/" target="_blank" rel="noopener">JS Patterns</a></li>
+</ul>
+<h1 id="设计模式"><a href="#设计模式" class="headerlink" title="设计模式"></a>设计模式</h1><h2 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h2><p>缓存一些计算的中间过程，如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">// 不推荐</span><br><span class="line">$(&apos;#btn&apos;).addClass(&apos;active&apos;);</span><br><span class="line">$(&apos;#btn&apos;).show();</span><br><span class="line"></span><br><span class="line">// 推荐</span><br><span class="line">var $btn = $(&apos;#btn&apos;);</span><br><span class="line">$btn.addClass(&apos;active&apos;);</span><br><span class="line">$btn.show();</span><br><span class="line"></span><br><span class="line">var arr = [&apos;a&apos;, &apos;b&apos;, &apos;c&apos;];</span><br><span class="line">// 不推荐</span><br><span class="line">for(var i = 0; i &lt; arr.length; i++)&#123;</span><br><span class="line">  //</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 推荐</span><br><span class="line">for(var i = 0, arrLen = arr.length; i &lt; arrLen; i++)&#123;</span><br><span class="line">  //</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="装饰器模式"><a href="#装饰器模式" class="headerlink" title="装饰器模式"></a>装饰器模式</h2><p>在程序开发过程中，通常我们并不希望某个类天生就非常庞大，一次性包含很多职责，这时候我们就可以用修饰器模式（Decorator Pattern）。修饰器模式可以动态地给某个对象添加一些额外的功能，而不会影响从这个类中派生的其他对象。</p>
+<p>装饰器一般用来做</p>
+<ul>
+<li>输出日志</li>
+<li>对属性的说明，如 readonly,nonenumberable</li>
+<li>类型检查</li>
+</ul>
+<h2 id="策略模式"><a href="#策略模式" class="headerlink" title="策略模式"></a>策略模式</h2><p><a href="http://www.cnblogs.com/tugenhua0707/p/4722696.html" target="_blank" rel="noopener">http://www.cnblogs.com/tugenhua0707/p/4722696.html</a></p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li>单向数据流<ul>
+<li>Flux</li>
+<li><a href="http://redux.js.org/" target="_blank" rel="noopener">Redux</a></li>
+<li><a href="https://github.com/vuejs/vuex" target="_blank" rel="noopener">Vuex</a></li>
+</ul>
+</li>
+<li>由前端决定数据形状<ul>
+<li><a href="https://github.com/facebook/relay" target="_blank" rel="noopener">relay</a> Facebook<ul>
+<li><a href="http://zhuanlan.zhihu.com/purerender/20638731" target="_blank" rel="noopener">GraphQL and Relay 浅析</a></li>
+</ul>
+</li>
+<li><a href="https://github.com/Netflix/falcor" target="_blank" rel="noopener">falcor</a> Netflix</li>
+</ul>
+</li>
+</ul>
+<h3 id="拓展阅读"><a href="#拓展阅读" class="headerlink" title="拓展阅读"></a>拓展阅读</h3><ul>
+<li><a href="http://wiki.jikexueyuan.com/project/javascript-design-patterns/decorative-pattern.html" target="_blank" rel="noopener">极客学院 装饰模式</a></li>
+<li><a href="http://greengerong.com/blog/2015/09/24/es7-javascript-decorators/" target="_blank" rel="noopener">细说ES7 JavaScript Decorators</a></li>
+<li><a href="http://greengerong.com/blog/2015/09/23/es7-zhi-decorators-shi-xian-aopshi-li/" target="_blank" rel="noopener">ES7之Decorators实现AOP示例</a></li>
+<li><a href="https://github.com/jayphelps/core-decorators.js" target="_blank" rel="noopener">core-decorators.js</a> 实现的一些过滤器。</li>
+<li><a href="http://shichuan.github.io/javascript-patterns/#jquery-patterns" target="_blank" rel="noopener">JavaScript Patterns Collection</a></li>
+</ul>
+<h1 id="浏览器"><a href="#浏览器" class="headerlink" title="浏览器"></a>浏览器</h1><h2 id="浏览器探测"><a href="#浏览器探测" class="headerlink" title="浏览器探测"></a>浏览器探测</h2><p>可使用<a href="https://github.com/ded/bowser" target="_blank" rel="noopener">bowser</a>这个框架。使用demo见<a href="http://htmlpreview.github.io/?https://github.com/iamjoel/front-end-resource/blob/master/learn/browser/browser-detect.html" target="_blank" rel="noopener">这里</a></p>
+<h2 id="特性探测"><a href="#特性探测" class="headerlink" title="特性探测"></a>特性探测</h2><ul>
+<li><a href="https://github.com/Modernizr/Modernizr" target="_blank" rel="noopener">Modernizr</a></li>
+<li><a href="https://github.com/phiggins42/has.js/" target="_blank" rel="noopener">has.js</a></li>
+</ul>
+<h2 id="Polyfill"><a href="#Polyfill" class="headerlink" title="Polyfill"></a>Polyfill</h2><blockquote>
+<p>polyfil<br>l是在旧版浏览器上复制标准 API 的 JavaScript 补充    </p>
+</blockquote>
+<p>因为 polyfill 模拟标准 API，所以能够以一种面向所有浏览器未来的方式针对这些 API 进行开发，最终目标是：一旦对这些 API 的支持变成绝对大多数，则可以方便地去掉 polyfill，无需做任何额外工作。</p>
+<h3 id="Polyfill列表"><a href="#Polyfill列表" class="headerlink" title="Polyfill列表"></a>Polyfill列表</h3><p>还不错的几个</p>
+<ul>
+<li>selectivizr 让老浏览器支持一些css3的选择器</li>
+<li>CSS3PIE 让老浏览器支持一些css3的样式</li>
+</ul>
+<h4 id="更多"><a href="#更多" class="headerlink" title="更多"></a>更多</h4><p><a href="https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-browser-Polyfills" target="_blank" rel="noopener">https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-browser-Polyfills</a></p>
+<h2 id="cookie"><a href="#cookie" class="headerlink" title="cookie"></a><a href="cookie.md">cookie</a></h2><h1 id="专题"><a href="#专题" class="headerlink" title="专题"></a>专题</h1><ul>
+<li><a href="animate">动画</a></li>
+<li><a href="performance">前端性能优化概要</a></li>
+</ul>
+<h1 id="Web动画性能介绍"><a href="#Web动画性能介绍" class="headerlink" title="Web动画性能介绍"></a>Web动画性能介绍</h1><p>在谈动画性能之前，先介绍一些概念。</p>
+<h2 id="帧率（FPS）"><a href="#帧率（FPS）" class="headerlink" title="帧率（FPS）"></a>帧率（FPS）</h2><p>帧率（FPS）：描述每秒播放的帧数，单位为 Hz 或者 frame/s （帧/秒）。</p>
+<p>理论上说，FPS越高，动画会越流畅，但是，因为大部分的显示器刷新频率是 60Hz，当动画的FPS超过 60Hz 时，会出现<a href="http://zh.wikipedia.org/wiki/%E7%95%AB%E9%9D%A2%E6%92%95%E8%A3%82" target="_blank" rel="noopener">画面撕裂</a>现象（显示器会把两个或更多的帧显示在同一画面上）。所以通常来讲 FPS 为 60frame/s 时动画效果最好，也就是每帧16.67ms，在浏览器中要减去渲染时间1ms左右，得到的结果是每帧时间大概15ms。</p>
+<p>如果用 setInterval 来做动画，每帧时间大概设置成13ms（jQuery 用的 13ms）。因为用 setInterval 会有1ms左右的延时。当然在高级浏览器中，当然是用 requestAnimationFrame 来做动画啦。</p>
+<p>在Chrome中查看帧率<br><img src="image/show-fps.png" alt="在Chrome中查看帧率"></p>
+<h2 id="网页不同帧率的体验"><a href="#网页不同帧率的体验" class="headerlink" title="网页不同帧率的体验"></a>网页不同帧率的体验</h2><ul>
+<li>帧率能够达到50~60fps的动画将会相当流畅，让人倍感舒适。</li>
+<li>帧率在30～50fps之间的动画，因各人敏感程度不同，舒适度因人而异。</li>
+<li>帧率在30fps以下的动画，让人感觉到明显的卡顿和不适感。</li>
+<li>帧率波动很大的动画，亦会使人感觉到卡顿。</li>
+</ul>
+<h2 id="动画的流畅程度具备的特点"><a href="#动画的流畅程度具备的特点" class="headerlink" title="动画的流畅程度具备的特点"></a>动画的流畅程度具备的特点</h2><ul>
+<li>帧率高（接近60fps最佳）</li>
+<li>帧率稳定，波动少（极少出现跳帧现象）</li>
+</ul>
+<h2 id="浏览器从DOM到渲染到页面上的过程"><a href="#浏览器从DOM到渲染到页面上的过程" class="headerlink" title="浏览器从DOM到渲染到页面上的过程"></a>浏览器从DOM到渲染到页面上的过程</h2><p>浏览器在渲染一个页面时，会将页面分为很多个图层，图层有大有小，每个图层上有一个或多个节点。在渲染DOM的时候，浏览器所做的工作实际上是：</p>
+<ol>
+<li>获取 DOM 并将其分割为多个层</li>
+<li>将每个层独立的绘制进位图中</li>
+<li>将层作为纹理上传至 GPU</li>
+<li>复合多个层来生成最终的屏幕图像</li>
+</ol>
+<p>当 Chrome 首次为一个 web 页面创建一个帧(frame)时，以上步骤都需要执行。但对于以后出现的帧可以走些捷径：</p>
+<ul>
+<li>如果某些特定 CSS 属性变化，并不需要发生重绘。Chrome 可以使用早已作为纹理而存在于 GPU 中的层来重新复合，但会使用不同的复合属性(例如，出现在不同的位置，拥有不同的透明度等等)。</li>
+<li>如果层的部分失效，它会被重绘并且重新上传。如果它的内容保持不变但是复合属性发生变化(例如，层被转化或透明度发生变化)，Chrome 可以让层保留在 GPU 中，并通过重新复合来生成一个新的帧。</li>
+</ul>
+<p>如果图层中某个元素需要重绘，那么整个图层都需要重绘。    </p>
+<p>Chrome 中，图层分为 RenderLayer(负责 DOM 子树)，GraphicsLayer(负责 RenderLayer 的子树)。<br>只有 GraphicsLayer 是作为纹理(texture)上传给 GPU 的。</p>
+<h2 id="硬件加速"><a href="#硬件加速" class="headerlink" title="硬件加速"></a>硬件加速</h2><p>借助于显卡的优势改变了渲染方式，被称为硬件加速(hardware acceleration)。</p>
+<p>改变了渲染方式是指，对硬件加速的元素以transform的方式进行位移(translate)、旋转(rotate)、缩放(scale)时，这些操作会由GPU来处理，而不会触发浏览器的重绘（CPU处理）。</p>
+<h2 id="优化方式"><a href="#优化方式" class="headerlink" title="优化方式"></a>优化方式</h2><h3 id="减少重绘和重排"><a href="#减少重绘和重排" class="headerlink" title="减少重绘和重排"></a>减少重绘和重排</h3><p>具体见 <a href="http://www.phpied.com/rendering-repaint-reflowrelayout-restyle/" target="_blank" rel="noopener">Rendering: repaint, reflow/relayout, restyle</a></p>
+<h3 id="使用硬件加速"><a href="#使用硬件加速" class="headerlink" title="使用硬件加速"></a>使用硬件加速</h3><p>生成复合层(composited layer/GraphicsLayer)的方式。<br>对于普通元素（除去Video，iframe，Flash等插件），通过设置</p>
+<ul>
+<li>transform:translate3d, translate 或perspective(透视)属性</li>
+<li>position:fixed<br>可以生成复合层(composited layer)。对复合层用设置transform的方式进行位移(translate)、旋转(rotate)、缩放(scale)将不会触发浏览器重绘，这部分工作会由GPU来处理。<br>注意：如果对复合层用设置margin，padding或left,top来进行位移，width，height来进行缩放还是会触发浏览器重绘。</li>
+</ul>
+<p>据说，<a href="http://stackoverflow.com/questions/9068132/why-arent-browsers-smart-enough-to-hardware-accelerate-without-tricks" target="_blank" rel="noopener">Firefox和IE会硬件加速所有的元素</a>。</p>
+<h3 id="用CSS3动画时，使用绘制效率比较高的属性"><a href="#用CSS3动画时，使用绘制效率比较高的属性" class="headerlink" title="用CSS3动画时，使用绘制效率比较高的属性"></a>用CSS3动画时，使用绘制效率比较高的属性</h3><ul>
+<li>改变位置</li>
+<li>改变大小</li>
+<li>旋转</li>
+<li>改变透明度（透明度改变不会触发重绘哦）</li>
+</ul>
+<p>在chrome浏览器中查看复合层的方式为<br><img src="image/show-composited-layer.png" alt="查看复合层的方式为"><br>页面上的复合层会有黄色边框。</p>
+<p>待续（Canvas，SVG里做动画的效率，JS的一些动画优化库）</p>
+<h2 id="参考-1"><a href="#参考-1" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://github.com/imsobear/blog/issues/39" target="_blank" rel="noopener">动画初探</a></li>
+<li><a href="http://alexorz.github.io/animation-performance-guide/" target="_blank" rel="noopener">Web动画性能指南</a></li>
+<li><a href="http://segmentfault.com/a/1190000000490328" target="_blank" rel="noopener">前端性能优化（CSS动画篇）</a></li>
+<li><a href="http://www.html5rocks.com/zh/tutorials/speed/layers/" target="_blank" rel="noopener">Accelerated Rendering in Chrome</a></li>
+</ul>
+<h2 id="拓展阅读-1"><a href="#拓展阅读-1" class="headerlink" title="拓展阅读"></a>拓展阅读</h2><ul>
+<li><a href="http://colachan.com/post/3444" target="_blank" rel="noopener">网页动画终极指南</a></li>
+<li><a href="https://github.com/classicemi/blog/issues/3" target="_blank" rel="noopener">消除疑问：CSS动画 VS JavaScript</a></li>
+<li><a href="http://csstriggers.com/" target="_blank" rel="noopener">CSS Triggers…</a> 样式新建或改变时，会触发哪些行为（重绘，重排，复合）的一个列表</li>
+<li><a href="http://www.chromium.org/developers/design-documents/gpu-accelerated-compositing-in-chrome" target="_blank" rel="noopener">http://www.chromium.org/developers/design-documents/gpu-accelerated-compositing-in-chrome</a></li>
+<li><a href="http://efe.baidu.com/blog/hardware-accelerated-css-the-nice-vs-the-naughty/" target="_blank" rel="noopener">CSS硬件加速的好与坏</a></li>
+</ul>
+<h1 id="动画"><a href="#动画" class="headerlink" title="动画"></a>动画</h1><h2 id="实现方式"><a href="#实现方式" class="headerlink" title="实现方式"></a>实现方式</h2><ul>
+<li><a href="../../css/transition">CSS3 过渡</a></li>
+<li><a href="../../css/animate">CSS3 动画</a></li>
+</ul>
+<h2 id="性能"><a href="#性能" class="headerlink" title="性能"></a>性能</h2><p><a href="performance.md">Web动画性能介绍</a></p>
+<p><a href="http://www.w3cplus.com/animation/web-animation-resources.html" target="_blank" rel="noopener">Web动画</a> Web动画资源整合<br><a href="http://www.uisdc.com/introduction-to-webdesign-animation" target="_blank" rel="noopener">动效知识总结！给设计师的网页动画设计基础指南</a></p>
+<h1 id="Web-前端性能优化概要"><a href="#Web-前端性能优化概要" class="headerlink" title="Web 前端性能优化概要"></a>Web 前端性能优化概要</h1><h2 id="优化方向"><a href="#优化方向" class="headerlink" title="优化方向"></a>优化方向</h2><ul>
+<li>页面加载速度。</li>
+<li>代码运行速度。</li>
+</ul>
+<h2 id="优化的方法"><a href="#优化的方法" class="headerlink" title="优化的方法"></a>优化的方法</h2><ol>
+<li>指定优化目标。目标需要是具体的，可度量的。比如，在 50Kb 每秒的网络环境下，加载首屏所用时间少于 2 秒。</li>
+<li>从大头去优化。如果提高页面加载速度，考虑优化加载时间最长的资源。如果要提高代码运行速度，考虑优化最耗时的操作。</li>
+<li>制定和实施优化策略。</li>
+<li>验证。</li>
+</ol>
+<h2 id="提升页面加载速度"><a href="#提升页面加载速度" class="headerlink" title="提升页面加载速度"></a>提升页面加载速度</h2><ul>
+<li>HTTP 的缓存。<ul>
+<li>强缓存。</li>
+<li>协商缓存。</li>
+</ul>
+</li>
+<li>减少 HTTP 发送内容的大小。<ul>
+<li>服务器端启用压缩服务，如用 gzip。</li>
+<li>文件内容的压缩。</li>
+<li>删除无用的代码。</li>
+<li>用没有 Cookie 的域来放静态资源。</li>
+<li>选择合适的图片格式。考虑用 Webp 格式的图片。</li>
+</ul>
+</li>
+<li>减少 HTTP 数量。<ul>
+<li>多个资源文件合并一个。JS,CSS,图片(小图标可以用图片精灵 或 图标字体)。</li>
+<li>首屏的一些 CSS 可以考虑内联。</li>
+<li>体积比较小的图片可以考虑内联。</li>
+<li>避免空的 src 和 href。</li>
+</ul>
+</li>
+<li>提升资源下载速度。<ul>
+<li>使用 CDN。</li>
+<li>无阻塞加载 Script。</li>
+</ul>
+</li>
+<li>减少 DNS 查找时间。<ul>
+<li>减少域名数量。</li>
+</ul>
+</li>
+<li>避免重定向。</li>
+<li>其他。<ul>
+<li>CSS 写在 <code>&lt;head&gt;</code> 中，JS 写在 <code>&lt;/body&gt;</code> 前。</li>
+</ul>
+</li>
+</ul>
+<h2 id="提升代码运行速度"><a href="#提升代码运行速度" class="headerlink" title="提升代码运行速度"></a>提升代码运行速度</h2><h3 id="JS"><a href="#JS" class="headerlink" title="JS"></a>JS</h3><ul>
+<li>优化耗时的循环。</li>
+<li>缓存一些耗性能的中间结果。</li>
+<li>将耗时的任务交给 worker 来做。</li>
+<li>防止内存泄漏。</li>
+<li>算法改进。</li>
+</ul>
+<h3 id="CSS"><a href="#CSS" class="headerlink" title="CSS"></a>CSS</h3><ul>
+<li>如果需要动态更改CSS样式，尽量采用触发 reflow 次数较少的方式。</li>
+<li>选择器优化。</li>
+<li>避免使用 CSS 表达式。</li>
+</ul>
+<h3 id="HTML"><a href="#HTML" class="headerlink" title="HTML"></a>HTML</h3><ul>
+<li>尽量不要用 iframe。</li>
+<li>减少 DOM 数量。</li>
+</ul>
+<h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><ul>
+<li><a href="http://yslow.org/" target="_blank" rel="noopener">YSlow</a> 分析网站，提出提升网站性能的建议。</li>
+<li><a href="http://alibench.com/" target="_blank" rel="noopener">阿里测</a> 网站在不同地区的访问情况。</li>
+<li>Chrome 开发工具中的 Profiles 和 Timeline。</li>
+<li><a href="http://jsperf.com/" target="_blank" rel="noopener">jsPerf</a> JS 执行效率测试。</li>
+<li><a href="https://benchmarkjs.com/" target="_blank" rel="noopener">Benchmark.js</a> 同 jsPerf。</li>
+</ul>
+<h2 id="参考-2"><a href="#参考-2" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://github.com/amfe/article/issues/21" target="_blank" rel="noopener">15年双11手淘前端技术巡演 - H5性能最佳实践</a></li>
+<li><a href="http://ntx.me/2015/03/02/checkList/" target="_blank" rel="noopener">性能 CheckList v1.0</a></li>
+<li><a href="http://isux.tencent.com/introduction-of-webp.html" target="_blank" rel="noopener">WebP 探寻之路</a></li>
+<li><a href="http://www.smashingmagazine.com/2015/10/rail-user-centric-model-performance/" target="_blank" rel="noopener">Introducing RAIL: A User-Centric Model For Performance</a></li>
+<li><a href="http://jinlong.github.io/2016/05/01/4-Types-of-Memory-Leaks-in-JavaScript-and-How-to-Get-Rid-Of-Them" target="_blank" rel="noopener">内存泄露</a></li>
+<li><a href="http://yanhaijing.com/jquery/2013/12/05/writing-better-jquery-code/" target="_blank" rel="noopener">http://yanhaijing.com/jquery/2013/12/05/writing-better-jquery-code/</a></li>
+<li><a href="https://www.smashingmagazine.com/2012/06/javascript-profiling-chrome-developer-tools/" target="_blank" rel="noopener">https://www.smashingmagazine.com/2012/06/javascript-profiling-chrome-developer-tools/</a></li>
+<li><a href="https://github.com/CN-Chrome-DevTools/CN-Chrome-DevTools" target="_blank" rel="noopener">https://github.com/CN-Chrome-DevTools/CN-Chrome-DevTools</a> Chrome 开发者工具中文手册</li>
+<li><a href="https://developers.google.com/chrome-developer-tools/docs/demos/memory/example1.html" target="_blank" rel="noopener">https://developers.google.com/chrome-developer-tools/docs/demos/memory/example1.html</a></li>
+<li><a href="https://www.smashingmagazine.com/2012/06/javascript-profiling-chrome-developer-tools/" target="_blank" rel="noopener">https://www.smashingmagazine.com/2012/06/javascript-profiling-chrome-developer-tools/</a></li>
+<li><a href="https://developer.chrome.com/devtools/docs/demos/memory" target="_blank" rel="noopener">https://developer.chrome.com/devtools/docs/demos/memory</a></li>
+</ul>
+<h1 id="减少网站响应时间概要"><a href="#减少网站响应时间概要" class="headerlink" title="减少网站响应时间概要"></a>减少网站响应时间概要</h1><h2 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h2><ul>
+<li>减少HTTP请求文件的大小<ul>
+<li>精简html的DOM元素数量</li>
+<li>压缩css，js代码</li>
+<li>图片文件选用合适的格式。对于色彩数不是很丰富的图片，使用<code>png</code>格式<ul>
+<li>压缩图片。使用类似<a href="http://pmt.sourceforge.net/pngcrush/" target="_blank" rel="noopener">pngcrush</a>的工具</li>
+<li>服务器端启用gzip压缩</li>
+<li>静态资源放在没有cookie的domain下</li>
+<li>减小cookie大小</li>
+<li>减小网站标题图标（favicon.ico）的大小</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>减少HTTP请求数<ul>
+<li>合并文件。比如将所有的样式表合并成一个，所有脚本文件合并成一个</li>
+<li>合并一些图标类图片。图标类图片做成图片精灵（<a href="http://alistapart.com/article/sprites" target="_blank" rel="noopener">CSS Sprites</a>）</li>
+</ul>
+</li>
+<li>缓存<ul>
+<li>静态资源的缓存</li>
+<li>ajax的缓存</li>
+<li>减少样式和脚本的内联。因为内联的是没法被缓存的</li>
+</ul>
+</li>
+<li>减少网页等待时间<ul>
+<li>避免资源的404</li>
+<li>脚本文件放在<code>&lt;/body&gt;</code>前<ul>
+<li>对图片进行Lazyload</li>
+<li>一块一块的输出<code>html</code>。可参考Facebook的Bigpipe的思想。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>使用CDN</li>
+</ul>
+<h2 id="术语"><a href="#术语" class="headerlink" title="术语"></a>术语</h2><h3 id="TTFB（Time-To-First-Byte）"><a href="#TTFB（Time-To-First-Byte）" class="headerlink" title="TTFB（Time To First Byte）"></a>TTFB（Time To First Byte）</h3><p>最初的网络请求被发起到从服务器接收到第一个字节这段时间。</p>
+<h3 id="DNS时间"><a href="#DNS时间" class="headerlink" title="DNS时间"></a>DNS时间</h3><p>用户在浏览器输入网址名称（网址）后，浏览器通过查询DNS服务器所需要的时间</p>
+<h3 id="建立连接时间"><a href="#建立连接时间" class="headerlink" title="建立连接时间"></a>建立连接时间</h3><p>根据TCP协议要求，请求方（浏览器等）与接受方（服务器）经过一系列协商所需要的时间</p>
+<h3 id="服务器处理时间"><a href="#服务器处理时间" class="headerlink" title="服务器处理时间"></a>服务器处理时间</h3><p>接收方（服务器）处理请求所需时间</p>
+<h3 id="数据传输时间"><a href="#数据传输时间" class="headerlink" title="数据传输时间"></a>数据传输时间</h3><p>从请求方（浏览器等）到接收方（服务器）以及从接收方（服务器）到请求方的时间</p>
+<h3 id="白屏时间"><a href="#白屏时间" class="headerlink" title="白屏时间"></a>白屏时间</h3><p>用户浏览器输入网址后至浏览器出现至少1px图片为止</p>
+<h3 id="首屏时间"><a href="#首屏时间" class="headerlink" title="首屏时间"></a>首屏时间</h3><p>用户浏览器首屏内所有的元素呈现所花费时间</p>
+<h3 id="用户可操作时间-dom-ready"><a href="#用户可操作时间-dom-ready" class="headerlink" title="用户可操作时间(dom ready)"></a>用户可操作时间(dom ready)</h3><p>网站某些功能可以使用的时间</p>
+<h3 id="页面总下载时间-onload"><a href="#页面总下载时间-onload" class="headerlink" title="页面总下载时间(onload)"></a>页面总下载时间(onload)</h3><p>网站中所有资源加载完成并且可用时间</p>
+<h2 id="参考-3"><a href="#参考-3" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://developer.yahoo.com/performance/rules.html" target="_blank" rel="noopener">https://developer.yahoo.com/performance/rules.html</a></li>
+<li><a href="http://www.oschina.net/translate/top_10_mistakes_in_handling_website_images_and_how_to_solve_them" target="_blank" rel="noopener">处理网页图片最常见的10个错误及其解决方案</a></li>
+<li><a href="http://www.webdoes.com/archives/462.html" target="_blank" rel="noopener">BigPipe的技术实现【转】</a></li>
+</ul>
+<h2 id="拓展阅读-2"><a href="#拓展阅读-2" class="headerlink" title="拓展阅读"></a>拓展阅读</h2><ul>
+<li><a href="http://isux.tencent.com/h5-performance.html" target="_blank" rel="noopener">移动H5前端性能优化指南</a></li>
+</ul>
+<h1 id="cookie-1"><a href="#cookie-1" class="headerlink" title="cookie"></a>cookie</h1><blockquote>
+<p>cookie是存储在客户端的一小段数据，客户端通过HTTP协议和服务器端进行Cookie交互</p>
+</blockquote>
+<h2 id="出现cookie的原因"><a href="#出现cookie的原因" class="headerlink" title="出现cookie的原因"></a>出现cookie的原因</h2><p>HTTP协议是无状态的协议。一旦数据交换完毕，客户端与服务器端的连接就会关闭，再次交换数据需要建立新的连接。这就意味着服务器无法从连接上跟踪会话。即用户A购买了一件商品放入购物车内，当再次购买商品时服务器已经无法判断该购买行为是属于用户A的会话还是用户B的会话了。要跟踪该会话，必须引入一种机制。    </p>
+<p>Cookie就是这样的一种机制。用Cookie可以来跟踪会话。</p>
+<h2 id="cookie包含的属性"><a href="#cookie包含的属性" class="headerlink" title="cookie包含的属性"></a>cookie包含的属性</h2><ul>
+<li>name</li>
+<li>value</li>
+<li>domian</li>
+<li>path</li>
+<li>expires</li>
+<li>secure</li>
+<li>http-only</li>
+</ul>
+<h2 id="属性详解"><a href="#属性详解" class="headerlink" title="属性详解"></a>属性详解</h2><h3 id="name-和-value"><a href="#name-和-value" class="headerlink" title="name 和 value"></a>name 和 value</h3><p>cookie的名称和值</p>
+<h3 id="domain"><a href="#domain" class="headerlink" title="domain"></a>domain</h3><h3 id="path"><a href="#path" class="headerlink" title="path"></a>path</h3><h3 id="http-only"><a href="#http-only" class="headerlink" title="http only"></a>http only</h3><p>在页面里不能通过JS来读写</p>
+<h3 id="security"><a href="#security" class="headerlink" title="security"></a>security</h3><p>设置为true时，只在HTTPS连接下才会发送</p>
+<h2 id="cookie的发送"><a href="#cookie的发送" class="headerlink" title="cookie的发送"></a>cookie的发送</h2><p>如果请求的url满足domain,path,http only,security的限制时，请求头中会包含cookie。</p>
+<h2 id="其他注意点"><a href="#其他注意点" class="headerlink" title="其他注意点"></a>其他注意点</h2><ol>
+<li>浏览器cookie存储大小的限制</li>
+<li>客户端向服务器端发异步请求，如果服务器端在响应时设置cookie,那cookie要刷新页面后才会生效。如果用js来设置cookie，则即时生效的。</li>
+</ol>
+<h1 id="firefox"><a href="#firefox" class="headerlink" title="firefox"></a>firefox</h1><h2 id="常用快捷键"><a href="#常用快捷键" class="headerlink" title="常用快捷键"></a>常用快捷键</h2><ul>
+<li>Ctrl + F:在网页中查找内容<ul>
+<li>F3:下一个</li>
+<li>Shift + F3:上一个</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>Ctrl + L：使地址栏获得焦点</li>
+<li>Ctrl + K：使地址栏旁的搜索栏获得焦点</li>
+<li>Ctrl + Enter： 自动补全当前地址，并进入</li>
+<li>Ctrl + D: 将当前页面保存到书签</li>
+<li>Ctrl + H: 历史</li>
+<li>Ctrl + B: 打开书签</li>
+<li>Ctrl + J : 打开下载内容</li>
+<li>Ctrl + Shift+ P:隐私浏览模式（在隱私瀏覽視窗中，Firefox 不會保留任何瀏覽記錄、搜尋記錄、下載記錄、網頁表單輸入內容、Cookie、暫存檔案）</li>
+<li>缩放页面<ul>
+<li>Ctrl + +:放大</li>
+<li>Ctrl + -:缩小</li>
+<li>Ctrl + 0:默认大小</li>
+</ul>
+</li>
+</ul>
+<h2 id="标签页操作"><a href="#标签页操作" class="headerlink" title="标签页操作"></a>标签页操作</h2><ul>
+<li>Ctrl + Shift+ Tab： 激活左边一个标签页</li>
+<li>Ctrl + Tab ： 激活右边一个标签页</li>
+<li>Ctrl + [1-8] : 激活第几个标签</li>
+<li>Ctrl + 9 ： 激活最后标签页  </li>
+<li>Ctrl + T: 新建Tab</li>
+<li>Ctrl+ shift + T ：打开最近关闭的一个tab</li>
+<li>Ctrl + w : 关闭当前tab </li>
+<li>Ctrl + Shift + A：打开附加组件</li>
+<li>Ctrl + Shift + E：一键显示所有tab</li>
+</ul>
+<h2 id="网址搜索（在地址栏中输入）"><a href="#网址搜索（在地址栏中输入）" class="headerlink" title="网址搜索（在地址栏中输入）"></a>网址搜索（在地址栏中输入）</h2><ul>
+<li>* + 空格 + 关键字：从书签中搜索满足条件的的网站</li>
+<li>^ + 空格 + 关键字：从浏览记录中搜索满足条件的网站</li>
+<li>% + 空格 + 关键字：从打开的标签中搜索满足条件的标签</li>
+</ul>
+<h2 id="浏览器启动时，打开多个页面的设置"><a href="#浏览器启动时，打开多个页面的设置" class="headerlink" title="浏览器启动时，打开多个页面的设置"></a>浏览器启动时，打开多个页面的设置</h2><ol>
+<li>打开菜单 Tool -&gt; Options</li>
+<li>选择General选项卡，homePage的值即为浏览器启动时打开的页面。多个页面地址间用管道符号<code>|</code>来分割。如下图所示：<br><img src="http://upload-images.jianshu.io/upload_images/16777-14aeadfda6241c7b.jpg" alt="QQ图片20140709091020.jpg"></li>
+</ol>
+<h2 id="常用插件"><a href="#常用插件" class="headerlink" title="常用插件"></a>常用插件</h2><h3 id="鼠标手势插件-firegestures"><a href="#鼠标手势插件-firegestures" class="headerlink" title="鼠标手势插件 firegestures"></a>鼠标手势插件 firegestures</h3><ul>
+<li>新建标签 LR</li>
+<li>打开上次关闭的标签 RL</li>
+<li>关闭标签 DR</li>
+<li>上个标签 UL</li>
+<li>下个标签 UR</li>
+<li>刷新 UD</li>
+<li>后退 L</li>
+<li>前进 R</li>
+</ul>
+<h3 id="拦截广告插件"><a href="#拦截广告插件" class="headerlink" title="拦截广告插件"></a>拦截广告插件</h3><p>adblock</p>
+<h3 id="下载页面上播放的视频插件"><a href="#下载页面上播放的视频插件" class="headerlink" title="下载页面上播放的视频插件"></a>下载页面上播放的视频插件</h3><p>netvideohunter</p>
+<h3 id="RSS-订阅插件"><a href="#RSS-订阅插件" class="headerlink" title="RSS 订阅插件"></a>RSS 订阅插件</h3><p>Sage: 体验性上，还是没有一些专业做rss 阅读器的好，比如<a href="http://www.feedly.com" target="_blank" rel="noopener">feedly</a> 以及 <a href="http://xianguo.com/" target="_blank" rel="noopener">鲜果</a></p>
+<h2 id="阅读器"><a href="#阅读器" class="headerlink" title="阅读器"></a>阅读器</h2><p>阅读epub格式的文件: EPUBReader </p>
+<h3 id="让用markdown写邮件成为可能"><a href="#让用markdown写邮件成为可能" class="headerlink" title="让用markdown写邮件成为可能"></a>让用markdown写邮件成为可能</h3><p>Markdown here:<a href="http://markdown-here.com/" target="_blank" rel="noopener">http://markdown-here.com/</a></p>
+<h3 id="设置迅雷作为默认下载器"><a href="#设置迅雷作为默认下载器" class="headerlink" title="设置迅雷作为默认下载器"></a>设置迅雷作为默认下载器</h3><p>FlashGot + Thunder：安装这两个插件。在工具——FlashGot——更多选择，在”下载管理器“中选择”Thunder“，再到”下载“选项卡中，选中”接管所有的下载“。这样，你的下载工具就是迅雷了。 </p>
+<h2 id="web开发"><a href="#web开发" class="headerlink" title="web开发"></a>web开发</h2><h3 id="插件"><a href="#插件" class="headerlink" title="插件"></a>插件</h3><ul>
+<li>firebug</li>
+<li>web developer</li>
+<li>eventbugs 依赖firebug查看Dom事件</li>
+<li>firecookie 依赖firebug,查看cookie的</li>
+<li>use agent switcher  切换浏览器的user-agent属性</li>
+<li>webscarab 修改请求和响应</li>
+</ul>
+<h3 id="web开发快捷键"><a href="#web开发快捷键" class="headerlink" title="web开发快捷键"></a>web开发快捷键</h3><ul>
+<li>F12:打开firebug</li>
+<li>Ctrl + Shift + Delete:删除浏览器缓存</li>
+<li>Ctrl + U : 查看源码</li>
+</ul>
+<h3 id="禁用浏览器缓存"><a href="#禁用浏览器缓存" class="headerlink" title="禁用浏览器缓存"></a>禁用浏览器缓存</h3><ol>
+<li>在地址栏中打”about:config”</li>
+<li>找到”network.http.use-cache”，双击它直至它变为”False“</li>
+</ol>
+<h1 id="开发工具使用"><a href="#开发工具使用" class="headerlink" title="开发工具使用"></a>开发工具使用</h1><h2 id="浏览器-1"><a href="#浏览器-1" class="headerlink" title="浏览器"></a>浏览器</h2><ul>
+<li>firefox <a href="firefox.md">使用</a></li>
+<li>chrome,safari,360极速等 (webkit)</li>
+<li>IE,IE tester</li>
+<li>opera</li>
+</ul>
+<h2 id="IDE"><a href="#IDE" class="headerlink" title="IDE"></a>IDE</h2><ul>
+<li><a href="http://www.sublimetext.com/3" target="_blank" rel="noopener">sublime</a></li>
+<li><a href="http://www.jetbrains.com/idea/" target="_blank" rel="noopener">intelliJ Idea</a>,webstorm</li>
+<li>vi</li>
+</ul>
+<h2 id="代码版本控制"><a href="#代码版本控制" class="headerlink" title="代码版本控制"></a>代码版本控制</h2><ul>
+<li>git<ul>
+<li>github : 客户端 <a href="https://help.github.com/articles/set-up-git" target="_blank" rel="noopener">https://help.github.com/articles/set-up-git</a></li>
+<li>gitlab : 在windows下，建议用cygwin，在上面装git插件。安装配置可参考<br><a href="http://www.cnblogs.com/EasonWu/archive/2012/11/27/git-windows-setup-by-cygwin.html" target="_blank" rel="noopener">http://www.cnblogs.com/EasonWu/archive/2012/11/27/git-windows-setup-by-cygwin.html</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="图片查看"><a href="#图片查看" class="headerlink" title="图片查看"></a>图片查看</h2><ul>
+<li>photoshop</li>
+<li><a href="http://www.picpick.org/en/" target="_blank" rel="noopener">picpick</a> 轻量级的查看图片软件支持：查看psd格式；量色；测距离等。</li>
+</ul>
+<h2 id="静态服务器"><a href="#静态服务器" class="headerlink" title="静态服务器"></a>静态服务器</h2><ul>
+<li><a href="https://npmjs.org/package/anywhere" target="_blank" rel="noopener">anywhere</a> 需nodejs的环境。安装 <code>npm i -g anywhere</code></li>
+</ul>
+<h2 id="发送web请求的命令行工具"><a href="#发送web请求的命令行工具" class="headerlink" title="发送web请求的命令行工具"></a>发送web请求的命令行工具</h2><ul>
+<li><a href="http://curl.haxx.se/" target="_blank" rel="noopener">curl</a> 在windows上，需在 <a href="http://www.cygwin.com/" target="_blank" rel="noopener">cygwin</a> 上安装</li>
+</ul>
+<h2 id="Web调试工具"><a href="#Web调试工具" class="headerlink" title="Web调试工具"></a>Web调试工具</h2><ul>
+<li><a href="http://www.telerik.com/fiddler" target="_blank" rel="noopener">fiddler</a> 记录所有客户端和服务器的http和https请求，允许你监视，设置断点，修改输入输出数据。</li>
+</ul>
+<h2 id="其他-1"><a href="#其他-1" class="headerlink" title="其他"></a>其他</h2><ul>
+<li><a href="http://cn.ejie.me/" target="_blank" rel="noopener">Clover</a> Windows上支持多标签的资源管理器。还支持添加书签功能。书签的快捷键与Chrome的一致。</li>
+</ul>
+<h2 id="sublime"><a href="#sublime" class="headerlink" title="sublime"></a>sublime</h2><h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li><a href="#install">安装package manager</a></li>
+<li><a href="#plugin">插件推荐</a></li>
+<li><a href="#snippets">snippets</a></li>
+<li><a href="#shortcut">常用快捷键</a></li>
+</ul>
+<h2 id="安装package-manager"><a href="#安装package-manager" class="headerlink" title="安装package manager"></a><a name="install">安装package manager</a></h2><h3 id="1-Ctrl-打开控制台"><a href="#1-Ctrl-打开控制台" class="headerlink" title="1. Ctrl+` 打开控制台"></a>1. Ctrl+` 打开控制台</h3><h3 id="2-如果是sublime3，粘入"><a href="#2-如果是sublime3，粘入" class="headerlink" title="2. 如果是sublime3，粘入"></a>2. 如果是sublime3，粘入</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import urllib.request,os,hashlib; h = &apos;7183a2d3e96f11eeadd761d777e62404&apos; + &apos;e330c659d4bb41d3bdf022e94cab3cd0&apos;; pf = &apos;Package Control.sublime-package&apos;; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( &apos;http://sublime.wbond.net/&apos; + pf.replace(&apos; &apos;, &apos;%20&apos;)).read(); dh = hashlib.sha256(by).hexdigest(); print(&apos;Error validating download (got %s instead of %s), please try manual install&apos; % (dh, h)) if dh != h else open(os.path.join( ipp, pf), &apos;wb&apos; ).write(by)</span><br></pre></td></tr></table></figure>
+<p>如果是sublime2，粘入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import urllib2,os,hashlib; h = &apos;7183a2d3e96f11eeadd761d777e62404&apos; + &apos;e330c659d4bb41d3bdf022e94cab3cd0&apos;; pf = &apos;Package Control.sublime-package&apos;; ipp = sublime.installed_packages_path(); os.makedirs( ipp ) if not os.path.exists(ipp) else None; urllib2.install_opener( urllib2.build_opener( urllib2.ProxyHandler()) ); by = urllib2.urlopen( &apos;http://sublime.wbond.net/&apos; + pf.replace(&apos; &apos;, &apos;%20&apos;)).read(); dh = hashlib.sha256(by).hexdigest(); open( os.path.join( ipp, pf), &apos;wb&apos; ).write(by) if dh == h else None; print(&apos;Error validating download (got %s instead of %s), please try manual install&apos; % (dh, h) if dh != h else &apos;Please restart Sublime Text to finish installation&apos;)</span><br></pre></td></tr></table></figure>
+<h3 id="3-打开命令面板，键入install-若出现Package-Control-Install-Package。则说明安装成功"><a href="#3-打开命令面板，键入install-若出现Package-Control-Install-Package。则说明安装成功" class="headerlink" title="3. 打开命令面板，键入install,若出现Package Control: Install Package。则说明安装成功"></a>3. 打开命令面板，键入<code>install</code>,若出现<code>Package Control: Install Package</code>。则说明安装成功</h3><p>详细 见<a href="https://sublime.wbond.net/installation" target="_blank" rel="noopener">这里</a></p>
+<h2 id="插件推荐"><a href="#插件推荐" class="headerlink" title="插件推荐"></a><a name="plugin">插件推荐</a></h2><h3 id="BracketHighlighter"><a href="#BracketHighlighter" class="headerlink" title="BracketHighlighter"></a><a href="https://github.com/facelessuser/BracketHighlighter" target="_blank" rel="noopener">BracketHighlighter</a></h3><p>高亮匹配的各种括号<br><img src="https://camo.githubusercontent.com/771f9df16f29a134369cbcb0913f55932d156983/687474703a2f2f646c2e64726f70626f782e636f6d2f752f3334323639382f427261636b6574486967686c6967687465722f4578616d706c65312e706e67" alt="BracketHighlighter"></p>
+<h3 id="SideBarEnhancements"><a href="#SideBarEnhancements" class="headerlink" title="SideBarEnhancements"></a><a href="https://github.com/titoBouzout/SideBarEnhancements/tree/st3" target="_blank" rel="noopener">SideBarEnhancements</a></h3><p>增强右击边栏菜单的功能<br><img src="https://camo.githubusercontent.com/9c427039fb2e97570edf760c4abeaf43d208f702/687474703a2f2f646c2e64726f70626f782e636f6d2f752f34333539363434392f7469746f2f7375626c696d652f536964654261722f73637265656e73686f742e706e67" alt="SideBarEnhancements"></p>
+<h3 id="html-css-js-prettify"><a href="#html-css-js-prettify" class="headerlink" title="html-css-js prettify"></a><a href="https://github.com/victorporof/Sublime-HTMLPrettify" target="_blank" rel="noopener">html-css-js prettify</a></h3><p>格式化html,css,js代码。快捷键<code>ctrl+shift+h</code>进行格式化。</p>
+<h3 id="Emmet"><a href="#Emmet" class="headerlink" title="Emmet"></a><a href="https://sublime.wbond.net/packages/Emmet" target="_blank" rel="noopener">Emmet</a></h3><p>提供html的自动补全功能。如输入 <code>ul.main&gt;li{第$个}*3</code>，然后按Tab键。会生成如下的内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;ul class=&quot;main&quot;&gt;</span><br><span class="line">	&lt;li&gt;第1个&lt;/li&gt;</span><br><span class="line">	&lt;li&gt;第2个&lt;/li&gt;</span><br><span class="line">	&lt;li&gt;第3个&lt;/li&gt;</span><br><span class="line">&lt;/ul&gt;</span><br></pre></td></tr></table></figure>
+<p>如果按Tab键没有反应，那么设置文档的语法为html。方式为</p>
+<ol>
+<li><code>ctrl+shift+p</code></li>
+<li>输入 ‘set syntax: HTML’</li>
+</ol>
+<p>更多用法见 <a href="http://docs.emmet.io/" target="_blank" rel="noopener">http://docs.emmet.io/</a></p>
+<h3 id="prefixr"><a href="#prefixr" class="headerlink" title="prefixr"></a><a href="http://wbond.net/sublime_packages/prefixr" target="_blank" rel="noopener">prefixr</a></h3><p>自动插入css3的前缀。</p>
+<h3 id="HTML5"><a href="#HTML5" class="headerlink" title="HTML5"></a>HTML5</h3><p>HTML5语法高亮</p>
+<h3 id="CSSComb"><a href="#CSSComb" class="headerlink" title="CSSComb"></a><a href="http://csscomb.com/" target="_blank" rel="noopener">CSSComb</a></h3><p>将css样式按照一定的顺序进行排列。可自定义规则。</p>
+<h3 id="Markdown-Preview"><a href="#Markdown-Preview" class="headerlink" title="Markdown Preview"></a><a href="https://sublime.wbond.net/packages/Markdown%20Preview" target="_blank" rel="noopener">Markdown Preview</a></h3><p>可以在浏览器中预览markdown，或将markdown转化成html</p>
+<h3 id="Trailing​Spaces"><a href="#Trailing​Spaces" class="headerlink" title="Trailing​Spaces"></a><a href="https://sublime.wbond.net/packages/TrailingSpaces" target="_blank" rel="noopener">Trailing​Spaces</a></h3><p>让多余的空格无所遁形。</p>
+<h3 id="DashDoc"><a href="#DashDoc" class="headerlink" title="DashDoc"></a><a href="https://github.com/farcaller/DashDoc#readme" target="_blank" rel="noopener">DashDoc</a></h3><p>将dash集成到sublime中。选单词按｀ctrl＋H｀会在dash中进行搜索。</p>
+<h3 id="GitGutter-在文件的行号旁边显示文件的修改状态"><a href="#GitGutter-在文件的行号旁边显示文件的修改状态" class="headerlink" title="GitGutter 在文件的行号旁边显示文件的修改状态"></a><a href="https://github.com/jisaacks/GitGutter" target="_blank" rel="noopener">GitGutter</a> 在文件的行号旁边显示文件的修改状态</h3><h3 id="AutoFileName"><a href="#AutoFileName" class="headerlink" title="AutoFileName"></a>AutoFileName</h3><p>文件路径与名称的补全</p>
+<h3 id="更多-1"><a href="#更多-1" class="headerlink" title="更多"></a>更多</h3><p><a href="http://ipestov.com/the-best-plugins-for-sublime-text/" target="_blank" rel="noopener">http://ipestov.com/the-best-plugins-for-sublime-text/</a></p>
+<h3 id="sulime-插件排行"><a href="#sulime-插件排行" class="headerlink" title="sulime 插件排行"></a>sulime 插件排行</h3><p><a href="https://sublime.wbond.net/browse/popular" target="_blank" rel="noopener">https://sublime.wbond.net/browse/popular</a></p>
+<h2 id="snippets"><a href="#snippets" class="headerlink" title="snippets"></a><a name="snippets">snippets</a></h2><ul>
+<li>[我的sulime snippent]<a href="https://github.com/iamjoel/sublime-snippets/" target="_blank" rel="noopener">https://github.com/iamjoel/sublime-snippets/</a></li>
+<li><a href="https://github.com/jakebresnehan/Sublime-Super-Snippets" target="_blank" rel="noopener">Super-Snippets</a> 某前端工程师的snippets</li>
+</ul>
+<h3 id="Bootstrap-3-Snippets"><a href="#Bootstrap-3-Snippets" class="headerlink" title="Bootstrap 3 Snippets"></a><a href="https://github.com/JasonMortonNZ/bs3-sublime-plugin" target="_blank" rel="noopener">Bootstrap 3 Snippets</a></h3><p>快速生成bootstrap3的一些组件的Snippets</p>
+<h2 id="快捷键"><a href="#快捷键" class="headerlink" title="快捷键"></a><a name="shortcut">快捷键</a></h2><ul>
+<li><code>Ctrl+Shift+P</code> 打开命令面板</li>
+<li>Ctrl+` 打开控制台命令面板(`在``中转义不鸟)</li>
+</ul>
+<h3 id="查找定位"><a href="#查找定位" class="headerlink" title="查找定位"></a>查找定位</h3><ul>
+<li><code>Ctrl+P</code> 打开查找文件面板。如果面板中的内容以<code>@</code>,<code>#</code>,<code>:</code>开头，则在当前文件中找<ul>
+<li>以<code>@</code> 开头：如果文件html,则找id。如果文件是js，找函数及其他的东东。相当于<code>Ctrl+R</code></li>
+<li>以<code>#</code>开头：在函数名变量名中找</li>
+<li>以<code>:</code>开头：跳转到某行。相当于<code>Ctrl+G</code></li>
+</ul>
+</li>
+<li><code>Ctrl+F</code> 查找</li>
+<li><code>Ctrl+M</code> 光标跳至对应的括号：大中小括号均可</li>
+</ul>
+<h3 id="编辑"><a href="#编辑" class="headerlink" title="编辑"></a>编辑</h3><ul>
+<li><code>Ctrl+D</code>: 选中单词。多次<code>Ctrl+D</code>可选择多个，然后可以进行批量的编辑</li>
+<li><code>Ctrl+H</code>: 替换</li>
+<li><code>Ctrl+Shift+A</code>: 在html文件中，选中标签的内容</li>
+<li><code>Ctrl+ENTER</code>: 在当前行的下一行创建</li>
+<li><code>Ctrl+SHIFT+ENTER</code>: 在当前行的上一行创建</li>
+<li><code>Ctrl+鼠标单击</code>:多点同时编辑</li>
+<li><code>Ctrl+K+U</code>: 将选择的内容转化成大写</li>
+<li><code>Ctrl+K+L</code>: 将选择的内容转化成小写</li>
+<li><code>Ctrl+方向键：上/下</code>:将当前行上/下移</li>
+<li>未选择内容 <code>Ctrl+C</code>: 复制当前行</li>
+<li>未选择内容 <code>Ctrl+x</code>: 剪切当前行</li>
+<li><code>Ctrl+/</code>: 注释当前行</li>
+<li><code>Ctrl+Shift+/</code>: 当前位置插入注释</li>
+<li><code>Alt+.</code>：闭合html标签</li>
+<li><code>Alt+Shift+W</code>：用html标签来包裹选中的内容</li>
+</ul>
+<h3 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a>文件操作</h3><ul>
+<li><code>Ctrl+N</code>: 新建文件</li>
+</ul>
+<h3 id="便签页操作-浏览器的的大部分标签操作快捷键类似）"><a href="#便签页操作-浏览器的的大部分标签操作快捷键类似）" class="headerlink" title="便签页操作(浏览器的的大部分标签操作快捷键类似）"></a>便签页操作(浏览器的的大部分标签操作快捷键类似）</h3><ul>
+<li><code>Ctrl+W</code>: 关闭当前便签页</li>
+<li><code>Ctrl+Tab</code>: 下一个标签页</li>
+<li><code>Ctrl+Shift+T</code>: 打开上次关闭的标签页</li>
+</ul>
+<h3 id="书签操作-文件关闭后，文件上的书签会被删除"><a href="#书签操作-文件关闭后，文件上的书签会被删除" class="headerlink" title="书签操作(文件关闭后，文件上的书签会被删除)"></a>书签操作(文件关闭后，文件上的书签会被删除)</h3><ul>
+<li><code>Ctrl+F2</code>: 创建/删除书签</li>
+<li><code>F2</code>: 下一个书签</li>
+<li><code>Shift+F2</code>: 上一个书签</li>
+</ul>
+<h3 id="其他-2"><a href="#其他-2" class="headerlink" title="其他"></a>其他</h3><ul>
+<li><code>F12</code>: 将当前文件在默认打开工具中打开，如html文件会在默认浏览器中打开</li>
+<li><code>Ctrl+K, Ctrl+B</code>: 显示/隐藏左侧栏</li>
+<li><code>F11</code>：全屏</li>
+<li><code>Shift+F11</code>：全屏只编辑当前文件</li>
+<li><code>Alt+Shift+数字</code>：分几屏显示</li>
+</ul>
+<h2 id="官方整理的快捷键"><a href="#官方整理的快捷键" class="headerlink" title="官方整理的快捷键"></a>官方整理的快捷键</h2><h3 id="mac"><a href="#mac" class="headerlink" title="mac"></a>mac</h3><p><a href="https://sublime-text-unofficial-documentation.readthedocs.org/en/latest/reference/keyboard_shortcuts_osx.html" target="_blank" rel="noopener">https://sublime-text-unofficial-documentation.readthedocs.org/en/latest/reference/keyboard_shortcuts_osx.html</a></p>
+<h2 id="Windows-Linux"><a href="#Windows-Linux" class="headerlink" title="Windows/Linux"></a>Windows/Linux</h2><p><a href="https://sublime-text-unofficial-documentation.readthedocs.org/en/latest/reference/keyboard_shortcuts_win.html" target="_blank" rel="noopener">https://sublime-text-unofficial-documentation.readthedocs.org/en/latest/reference/keyboard_shortcuts_win.html</a></p>
+<h3 id="关于sublime"><a href="#关于sublime" class="headerlink" title="关于sublime"></a>关于sublime</h3><p><a href="http://scotch.io/series/the-complete-visual-guide-to-sublime-text-3" target="_blank" rel="noopener">http://scotch.io/series/the-complete-visual-guide-to-sublime-text-3</a></p>
+<h1 id="Brackets"><a href="#Brackets" class="headerlink" title="Brackets"></a>Brackets</h1><p>由html，css，js写的编辑器。</p>
+<h2 id="下载安装"><a href="#下载安装" class="headerlink" title="下载安装"></a>下载安装</h2><p><a href="https://github.com/adobe/brackets/releases/tag/release-0.42" target="_blank" rel="noopener">https://github.com/adobe/brackets/releases/tag/release-0.42</a></p>
+<h2 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h2><ul>
+<li>编辑好的内容实时在浏览器中显示。不用刷新。</li>
+<li>快速编辑模式（Quick Edit）Ctrl +　E ：<ul>
+<li>可在html中上修改对应的样式</li>
+<li>在css的颜色值可用取色器来取色</li>
+</ul>
+</li>
+<li>图片的显示相当不错</li>
+<li>多点同时编辑。和sublime一样，<code>Ctrl + 点击</code>来多选编辑点</li>
+<li>内置了jshint之类的插件</li>
+</ul>
+<h2 id="插件-1"><a href="#插件-1" class="headerlink" title="插件"></a>插件</h2><p>Brackets自带插件管理器（File -&gt; Extension Manage），但连接的速度很慢。也支持手工安装。<br>放第三方插件的目录  </p>
+<h3 id="Emmet-1"><a href="#Emmet-1" class="headerlink" title="Emmet"></a><a href="https://github.com/emmetio/brackets-emmet" target="_blank" rel="noopener">Emmet</a></h3><p>做前端的都懂的吧。</p>
+<h3 id="markdown"><a href="#markdown" class="headerlink" title="markdown"></a><a href="https://github.com/gruehle/MarkdownPreview" target="_blank" rel="noopener">markdown</a></h3><p>这个可以实时markdown生成html后的效果</p>
+<h3 id="beautify"><a href="#beautify" class="headerlink" title="beautify"></a><a href="https://github.com/drewhamlett/brackets-beautify" target="_blank" rel="noopener">beautify</a></h3><p>格式化html，css，js。</p>
+<h3 id="快捷键-1"><a href="#快捷键-1" class="headerlink" title="快捷键"></a>快捷键</h3><h2 id="与sublime的比较"><a href="#与sublime的比较" class="headerlink" title="与sublime的比较"></a>与sublime的比较</h2><p>sublime的插件用的是python，而Brackets用的是js。因此，前端可以比较容易的搞插件<del>~</del>见 <a href="https://github.com/adobe/brackets/wiki/How-to-write-extensions" target="_blank" rel="noopener">https://github.com/adobe/brackets/wiki/How-to-write-extensions</a><br>蛮多快捷键和sublime差不多，如 <code>ctrl + +</code>加大字号。</p>
+<h2 id="待探究"><a href="#待探究" class="headerlink" title="待探究"></a>待探究</h2><ul>
+<li>如何快速切换文件 sublime中的ctrl+p</li>
+<li>是否能创建snippet</li>
+<li>文件分栏 sublime中 <code>ctrl + alt + 栏数</code></li>
+</ul>
+<h2 id="官网"><a href="#官网" class="headerlink" title="官网"></a>官网</h2><p><a href="http://brackets.io/" target="_blank" rel="noopener">http://brackets.io/</a></p>
+<h2 id="前端规范"><a href="#前端规范" class="headerlink" title="前端规范"></a>前端规范</h2><ul>
+<li><a href="http://www.w3.org/Protocols/rfc2616/rfc2616.html" target="_blank" rel="noopener">HTTP1.1</a></li>
+<li><a href="http://www.ecma-international.org/publications/standards/Ecma-262.htm" target="_blank" rel="noopener">ECMAScript3/5</a></li>
+<li><a href="http://www.w3.org/TR/" target="_blank" rel="noopener">W3C/DOM/BOM/XHTML/XML/JSON/JSONP</a></li>
+<li><a href="http://wiki.commonjs.org/wiki/Modules/1.0" target="_blank" rel="noopener">CommonJS Modules</a>/<a href="https://github.com/amdjs/amdjs-api/wiki/AMD" target="_blank" rel="noopener">AMD</a></li>
+<li><a href="http://www.w3.org/html/wg/drafts/html/master/" target="_blank" rel="noopener">HTML5</a>/<a href="http://www.w3.org/Style/CSS/specs.en.html" target="_blank" rel="noopener">CSS3</a></li>
+</ul>
+<ul>
+<li><p>《ECMAScript 6入门》 <a href="http://es6.ruanyifeng.com/" target="_blank" rel="noopener">http://es6.ruanyifeng.com/</a></p>
+</li>
+<li><p>《Understanding ECMAScript 6》 <a href="https://leanpub.com/understandinges6/read" target="_blank" rel="noopener">https://leanpub.com/understandinges6/read</a></p>
+</li>
+<li><p>html&amp;css guide <a href="http://learn.shayhowe.com/html-css/" target="_blank" rel="noopener">http://learn.shayhowe.com/html-css/</a></p>
+</li>
+<li><p>layout for tomorrow <a href="http://www.smashingmagazine.com/2011/08/23/the-semantic-grid-system-page-layout-for-tomorrow/" target="_blank" rel="noopener">http://www.smashingmagazine.com/2011/08/23/the-semantic-grid-system-page-layout-for-tomorrow/</a></p>
+</li>
+<li><p><a href="http://addyosmani.com/largescalejavascript/" target="_blank" rel="noopener">Patterns For Large-Scale JavaScript Application Architecture</a></p>
+</li>
+<li><p><a href="http://www.w3cplus.com/css/elements-horizontally-center-with-css.html" target="_blank" rel="noopener">元素水平居中</a></p>
+</li>
+<li><p><a href="http://www.w3cplus.com/css/vertically-center-content-with-css" target="_blank" rel="noopener">元素垂直居中</a></p>
+</li>
+<li><p><a href="http://dean.edwards.name/weblog/2006/03/base/" target="_blank" rel="noopener">basejs</a></p>
+</li>
+<li><p>Webpage Rendering</p>
+<ul>
+<li><a href="http://frontendbabel.info/articles/webpage-rendering-101/" target="_blank" rel="noopener">http://frontendbabel.info/articles/webpage-rendering-101/</a></li>
+<li><a href="http://aerotwist.com/blog/pixels-are-expensive/" target="_blank" rel="noopener">http://aerotwist.com/blog/pixels-are-expensive/</a></li>
+</ul>
+</li>
+<li><p><a href="http://vimeo.com/99877232" target="_blank" rel="noopener">CSS is a Mess</a></p>
+</li>
+<li><p><a href="http://taligarsiel.com/Projects/howbrowserswork1.htm" target="_blank" rel="noopener">How browsers work</a></p>
+</li>
+<li><p><a href="http://journal.crushlovely.com/post/88286828068/7-patterns-to-refactor-javascript-applications-value" target="_blank" rel="noopener">7 Patterns to Refactor JavaScript Applications</a></p>
+</li>
+<li><p><a href="http://www.infoq.com/cn/presentations/cardkit-domo-ui" target="_blank" rel="noopener">Cardkit &amp; DOMO UI - 移动时代技术与设计的十字路口</a></p>
+</li>
+<li><p><a href="http://www.infoq.com/cn/presentations/general-mass-threat" target="_blank" rel="noopener">黑哥 General Mass Threat</a></p>
+</li>
+<li><p><a href="http://markdotto.com/2014/07/23/githubs-css/" target="_blank" rel="noopener">GitHub’s CSS</a></p>
+</li>
+<li><p><a href="http://webuild.envato.com/blog/techniques-for-mobile-and-responsive-cross-browser-testing/" target="_blank" rel="noopener">Techniques for mobile and responsive cross-browser testing: An Envato case study</a></p>
+</li>
+<li><p><a href="http://girliemac.com/blog/2014/07/28/devicemode/" target="_blank" rel="noopener">Responsive Web Made Easier with Chrome DevTools Device Mode</a></p>
+</li>
+<li><p><a href="http://addyosmani.com/resources/essentialjsdesignpatterns/book/" target="_blank" rel="noopener">设计模式</a></p>
+</li>
+</ul>
+<h1 id="网站建设小贴士"><a href="#网站建设小贴士" class="headerlink" title="网站建设小贴士"></a>网站建设小贴士</h1><h2 id="图片"><a href="#图片" class="headerlink" title="图片"></a>图片</h2><ul>
+<li>颜色丰富的背景图 用jpg</li>
+<li>小图标一般用png-8，尽量不用png-24</li>
+<li>图片psd保存时，要保存为 web所用格式</li>
+<li>图片的大小尽量控制在200k以下</li>
+</ul>
+<h2 id="flash"><a href="#flash" class="headerlink" title="flash"></a>flash</h2><ul>
+<li>flash的在页面拉伸时保持在页面中居中显示可以用：中间flash加背景图来实现，页面变窄时，裁切掉的是背景图的部分<pre><code>* 切背景图须知：
+  1. flash的高度必须与背景图一样高（否则会出现到页面窄到一定程度时，flash与背景图错位）
+  2. flash在背景图中也要水平居中
+  3. 背景图与flash重合部分改成透明的，但其透明区域要比flash的宽度窄10px，来保证接合处没有黑边</code></pre></li>
+</ul>
+<h3 id="关闭当前窗口-兼容-ie6-ch-ff"><a href="#关闭当前窗口-兼容-ie6-ch-ff" class="headerlink" title="关闭当前窗口 兼容 ie6+ ch ff"></a>关闭当前窗口 兼容 ie6+ ch ff</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span>.opener=<span class="literal">null</span>;</span><br><span class="line"><span class="built_in">window</span>.open(<span class="string">''</span>,<span class="string">'_self'</span>);</span><br><span class="line"><span class="built_in">window</span>.close();</span><br></pre></td></tr></table></figure>
+<p><strong>tip</strong>    </p>
+<ul>
+<li>只写window.close();ch中没反应    </li>
+<li>firefox浏览器默认脚本不能关闭当前窗口,必须要做以下设置    <ol>
+<li>在地址栏输入about:config然后回车，警告确认    </li>
+<li>在过滤器中输入”dom.allow_scripts_to_close_windows“，双击即可将此值设为true   </li>
+</ol>
+</li>
+</ul>
+<hr>
+<h3 id="常用特殊符号编码"><a href="#常用特殊符号编码" class="headerlink" title="常用特殊符号编码"></a>常用特殊符号编码</h3><p>&lt; 小于 &lt; &#60;<br>&gt; 大于 &gt; &#62;<br>&amp; &amp;符号 &amp; &#38;<br>“ 双引号 &quot; &#34;<br>人民币符号 &yen;<br>© 版权 &copy; &#169;<br>® 注册商标 &reg; &#174;<br>× 乘号 &times; &#215;<br>÷ 除号 &divide; &#247;    </p>
+<hr>
+<h3 id="css-字体Unicode-编码"><a href="#css-字体Unicode-编码" class="headerlink" title="css 字体Unicode 编码"></a>css 字体Unicode 编码</h3><p>宋体 \5B8B\4F53<br>黑体\9ED1\4F53<br>标楷体\6807\6977\4F53<br>楷体 \6977\4F53<br>万能的方式：firebug控制台中输入 escape(‘黑体’)<br>得到了 “%u9ED1%u4F53″，将其改写为 “\9ED1\4F53″即可</p>
+<hr>
+<h3 id="标签的嵌套不符合标签的嵌套规则时，可能会导致浏览器的错误解析。"><a href="#标签的嵌套不符合标签的嵌套规则时，可能会导致浏览器的错误解析。" class="headerlink" title="标签的嵌套不符合标签的嵌套规则时，可能会导致浏览器的错误解析。"></a>标签的嵌套不符合标签的嵌套规则时，可能会导致浏览器的错误解析。</h3><hr>
+<h3 id="ie中有input-a获得焦点会有虚线虚线框解决方式"><a href="#ie中有input-a获得焦点会有虚线虚线框解决方式" class="headerlink" title="ie中有input,a获得焦点会有虚线虚线框解决方式"></a>ie中有input,a获得焦点会有虚线虚线框解决方式</h3><blockquote>
+<p>IE的私有属性可以有效的根除IE的链接虚框.在那元素上加   hidefocus=”true” 属性<br>a:active{outline:none;}<br> 可以去除用户点击图片式链接时的外框线的问题，同时保留了习惯使用键盘用户在链接获得焦点时虚框可见。<br>:active还有一点小小的问题，就是用户点击一个链接和这个链接指向的页面加载的过程中，链接外框依旧会出现，这其实也不难理解，链接被点中， 也处于:focus状态。由于本测试页面的链接基本上都是在页面自身，所以看不到此问题。一定程度上解决此问题的方法就是添加:hover的 outline:none属性。<br>a:hover,a:active{outline:none;}</p>
+</blockquote>
+<hr>
+<h3 id="让iframe背景透明的方式"><a href="#让iframe背景透明的方式" class="headerlink" title="让iframe背景透明的方式"></a>让iframe背景透明的方式</h3><blockquote>
+<p>iframe上加  allowTransparency=”true”<br>iframe中的body加  bgColor=”transparent”<br>用js</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">'iframe'</span>)[<span class="number">0</span>].contentWindow.document.body.setAttribute(<span class="string">'bgColor'</span>,<span class="string">'transparent'</span>);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>去除iframe的border<br>加属性frameBorder=”0” 用 css的border属性无效。</p>
+</blockquote>
+<hr>
+<h3 id="css做箭头"><a href="#css做箭头" class="headerlink" title="css做箭头"></a>css做箭头</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">width</span><span class="selector-pseudo">:0</span>;</span><br><span class="line"><span class="selector-tag">height</span><span class="selector-pseudo">:0</span>;</span><br><span class="line"><span class="selector-tag">font-size</span><span class="selector-pseudo">:0</span>;</span><br><span class="line"><span class="selector-tag">line-height</span><span class="selector-pseudo">:0</span>;</span><br><span class="line"><span class="selector-tag">border</span><span class="selector-pseudo">:4px</span> <span class="selector-tag">solid</span> <span class="selector-tag">transparent</span>;</span><br><span class="line">_<span class="selector-tag">border</span><span class="selector-pseudo">:4px</span> <span class="selector-tag">solid</span> <span class="selector-id">#fff</span>;<span class="comment">/*#fff是背景色*/</span></span><br><span class="line">  <span class="comment">/*方向border-top-color:#666;*/</span></span><br></pre></td></tr></table></figure>
+<hr>
+<h1 id="调试-amp-日志"><a href="#调试-amp-日志" class="headerlink" title="调试&amp;日志"></a>调试&amp;日志</h1><ul>
+<li>学会看报错信息。包括调用堆栈。Tip: 用 <code>console.trace()</code> 可以输出当前的调用堆栈。</li>
+<li>断点的使用。普通断点，条件断点，DOM 变化的断点。</li>
+<li>合适的地方记日志。 <code>console.log</code>,<code>console.debug</code>,<code>console.info</code>,<code>console.log</code>,<code>console.error</code> 和 <code>console.assert</code>。</li>
+</ul>
+<h2 id="一个项目包括的内容"><a href="#一个项目包括的内容" class="headerlink" title="一个项目包括的内容"></a>一个项目包括的内容</h2><p>包括的模块<br>字</p>
+<ul>
+<li>常用颜色</li>
+<li>链接 的颜色，hover效果</li>
+</ul>
+<p>栅格系统<br>图标库<br>表单 form</p>
+<ul>
+<li>输入框等UI元素的外观 form__input</li>
+<li>验证</li>
+</ul>
+<p>按钮</p>
+<ul>
+<li>普通按钮</li>
+<li>尺寸</li>
+<li>带图标的按钮</li>
+<li>只有图标的按钮</li>
+</ul>
+<p>弹出框</p>
+<ul>
+<li>模态，非模态</li>
+<li>带确定 alert框</li>
+<li>带取消 confirm框</li>
+</ul>
+<p>分页<br>面包屑<br>tooltip<br>其他</p>
+<ul>
+<li>旧浏览器的提示</li>
+</ul>
+<h1 id="前端项目架构设计"><a href="#前端项目架构设计" class="headerlink" title="前端项目架构设计"></a>前端项目架构设计</h1><h2 id="自我介绍"><a href="#自我介绍" class="headerlink" title="自我介绍"></a>自我介绍</h2><ul>
+<li>混合着前端发展历程，介绍自己做前端的经验以及做过的一些产品</li>
+<li>技术博客</li>
+<li>业余项目</li>
+</ul>
+<h2 id="架构设计的目标"><a href="#架构设计的目标" class="headerlink" title="架构设计的目标"></a>架构设计的目标</h2><p>在架构基础上</p>
+<ul>
+<li>能实现需求</li>
+<li>轻松上手 -&gt; 学习成本</li>
+<li>快速开发 -&gt; 开发效率</li>
+<li>性能优秀 -&gt; 性能</li>
+</ul>
+<p>在能实现需求的基础上，上面几点的权衡取舍。</p>
+<h2 id="具体步骤"><a href="#具体步骤" class="headerlink" title="具体步骤"></a>具体步骤</h2><ul>
+<li>技术选型<ul>
+<li>能实现需求<ul>
+<li>兼容指定浏览器</li>
+<li>设备</li>
+</ul>
+</li>
+<li>学习成本<ul>
+<li>概念的数量和难易程度</li>
+<li>学习文档；教程数量</li>
+</ul>
+</li>
+<li>开发效率<ul>
+<li>框架状态。成熟</li>
+<li>代码质量<ul>
+<li>开发团队</li>
+<li>测试覆盖率</li>
+</ul>
+</li>
+<li>社区（出了问题是否能容易的找到答案；或有人来回答）</li>
+<li>写法</li>
+<li>支持的特性</li>
+<li>第三组件的数量，质量</li>
+<li>是否方便调试</li>
+</ul>
+</li>
+<li>性能</li>
+</ul>
+</li>
+<li>建一个示例项目来采坑。示例项目要包括要做的项目的一些典型功能。<ul>
+<li>实现功能</li>
+<li>优化</li>
+</ul>
+</li>
+<li>帮助文档<ul>
+<li>开发流程的文档</li>
+<li>代码示例</li>
+</ul>
+</li>
+</ul>
+<h2 id="具体项目-Demo"><a href="#具体项目-Demo" class="headerlink" title="具体项目 Demo"></a>具体项目 Demo</h2><p><a href="https://github.com/iamjoel/admin-template" target="_blank" rel="noopener">https://github.com/iamjoel/admin-template</a></p>
+<ul>
+<li>主要的技术框架： Vuejs 及相关组件 + Webpack + Sass + PostCss + ES6<ul>
+<li>实现需求：<ul>
+<li>兼容最新的 Chrome</li>
+<li>PC，笔记本</li>
+</ul>
+</li>
+<li>学习成本：可以接受</li>
+<li>开发效率<ul>
+<li>Vuejs<ul>
+<li>模块化</li>
+<li>双向绑定</li>
+<li>单向数据流</li>
+<li>Chrome 插件</li>
+<li>丰富的第三方库</li>
+</ul>
+</li>
+<li>Webpack<ul>
+<li>编译各种资源</li>
+<li>项目打包</li>
+</ul>
+</li>
+<li>PostCss 的 AutoPrefix 免写前缀</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>示例项目。典型功能<ul>
+<li>菜单</li>
+<li>面包屑</li>
+<li>多语言</li>
+<li>列表页</li>
+</ul>
+</li>
+<li>帮助文档</li>
+</ul>
+<h1 id="cordova"><a href="#cordova" class="headerlink" title="cordova"></a><a href="http://cordova.apache.org/" target="_blank" rel="noopener">cordova</a></h1><p><a href="http://cordova.apache.org/docs/en/latest/" target="_blank" rel="noopener">文档</a></p>
+<h2 id="安装及环境设置"><a href="#安装及环境设置" class="headerlink" title="安装及环境设置"></a>安装及环境设置</h2><ul>
+<li>安装 cordova： install -g cordova</li>
+<li>如果生成 andorid 的 app<ul>
+<li>安装 JDK：点<a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html" target="_blank" rel="noopener">这里</a>。</li>
+<li>安装 Android Studio：点<a href="http://developer.android.com/sdk/installing/index.html?pkg=studio" target="_blank" rel="noopener">这里</a> 需翻墙访问。这里包括了 Andorid 的 sdk。</li>
+</ul>
+</li>
+</ul>
+<h2 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h2><ul>
+<li>创建项目： <code>cordova create 名称</code></li>
+<li>添加平台： <code>cordova platform add 平台名称 --save</code>。平台名称包括 browser,，android，ios 等。会在 platforms 文件夹下生成平台名称的文件夹。 <code>--save</code> 会将添加的平台添加到 confg.xml 文件中。</li>
+<li>添加插件：。<code>cordova plugin add 插件名称 --save</code> 。各平台支持对 cordova 的各个插件的支持情况。点<a href="http://cordova.apache.org/docs/en/latest/guide/support/index.html" target="_blank" rel="noopener">这里</a></li>
+<li>命令帮助文档： <code>cordova help</code></li>
+</ul>
+<h2 id="在-android-模拟器中查看"><a href="#在-android-模拟器中查看" class="headerlink" title="在 android 模拟器中查看"></a>在 android 模拟器中查看</h2><ul>
+<li>在 Android Studio 中打开项目的 platforms/android。platforms/android 是一个 android 项目。</li>
+<li>在 Android Studio 中点击运行按钮。</li>
+<li>每次改完 www 下的源码后，执行 <code>cordova prepare android</code></li>
+<li>重新运行这个 android 应用</li>
+</ul>
+<h2 id="构建安卓-app"><a href="#构建安卓-app" class="headerlink" title="构建安卓 app"></a>构建安卓 app</h2><p>cordova build android。生成的目录apk目录位于 platforms/android/build/outputs/apk 下。</p>
+<h2 id="在浏览器中预览"><a href="#在浏览器中预览" class="headerlink" title="在浏览器中预览"></a>在浏览器中预览</h2><ul>
+<li>添加浏览器平台 <code>cordova platform add browser --save</code></li>
+<li>预览 <code>cordova run browser</code></li>
+<li>修改后代码，也只需执行 <code>cordova run browser</code></li>
+</ul>
+<h2 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h2><ul>
+<li>www :源码</li>
+<li>platforms : 各平台的代码。不要改这些文件夹下面的文件。这里的部分代码会在构建的时候，从 www 目录下拷贝。</li>
+<li>plugins : 插件。</li>
+<li>config.xml 配置文件。</li>
+</ul>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p><a href="http://cordova.apache.org/docs/en/latest/config_ref/" target="_blank" rel="noopener">Config.xml</a></p>
+<h1 id="Weex"><a href="#Weex" class="headerlink" title="Weex"></a><a href="https://weex.apache.org/cn/" target="_blank" rel="noopener">Weex</a></h1><blockquote>
+<p>Weex 遵循 Web 标准，同时支持 vue.js 的语法。因此，您可以使用 vue.js 语法来开发应用程序。</p>
+</blockquote>
+<p>用 <a href="https://guides.cocoapods.org/using/getting-started.html" target="_blank" rel="noopener">CocoaPods</a> 来装xcode项目的依赖。</p>
+<h2 id="工具-1"><a href="#工具-1" class="headerlink" title="工具"></a>工具</h2><ul>
+<li><a href="https://github.com/bmfe/eros-template" target="_blank" rel="noopener">eros template</a> weex 的脚手架。</li>
+</ul>
+<h2 id="坑"><a href="#坑" class="headerlink" title="坑"></a>坑</h2><p>如果输入 <code>weex run ios</code> 报下面的错：<code>xcrun: error: unable to find utility &quot;instruments&quot;, not a developer tool or in PATH</code> 。</p>
+<p>解决方案：打开 Xcode，在 Preferences &gt; Locations 选择 Command Line Tools 。</p>
+<h1 id="Chrome-插件开发"><a href="#Chrome-插件开发" class="headerlink" title="Chrome 插件开发"></a>Chrome 插件开发</h1><h2 id="Mainfast"><a href="#Mainfast" class="headerlink" title="Mainfast"></a>Mainfast</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  // 清单文件的版本，这个必须写，而且必须是2</span><br><span class="line">  &quot;manifest_version&quot;: 2,</span><br><span class="line">  // 插件的名称</span><br><span class="line">  &quot;name&quot;: &quot;demo&quot;,</span><br><span class="line">  // 插件的版本</span><br><span class="line">  &quot;version&quot;: &quot;1.0.0&quot;,</span><br><span class="line">  // 插件描述</span><br><span class="line">  &quot;description&quot;: &quot;简单的Chrome扩展demo&quot;,</span><br><span class="line">  // 图标，一般偷懒全部用一个尺寸的也没问题</span><br><span class="line">  &quot;icons&quot;:</span><br><span class="line">  &#123;</span><br><span class="line">    &quot;16&quot;: &quot;img/icon.png&quot;,</span><br><span class="line">    &quot;48&quot;: &quot;img/icon.png&quot;,</span><br><span class="line">    &quot;128&quot;: &quot;img/icon.png&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  // 会一直常驻的后台JS或后台页面</span><br><span class="line">  &quot;background&quot;:</span><br><span class="line">  &#123;</span><br><span class="line">    // 2种指定方式，如果指定JS，那么会自动生成一个背景页</span><br><span class="line">    &quot;page&quot;: &quot;background.html&quot;</span><br><span class="line">    //&quot;scripts&quot;: [&quot;js/background.js&quot;]</span><br><span class="line">  &#125;,</span><br><span class="line">  // 浏览器右上角图标设置，browser_action、page_action、app必须三选一</span><br><span class="line">  &quot;browser_action&quot;: </span><br><span class="line">  &#123;</span><br><span class="line">    &quot;default_icon&quot;: &quot;img/icon.png&quot;,</span><br><span class="line">    // 图标悬停时的标题，可选</span><br><span class="line">    &quot;default_title&quot;: &quot;这是一个示例Chrome插件&quot;,</span><br><span class="line">    &quot;default_popup&quot;: &quot;popup.html&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  // 当某些特定页面打开才显示的图标</span><br><span class="line">  /*&quot;page_action&quot;:</span><br><span class="line">  &#123;</span><br><span class="line">    &quot;default_icon&quot;: &quot;img/icon.png&quot;,</span><br><span class="line">    &quot;default_title&quot;: &quot;我是pageAction&quot;,</span><br><span class="line">    &quot;default_popup&quot;: &quot;popup.html&quot;</span><br><span class="line">  &#125;,*/</span><br><span class="line">  // 需要直接注入页面的JS</span><br><span class="line">  &quot;content_scripts&quot;: </span><br><span class="line">  [</span><br><span class="line">    &#123;</span><br><span class="line">      //&quot;matches&quot;: [&quot;http://*/*&quot;, &quot;https://*/*&quot;],</span><br><span class="line">      // &quot;&lt;all_urls&gt;&quot; 表示匹配所有地址</span><br><span class="line">      &quot;matches&quot;: [&quot;&lt;all_urls&gt;&quot;],</span><br><span class="line">      // 多个JS按顺序注入</span><br><span class="line">      &quot;js&quot;: [&quot;js/jquery-1.8.3.js&quot;, &quot;js/content-script.js&quot;],</span><br><span class="line">      // JS的注入可以随便一点，但是CSS的注意就要千万小心了，因为一不小心就可能影响全局样式</span><br><span class="line">      &quot;css&quot;: [&quot;css/custom.css&quot;],</span><br><span class="line">      // 代码注入的时间，可选值： &quot;document_start&quot;, &quot;document_end&quot;, or &quot;document_idle&quot;，最后一个表示页面空闲时，默认document_idle</span><br><span class="line">      &quot;run_at&quot;: &quot;document_start&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    // 这里仅仅是为了演示content-script可以配置多个规则</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;matches&quot;: [&quot;*://*/*.png&quot;, &quot;*://*/*.jpg&quot;, &quot;*://*/*.gif&quot;, &quot;*://*/*.bmp&quot;],</span><br><span class="line">      &quot;js&quot;: [&quot;js/show-image-content-size.js&quot;]</span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  // 权限申请</span><br><span class="line">  &quot;permissions&quot;:</span><br><span class="line">  [</span><br><span class="line">    &quot;contextMenus&quot;, // 右键菜单</span><br><span class="line">    &quot;tabs&quot;, // 标签</span><br><span class="line">    &quot;notifications&quot;, // 通知</span><br><span class="line">    &quot;webRequest&quot;, // web请求</span><br><span class="line">    &quot;webRequestBlocking&quot;,</span><br><span class="line">    &quot;storage&quot;, // 插件本地存储</span><br><span class="line">    &quot;http://*/*&quot;, // 可以通过executeScript或者insertCSS访问的网站</span><br><span class="line">    &quot;https://*/*&quot; // 可以通过executeScript或者insertCSS访问的网站</span><br><span class="line">  ],</span><br><span class="line">  // 普通页面能够直接访问的插件资源列表，如果不设置是无法直接访问的</span><br><span class="line">  &quot;web_accessible_resources&quot;: [&quot;js/inject.js&quot;],</span><br><span class="line">  // 插件主页，这个很重要，不要浪费了这个免费广告位</span><br><span class="line">  &quot;homepage_url&quot;: &quot;https://www.baidu.com&quot;,</span><br><span class="line">  // 覆盖浏览器默认页面</span><br><span class="line">  &quot;chrome_url_overrides&quot;:</span><br><span class="line">  &#123;</span><br><span class="line">    // 覆盖浏览器默认的新标签页</span><br><span class="line">    &quot;newtab&quot;: &quot;newtab.html&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  // Chrome40以前的插件配置页写法</span><br><span class="line">  &quot;options_page&quot;: &quot;options.html&quot;,</span><br><span class="line">  // Chrome40以后的插件配置页写法，如果2个都写，新版Chrome只认后面这一个</span><br><span class="line">  &quot;options_ui&quot;:</span><br><span class="line">  &#123;</span><br><span class="line">    &quot;page&quot;: &quot;options.html&quot;,</span><br><span class="line">    // 添加一些默认的样式，推荐使用</span><br><span class="line">    &quot;chrome_style&quot;: true</span><br><span class="line">  &#125;,</span><br><span class="line">  // 向地址栏注册一个关键字以提供搜索建议，只能设置一个关键字</span><br><span class="line">  &quot;omnibox&quot;: &#123; &quot;keyword&quot; : &quot;go&quot; &#125;,</span><br><span class="line">  // 默认语言</span><br><span class="line">  &quot;default_locale&quot;: &quot;zh_CN&quot;,</span><br><span class="line">  // devtools页面入口，注意只能指向一个HTML文件，不能是JS文件</span><br><span class="line">  &quot;devtools_page&quot;: &quot;devtools.html&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="content-scripts"><a href="#content-scripts" class="headerlink" title="content-scripts"></a>content-scripts</h2><p>是Chrome插件中向页面注入脚本的一种形式。 content-scripts 能访问 DOM，但 不能访问绝大部分 <code>chrome.xxx.api</code>。 </p>
+<p>在 content-script 中的 CSS，用图片的方式</p>
+<p>1 在 Mainfast 中，将图片的路径设置在访问的插件资源列表中，例如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;web_accessible_resources&quot;: [&quot;images/*&quot;],</span><br></pre></td></tr></table></figure>
+
+<p>2 CSS 中用 <code>url(chrome-extension://__MSG_@@extension_id__/图片的路径)</code> 来写。如:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">background-image: url(chrome-extension://__MSG_@@extension_id__/images/xx.png)</span><br></pre></td></tr></table></figure>
+
+<p>当然，也可用 base64 的方式来做。</p>
+<h2 id="动态注入资源"><a href="#动态注入资源" class="headerlink" title="动态注入资源"></a>动态注入资源</h2><h3 id="注入-JS"><a href="#注入-JS" class="headerlink" title="注入 JS"></a>注入 JS</h3><p>bacground 和 popup 的 js 不能直接访问 DOM。当通过在 bacground 或 popup 中 注入js，动态注入的js可以访问 DOM。 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// 注入文件</span><br><span class="line">chrome.tabs.executeScript(null, &#123;</span><br><span class="line">  file: &quot;路径&quot;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">// 注入代码</span><br><span class="line">chrome.tabs.executeScript(null, &#123;</span><br><span class="line">  code: &apos;document.body.style.backgroundColor=&quot;red&quot;&apos;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>需要在 <code>manifest.json</code> 中配置对应的配置：  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;permissions&quot;: [ &quot;tabs&quot;, &quot;activeTab&quot;, &quot;&lt;all_urls&gt;&quot; ],</span><br></pre></td></tr></table></figure>
+
+<p><code>&quot;&lt;all_urls&gt;&quot;</code> 也可以改成, <code>&quot;http://*/*&quot;, &quot;https://*/*&quot;</code> </p>
+<h2 id="事件"><a href="#事件" class="headerlink" title="事件"></a>事件</h2><p>图标被点击</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">chrome.browserAction.onClicked.addListener(function() &#123;</span><br><span class="line"></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="Popup-和-background-的通信"><a href="#Popup-和-background-的通信" class="headerlink" title="Popup 和 background 的通信"></a>Popup 和 background 的通信</h2><p>popup可以直接调用background中的JS方法，也可以直接访问background的DOM：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// background.js</span><br><span class="line">function test()</span><br><span class="line">&#123;</span><br><span class="line">  alert(&apos;我是background！&apos;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// popup.js</span><br><span class="line">var bg = chrome.extension.getBackgroundPage();</span><br><span class="line">bg.test(); // 访问bg的函数</span><br><span class="line">alert(bg.document.body.innerHTML)</span><br></pre></td></tr></table></figure>
+
+<p>background 调用 popup 的代码如下（前提是popup已经打开）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var views = chrome.extension.getViews(&#123;type:&apos;popup&apos;&#125;);</span><br><span class="line">if(views.length &gt; 0) &#123;</span><br><span class="line">  console.log(views[0].location.href);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="popup-和-background-向-content-发信息"><a href="#popup-和-background-向-content-发信息" class="headerlink" title="popup 和 background 向 content 发信息"></a>popup 和 background 向 content 发信息</h2><p>background.js或者popup.js</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">function sendMessageToContentScript(message, callback)</span><br><span class="line">&#123;</span><br><span class="line">  chrome.tabs.query(&#123;active: true, currentWindow: true&#125;, function(tabs)</span><br><span class="line">  &#123;</span><br><span class="line">    chrome.tabs.sendMessage(tabs[0].id, message, function(response)</span><br><span class="line">    &#123;</span><br><span class="line">      if(callback) callback(response);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// cmd 是类型</span><br><span class="line">sendMessageToContentScript(&#123;cmd:&apos;test&apos;, value:&apos;你好，我是popup！&apos;&#125;, function(response)</span><br><span class="line">&#123;</span><br><span class="line">  console.log(&apos;来自content的回复：&apos;+response);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>content-script.js 接发信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">// 接收信息</span><br><span class="line">chrome.runtime.onMessage.addListener(function(request, sender, sendResponse)</span><br><span class="line">&#123;</span><br><span class="line">  // console.log(sender.tab ?&quot;from a content script:&quot; + sender.tab.url :&quot;from the extension&quot;)</span><br><span class="line">  // 根据不同类别做不同处理</span><br><span class="line">  if(request.cmd == &apos;test&apos;) alert(request.value);</span><br><span class="line">  sendResponse(&apos;我收到了你的消息！&apos;)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">// 发送信息</span><br><span class="line">chrome.runtime.sendMessage(&#123;</span><br><span class="line">  method: &quot;xxx&quot;, // 调用函数</span><br><span class="line">  cmd: &apos;xxx&apos;, // 执行命令。接受</span><br><span class="line">&#125;, &#123; // 发送的信息</span><br><span class="line">  </span><br><span class="line">&#125;, function(re) &#123;</span><br><span class="line">  sender()</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>要注意的是：<strong>chrome.runtime.sendMessage的回调函数默认是同步的，而且超时后直接执行，返回undefined，如果要异步执行，必须在处理函数中return true。</strong></p>
+<h2 id="content-script主动发消息给后台"><a href="#content-script主动发消息给后台" class="headerlink" title="content-script主动发消息给后台"></a>content-script主动发消息给后台</h2><p>chrome.runtime.sendMessage</p>
+<h2 id="本地存储"><a href="#本地存储" class="headerlink" title="本地存储"></a>本地存储</h2><p>推荐用<code>chrome.storage</code>而不是普通的<code>localStorage</code>。最重要的2点区别是：</p>
+<ul>
+<li>chrome.storage是针对插件全局的，即使你在background中保存的数据，在content-script也能获取到；</li>
+<li>chrome.storage.sync可以跟随当前登录用户自动同步，这台电脑修改的设置会自动同步到其它电脑，很方便，如果没有登录或者未联网则先保存到本地，等登录了再同步至网络；</li>
+</ul>
+<p>需要声明storage权限，有chrome.storage.sync和chrome.storage.local2种方式可供选择，使用示例如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 读取数据，第一个参数是指定要读取的key以及设置默认值</span><br><span class="line">chrome.storage.sync.get(&#123;color: &apos;red&apos;, age: 18&#125;, function(items) &#123;</span><br><span class="line">  console.log(items.color, items.age);</span><br><span class="line">&#125;);</span><br><span class="line">// 保存数据</span><br><span class="line">chrome.storage.sync.set(&#123;color: &apos;blue&apos;&#125;, function() &#123;</span><br><span class="line">  console.log(&apos;保存成功！&apos;);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="打包和发布"><a href="#打包和发布" class="headerlink" title="打包和发布"></a>打包和发布</h2><p>在插件管理页有一个打包按钮，然后会生成 .crx 文件。npm 上也有打包的包。</p>
+<p>花5个$注册成为开发者，上传到应用商店。</p>
+<h2 id="资源-3"><a href="#资源-3" class="headerlink" title="资源"></a>资源</h2><ul>
+<li><a href="https://developers.chrome.com/extensions/api_index" target="_blank" rel="noopener">官方开发者文档</a></li>
+<li><a href="https://github.com/sxei/chrome-plugin-demo" target="_blank" rel="noopener">Chrome插件开发全攻略</a></li>
+</ul>
+<h1 id="Electron"><a href="#Electron" class="headerlink" title="Electron"></a><a href="https://electronjs.org/" target="_blank" rel="noopener">Electron</a></h1><blockquote>
+<p>Build cross platform desktop apps with JavaScript, HTML, and CSS.</p>
+</blockquote>
+<h2 id="资源-4"><a href="#资源-4" class="headerlink" title="资源"></a>资源</h2><ul>
+<li><a href="https://github.com/sindresorhus/awesome-electron" target="_blank" rel="noopener">Awesome Electron</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/20225295" target="_blank" rel="noopener">使用 Electron 构建桌面应用</a></li>
+</ul>
+<h1 id="微信公众号"><a href="#微信公众号" class="headerlink" title="微信公众号"></a>微信公众号</h1><p><a href="https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141115" target="_blank" rel="noopener">微信JS-SDK 文档地址</a>。</p>
+<h2 id="网页授权"><a href="#网页授权" class="headerlink" title="网页授权"></a>网页授权</h2><p><a href="https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140842" target="_blank" rel="noopener">文档</a>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://open.weixin.qq.com/connect/oauth2/authorize?appid=公众号的唯一标识&amp;redirect_uri=真正的地址&amp;response_type=code&amp;scope=snsapi_base&amp;connect_redirect=1#wechat_redirect</span><br></pre></td></tr></table></figure>
+
+<p>其中：</p>
+<ul>
+<li>response_type 写死code。必填。</li>
+<li>scope 应用授权作用域，必填。snsapi_base （不弹出授权页面，直接跳转，只能获取用户openid），snsapi_userinfo （弹出授权页面，可通过openid拿到昵称、性别、所在地。并且，即使在未关注的情况下，只要用户授权，也能获取其信息）</li>
+<li>#wechat_redirect 无论直接打开还是做页面302重定向时候，必须带此参数，必填。</li>
+<li>注意<code>真正的地址</code>需要编码 encodeURIComponent</li>
+</ul>
+<h2 id="支付"><a href="#支付" class="headerlink" title="支付"></a>支付</h2><p>老的不需要注册 jssdk的方式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">if (typeof WeixinJSBridge == &quot;object&quot; &amp;&amp; typeof WeixinJSBridge.invoke == &quot;function&quot;) &#123;</span><br><span class="line">  WeixinJSBridge.invoke(</span><br><span class="line">    &apos;getBrandWCPayRequest&apos;,</span><br><span class="line">    data,</span><br><span class="line">  function() &#123;</span><br><span class="line">    // 支付成功</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="判断是否在微信"><a href="#判断是否在微信" class="headerlink" title="判断是否在微信"></a>判断是否在微信</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">function isInweixin()&#123;</span><br><span class="line">  var ua = navigator.userAgent.toLowerCase();</span><br><span class="line">  return ua.indexOf(&apos;micromessenger&apos;) !== -1</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="分享"><a href="#分享" class="headerlink" title="分享"></a>分享</h2><p><a href="http://open.mobile.qq.com/api/component/share" target="_blank" rel="noopener">对外分享组件接口文档</a> 定制微信，手机QQ，QQ空间APP内的分享内容。</p>
+<p>分享的地址，如果需要拿用户信息的，用如下方式来做</p>
+<p>1 分享地址带跳转地址的参数，如 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">link: `$&#123;location.href.split(&apos;#&apos;)[0]&#125;?path=$&#123;encodeURIComponent(&apos;/shop-detail/&apos; + this.$route.params.id)&#125;`</span><br></pre></td></tr></table></figure>
+<p>这边不能用 <code>oauth2</code> 地址。如果用了，会调默认的分享行为</p>
+<p>2 在首页判断，如果没有 <code>code</code>，则跳转到 <code>oauth2</code> 地址。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">var shareURLTemplate = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=$&#123;appId&#125;&amp;redirect_uri=$&#123;encodeURIComponent(location.origin + location.pathname + &apos;#&apos;)&#125;&#123;path&#125;&amp;response_type=code&amp;scope=snsapi_userinfo&amp;state=STATE#wechat_redirect`</span><br><span class="line"></span><br><span class="line">var queryObject = getQueryObject()</span><br><span class="line">var code = queryObject.code</span><br><span class="line">var state = queryObject.state</span><br><span class="line"></span><br><span class="line">if(!code &amp;&amp; process.env.NODE_ENV !== &apos;development&apos;) &#123;</span><br><span class="line">  let jumpUrl = shareURLTemplate.replace(&apos;&#123;path&#125;&apos;,  queryObject.path ? queryObject.path : &apos;&apos;)</span><br><span class="line">  location.href = jumpUrl</span><br><span class="line">  return</span><br><span class="line">&#125; else if(code) &#123;</span><br><span class="line">  // 拿用户信息等正常操作</span><br><span class="line">&#125; else &#123;</span><br><span class="line">  // 开发环境</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="判断是否已关注公众号"><a href="#判断是否已关注公众号" class="headerlink" title="判断是否已关注公众号"></a>判断是否已关注公众号</h2><p>后端可以通过调 API 来判断，是否关注公众号。</p>
+<h2 id="一些可能不知道的微信提供的功能"><a href="#一些可能不知道的微信提供的功能" class="headerlink" title="一些可能不知道的微信提供的功能"></a>一些可能不知道的微信提供的功能</h2><p>预览图片（wx.uploadImage），指的是小图，点击后，到新窗口打开大图，然后可以放大，缩写查看图片。</p>
+<h1 id="小程序"><a href="#小程序" class="headerlink" title="小程序"></a>小程序</h1><h2 id="目录-1"><a href="#目录-1" class="headerlink" title="目录"></a>目录</h2><ul>
+<li>官方文档<ul>
+<li><a href="https://developers.weixin.qq.com/miniprogram/dev/index.html?t=19031317" target="_blank" rel="noopener">开发者文档</a></li>
+<li><a href="https://developers.weixin.qq.com/miniprogram/design/index.html" target="_blank" rel="noopener">微信小程序设计指南</a></li>
+</ul>
+</li>
+<li>框架<ul>
+<li><a href="content/framework/config.md">小程序配置</a></li>
+<li><a href="content/framework/app.md">App</a></li>
+<li><a href="content/framework/page.md">页面</a> <a href="content/framework/life-cycle.md">生命周期</a></li>
+<li><a href="content/framework/event.md">事件</a></li>
+<li><a href="content/framework/component.md">自定义组件</a></li>
+<li><a href="content/framework/grammar.md">语法</a></li>
+<li><a href="content/framework/scene-list.md">场景码值</a></li>
+</ul>
+</li>
+<li><a href="content/api.md">API</a></li>
+<li>组件</li>
+<li><a href="content/authorize.md">授权</a></li>
+<li>兼容处理</li>
+<li>更新机制</li>
+<li>插件</li>
+<li><a href="content/bug.md">常见问题</a></li>
+<li>审核<ul>
+<li><a href="http://kf.qq.com/faq/190108BJnmUN190108RrEnqE.html" target="_blank" rel="noopener">小程序评测常见问题</a> 小程序评测综合评定为达标，则开发者能享受极速审核：提交小程序审核将在2小时内审核完毕。工作时间：周一到周五，9点-21点；周六周日，9点-19点。</li>
+</ul>
+</li>
+</ul>
+<h1 id="API"><a href="#API" class="headerlink" title="API"></a>API</h1><h3 id="同步，异步-API"><a href="#同步，异步-API" class="headerlink" title="同步，异步 API"></a>同步，异步 API</h3><p>以 Sync 结尾的 API 一定是同步 API。也有一些 同步API 是不以 Sync 结尾的。</p>
+<p>异步 API 通常都接受一个 Object 类型的参数。该参数包括:</p>
+<ul>
+<li>success: 接口成功回调</li>
+<li>fail: 接口失败回调</li>
+<li>complete: 接口调用结束的回调函数。调用成功、失败都会执行。</li>
+</ul>
+<p>这三个参数都会包含 </p>
+<ul>
+<li>errMsg 错误信息，如果调用成功返回 ${apiName}:ok。</li>
+<li>errCode 错误码，仅部分 API 支持。</li>
+</ul>
+<h3 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h3><p>TODO。</p>
+<h3 id="事件-1"><a href="#事件-1" class="headerlink" title="事件"></a>事件</h3><p>要传一些额外的数据到事件回调上要通过在元素上设置 <code>data-xx</code>。 在回调中通过 <code>event.currentTarget.dataset</code> 来拿值。</p>
+<h3 id="常用-API"><a href="#常用-API" class="headerlink" title="常用 API"></a>常用 API</h3><h4 id="路由"><a href="#路由" class="headerlink" title="路由"></a>路由</h4><ul>
+<li>wx.redirectTo 关闭当前页面，跳转到应用内的某个页面</li>
+<li>wx.navigateTo 保留当前页面，跳转到应用内的某个页面。小程序最多打开5个页面，页面数量为 5，这个api就没用了。 合理用 <code>wx.navigateBack</code> 和 <code>wx.reLaunch</code> 来规避这个问题。</li>
+<li>wx.navigateToMiniProgram({appId, path, extraData}) 打开另一个小程序。 navigator 组件也可以完成该功能。</li>
+<li>wx.reLaunch({url: ‘’, success: …}) 关闭所有页面，打开到应用内的某个页面。</li>
+<li>wx.navigateBack({delta: 1}) 关闭当前页面，返回上一页面或多级页面。可通过 getCurrentPages 获取当前的页面栈，决定需要返回几层。</li>
+<li>wx.switchTab({url: ‘’}) 跳转到 tabBar 页面，并关闭其他所有非 tabBar 页面。</li>
+</ul>
+<h4 id="显示信息"><a href="#显示信息" class="headerlink" title="显示信息"></a>显示信息</h4><ul>
+<li>wx.showToast({title, icon: ‘none|success|…’, image, mask, duration})|wx.hideToast 信息提示</li>
+<li>wx.showModal 模态框</li>
+<li>wx.showLoading({title, mask: true})|wx.hideLoading</li>
+<li>wx.showActionSheet 显示操作菜单</li>
+</ul>
+<h4 id="导航"><a href="#导航" class="headerlink" title="导航"></a>导航</h4><ul>
+<li>wx.setNavigationBarTitle({title: ‘商品详情页’}) 设置导航栏标题</li>
+<li>wx.setNavigationBarColor({frontColor: ‘#ffffff|#000000’, backgroundColor: ‘#ff0000’})</li>
+</ul>
+<h4 id="数据存储"><a href="#数据存储" class="headerlink" title="数据存储"></a>数据存储</h4><ul>
+<li>wx.setStorageSync(string key, any data)</li>
+<li>wx.getStorageSync(string key)</li>
+<li>wx.removeStorageSync(string key)</li>
+</ul>
+<h3 id="获取用户信息"><a href="#获取用户信息" class="headerlink" title="获取用户信息"></a>获取用户信息</h3><p>获取用户信息必须通过按钮的方式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;button open-type=&quot;getUserInfo&quot; bindgetuserinfo=&quot;&quot;&gt;&lt;/button&gt;</span><br></pre></td></tr></table></figure>
+<p>事件回调中的 <code>event.detail.userInfo</code> 是用户信息。</p>
+<p>通过 <code>wx.getUserInfo({success(userInfo) =&gt; {}})</code> 已被废除。  UseInfo 包括 昵称，头像，性别，所在国家，省，市。不包括 openid。</p>
+<p>登录：<br>wx.login({success({code}) =&gt; {}}) 。拿到 code 后，调用服务器端代码，服务器拿 code 去换 openid, session_key。</p>
+<p>检查登录情况：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">wx.checkSession(&#123;</span><br><span class="line">  success() &#123;</span><br><span class="line">    // session_key 未过期，并且在本生命周期一直有效</span><br><span class="line">  &#125;,</span><br><span class="line">  fail() &#123;</span><br><span class="line">    // session_key 已经失效，需要重新执行登录流程</span><br><span class="line">    wx.login() // 重新登录</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>获取用户手机号。 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;button open-type=&quot;getPhoneNumber&quot; bindgetphonenumber=&quot;getPhoneNumber&quot;&gt;&lt;/button&gt;</span><br></pre></td></tr></table></figure>
+
+<p>注意：获取微信用户绑定的手机号，需先调用wx.login接口。该接口针对非个人开发者，且完成了认证的小程序开放。</p>
+<h3 id="数据分析"><a href="#数据分析" class="headerlink" title="数据分析"></a>数据分析</h3><ul>
+<li>数据上报 wx.reportMonitor(string name, number value)</li>
+<li>数据分析 wx.reportAnalytics(string eventName, Object data)</li>
+</ul>
+<h4 id="页面滚动"><a href="#页面滚动" class="headerlink" title="页面滚动"></a>页面滚动</h4><ul>
+<li>wx.pageScrollTo({scrollTop: 100 /<em>单位px</em>/, duration: 200 /<em>单位毫秒</em>/})</li>
+</ul>
+<p>组件 <code>scrollView</code> 中有 属性 <code>scroll-into-view</code>，将 <code>scrollView</code> 滚动到指定元素的位置。</p>
+<h4 id="背景音频"><a href="#背景音频" class="headerlink" title="背景音频"></a>背景音频</h4><ul>
+<li>wx.getBackgroundAudioManager()</li>
+<li>BackgroundAudioManager.play()|pause()</li>
+</ul>
+<h4 id="其他-3"><a href="#其他-3" class="headerlink" title="其他"></a>其他</h4><p>位置，录音，相机。</p>
+<h3 id="授权"><a href="#授权" class="headerlink" title="授权"></a>授权</h3><p>询问用户是否同意授权小程序使用某项功能或获取用户的某些数据。示例代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">wx.getSetting(&#123; // 获取用户当前的授权状态。</span><br><span class="line">  success(res) &#123;</span><br><span class="line">    if (!res.authSetting[&apos;scope.record&apos;]) &#123;</span><br><span class="line">      wx.authorize(&#123;</span><br><span class="line">        scope: &apos;scope.record&apos;,</span><br><span class="line">        success() &#123;</span><br><span class="line">          // 用户已经同意小程序使用录音功能，后续调用 wx.startRecord 接口不会弹窗询问</span><br><span class="line">          wx.startRecord()</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>需要授权的有: 用户信息,地理位置，通讯地址，发票抬头，获取发票，微信运动步数量，录音功能，摄像头，保存到相册。</p>
+<p>具体见<a href="https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html" target="_blank" rel="noopener">这里</a>。</p>
+<h3 id="客服"><a href="#客服" class="headerlink" title="客服"></a>客服</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;button open-type=&quot;contact&quot; bindcontact=&quot;handleContact&quot;&gt;&lt;/button&gt;</span><br></pre></td></tr></table></figure>
+
+<p>bindcontact 事件回调获取到用户所点消息的页面路径 path 和对应的参数 query</p>
+<h2 id="尺寸单位"><a href="#尺寸单位" class="headerlink" title="尺寸单位"></a>尺寸单位</h2><p>rpx（responsive pixel）: 屏幕的宽度是 750rpx。会自动做响应式的处理。</p>
+<h3 id="打开-App"><a href="#打开-App" class="headerlink" title="打开 App"></a>打开 App</h3><p>比较复杂。和场景值有关。</p>
+<h2 id="更新机制"><a href="#更新机制" class="headerlink" title="更新机制"></a>更新机制</h2><p>小程序启动会有两种情况，一种是「冷启动」，一种是「热启动」。 假如用户已经打开过某小程序，然后在一定时间内再次打开该小程序，此时无需重新启动，只需将后台态的小程序切换到前台，这个过程就是热启动；冷启动指的是用户首次打开或小程序被微信主动销毁后再次打开的情况，此时小程序需要重新加载启动。</p>
+<p>小程序冷启动时如果发现有新版本，将会异步下载新版本的代码包，并同时用客户端本地的包进行启动，即新版本的小程序需要等下一次冷启动才会应用上。 如果需要马上应用最新版本，可以使用 wx.getUpdateManager API 进行处理。</p>
+<h2 id="真机调试"><a href="#真机调试" class="headerlink" title="真机调试"></a>真机调试</h2><p>点击开发者工具的工具栏上 “远程调试” 按钮。工具会将本地代码进行处理打包并上传，就绪之后，使用手机客户端扫描二维码即可弹出调试窗口，开始远程调试。</p>
+<h2 id="一些坑"><a href="#一些坑" class="headerlink" title="一些坑"></a>一些坑</h2><p>在 js 中拿 <code>data</code> 中的属性，要用 <code>this.data.xxx</code> 而不是直接 <code>this.xxx</code>。写惯了 Vue 的不习惯。</p>
+<p>将页面保存为发朋友圈的图片，只能用 canvas 画，然后用 canvas 导出图片到本地，然后调用 download 的api。用 canvas 来画页面，有很多坑，比如画图片是网络图片，必须先把图片下载下来再画，并且在设置小程序管理后台设置 download 域名白名单，包含要下载的图片的域名。 超长文字和多行文字缩略问题。可以用库 <a href="https://github.com/Kujiale-Mobile/Painter" target="_blank" rel="noopener">Painter</a>。 用这个库要注意的是， 画文字时，如果要设置居中，文件的居中线是 left 的值。 可以看下<a href="https://juejin.im/post/5b7e48566fb9a01a1059543f" target="_blank" rel="noopener">轻松生成小程序分享海报</a></p>
+<h2 id="其他资源"><a href="#其他资源" class="headerlink" title="其他资源"></a>其他资源</h2><h1 id="授权-1"><a href="#授权-1" class="headerlink" title="授权"></a>授权</h1><h2 id="获取用户的授权设置"><a href="#获取用户的授权设置" class="headerlink" title="获取用户的授权设置"></a>获取用户的授权设置</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">wx.getSetting(&#123;</span><br><span class="line">  success (res) &#123;</span><br><span class="line">    console.log(res.authSetting)</span><br><span class="line">    // res.authSetting = &#123;</span><br><span class="line">    //   &quot;scope.userInfo&quot;: true,</span><br><span class="line">    //   &quot;scope.userLocation&quot;: true</span><br><span class="line">    // &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="打开设置"><a href="#打开设置" class="headerlink" title="打开设置"></a>打开设置</h2><p>调起客户端小程序设置界面，返回用户设置的操作结果。2.3.0 版本开始，用户发生点击行为后，才可以跳转打开设置页，管理授权信息。<br><strong>设置界面只会出现小程序已经向用户请求过的权限。</strong></p>
+<p>打开小程序设置页的方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 方法一 --&gt;</span><br><span class="line">&lt;button open-type=&quot;openSetting&quot; bindopensetting=&quot;callback&quot;&gt;打开设置页&lt;/button&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- 方法二 --&gt;</span><br><span class="line">&lt;button bindtap=&quot;openSetting&quot;&gt;打开设置页&lt;/button&gt;  openSetting() &#123;wx.openSetting()&#125;</span><br></pre></td></tr></table></figure>
+
+<p>示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">wx.openSetting(&#123;</span><br><span class="line">  success (res) &#123;</span><br><span class="line">    console.log(res.authSetting) // 操作结果</span><br><span class="line">    // res.authSetting = &#123;</span><br><span class="line">    //   &quot;scope.userInfo&quot;: true,</span><br><span class="line">    //   &quot;scope.userLocation&quot;: true</span><br><span class="line">    // &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h1 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h1><h2 id="在CSS用背景图用本地路径，图片不显示"><a href="#在CSS用背景图用本地路径，图片不显示" class="headerlink" title="在CSS用背景图用本地路径，图片不显示"></a>在CSS用背景图用本地路径，图片不显示</h2><p>原因：在 CSS 中设置背景图不支持本地图片。<br>解决方案：用 base64 的或者网络路径。或者用 <code>image</code> 标签。</p>
+<h2 id="IOS-中设置了Image的图片不显示"><a href="#IOS-中设置了Image的图片不显示" class="headerlink" title="IOS 中设置了Image的图片不显示"></a>IOS 中设置了Image的图片不显示</h2><p>解决方案：不要在 Image 上设置背景色。</p>
+<h1 id="常见码值"><a href="#常见码值" class="headerlink" title="常见码值"></a>常见码值</h1><p><a href="https://developers.weixin.qq.com/miniprogram/dev/reference/scene-list.html" target="_blank" rel="noopener">文档</a></p>
+<ul>
+<li>1001  发现栏小程序主入口，「最近使用」列表（基础库2.2.4版本起包含「我的小程序」列表）  查看</li>
+<li>1005  微信首页顶部搜索框的搜索结果页 查看</li>
+<li>1006  发现栏小程序主入口搜索框的搜索结果页  查看</li>
+<li>1007  单人聊天会话中的小程序消息卡片 查看</li>
+<li>1008  群聊会话中的小程序消息卡片 查看</li>
+<li>1011  扫描二维码 查看</li>
+<li>1012  长按图片识别二维码 查看</li>
+<li>1013  扫描手机相册中选取的二维码 查看</li>
+<li>1014  小程序模板消息 查看</li>
+<li>1017  前往小程序体验版的入口页  查看</li>
+<li>1019  微信钱包（微信客户端7.0.0版本改为支付入口）  查看</li>
+<li>1020  公众号 profile 页相关小程序列表  查看</li>
+<li>1022  聊天顶部置顶小程序入口（微信客户端6.6.1版本起废弃）  /</li>
+<li>1023  安卓系统桌面图标  查看</li>
+<li>1024  小程序 profile 页 查看</li>
+<li>1025  扫描一维码 查看</li>
+<li>1026  发现栏小程序主入口，「附近的小程序」列表  查看</li>
+<li>1027  微信首页顶部搜索框搜索结果页「使用过的小程序」列表 查看</li>
+<li>1028  我的卡包  查看</li>
+<li>1029  小程序中的卡券详情页  查看</li>
+<li>1030  自动化测试下打开小程序 /</li>
+<li>1031  长按图片识别一维码 查看</li>
+<li>1032  扫描手机相册中选取的一维码 查看</li>
+<li>1034  微信支付完成页 查看</li>
+<li>1035  公众号自定义菜单  查看</li>
+<li>1036  App 分享消息卡片  查看</li>
+<li>1037  小程序打开小程序  查看</li>
+<li>1038  从另一个小程序返回 查看</li>
+<li>1039  摇电视 查看</li>
+<li>1042  添加好友搜索框的搜索结果页 查看</li>
+<li>1043  公众号模板消息 查看</li>
+<li>1044  带 shareTicket 的小程序消息卡片 详情 查看</li>
+<li>1045  朋友圈广告 查看</li>
+<li>1046  朋友圈广告详情页  查看</li>
+<li>1047  扫描小程序码  查看</li>
+<li>1048  长按图片识别小程序码  查看</li>
+<li>1049  扫描手机相册中选取的小程序码  查看</li>
+<li>1052  卡券的适用门店列表 查看</li>
+<li>1053  搜一搜的结果页 查看</li>
+<li>1054  顶部搜索框小程序快捷入口（微信客户端版本6.7.4起废弃） /</li>
+<li>1056  聊天顶部音乐播放器右上角菜单  查看</li>
+<li>1057  钱包中的银行卡详情页  查看</li>
+<li>1058  公众号文章 查看</li>
+<li>1059  体验版小程序绑定邀请页 /</li>
+<li>1064  微信首页连Wi-Fi状态栏 查看</li>
+<li>1067  公众号文章广告 查看</li>
+<li>1068  附近小程序列表广告（已废弃）  /</li>
+<li>1069  移动应用  查看</li>
+<li>1071  钱包中的银行卡列表页  查看</li>
+<li>1072  二维码收款页面 查看</li>
+<li>1073  客服消息列表下发的小程序消息卡片  查看</li>
+<li>1074  公众号会话下发的小程序消息卡片 查看</li>
+<li>1077  摇周边 查看</li>
+<li>1078  微信连Wi-Fi成功提示页 查看</li>
+<li>1079  微信游戏中心  查看</li>
+<li>1081  客服消息下发的文字链  查看</li>
+<li>1082  公众号会话下发的文字链 查看</li>
+<li>1084  朋友圈广告原生页  查看</li>
+<li>1089  微信聊天主界面下拉，「最近使用」栏（基础库2.2.4版本起包含「我的小程序」栏）  查看</li>
+<li>1090  长按小程序右上角菜单唤出最近使用历史  查看</li>
+<li>1091  公众号文章商品卡片 查看</li>
+<li>1092  城市服务入口  查看</li>
+<li>1095  小程序广告组件 查看</li>
+<li>1096  聊天记录  查看</li>
+<li>1097  微信支付签约页 查看</li>
+<li>1099  页面内嵌插件  /</li>
+<li>1102  公众号 profile 页服务预览 查看</li>
+<li>1103  发现栏小程序主入口，「我的小程序」列表（基础库2.2.4版本起废弃）  /</li>
+<li>1104  微信聊天主界面下拉，「我的小程序」栏（基础库2.2.4版本起废弃） /</li>
+<li>1129  微信爬虫访问 详情</li>
+</ul>
+<h1 id="页面"><a href="#页面" class="headerlink" title="页面"></a>页面</h1><h2 id="注册页面"><a href="#注册页面" class="headerlink" title="注册页面"></a>注册页面</h2><p>注册小程序中的一个页面。 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">Page(&#123;</span><br><span class="line">  data: &#123;</span><br><span class="line">    text: &quot;This is page data.&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  onLoad: function(options) &#123;</span><br><span class="line">    // Do some initialize when page load.</span><br><span class="line">  &#125;,</span><br><span class="line">  onReady: function() &#123; // 页面初次渲染完成</span><br><span class="line">    // Do something when page ready.</span><br><span class="line">  &#125;,</span><br><span class="line">  onShow: function() &#123;</span><br><span class="line">    // Do something when page show.</span><br><span class="line">  &#125;,</span><br><span class="line">  onHide: function() &#123;</span><br><span class="line">    // Do something when page hide.</span><br><span class="line">  &#125;,</span><br><span class="line">  onUnload: function() &#123;</span><br><span class="line">    // Do something when page close.</span><br><span class="line">  &#125;,</span><br><span class="line">  onPullDownRefresh: function() &#123;</span><br><span class="line">    // Do something when pull down.</span><br><span class="line">  &#125;,</span><br><span class="line">  onReachBottom: function() &#123;</span><br><span class="line">    // Do something when page reach bottom.</span><br><span class="line">  &#125;,</span><br><span class="line">  onShareAppMessage: function () &#123;</span><br><span class="line">    // return custom share data when user share.</span><br><span class="line">  &#125;,</span><br><span class="line">  onPageScroll: function() &#123;</span><br><span class="line">    // Do something when page scroll</span><br><span class="line">  &#125;,</span><br><span class="line">  onResize: function() &#123;</span><br><span class="line">    // Do something when page resize</span><br><span class="line">  &#125;,</span><br><span class="line">  onTabItemTap(item) &#123;</span><br><span class="line">    console.log(item.index)</span><br><span class="line">    console.log(item.pagePath)</span><br><span class="line">    console.log(item.text)</span><br><span class="line">  &#125;,</span><br><span class="line">  // Event handler.</span><br><span class="line">  viewTap: function() &#123;</span><br><span class="line">    this.setData(&#123;</span><br><span class="line">      text: &apos;Set some data for updating view.&apos;</span><br><span class="line">    &#125;, function() &#123;</span><br><span class="line">      // this is setData callback</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;,</span><br><span class="line">  customData: &#123;</span><br><span class="line">    hi: &apos;MINA&apos;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="getCurrentPages"><a href="#getCurrentPages" class="headerlink" title="getCurrentPages"></a>getCurrentPages</h2><p>获取当前页面栈。 注意：</p>
+<ul>
+<li>不要尝试修改页面栈，会导致路由以及页面状态错误。</li>
+<li>不要在 App.onLaunch 的时候调用 getCurrentPages()，此时 page 还没有生成。</li>
+</ul>
+<h1 id="生命周期-1"><a href="#生命周期-1" class="headerlink" title="生命周期"></a>生命周期</h1><p>onLoad, onShow, onReady, onHide, onUnload。 页面加载后，先执行 onLoad，然后执行 onShow， 然后执行 onHide。</p>
+<h1 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h1><h2 id="WXML"><a href="#WXML" class="headerlink" title="WXML"></a>WXML</h2><h3 id="条件"><a href="#条件" class="headerlink" title="条件"></a>条件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;view wx:if=&quot;&#123;&#123;length &gt; 5&#125;&#125;&quot;&gt; 1 &lt;/view&gt;</span><br><span class="line">&lt;view wx:elif=&quot;&#123;&#123;length &gt; 2&#125;&#125;&quot;&gt; 2 &lt;/view&gt;</span><br><span class="line">&lt;view wx:else&gt; 3 &lt;/view&gt;</span><br></pre></td></tr></table></figure>
+
+<p>如果要一次性判断多个组件标签，可以使用一个 <code>&lt;block/&gt;</code> 标签将多个组件包装起来，并在上边使用 wx:if 控制属性。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;block wx:if=&quot;&#123;&#123;true&#125;&#125;&quot;&gt;</span><br><span class="line">  &lt;view&gt; view1 &lt;/view&gt;</span><br><span class="line">  &lt;view&gt; view2 &lt;/view&gt;</span><br><span class="line">&lt;/block&gt;</span><br></pre></td></tr></table></figure>
+
+<p><code>&lt;block/&gt;</code> 不会输出。</p>
+<h3 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;view wx:for=&quot;&#123;&#123;array&#125;&#125;&quot; wx:for-index=&quot;idx&quot;&gt;</span><br><span class="line">  &#123;&#123;idx&#125;&#125;: &#123;&#123;item.message&#125;&#125;</span><br><span class="line">&lt;/view&gt;</span><br><span class="line"></span><br><span class="line">&lt;view wx:for=&quot;&#123;&#123;array&#125;&#125;&quot; wx:for-index=&quot;idx&quot; wx:for-item=&quot;itemName&quot;&gt;</span><br><span class="line">  &#123;&#123;idx&#125;&#125;: &#123;&#123;itemName.message&#125;&#125;</span><br><span class="line">&lt;/view&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><p>用 <code>import</code> 的方式  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 定义：item.wxml --&gt;</span><br><span class="line">&lt;template name=&quot;item&quot;&gt;</span><br><span class="line">  &lt;text&gt;&#123;&#123;text&#125;&#125;&lt;/text&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- 使用 --&gt;</span><br><span class="line">&lt;import src=&quot;item.wxml&quot;/&gt;</span><br><span class="line">&lt;template is=&quot;item&quot; data=&quot;&#123;&#123;text: &apos;forbar&apos;&#125;&#125;&quot;/&gt;</span><br></pre></td></tr></table></figure>
+
+<p>用 <code>include</code> 的方式  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- header.wxml --&gt;</span><br><span class="line">&lt;view&gt; header &lt;/view&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- 使用 --&gt;</span><br><span class="line">&lt;include src=&quot;header.wxml&quot;/&gt;</span><br><span class="line">&lt;view&gt; body &lt;/view&gt;</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="自定义组件"><a href="#自定义组件" class="headerlink" title="自定义组件"></a>自定义组件</h1><p><a href="https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/" target="_blank" rel="noopener">文档</a></p>
+<p>类似于页面，一个自定义组件由 json wxml wxss js 4个文件组成。要编写一个自定义组件，首先需要在 json 文件中进行自定义组件声明（将 component 字段设为 true 可这一组文件设为自定义组件）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;component&quot;: true</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>wxml 中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;view class=&quot;inner&quot;&gt;</span><br><span class="line">  &#123;&#123;innerText&#125;&#125;</span><br><span class="line">&lt;/view&gt;</span><br><span class="line">&lt;slot&gt;&lt;/slot&gt; 外部子</span><br></pre></td></tr></table></figure>
+
+<p>js 中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">Component(&#123;</span><br><span class="line">  properties: &#123;</span><br><span class="line">    // 这里定义了innerText属性，属性值可以在组件使用时指定</span><br><span class="line">    innerText: &#123;</span><br><span class="line">      type: String,</span><br><span class="line">      value: &apos;default value&apos;,</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  data: &#123;</span><br><span class="line">    // 这里是一些组件内部数据</span><br><span class="line">    someData: &#123;&#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    // 这里是一个自定义方法</span><br><span class="line">    customMethod: function()&#123;&#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h2><p>一些需要注意的细节：</p>
+<ul>
+<li>因为 WXML 节点标签名只能是小写字母、中划线和下划线的组合，所以自定义组件的标签名也只能包含这些字符。</li>
+<li>自定义组件也是可以引用自定义组件的，引用方法类似于页面引用自定义组件的方式（使用 usingComponents 字段）。</li>
+<li>自定义组件和页面所在项目根目录名不能以“wx-”为前缀，否则会报错。</li>
+</ul>
+<p>注意，是否在页面文件中使用 usingComponents 会使得页面的 this 对象的原型稍有差异，包括：</p>
+<ul>
+<li>使用 usingComponents 页面的原型与不使用时不一致，即 Object.getPrototypeOf(this) 结果不同。</li>
+<li>使用 usingComponents 时会多一些方法，如 selectComponent 。</li>
+<li>出于性能考虑，使用 usingComponents 时， setData 内容不会被直接深复制，即 this.setData({ field: obj }) 后 this.data.field === obj 。（深复制会在这个值被组件间传递时发生。）</li>
+</ul>
+<h1 id="App"><a href="#App" class="headerlink" title="App"></a>App</h1><h2 id="注册-App"><a href="#注册-App" class="headerlink" title="注册 App"></a>注册 App</h2><p>在 小程序 根路径的 <code>app.js</code> 下注册。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">App(&#123;</span><br><span class="line">  onLaunch (options) &#123; // 监听小程序初始化</span><br><span class="line">    // Do something initial when launch.</span><br><span class="line">  &#125;,</span><br><span class="line">  onShow (options) &#123; // 监听小程序启动或切前台</span><br><span class="line">    // Do something when show.</span><br><span class="line">  &#125;,</span><br><span class="line">  onHide () &#123; // 监听小程序切后台</span><br><span class="line">    // Do something when hide.</span><br><span class="line">  &#125;,</span><br><span class="line">  onError (msg) &#123;</span><br><span class="line">    console.log(msg)</span><br><span class="line">  &#125;,</span><br><span class="line">  onPageNotFound() &#123; // 页面不存在监听函数。</span><br><span class="line">    wx.redirectTo(&#123; // 页面找不到后，跳转到指定页面</span><br><span class="line">      url: &apos;pages/...&apos;</span><br><span class="line">    &#125;) // 如果是 tabbar 页面，请使用 wx.switchTab</span><br><span class="line">  &#125;,</span><br><span class="line">  globalData: &#123;&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="获取-App"><a href="#获取-App" class="headerlink" title="获取 App"></a>获取 App</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var appInstance = getApp()</span><br><span class="line">console.log(appInstance.globalData)</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a style="word-wrap:break-word;" href="http://yoursite.com/2019/11/15/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/website-tip/" title="网站规范" target="_blank" rel="external">http://yoursite.com/2019/11/15/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/website-tip/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/chen08" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/chen08" target="_blank"><span class="text-dark">溟海</span><small class="ml-1x">Web Developer &amp; Designer</small></a></h3>
+        <div>天行健，君子以自强不息，地势坤，君子以厚德载物。 杀不死我的,终将使我强大 没有吃不了的苦,只有享不了的福</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2019/11/15/1.WEB%E5%89%8D%E7%AB%AFWeb/rxjs/intro/" title="RxJS 入门"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/11/15/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/YY-Code-Guide/CSS/" title="YY-Code-Guide CSS 规范"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="Catalogue" role="button">
+        <span>[&nbsp;</span><span>Catalogue</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open alipay app scan this qrcode, buy me a coffee!</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open wechat app scan this qrcode, buy me a coffee!</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> alipay</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> wechat payment</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+
+
+<!-- custom analytics part create by xiamo -->
+<!-- <script defer src="https://cdn1.lncld.net/static/js/av-min-1.2.1.js"></script> -->
+<script defer src="/js/av-min-1.2.1.js"></script>
+<script defer>
+AV.init({
+  appId: 'ngFQzHw7z0HgQfrtn4En4WTN-gzGzoHsz',
+  appKey: 'W9hgBBfVDwRGJKoGp5a6HKpx'
+});
+
+function showTime(Counter) {
+	var query = new AV.Query(Counter);
+		var visitors= $('.leancloud_visitors');
+		query.greaterThanOrEqualTo("time", 0);		
+		query.find({
+			success: function(results) {
+				if (results.length == 0) {				
+					return;
+				}
+				var data = results;
+				visitors.each(function(){
+					var url = $(this).attr('id').trim();					
+					for (var i = 0; i < data.length; i++) {
+						var object = data[i];
+						var content = object.get('time');
+						var _url = object.get('url')
+						if(url == _url){
+							$(this).text(content);
+						}
+					}
+				})
+				
+			},
+			error: function(object, error) {
+				console.log("Error: " + error.code + " " + error.message);
+			}
+		});
+}
+
+function addCount(Counter) {
+	var Counter = AV.Object.extend("Counter");
+	url = $(".leancloud_visitors").attr('id').trim();
+	title = $(".leancloud_visitors").attr('data-flag-title').trim();
+	var query = new AV.Query(Counter);
+	query.equalTo("url", url);
+	query.find({
+		success: function(results) {
+			if (results.length > 0) {
+				var counter = results[0];
+				counter.fetchWhenSave(true);
+				counter.increment("time");
+				counter.save(null, {
+					success: function(counter) {
+						var content = counter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(counter, error) {
+						console.log('Failed to save Visitor num, with error message: ' + error.message);
+					}
+				});
+			} else {
+				var newcounter = new Counter();
+				newcounter.set("title", title);
+				newcounter.set("url", url);
+				newcounter.set("time", 1);
+				newcounter.save(null, {
+					success: function(newcounter) {
+					    console.log("newcounter.get('time')="+newcounter.get('time'));
+						var content = newcounter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(newcounter, error) {
+						console.log('Failed to create');
+					}
+				});
+			}
+		},
+		error: function(error) {
+			console.log('Error:' + error.code + " " + error.message);
+		}
+	});
+}
+$(function() {
+	var Counter = AV.Object.extend("Counter");
+	if ($('.leancloud_visitors').length == 1) {
+		addCount(Counter);
+	} else {
+		showTime(Counter);
+	}
+}); 
+</script>
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>

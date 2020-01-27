@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Git 基础 | Hexo</title>
+  <script src="./js/jQuery.md5.js"></script>
+  <script>
+    
+    (function(){
+      localStorage.setItem('userinfo',hex_md5('123chen'))
+      
+      var localData = localStorage.getItem("userinfo");
+      // var localState = localStorage.getItem("state");
+        if(localStorage.getItem("state") === null){
+          var reason = window.prompt('请输入访问密码');
+          // var promptVal = window.prompt('请输入访问密码');
+          if(reason){
+              //填写内容并“确定”
+              var md5Prompt = hex_md5(reason)
+              //点击的是“确定” 
+              if (localData !== md5Prompt){
+                alert('密码错误！');
+                // history.back();
+                location.replace(location.href); 
+              }else{
+                // alert('0123');
+                localStorage.setItem('state',"1")
+              }
+          }
+          else if(reason === ""){
+              //未填写但“确定”
+              location.replace(location.href); 
+          }
+          else{
+            //“取消”事件
+            location.replace(location.href); 
+          }
+        }
+
+    })();
+  </script>
+ <link rel="alternate" href="/atom.xml" data="123chen" type="application/atom+xml">
+  <meta name="description" content="GIT版本控制版本控制（Version Control）的作用是追踪文件的变化。为什么需要版本控制？简单说，就是当你出错了，可以很容易地回到没出错时的状态。 还有，版本控制方便多人协同开发。 GIT是什么Git是目前世界上最先进的分布式版本控制系统（没有之一）。 为什么使用GITGit有很多优势，其中之一就是远程操作非常简便，以及速度快。 使用安装GIT软件推荐使用Github的客户端 windo">
+<meta name="keywords" content="Git">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git 基础">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;08&#x2F;1.WEB%E5%89%8D%E7%AB%AFWeb&#x2F;git&#x2F;git%20%E5%9F%BA%E7%A1%80&#x2F;index.html">
+<meta property="og:site_name" content="学习的敌人是自己的满足，要认真学习一点东西，必须从不自满开始。对自己，“学而不厌”，对人家，“诲人不倦”，我们应取这种态度。">
+<meta property="og:description" content="GIT版本控制版本控制（Version Control）的作用是追踪文件的变化。为什么需要版本控制？简单说，就是当你出错了，可以很容易地回到没出错时的状态。 还有，版本控制方便多人协同开发。 GIT是什么Git是目前世界上最先进的分布式版本控制系统（没有之一）。 为什么使用GITGit有很多优势，其中之一就是远程操作非常简便，以及速度快。 使用安装GIT软件推荐使用Github的客户端 windo">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;08&#x2F;1.WEB%E5%89%8D%E7%AB%AFWeb&#x2F;git&#x2F;git%20%E5%9F%BA%E7%A1%80&#x2F;git-use-example.jpg">
+<meta property="og:image" content="http:&#x2F;&#x2F;upload-images.jianshu.io&#x2F;upload_images&#x2F;16777-1b5ffe8302660b2f.png?imageMogr2&#x2F;auto-orient&#x2F;strip%7CimageView2&#x2F;2&#x2F;w&#x2F;1240">
+<meta property="og:image" content="http:&#x2F;&#x2F;upload-images.jianshu.io&#x2F;upload_images&#x2F;16777-1d52b7afeacaa458.png?imageMogr2&#x2F;auto-orient&#x2F;strip%7CimageView2&#x2F;2&#x2F;w&#x2F;1240">
+<meta property="og:updated_time" content="2019-11-23T05:00:46.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;08&#x2F;1.WEB%E5%89%8D%E7%AB%AFWeb&#x2F;git&#x2F;git%20%E5%9F%BA%E7%A1%80&#x2F;git-use-example.jpg">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://yoursite.com/2019/11/08/1.WEB%E5%89%8D%E7%AB%AFWeb/git/git%20%E5%9F%BA%E7%A1%80/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="学习的敌人是自己的满足，要认真学习一点东西，必须从不自满开始。对自己，“学而不厌”，对人家，“诲人不倦”，我们应取这种态度。" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/chen08" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">溟海</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer &amp; Designer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Guangzhou, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+          <!-- . -->
+        
+        
+          <li class="menu-item menu-item-home">
+            <a href="/.">
+              
+              <i class="icon icon-home-fill"></i>
+              
+              <span class="menu-title">Home</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- archives -->
+        
+        
+          <li class="menu-item menu-item-archives">
+            <a href="/archives">
+              
+              <i class="icon icon-archives-fill"></i>
+              
+              <span class="menu-title">Archives</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- categories -->
+        
+        
+          <li class="menu-item menu-item-categories">
+            <a href="/categories">
+              
+              <i class="icon icon-folder"></i>
+              
+              <span class="menu-title">Categories</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- tags -->
+        
+        
+          <li class="menu-item menu-item-tags">
+            <a href="/tags">
+              
+              <i class="icon icon-tags"></i>
+              
+              <span class="menu-title">Tags</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- repository -->
+        
+        
+          <li class="menu-item menu-item-repository">
+            <a href="/repository">
+              
+              <i class="icon icon-project"></i>
+              
+              <span class="menu-title">Repository</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- books -->
+        
+        
+          <li class="menu-item menu-item-books">
+            <a href="/books">
+              
+              <i class="icon icon-book-fill"></i>
+              
+              <span class="menu-title">Books</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- links -->
+        
+        
+          <li class="menu-item menu-item-links">
+            <a href="/links">
+              
+              <i class="icon icon-friendship"></i>
+              
+              <span class="menu-title">Links</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- about -->
+        
+        
+          <li class="menu-item menu-item-about">
+            <a href="/about">
+              
+              <i class="icon icon-cup-fill"></i>
+              
+              <span class="menu-title">About</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- navigation/webstack/index.html -->
+        
+        
+          <li class="menu-item menu-item-navigation">
+            <a href="/navigation/webstack/index.html">
+              
+              <i class="icon icon-delicious"></i>
+              
+              <span class="menu-title">Navigation</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- navigation/webstack/word.html -->
+        
+        
+          <li style="display: none;" class="menu-item menu-item-fixed">
+            <a href="/navigation/webstack/word.html">
+              
+              <i class="icon icon-delicious"></i>
+              
+              <span class="menu-title">menu.fixed</span>
+            </a>
+          </li>
+        
+
+
+        
+      </ul>
+
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/1-WEB%E5%89%8D%E7%AB%AF/">1.WEB前端</a><span class="category-list-count">140</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/2-%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">2.编程语言</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/3-%E4%BA%A7%E5%93%81%E8%AE%BE%E8%AE%A1/">3.产品设计</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/4-%E7%AE%A1%E7%90%86%E8%90%A5%E9%94%80/">4.管理营销</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/5-%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87/">5.技能提升</a><span class="category-list-count">155</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/6-%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93/">6.读书总结</a><span class="category-list-count">9</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/" rel="tag">CSS</a><span class="tag-list-count">18</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Dart/" rel="tag">Dart</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES6/" rel="tag">ES6</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES7/" rel="tag">ES7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/English/" rel="tag">English</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flutter/" rel="tag">Flutter</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a><span class="tag-list-count">20</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IMAGE/" rel="tag">IMAGE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JQuery/" rel="tag">JQuery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a><span class="tag-list-count">224</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">JavaScript设计模式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript%E9%AB%98%E7%BA%A7%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" rel="tag">JavaScript高级程序设计</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jquery/" rel="tag">Jquery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mysql/" rel="tag">Mysql</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NETWORK/" rel="tag">NETWORK</a><span class="tag-list-count">13</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node/" rel="tag">Node</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/" rel="tag">PHP</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/" rel="tag">React</a><span class="tag-list-count">31</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJS/" rel="tag">RxJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SVG/" rel="tag">SVG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sass/" rel="tag">Sass</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/" rel="tag">Vue</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%AE%89%E5%85%A8/" rel="tag">WEB安全</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webpack/" rel="tag">Webpack</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/" rel="tag">jQuery</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodeJS/" rel="tag">nodeJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B9%A6%E5%8D%95/" rel="tag">书单</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B9%A6%E7%B1%8D/" rel="tag">书籍</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/" rel="tag">前端安全</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83/" rel="tag">命名规范</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag">小程序</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" rel="tag">性能优化</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8F%92%E4%BB%B6/" rel="tag">插件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A1%86%E6%9E%B6/" rel="tag">框架</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" rel="tag">浏览器</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%84%E4%BB%B6/" rel="tag">组件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%84%E8%8C%83/" rel="tag">规范</a><span class="tag-list-count">67</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6%E5%AD%A6%E4%B9%A0/" rel="tag">软件学习</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a><span class="tag-list-count">153</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/CSS/" style="font-size: 13.71px;">CSS</a> <a href="/tags/Dart/" style="font-size: 13px;">Dart</a> <a href="/tags/ES6/" style="font-size: 13px;">ES6</a> <a href="/tags/ES7/" style="font-size: 13px;">ES7</a> <a href="/tags/English/" style="font-size: 13.18px;">English</a> <a href="/tags/Flutter/" style="font-size: 13px;">Flutter</a> <a href="/tags/Git/" style="font-size: 13.12px;">Git</a> <a href="/tags/HTML/" style="font-size: 13.76px;">HTML</a> <a href="/tags/HTTP/" style="font-size: 13.18px;">HTTP</a> <a href="/tags/IMAGE/" style="font-size: 13px;">IMAGE</a> <a href="/tags/JAVA/" style="font-size: 13.06px;">JAVA</a> <a href="/tags/JQuery/" style="font-size: 13px;">JQuery</a> <a href="/tags/JavaScript/" style="font-size: 14px;">JavaScript</a> <a href="/tags/JavaScript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 13px;">JavaScript设计模式</a> <a href="/tags/JavaScript%E9%AB%98%E7%BA%A7%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 13px;">JavaScript高级程序设计</a> <a href="/tags/Jquery/" style="font-size: 13px;">Jquery</a> <a href="/tags/Mysql/" style="font-size: 13px;">Mysql</a> <a href="/tags/NETWORK/" style="font-size: 13.53px;">NETWORK</a> <a href="/tags/Node/" style="font-size: 13.35px;">Node</a> <a href="/tags/PHP/" style="font-size: 13.24px;">PHP</a> <a href="/tags/React/" style="font-size: 13.82px;">React</a> <a href="/tags/RxJS/" style="font-size: 13px;">RxJS</a> <a href="/tags/SVG/" style="font-size: 13px;">SVG</a> <a href="/tags/Sass/" style="font-size: 13px;">Sass</a> <a href="/tags/TypeScript/" style="font-size: 13.29px;">TypeScript</a> <a href="/tags/Vue/" style="font-size: 13.65px;">Vue</a> <a href="/tags/WEB%E5%AE%89%E5%85%A8/" style="font-size: 13.29px;">WEB安全</a> <a href="/tags/Webpack/" style="font-size: 13.59px;">Webpack</a> <a href="/tags/jQuery/" style="font-size: 13.65px;">jQuery</a> <a href="/tags/nodeJS/" style="font-size: 13px;">nodeJS</a> <a href="/tags/python/" style="font-size: 13px;">python</a> <a href="/tags/%E4%B9%A6%E5%8D%95/" style="font-size: 13px;">书单</a> <a href="/tags/%E4%B9%A6%E7%B1%8D/" style="font-size: 13.06px;">书籍</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 13px;">前端</a> <a href="/tags/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/" style="font-size: 13.06px;">前端安全</a> <a href="/tags/%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83/" style="font-size: 13.41px;">命名规范</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 13px;">小程序</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 13.06px;">工具</a> <a href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" style="font-size: 13.47px;">性能优化</a> <a href="/tags/%E6%8F%92%E4%BB%B6/" style="font-size: 13px;">插件</a> <a href="/tags/%E6%A1%86%E6%9E%B6/" style="font-size: 13px;">框架</a> <a href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" style="font-size: 13px;">浏览器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13.18px;">算法</a> <a href="/tags/%E7%BB%84%E4%BB%B6/" style="font-size: 13px;">组件</a> <a href="/tags/%E8%A7%84%E8%8C%83/" style="font-size: 13.88px;">规范</a> <a href="/tags/%E8%BD%AF%E4%BB%B6%E5%AD%A6%E4%B9%A0/" style="font-size: 13px;">软件学习</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 13.35px;">随笔</a> <a href="/tags/%E9%9D%A2%E8%AF%95/" style="font-size: 13.94px;">面试</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a><span class="archive-list-count">312</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/27/1.WEB%E5%89%8D%E7%AB%AFWeb/React/react-router/" class="title">1.WEB前端Web/React/react-router</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-27T13:24:04.185Z" itemprop="datePublished">2020-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/27/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/sass-guide/" class="title">1.WEB前端Web/Front-End-Standards/sass-guide</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-27T13:24:03.487Z" itemprop="datePublished">2020-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/27/hello-world/" class="title">Hello World</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-27T13:24:03.028Z" itemprop="datePublished">2020-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/6-%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93/">6.读书总结</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/26/6.%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93Book/%E4%BA%BA%E7%94%9F%E9%81%93%E7%90%86/" class="title">人生道理</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-26T01:12:57.000Z" itemprop="datePublished">2020-01-26</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/2-%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">2.编程语言</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/15/2.%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80Programming/English/%E7%94%9F%E6%B4%BB%E8%8B%B1%E8%AF%AD/" class="title">生活英语</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-15T01:12:57.000Z" itemprop="datePublished">2020-01-15</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">Catalogue</h3>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#GIT"><span class="toc-number">1.</span> <span class="toc-text">GIT</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#版本控制"><span class="toc-number">1.1.</span> <span class="toc-text">版本控制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GIT是什么"><span class="toc-number">1.2.</span> <span class="toc-text">GIT是什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么使用GIT"><span class="toc-number">1.3.</span> <span class="toc-text">为什么使用GIT</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用"><span class="toc-number">1.4.</span> <span class="toc-text">使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装GIT软件"><span class="toc-number">1.4.1.</span> <span class="toc-text">安装GIT软件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常用命令"><span class="toc-number">1.4.2.</span> <span class="toc-text">常用命令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#git-提交规范"><span class="toc-number">1.5.</span> <span class="toc-text">git 提交规范</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#gitignore"><span class="toc-number">1.6.</span> <span class="toc-text">.gitignore</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置别名"><span class="toc-number">1.7.</span> <span class="toc-text">配置别名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Github表情符"><span class="toc-number">1.8.</span> <span class="toc-text">Github表情符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#提交说明"><span class="toc-number">1.9.</span> <span class="toc-text">提交说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常见问题"><span class="toc-number">1.10.</span> <span class="toc-text">常见问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#如何配置Git支持对文件名的大小写敏感"><span class="toc-number">1.10.1.</span> <span class="toc-text">如何配置Git支持对文件名的大小写敏感</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#远程代码库的地址变了怎么处理"><span class="toc-number">1.10.2.</span> <span class="toc-text">远程代码库的地址变了怎么处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Difference-between-matching-and-simple-Git-push"><span class="toc-number">1.10.3.</span> <span class="toc-text">Difference between matching and simple Git push</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何配置Git支持大小写敏感和修改文件名中大小写字母呢"><span class="toc-number">1.11.</span> <span class="toc-text">如何配置Git支持大小写敏感和修改文件名中大小写字母呢</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#练习"><span class="toc-number">1.12.</span> <span class="toc-text">练习</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实战"><span class="toc-number">1.13.</span> <span class="toc-text">实战</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#拓展阅读"><span class="toc-number">1.14.</span> <span class="toc-text">拓展阅读</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#用-GitHub-展示静态页面的几种方法"><span class="toc-number">2.</span> <span class="toc-text">用 GitHub 展示静态页面的几种方法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#方法1-用-RawGit"><span class="toc-number">2.1.</span> <span class="toc-text">方法1: 用 RawGit</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#方法2"><span class="toc-number">2.2.</span> <span class="toc-text">方法2:</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Gitflow工作流"><span class="toc-number">3.</span> <span class="toc-text">Gitflow工作流</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#分支"><span class="toc-number">3.1.</span> <span class="toc-text">分支</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#拓展阅读-1"><span class="toc-number">3.2.</span> <span class="toc-text">拓展阅读</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#emoji"><span class="toc-number">4.</span> <span class="toc-text">emoji</span></a></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-1.WEB前端Web/git/git 基础" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Git 基础
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/11/08/1.WEB%E5%89%8D%E7%AB%AFWeb/git/git%20%E5%9F%BA%E7%A1%80/" class="article-date">
+	  <time datetime="2019-11-08T01:12:57.000Z" itemprop="datePublished">2019-11-08</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/1-WEB%E5%89%8D%E7%AB%AF/">1.WEB前端</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/Git/" rel="tag">Git</a>
+  </span>
+
+
+        
+
+	<span class="article-read hidden-xs">
+    	<i class="icon icon-eye-fill" aria-hidden="true"></i>
+    	<span id="/2019/11/08/1.WEB%E5%89%8D%E7%AB%AFWeb/git/git%20%E5%9F%BA%E7%A1%80/" class="leancloud_visitors"  data-flag-title="Git 基础">0</span>
+    </span>
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/11/08/1.WEB%E5%89%8D%E7%AB%AFWeb/git/git%20%E5%9F%BA%E7%A1%80/#comments" class="article-comment-link">Comments</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count: 2.8k(words)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">Read Count: 13(minutes)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="GIT"><a href="#GIT" class="headerlink" title="GIT"></a>GIT</h1><h2 id="版本控制"><a href="#版本控制" class="headerlink" title="版本控制"></a>版本控制</h2><p>版本控制（Version Control）的作用是追踪文件的变化。为什么需要版本控制？简单说，就是当你出错了，可以很容易地回到没出错时的状态。</p>
+<p>还有，版本控制方便多人协同开发。</p>
+<h2 id="GIT是什么"><a href="#GIT是什么" class="headerlink" title="GIT是什么"></a>GIT是什么</h2><p>Git是目前世界上最先进的分布式版本控制系统（没有之一）。</p>
+<h2 id="为什么使用GIT"><a href="#为什么使用GIT" class="headerlink" title="为什么使用GIT"></a>为什么使用GIT</h2><p>Git有很多优势，其中之一就是远程操作非常简便，以及速度快。</p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h3 id="安装GIT软件"><a href="#安装GIT软件" class="headerlink" title="安装GIT软件"></a>安装GIT软件</h3><p>推荐使用Github的客户端 <a href="https://windows.github.com/" target="_blank" rel="noopener">windows 版下载</a>。</p>
+<h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><ul>
+<li><p>检出仓库 <code>git clone /path/to/repository</code></p>
+</li>
+<li><p>获取更新，并与本地代码进行合并 <code>git pull</code></p>
+</li>
+<li><p>将文件添加到版本控制系统 <code>git add filePath</code></p>
+<ul>
+<li><code>git add .</code> 添加当前目录下的所有文件</li>
+<li><code>git add -A</code> 添加当前目录下的所有文件，如有重命名的文件，会对重命名前的文件进行删除。<code>git add .</code>不会</li>
+</ul>
+</li>
+<li><p>提交改动代码 <code>git commit -m filePath &quot;注释&quot;</code> 注意:注释是必填的</p>
+</li>
+<li><p>提交所有改动代码 <code>git commit -am &quot;注释&quot;</code></p>
+</li>
+<li><p>查看当前项目代码的状态 <code>git status</code></p>
+</li>
+<li><p>将改动推送到服务器 <code>git push</code>。</p>
+<ul>
+<li>修改 push 的地址：修改.git/config文件夹里的url</li>
+</ul>
+</li>
+<li><p>将文件的内容替换成上次提交时候的内容 <code>git checkout filePath</code></p>
+</li>
+<li><p>将还没提交的内容保存起来，所有的文件内容变成上次提交时的样子 <code>git stash</code></p>
+</li>
+<li><p>回复上次<code>git stash</code>的内容，并与当前代码进行合并 <code>git stash pop</code></p>
+</li>
+<li><p>回滚代码到指定版本： <code>git reset --hard 提交ID</code></p>
+</li>
+<li><p>查看提交记录 <code>git log [最近几条]</code></p>
+</li>
+<li><p>查看改动的内容 <code>git show commitId</code></p>
+</li>
+<li><p>分支操作</p>
+<ul>
+<li>切换到某分支 <code>git checkout branchName</code></li>
+<li>创建并切换到某分支 <code>git checkout -b branchName</code>。以当前分支的代码做为基础。获取远程分支并切换到该分支 <code>git checkout -b branchName origin/branchName</code></li>
+<li>将某分支的改动推送到服务器 <code>git push origin branchName</code></li>
+<li>将当前分支设置为提交的默认分支 <code>git config push.default current</code>。也可以设置为全局的 <code>git config --global push.default current</code>。</li>
+<li>删除本地分支 <code>git branch -d branchName</code></li>
+<li>查看本分支列表 <code>git branch</code>。查看远程分支列表 <code>git branch -r</code></li>
+<li>将 a 分支的内容合并到 b 分支。<code>git checkout b</code>,<code>git merge orgin/a</code>。</li>
+</ul>
+</li>
+<li><p>发生冲突时，文件中会用 <code>&gt;&gt;&gt;&gt;</code> 和 <code>&lt;&lt;&lt;&lt;</code> 来标明冲突的地方。合并好后，<code>git add 这个冲突的文件</code>。 然后再commit,push</p>
+</li>
+<li><p>给历史记录中的某个重要的一点打上标签 <code>git tag -a 标签名</code></p>
+</li>
+<li><p>远程仓库</p>
+<ul>
+<li>查看该仓库远程 repo <code>git remote</code></li>
+<li>添加其他远程仓库 <code>git remote add upstream xxx.git</code>。查看下仓库: <code>git remote -v</code> 。如果fork的别人的代码，要pull request 前，最好同步下别人最新的代码 ：<ul>
+<li><code>git fetch upstream</code></li>
+<li><code>git merge upstream/master</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>rebase。 合并多次提交；分支合并。</p>
+<ul>
+<li><a href="http://jartto.wang/2018/12/11/git-rebase" target="_blank" rel="noopener">彻底搞懂 Git-Rebase</a></li>
+</ul>
+</li>
+</ul>
+<p><img src="./git-use-example.jpg" alt="git使用demo"></p>
+<h2 id="git-提交规范"><a href="#git-提交规范" class="headerlink" title="git 提交规范"></a>git 提交规范</h2><ul>
+<li><a href="http://jartto.wang/2018/07/08/git-commit/" target="_blank" rel="noopener">你可能会忽略的 Git 提交规范</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2016/01/commit_message_change_log.html" target="_blank" rel="noopener">Commit message 和 Change log 编写指南</a></li>
+</ul>
+<h2 id="gitignore"><a href="#gitignore" class="headerlink" title=".gitignore"></a>.gitignore</h2><p>如果项目想让某些文件的版本不受Git管理，可以在项目的根路径创建个文件，名称为 <code>.gitignore</code>。内容为不受Git管理的文件名。 如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">.idea</span><br><span class="line">Desktop.ini</span><br><span class="line">*.log</span><br><span class="line"># 开头表示注释，如果相匹配 #，可以在前面加一个反斜杠，即 \#</span><br></pre></td></tr></table></figure>
+
+<p>一些<code>.gitignore</code>的模板 <a href="https://github.com/github/gitignore" target="_blank" rel="noopener">https://github.com/github/gitignore</a></p>
+<p><a href="http://www.barretlee.com/blog/2015/09/06/set-gitignore-after-add-file/" target="_blank" rel="noopener">用对 gitignore</a>。<a href="https://git-scm.com/docs/gitignore" target="_blank" rel="noopener">更多gitignore规则</a></p>
+<p>注意：如果文件一旦在版本库里已经存在的文件，<code>.gitignore</code> 新增对该文件的规则会失效。这时要忽略该文件的改动，要用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git update-index --assume-unchanged 文件路径</span><br></pre></td></tr></table></figure>
+
+<p>取消忽略</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git update-index --no-assume-unchanged 文件路径</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="配置别名"><a href="#配置别名" class="headerlink" title="配置别名"></a>配置别名</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">git config --global alias.st status</span><br><span class="line">git config --global alias.pl pull</span><br><span class="line">git config --global alias.aa &apos;add -A&apos;</span><br><span class="line">git config --global alias.ci commit</span><br><span class="line">git config --global alias.ca &apos;commit -am&apos;</span><br><span class="line">git config --global alias.ph push</span><br><span class="line">git config --global alias.lg &quot;log --graph --pretty=format:&apos;%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)&lt;%an&gt;%Creset&apos; --date=relative -20&quot;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Github表情符"><a href="#Github表情符" class="headerlink" title="Github表情符"></a>Github表情符</h2><p>在Github中可以在 Pull Requests, Issues, 提交消息, Markdown 文件里加入表情符。使用方法 :name_of_emoji:</p>
+<p>如输入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">:smile: :flushed: :sleeping:</span><br><span class="line">:sunny: :snowman: :full_moon:</span><br><span class="line">:ghost: :camera: :calendar:</span><br></pre></td></tr></table></figure>
+
+<p>输出<br>:smile: :flushed: :sleeping:<br>:sunny: :snowman: :full_moon:<br>:ghost: :camera: :calendar:    </p>
+<p><a href="http://www.webpagefx.com/tools/emoji-cheat-sheet/" target="_blank" rel="noopener">EMOJI CHEAT SHEET</a></p>
+<h2 id="提交说明"><a href="#提交说明" class="headerlink" title="提交说明"></a>提交说明</h2><ul>
+<li><a href="http://www.ruanyifeng.com/blog/2016/01/commit_message_change_log.html" target="_blank" rel="noopener">Commit message 和 Change log 编写指南</a></li>
+</ul>
+<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><h3 id="如何配置Git支持对文件名的大小写敏感"><a href="#如何配置Git支持对文件名的大小写敏感" class="headerlink" title="如何配置Git支持对文件名的大小写敏感"></a>如何配置Git支持对文件名的大小写敏感</h3><p>方案一是设置Git大小写敏感</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config core.ignorecase false</span><br></pre></td></tr></table></figure>
+
+<h3 id="远程代码库的地址变了怎么处理"><a href="#远程代码库的地址变了怎么处理" class="headerlink" title="远程代码库的地址变了怎么处理"></a>远程代码库的地址变了怎么处理</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git remote rm origin</span><br><span class="line">git remote add origin 新的远程代码库的地址</span><br><span class="line">// 第一次提交时用一下代码</span><br><span class="line">git push --set-upstream origin master</span><br></pre></td></tr></table></figure>
+
+<h3 id="Difference-between-matching-and-simple-Git-push"><a href="#Difference-between-matching-and-simple-Git-push" class="headerlink" title="Difference between matching and simple Git push"></a>Difference between matching and simple Git push</h3><p><a href="https://github.com/miroadamy/miroadamy-dot-com/wiki/Difference-between-matching-and-simple---Git-push" target="_blank" rel="noopener">https://github.com/miroadamy/miroadamy-dot-com/wiki/Difference-between-matching-and-simple---Git-push</a></p>
+<h2 id="如何配置Git支持大小写敏感和修改文件名中大小写字母呢"><a href="#如何配置Git支持大小写敏感和修改文件名中大小写字母呢" class="headerlink" title="如何配置Git支持大小写敏感和修改文件名中大小写字母呢"></a>如何配置Git支持大小写敏感和修改文件名中大小写字母呢</h2><p>1 设置Git大小写敏感</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config core.ignorecase false</span><br></pre></td></tr></table></figure>
+
+<p>2 先删除文件，再添加进去</p>
+<h2 id="练习"><a href="#练习" class="headerlink" title="练习"></a><a name="practice">练习</a></h2><ol>
+<li>安装<a href="https://github.com/" target="_blank" rel="noopener">Github</a>的客户端 <a href="https://windows.github.com/" target="_blank" rel="noopener">windows 版下载</a></li>
+<li>注册Github的账号</li>
+<li>创建一个名为<code>front-end-learn</code> 的项目</li>
+<li>在该项目中创建一个<code>README.md</code> 提交代码,流程如下<ol>
+<li>检出仓库</li>
+<li>将README.md文件添加到版本控制系统</li>
+<li>提交README.md</li>
+<li>将改动推送到服务器</li>
+</ol>
+</li>
+<li>修改<code>README.md</code>的内容 提交代码,流程如下<ol>
+<li>提交README.md</li>
+<li>将改动推送到服务器</li>
+</ol>
+</li>
+</ol>
+<p>注：Github的客户端包含图形界面和命令行（Git Shell）界面。虽然他们都包含一样的功能，但推荐使用命令行来完成上面的工作。</p>
+<h2 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h2><ul>
+<li><a href="https://github.com/Gazler/githug" target="_blank" rel="noopener">githug</a> 闯过 55 个关卡，你就掌握 Git 啦~ <a href="http://segmentfault.com/a/1190000004222489" target="_blank" rel="noopener">介绍</a></li>
+</ul>
+<h2 id="拓展阅读"><a href="#拓展阅读" class="headerlink" title="拓展阅读"></a>拓展阅读</h2><ul>
+<li><a href="http://backlogtool.com/git-guide/cn/" target="_blank" rel="noopener">猴子都能懂的Git入门</a></li>
+<li><a href="http://gitref.justjavac.com/" target="_blank" rel="noopener">Git 参考手册</a> 迷渡出品。</li>
+<li><a href="https://github.com/geeeeeeeeek/git-recipes/wiki" target="_blank" rel="noopener">git-recipes</a> 高质量的Git中文教程</li>
+<li><a href="https://github.com/xirong/my-git" target="_blank" rel="noopener">Git 及托管商 Github 的使用</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2008/12/a_visual_guide_to_version_control.html" target="_blank" rel="noopener">版本控制入门插图教程</a></li>
+<li><a href="http://rogerdudler.github.io/git-guide/index.zh.html" target="_blank" rel="noopener">git - 简明指南</a></li>
+<li><a href="http://rogerdudler.github.io/git-guide/index.zh.html" target="_blank" rel="noopener">史上最浅显易懂的Git教程！</a></li>
+<li><a href="https://github.com/tiimgreen/github-cheat-sheet/blob/master/README.zh-cn.md" target="_blank" rel="noopener">GitHub秘籍</a></li>
+<li><a href="http://www.infoq.com/cn/articles/interview-Mike-McQuaid-git-practice" target="_blank" rel="noopener">《Git in Practice》作者访谈：关于Git的八个问题</a></li>
+<li><a href="http://www.chenjunlu.com/2014/07/linus-torvalds-biography/" target="_blank" rel="noopener">Linus Torvalds 传记 By 池建强</a></li>
+</ul>
+<h1 id="用-GitHub-展示静态页面的几种方法"><a href="#用-GitHub-展示静态页面的几种方法" class="headerlink" title="用 GitHub 展示静态页面的几种方法"></a>用 GitHub 展示静态页面的几种方法</h1><p>如何展示自己做的静态页面？需要自己有个服务器，还要买个域名？其实用 GitHub 就能搞定。</p>
+<h2 id="方法1-用-RawGit"><a href="#方法1-用-RawGit" class="headerlink" title="方法1: 用 RawGit"></a>方法1: 用 RawGit</h2><p>在 <a href="https://rawgit.com/" target="_blank" rel="noopener">RawGit</a> 输入要展示的静态页面在 GitHub 上的 URL，RawGit 会生成能访问的静态页面的 URL。如，要展示 <code>https://github.com/iamjoel/baidu-ife-task/blob/master/src/2017/xiaowei/task1/demo.html</code>， rawGit 生成的地址是 <code>https://rawgit.com/iamjoel/baidu-ife-task/master/src/2017/xiaowei/task1/demo.html</code>。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/16777-1b5ffe8302660b2f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="RawGit"></p>
+<p>用这种方法虽然很简单，但偶尔会出现展示的静态页面有问题。</p>
+<h2 id="方法2"><a href="#方法2" class="headerlink" title="方法2:"></a>方法2:</h2><p>GitHub 支持项目（Repositiory）官网。项目官网中的内容可以通过 <code>https://GitHub用户名.github.io/项目名/目录结构</code> 的规则来访问。项目官网的内容默认是访问项目<code>gh-pages 分支</code>下的内容。项目官网支持设置为 <code>mater 分支</code> 或 <code>mater 分支下的doc目录</code>下的内容。</p>
+<p>如下图，我将项目 <code>https://github.com/iamjoel/baidu-ife-task/</code> 的 <code>mater 分支</code> 设置项目官网。展示 <code>https://github.com/iamjoel/baidu-ife-task/blob/master/src/2017/xiaowei/task1/demo.html</code> 对应的展示地址是 <code>https://iamjoel.github.io/baidu-ife-task/src/2017/xiaowei/task1/demo.html</code>。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/16777-1d52b7afeacaa458.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>更多介绍见 <a href="https://help.github.com/articles/configuring-a-publishing-source-for-github-pages/" target="_blank" rel="noopener">这里</a>。</p>
+<p>最后，推荐个你可能会用到的 npm 的包 <a href="https://www.npmjs.com/package/gh-pages" target="_blank" rel="noopener">gh-pages</a>。</p>
+<h1 id="Gitflow工作流"><a href="#Gitflow工作流" class="headerlink" title="Gitflow工作流"></a>Gitflow工作流</h1><p><code>Gitflow</code>工作流通过为功能开发、发布准备和维护分配独立的分支，让发布迭代过程更流畅。</p>
+<h2 id="分支"><a href="#分支" class="headerlink" title="分支"></a>分支</h2><ul>
+<li><code>master</code> 可发布的内容</li>
+<li><code>develop</code> 开发的分支。从<code>master</code>上fork,测试完成后，合并到<code>master</code></li>
+<li><code>feature-x</code> 某新特性的分支，从<code>develop</code>上<code>fork</code>,测试完成后，合并到<code>develop</code></li>
+<li><code>bugfix-x</code> 修复某bug的分支，从<code>develop</code>上<code>fork</code>,测试完成后，合并到<code>develop</code></li>
+</ul>
+<p>可以用这个工具来简化流程 <a href="https://github.com/nvie/gitflow" target="_blank" rel="noopener">gitflow</a></p>
+<h2 id="拓展阅读-1"><a href="#拓展阅读-1" class="headerlink" title="拓展阅读"></a>拓展阅读</h2><ul>
+<li><a href="http://stormzhang.com/git/2014/01/29/git-flow/" target="_blank" rel="noopener">使用GIT FLOW管理开发流程</a></li>
+<li><a href="https://github.com/xirong/my-git/blob/master/git-workflow-tutorial.md" target="_blank" rel="noopener">git-workflow-tutorial</a></li>
+</ul>
+<h1 id="emoji"><a href="#emoji" class="headerlink" title="emoji"></a>emoji</h1><p>:bowtie:<br>:smile:<br>:simple_smile:<br>:laughing:<br>:blush:<br>:smiley:<br>:relaxed:<br>:smirk:<br>:heart_eyes:<br>:kissing_heart:<br>:kissing_closed_eyes:<br>:flushed:<br>:relieved:<br>:satisfied:<br>:grin:<br>:wink:<br>:stuck_out_tongue_winking_eye:<br>:stuck_out_tongue_closed_eyes:<br>:grinning:<br>:kissing:<br>:kissing_smiling_eyes:<br>:stuck_out_tongue:<br>:sleeping:<br>:worried:<br>:frowning:<br>:anguished:<br>:open_mouth:<br>:grimacing:<br>:confused:<br>:hushed:<br>:expressionless:<br>:unamused:<br>:sweat_smile:<br>:sweat:<br>:disappointed_relieved:<br>:weary:<br>:pensive:<br>:disappointed:<br>:confounded:<br>:fearful:<br>:cold_sweat:<br>:persevere:<br>:cry:<br>:sob:<br>:joy:<br>:astonished:<br>:scream:<br>:neckbeard:<br>:tired_face:<br>:angry:<br>:rage:<br>:triumph:<br>:sleepy:<br>:yum:<br>:mask:<br>:sunglasses:<br>:dizzy_face:<br>:imp:<br>:smiling_imp:<br>:neutral_face:<br>:no_mouth:<br>:innocent:<br>:alien:<br>:yellow_heart:<br>:blue_heart:<br>:purple_heart:<br>:heart:<br>:green_heart:<br>:broken_heart:<br>:heartbeat:<br>:heartpulse:<br>:two_hearts:<br>:revolving_hearts:<br>:cupid:<br>:sparkling_heart:<br>:sparkles:<br>:star:<br>:star2:<br>:dizzy:<br>:boom:<br>:collision:<br>:anger:<br>:exclamation:<br>:question:<br>:grey_exclamation:<br>:grey_question:<br>:zzz:<br>:dash:<br>:sweat_drops:<br>:notes:<br>:musical_note:<br>:fire:<br>:hankey:<br>:poop:<br>:shit:<br>:+1:<br>:thumbsup:<br>:-1:<br>:thumbsdown:<br>:ok_hand:<br>:punch:<br>:facepunch:<br>:fist:<br>:v:<br>:wave:<br>:hand:<br>:raised_hand:<br>:open_hands:<br>:point_up:<br>:point_down:<br>:point_left:<br>:point_right:<br>:raised_hands:<br>:pray:<br>:point_up_2:<br>:clap:<br>:muscle:<br>:metal:<br>:fu:<br>:runner:<br>:running:<br>:couple:<br>:family:<br>:two_men_holding_hands:<br>:two_women_holding_hands:<br>:dancer:<br>:dancers:<br>:ok_woman:<br>:no_good:<br>:information_desk_person:<br>:raising_hand:<br>:bride_with_veil:<br>:person_with_pouting_face:<br>:person_frowning:<br>:bow:<br>:couplekiss:<br>:couple_with_heart:<br>:massage:<br>:haircut:<br>:nail_care:<br>:boy:<br>:girl:<br>:woman:<br>:man:<br>:baby:<br>:older_woman:<br>:older_man:<br>:person_with_blond_hair:<br>:man_with_gua_pi_mao:<br>:man_with_turban:<br>:construction_worker:<br>:cop:<br>:angel:<br>:princess:<br>:smiley_cat:<br>:smile_cat:<br>:heart_eyes_cat:<br>:kissing_cat:<br>:smirk_cat:<br>:scream_cat:<br>:crying_cat_face:<br>:joy_cat:<br>:pouting_cat:<br>:japanese_ogre:<br>:japanese_goblin:<br>:see_no_evil:<br>:hear_no_evil:<br>:speak_no_evil:<br>:guardsman:<br>:skull:<br>:feet:<br>:lips:<br>:kiss:<br>:droplet:<br>:ear:<br>:eyes:<br>:nose:<br>:tongue:<br>:love_letter:<br>:bust_in_silhouette:<br>:busts_in_silhouette:<br>:speech_balloon:<br>:thought_balloon:<br>:feelsgood:<br>:finnadie:<br>:goberserk:<br>:godmode:<br>:hurtrealbad:<br>:rage1:<br>:rage2:<br>:rage3:<br>:rage4:<br>:suspect:<br>:trollface:<br>Nature</p>
+<p>:sunny:<br>:umbrella:<br>:cloud:<br>:snowflake:<br>:snowman:<br>:zap:<br>:cyclone:<br>:foggy:<br>:ocean:<br>:cat:<br>:dog:<br>:mouse:<br>:hamster:<br>:rabbit:<br>:wolf:<br>:frog:<br>:tiger:<br>:koala:<br>:bear:<br>:pig:<br>:pig_nose:<br>:cow:<br>:boar:<br>:monkey_face:<br>:monkey:<br>:horse:<br>:racehorse:<br>:camel:<br>:sheep:<br>:elephant:<br>:panda_face:<br>:snake:<br>:bird:<br>:baby_chick:<br>:hatched_chick:<br>:hatching_chick:<br>:chicken:<br>:penguin:<br>:turtle:<br>:bug:<br>:honeybee:<br>:ant:<br>:beetle:<br>:snail:<br>:octopus:<br>:tropical_fish:<br>:fish:<br>:whale:<br>:whale2:<br>:dolphin:<br>:cow2:<br>:ram:<br>:rat:<br>:water_buffalo:<br>:tiger2:<br>:rabbit2:<br>:dragon:<br>:goat:<br>:rooster:<br>:dog2:<br>:pig2:<br>:mouse2:<br>:ox:<br>:dragon_face:<br>:blowfish:<br>:crocodile:<br>:dromedary_camel:<br>:leopard:<br>:cat2:<br>:poodle:<br>:paw_prints:<br>:bouquet:<br>:cherry_blossom:<br>:tulip:<br>:four_leaf_clover:<br>:rose:<br>:sunflower:<br>:hibiscus:<br>:maple_leaf:<br>:leaves:<br>:fallen_leaf:<br>:herb:<br>:mushroom:<br>:cactus:<br>:palm_tree:<br>:evergreen_tree:<br>:deciduous_tree:<br>:chestnut:<br>:seedling:<br>:blossom:<br>:ear_of_rice:<br>:shell:<br>:globe_with_meridians:<br>:sun_with_face:<br>:full_moon_with_face:<br>:new_moon_with_face:<br>:new_moon:<br>:waxing_crescent_moon:<br>:first_quarter_moon:<br>:waxing_gibbous_moon:<br>:full_moon:<br>:waning_gibbous_moon:<br>:last_quarter_moon:<br>:waning_crescent_moon:<br>:last_quarter_moon_with_face:<br>:first_quarter_moon_with_face:<br>:crescent_moon:<br>:earth_africa:<br>:earth_americas:<br>:earth_asia:<br>:volcano:<br>:milky_way:<br>:partly_sunny:<br>:octocat:<br>:squirrel:<br>Objects</p>
+<p>:bamboo:<br>:gift_heart:<br>:dolls:<br>:school_satchel:<br>:mortar_board:<br>:flags:<br>:fireworks:<br>:sparkler:<br>:wind_chime:<br>:rice_scene:<br>:jack_o_lantern:<br>:ghost:<br>:santa:<br>:christmas_tree:<br>:gift:<br>:bell:<br>:no_bell:<br>:tanabata_tree:<br>:tada:<br>:confetti_ball:<br>:balloon:<br>:crystal_ball:<br>:cd:<br>:dvd:<br>:floppy_disk:<br>:camera:<br>:video_camera:<br>:movie_camera:<br>:computer:<br>:tv:<br>:iphone:<br>:phone:<br>:telephone:<br>:telephone_receiver:<br>:pager:<br>:fax:<br>:minidisc:<br>:vhs:<br>:sound:<br>:speaker:<br>:mute:<br>:loudspeaker:<br>:mega:<br>:hourglass:<br>:hourglass_flowing_sand:<br>:alarm_clock:<br>:watch:<br>:radio:<br>:satellite:<br>:loop:<br>:mag:<br>:mag_right:<br>:unlock:<br>:lock:<br>:lock_with_ink_pen:<br>:closed_lock_with_key:<br>:key:<br>:bulb:<br>:flashlight:<br>:high_brightness:<br>:low_brightness:<br>:electric_plug:<br>:battery:<br>:calling:<br>:email:<br>:mailbox:<br>:postbox:<br>:bath:<br>:bathtub:<br>:shower:<br>:toilet:<br>:wrench:<br>:nut_and_bolt:<br>:hammer:<br>:seat:<br>:moneybag:<br>:yen:<br>:dollar:<br>:pound:<br>:euro:<br>:credit_card:<br>:money_with_wings:<br>:e-mail:<br>:inbox_tray:<br>:outbox_tray:<br>:envelope:<br>:incoming_envelope:<br>:postal_horn:<br>:mailbox_closed:<br>:mailbox_with_mail:<br>:mailbox_with_no_mail:<br>:package:<br>:door:<br>:smoking:<br>:bomb:<br>:gun:<br>:hocho:<br>:pill:<br>:syringe:<br>:page_facing_up:<br>:page_with_curl:<br>:bookmark_tabs:<br>:bar_chart:<br>:chart_with_upwards_trend:<br>:chart_with_downwards_trend:<br>:scroll:<br>:clipboard:<br>:calendar:<br>:date:<br>:card_index:<br>:file_folder:<br>:open_file_folder:<br>:scissors:<br>:pushpin:<br>:paperclip:<br>:black_nib:<br>:pencil2:<br>:straight_ruler:<br>:triangular_ruler:<br>:closed_book:<br>:green_book:<br>:blue_book:<br>:orange_book:<br>:notebook:<br>:notebook_with_decorative_cover:<br>:ledger:<br>:books:<br>:bookmark:<br>:name_badge:<br>:microscope:<br>:telescope:<br>:newspaper:<br>:football:<br>:basketball:<br>:soccer:<br>:baseball:<br>:tennis:<br>:8ball:<br>:rugby_football:<br>:bowling:<br>:golf:<br>:mountain_bicyclist:<br>:bicyclist:<br>:horse_racing:<br>:snowboarder:<br>:swimmer:<br>:surfer:<br>:ski:<br>:spades:<br>:hearts:<br>:clubs:<br>:diamonds:<br>:gem:<br>:ring:<br>:trophy:<br>:musical_score:<br>:musical_keyboard:<br>:violin:<br>:space_invader:<br>:video_game:<br>:black_joker:<br>:flower_playing_cards:<br>:game_die:<br>:dart:<br>:mahjong:<br>:clapper:<br>:memo:<br>:pencil:<br>:book:<br>:art:<br>:microphone:<br>:headphones:<br>:trumpet:<br>:saxophone:<br>:guitar:<br>:shoe:<br>:sandal:<br>:high_heel:<br>:lipstick:<br>:boot:<br>:shirt:<br>:tshirt:<br>:necktie:<br>:womans_clothes:<br>:dress:<br>:running_shirt_with_sash:<br>:jeans:<br>:kimono:<br>:bikini:<br>:ribbon:<br>:tophat:<br>:crown:<br>:womans_hat:<br>:mans_shoe:<br>:closed_umbrella:<br>:briefcase:<br>:handbag:<br>:pouch:<br>:purse:<br>:eyeglasses:<br>:fishing_pole_and_fish:<br>:coffee:<br>:tea:<br>:sake:<br>:baby_bottle:<br>:beer:<br>:beers:<br>:cocktail:<br>:tropical_drink:<br>:wine_glass:<br>:fork_and_knife:<br>:pizza:<br>:hamburger:<br>:fries:<br>:poultry_leg:<br>:meat_on_bone:<br>:spaghetti:<br>:curry:<br>:fried_shrimp:<br>:bento:<br>:sushi:<br>:fish_cake:<br>:rice_ball:<br>:rice_cracker:<br>:rice:<br>:ramen:<br>:stew:<br>:oden:<br>:dango:<br>:egg:<br>:bread:<br>:doughnut:<br>:custard:<br>:icecream:<br>:ice_cream:<br>:shaved_ice:<br>:birthday:<br>:cake:<br>:cookie:<br>:chocolate_bar:<br>:candy:<br>:lollipop:<br>:honey_pot:<br>:apple:<br>:green_apple:<br>:tangerine:<br>:lemon:<br>:cherries:<br>:grapes:<br>:watermelon:<br>:strawberry:<br>:peach:<br>:melon:<br>:banana:<br>:pear:<br>:pineapple:<br>:sweet_potato:<br>:eggplant:<br>:tomato:<br>:corn:<br>Places</p>
+<p>:house:<br>:house_with_garden:<br>:school:<br>:office:<br>:post_office:<br>:hospital:<br>:bank:<br>:convenience_store:<br>:love_hotel:<br>:hotel:<br>:wedding:<br>:church:<br>:department_store:<br>:european_post_office:<br>:city_sunrise:<br>:city_sunset:<br>:japanese_castle:<br>:european_castle:<br>:tent:<br>:factory:<br>:tokyo_tower:<br>:japan:<br>:mount_fuji:<br>:sunrise_over_mountains:<br>:sunrise:<br>:stars:<br>:statue_of_liberty:<br>:bridge_at_night:<br>:carousel_horse:<br>:rainbow:<br>:ferris_wheel:<br>:fountain:<br>:roller_coaster:<br>:ship:<br>:speedboat:<br>:boat:<br>:sailboat:<br>:rowboat:<br>:anchor:<br>:rocket:<br>:airplane:<br>:helicopter:<br>:steam_locomotive:<br>:tram:<br>:mountain_railway:<br>:bike:<br>:aerial_tramway:<br>:suspension_railway:<br>:mountain_cableway:<br>:tractor:<br>:blue_car:<br>:oncoming_automobile:<br>:car:<br>:red_car:<br>:taxi:<br>:oncoming_taxi:<br>:articulated_lorry:<br>:bus:<br>:oncoming_bus:<br>:rotating_light:<br>:police_car:<br>:oncoming_police_car:<br>:fire_engine:<br>:ambulance:<br>:minibus:<br>:truck:<br>:train:<br>:station:<br>:train2:<br>:bullettrain_front:<br>:bullettrain_side:<br>:light_rail:<br>:monorail:<br>:railway_car:<br>:trolleybus:<br>:ticket:<br>:fuelpump:<br>:vertical_traffic_light:<br>:traffic_light:<br>:warning:<br>:construction:<br>:beginner:<br>:atm:<br>:slot_machine:<br>:busstop:<br>:barber:<br>:hotsprings:<br>:checkered_flag:<br>:crossed_flags:<br>:izakaya_lantern:<br>:moyai:<br>:circus_tent:<br>:performing_arts:<br>:round_pushpin:<br>:triangular_flag_on_post:<br>:jp:<br>:kr:<br>:cn:<br>:us:<br>:fr:<br>:es:<br>:it:<br>:ru:<br>:gb:<br>:uk:<br>:de:<br>Symbols</p>
+<p>:one:<br>:two:<br>:three:<br>:four:<br>:five:<br>:six:<br>:seven:<br>:eight:<br>:nine:<br>:keycap_ten:<br>:1234:<br>:zero:<br>:hash:<br>:symbols:<br>:arrow_backward:<br>:arrow_down:<br>:arrow_forward:<br>:arrow_left:<br>:capital_abcd:<br>:abcd:<br>:abc:<br>:arrow_lower_left:<br>:arrow_lower_right:<br>:arrow_right:<br>:arrow_up:<br>:arrow_upper_left:<br>:arrow_upper_right:<br>:arrow_double_down:<br>:arrow_double_up:<br>:arrow_down_small:<br>:arrow_heading_down:<br>:arrow_heading_up:<br>:leftwards_arrow_with_hook:<br>:arrow_right_hook:<br>:left_right_arrow:<br>:arrow_up_down:<br>:arrow_up_small:<br>:arrows_clockwise:<br>:arrows_counterclockwise:<br>:rewind:<br>:fast_forward:<br>:information_source:<br>:ok:<br>:twisted_rightwards_arrows:<br>:repeat:<br>:repeat_one:<br>:new:<br>:top:<br>:up:<br>:cool:<br>:free:<br>:ng:<br>:cinema:<br>:koko:<br>:signal_strength:<br>:u5272:<br>:u5408:<br>:u55b6:<br>:u6307:<br>:u6708:<br>:u6709:<br>:u6e80:<br>:u7121:<br>:u7533:<br>:u7a7a:<br>:u7981:<br>:sa:<br>:restroom:<br>:mens:<br>:womens:<br>:baby_symbol:<br>:no_smoking:<br>:parking:<br>:wheelchair:<br>:metro:<br>:baggage_claim:<br>:accept:<br>:wc:<br>:potable_water:<br>:put_litter_in_its_place:<br>:secret:<br>:congratulations:<br>:m:<br>:passport_control:<br>:left_luggage:<br>:customs:<br>:ideograph_advantage:<br>:cl:<br>:sos:<br>:id:<br>:no_entry_sign:<br>:underage:<br>:no_mobile_phones:<br>:do_not_litter:<br>:non-potable_water:<br>:no_bicycles:<br>:no_pedestrians:<br>:children_crossing:<br>:no_entry:<br>:eight_spoked_asterisk:<br>:sparkle:<br>:eight_pointed_black_star:<br>:heart_decoration:<br>:vs:<br>:vibration_mode:<br>:mobile_phone_off:<br>:chart:<br>:currency_exchange:<br>:aries:<br>:taurus:<br>:gemini:<br>:cancer:<br>:leo:<br>:virgo:<br>:libra:<br>:scorpius:<br>:sagittarius:<br>:capricorn:<br>:aquarius:<br>:pisces:<br>:ophiuchus:<br>:six_pointed_star:<br>:negative_squared_cross_mark:<br>:a:<br>:b:<br>:ab:<br>:o2:<br>:diamond_shape_with_a_dot_inside:<br>:recycle:<br>:end:<br>:back:<br>:on:<br>:soon:<br>:clock1:<br>:clock130:<br>:clock10:<br>:clock1030:<br>:clock11:<br>:clock1130:<br>:clock12:<br>:clock1230:<br>:clock2:<br>:clock230:<br>:clock3:<br>:clock330:<br>:clock4:<br>:clock430:<br>:clock5:<br>:clock530:<br>:clock6:<br>:clock630:<br>:clock7:<br>:clock730:<br>:clock8:<br>:clock830:<br>:clock9:<br>:clock930:<br>:heavy_dollar_sign:<br>:copyright:<br>:registered:<br>:tm:<br>:x:<br>:heavy_exclamation_mark:<br>:bangbang:<br>:interrobang:<br>:o:<br>:heavy_multiplication_x:<br>:heavy_plus_sign:<br>:heavy_minus_sign:<br>:heavy_division_sign:<br>:white_flower:<br>:100:<br>:heavy_check_mark:<br>:ballot_box_with_check:<br>:radio_button:<br>:link:<br>:curly_loop:<br>:wavy_dash:<br>:part_alternation_mark:<br>:trident:<br>:black_small_square:<br>:white_small_square:<br>:black_medium_small_square:<br>:white_medium_small_square:<br>:black_medium_square:<br>:white_medium_square:<br>:black_large_square:<br>:white_large_square:<br>:white_check_mark:<br>:black_square_button:<br>:white_square_button:<br>:black_circle:<br>:white_circle:<br>:red_circle:<br>:large_blue_circle:<br>:large_blue_diamond:<br>:large_orange_diamond:<br>:small_blue_diamond:<br>:small_orange_diamond:<br>:small_red_triangle:<br>:small_red_triangle_down:<br>:shipit:</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a style="word-wrap:break-word;" href="http://yoursite.com/2019/11/08/1.WEB%E5%89%8D%E7%AB%AFWeb/git/git%20%E5%9F%BA%E7%A1%80/" title="Git 基础" target="_blank" rel="external">http://yoursite.com/2019/11/08/1.WEB%E5%89%8D%E7%AB%AFWeb/git/git%20%E5%9F%BA%E7%A1%80/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/chen08" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/chen08" target="_blank"><span class="text-dark">溟海</span><small class="ml-1x">Web Developer &amp; Designer</small></a></h3>
+        <div>天行健，君子以自强不息，地势坤，君子以厚德载物。 杀不死我的,终将使我强大 没有吃不了的苦,只有享不了的福</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2019/11/08/1.WEB%E5%89%8D%E7%AB%AFWeb/es6/ES6%E5%9F%BA%E7%A1%80/" title="ES6基础"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/11/08/1.WEB%E5%89%8D%E7%AB%AFWeb/nodejs/nodeJS%E5%9F%BA%E7%A1%80/" title="nodeJS基础"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="Catalogue" role="button">
+        <span>[&nbsp;</span><span>Catalogue</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open alipay app scan this qrcode, buy me a coffee!</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open wechat app scan this qrcode, buy me a coffee!</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> alipay</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> wechat payment</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+
+
+<!-- custom analytics part create by xiamo -->
+<!-- <script defer src="https://cdn1.lncld.net/static/js/av-min-1.2.1.js"></script> -->
+<script defer src="/js/av-min-1.2.1.js"></script>
+<script defer>
+AV.init({
+  appId: 'ngFQzHw7z0HgQfrtn4En4WTN-gzGzoHsz',
+  appKey: 'W9hgBBfVDwRGJKoGp5a6HKpx'
+});
+
+function showTime(Counter) {
+	var query = new AV.Query(Counter);
+		var visitors= $('.leancloud_visitors');
+		query.greaterThanOrEqualTo("time", 0);		
+		query.find({
+			success: function(results) {
+				if (results.length == 0) {				
+					return;
+				}
+				var data = results;
+				visitors.each(function(){
+					var url = $(this).attr('id').trim();					
+					for (var i = 0; i < data.length; i++) {
+						var object = data[i];
+						var content = object.get('time');
+						var _url = object.get('url')
+						if(url == _url){
+							$(this).text(content);
+						}
+					}
+				})
+				
+			},
+			error: function(object, error) {
+				console.log("Error: " + error.code + " " + error.message);
+			}
+		});
+}
+
+function addCount(Counter) {
+	var Counter = AV.Object.extend("Counter");
+	url = $(".leancloud_visitors").attr('id').trim();
+	title = $(".leancloud_visitors").attr('data-flag-title').trim();
+	var query = new AV.Query(Counter);
+	query.equalTo("url", url);
+	query.find({
+		success: function(results) {
+			if (results.length > 0) {
+				var counter = results[0];
+				counter.fetchWhenSave(true);
+				counter.increment("time");
+				counter.save(null, {
+					success: function(counter) {
+						var content = counter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(counter, error) {
+						console.log('Failed to save Visitor num, with error message: ' + error.message);
+					}
+				});
+			} else {
+				var newcounter = new Counter();
+				newcounter.set("title", title);
+				newcounter.set("url", url);
+				newcounter.set("time", 1);
+				newcounter.save(null, {
+					success: function(newcounter) {
+					    console.log("newcounter.get('time')="+newcounter.get('time'));
+						var content = newcounter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(newcounter, error) {
+						console.log('Failed to create');
+					}
+				});
+			}
+		},
+		error: function(error) {
+			console.log('Error:' + error.code + " " + error.message);
+		}
+	});
+}
+$(function() {
+	var Counter = AV.Object.extend("Counter");
+	if ($('.leancloud_visitors').length == 1) {
+		addCount(Counter);
+	} else {
+		showTime(Counter);
+	}
+}); 
+</script>
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>

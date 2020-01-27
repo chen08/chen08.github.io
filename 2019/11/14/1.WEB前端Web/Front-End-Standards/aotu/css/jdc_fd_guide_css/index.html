@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>CSS规范 | Hexo</title>
+  <script src="./js/jQuery.md5.js"></script>
+  <script>
+    
+    (function(){
+      localStorage.setItem('userinfo',hex_md5('123chen'))
+      
+      var localData = localStorage.getItem("userinfo");
+      // var localState = localStorage.getItem("state");
+        if(localStorage.getItem("state") === null){
+          var reason = window.prompt('请输入访问密码');
+          // var promptVal = window.prompt('请输入访问密码');
+          if(reason){
+              //填写内容并“确定”
+              var md5Prompt = hex_md5(reason)
+              //点击的是“确定” 
+              if (localData !== md5Prompt){
+                alert('密码错误！');
+                // history.back();
+                location.replace(location.href); 
+              }else{
+                // alert('0123');
+                localStorage.setItem('state',"1")
+              }
+          }
+          else if(reason === ""){
+              //未填写但“确定”
+              location.replace(location.href); 
+          }
+          else{
+            //“取消”事件
+            location.replace(location.href); 
+          }
+        }
+
+    })();
+  </script>
+ <link rel="alternate" href="/atom.xml" data="123chen" type="application/atom+xml">
+  <meta name="description" content="CSS规范代码规范编码规范CSS样式表是一个序列通用字符集，传输和存储过程中，这些字符必须由支持 US-ASCII（例如 UTF-8, ISO 8859-x, SHIFT JIS 等）字符编码方式编译 文档内嵌样式表编码 When a style sheet is embedded in another document, such as in the STYLE element or “styl">
+<meta name="keywords" content="CSS,JavaScript,规范">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS规范">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;14&#x2F;1.WEB%E5%89%8D%E7%AB%AFWeb&#x2F;Front-End-Standards&#x2F;aotu&#x2F;css&#x2F;jdc_fd_guide_css&#x2F;index.html">
+<meta property="og:site_name" content="学习的敌人是自己的满足，要认真学习一点东西，必须从不自满开始。对自己，“学而不厌”，对人家，“诲人不倦”，我们应取这种态度。">
+<meta property="og:description" content="CSS规范代码规范编码规范CSS样式表是一个序列通用字符集，传输和存储过程中，这些字符必须由支持 US-ASCII（例如 UTF-8, ISO 8859-x, SHIFT JIS 等）字符编码方式编译 文档内嵌样式表编码 When a style sheet is embedded in another document, such as in the STYLE element or “styl">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-11-14T12:13:16.000Z">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://yoursite.com/2019/11/14/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/aotu/css/jdc_fd_guide_css/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="学习的敌人是自己的满足，要认真学习一点东西，必须从不自满开始。对自己，“学而不厌”，对人家，“诲人不倦”，我们应取这种态度。" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/chen08" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">溟海</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer &amp; Designer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Guangzhou, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+          <!-- . -->
+        
+        
+          <li class="menu-item menu-item-home">
+            <a href="/.">
+              
+              <i class="icon icon-home-fill"></i>
+              
+              <span class="menu-title">Home</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- archives -->
+        
+        
+          <li class="menu-item menu-item-archives">
+            <a href="/archives">
+              
+              <i class="icon icon-archives-fill"></i>
+              
+              <span class="menu-title">Archives</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- categories -->
+        
+        
+          <li class="menu-item menu-item-categories">
+            <a href="/categories">
+              
+              <i class="icon icon-folder"></i>
+              
+              <span class="menu-title">Categories</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- tags -->
+        
+        
+          <li class="menu-item menu-item-tags">
+            <a href="/tags">
+              
+              <i class="icon icon-tags"></i>
+              
+              <span class="menu-title">Tags</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- repository -->
+        
+        
+          <li class="menu-item menu-item-repository">
+            <a href="/repository">
+              
+              <i class="icon icon-project"></i>
+              
+              <span class="menu-title">Repository</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- books -->
+        
+        
+          <li class="menu-item menu-item-books">
+            <a href="/books">
+              
+              <i class="icon icon-book-fill"></i>
+              
+              <span class="menu-title">Books</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- links -->
+        
+        
+          <li class="menu-item menu-item-links">
+            <a href="/links">
+              
+              <i class="icon icon-friendship"></i>
+              
+              <span class="menu-title">Links</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- about -->
+        
+        
+          <li class="menu-item menu-item-about">
+            <a href="/about">
+              
+              <i class="icon icon-cup-fill"></i>
+              
+              <span class="menu-title">About</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- navigation/webstack/index.html -->
+        
+        
+          <li class="menu-item menu-item-navigation">
+            <a href="/navigation/webstack/index.html">
+              
+              <i class="icon icon-delicious"></i>
+              
+              <span class="menu-title">Navigation</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- navigation/webstack/word.html -->
+        
+        
+          <li style="display: none;" class="menu-item menu-item-fixed">
+            <a href="/navigation/webstack/word.html">
+              
+              <i class="icon icon-delicious"></i>
+              
+              <span class="menu-title">menu.fixed</span>
+            </a>
+          </li>
+        
+
+
+        
+      </ul>
+
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/1-WEB%E5%89%8D%E7%AB%AF/">1.WEB前端</a><span class="category-list-count">140</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/2-%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">2.编程语言</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/3-%E4%BA%A7%E5%93%81%E8%AE%BE%E8%AE%A1/">3.产品设计</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/4-%E7%AE%A1%E7%90%86%E8%90%A5%E9%94%80/">4.管理营销</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/5-%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87/">5.技能提升</a><span class="category-list-count">155</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/6-%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93/">6.读书总结</a><span class="category-list-count">9</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/" rel="tag">CSS</a><span class="tag-list-count">18</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Dart/" rel="tag">Dart</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES6/" rel="tag">ES6</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES7/" rel="tag">ES7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/English/" rel="tag">English</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flutter/" rel="tag">Flutter</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a><span class="tag-list-count">20</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IMAGE/" rel="tag">IMAGE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JQuery/" rel="tag">JQuery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a><span class="tag-list-count">224</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">JavaScript设计模式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript%E9%AB%98%E7%BA%A7%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" rel="tag">JavaScript高级程序设计</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jquery/" rel="tag">Jquery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mysql/" rel="tag">Mysql</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NETWORK/" rel="tag">NETWORK</a><span class="tag-list-count">13</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node/" rel="tag">Node</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/" rel="tag">PHP</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/" rel="tag">React</a><span class="tag-list-count">31</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJS/" rel="tag">RxJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SVG/" rel="tag">SVG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sass/" rel="tag">Sass</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/" rel="tag">Vue</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%AE%89%E5%85%A8/" rel="tag">WEB安全</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webpack/" rel="tag">Webpack</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/" rel="tag">jQuery</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodeJS/" rel="tag">nodeJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B9%A6%E5%8D%95/" rel="tag">书单</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B9%A6%E7%B1%8D/" rel="tag">书籍</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/" rel="tag">前端安全</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83/" rel="tag">命名规范</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag">小程序</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" rel="tag">性能优化</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8F%92%E4%BB%B6/" rel="tag">插件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A1%86%E6%9E%B6/" rel="tag">框架</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" rel="tag">浏览器</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%84%E4%BB%B6/" rel="tag">组件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%84%E8%8C%83/" rel="tag">规范</a><span class="tag-list-count">67</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6%E5%AD%A6%E4%B9%A0/" rel="tag">软件学习</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a><span class="tag-list-count">153</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/CSS/" style="font-size: 13.71px;">CSS</a> <a href="/tags/Dart/" style="font-size: 13px;">Dart</a> <a href="/tags/ES6/" style="font-size: 13px;">ES6</a> <a href="/tags/ES7/" style="font-size: 13px;">ES7</a> <a href="/tags/English/" style="font-size: 13.18px;">English</a> <a href="/tags/Flutter/" style="font-size: 13px;">Flutter</a> <a href="/tags/Git/" style="font-size: 13.12px;">Git</a> <a href="/tags/HTML/" style="font-size: 13.76px;">HTML</a> <a href="/tags/HTTP/" style="font-size: 13.18px;">HTTP</a> <a href="/tags/IMAGE/" style="font-size: 13px;">IMAGE</a> <a href="/tags/JAVA/" style="font-size: 13.06px;">JAVA</a> <a href="/tags/JQuery/" style="font-size: 13px;">JQuery</a> <a href="/tags/JavaScript/" style="font-size: 14px;">JavaScript</a> <a href="/tags/JavaScript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 13px;">JavaScript设计模式</a> <a href="/tags/JavaScript%E9%AB%98%E7%BA%A7%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 13px;">JavaScript高级程序设计</a> <a href="/tags/Jquery/" style="font-size: 13px;">Jquery</a> <a href="/tags/Mysql/" style="font-size: 13px;">Mysql</a> <a href="/tags/NETWORK/" style="font-size: 13.53px;">NETWORK</a> <a href="/tags/Node/" style="font-size: 13.35px;">Node</a> <a href="/tags/PHP/" style="font-size: 13.24px;">PHP</a> <a href="/tags/React/" style="font-size: 13.82px;">React</a> <a href="/tags/RxJS/" style="font-size: 13px;">RxJS</a> <a href="/tags/SVG/" style="font-size: 13px;">SVG</a> <a href="/tags/Sass/" style="font-size: 13px;">Sass</a> <a href="/tags/TypeScript/" style="font-size: 13.29px;">TypeScript</a> <a href="/tags/Vue/" style="font-size: 13.65px;">Vue</a> <a href="/tags/WEB%E5%AE%89%E5%85%A8/" style="font-size: 13.29px;">WEB安全</a> <a href="/tags/Webpack/" style="font-size: 13.59px;">Webpack</a> <a href="/tags/jQuery/" style="font-size: 13.65px;">jQuery</a> <a href="/tags/nodeJS/" style="font-size: 13px;">nodeJS</a> <a href="/tags/python/" style="font-size: 13px;">python</a> <a href="/tags/%E4%B9%A6%E5%8D%95/" style="font-size: 13px;">书单</a> <a href="/tags/%E4%B9%A6%E7%B1%8D/" style="font-size: 13.06px;">书籍</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 13px;">前端</a> <a href="/tags/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/" style="font-size: 13.06px;">前端安全</a> <a href="/tags/%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83/" style="font-size: 13.41px;">命名规范</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 13px;">小程序</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 13.06px;">工具</a> <a href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" style="font-size: 13.47px;">性能优化</a> <a href="/tags/%E6%8F%92%E4%BB%B6/" style="font-size: 13px;">插件</a> <a href="/tags/%E6%A1%86%E6%9E%B6/" style="font-size: 13px;">框架</a> <a href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" style="font-size: 13px;">浏览器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13.18px;">算法</a> <a href="/tags/%E7%BB%84%E4%BB%B6/" style="font-size: 13px;">组件</a> <a href="/tags/%E8%A7%84%E8%8C%83/" style="font-size: 13.88px;">规范</a> <a href="/tags/%E8%BD%AF%E4%BB%B6%E5%AD%A6%E4%B9%A0/" style="font-size: 13px;">软件学习</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 13.35px;">随笔</a> <a href="/tags/%E9%9D%A2%E8%AF%95/" style="font-size: 13.94px;">面试</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a><span class="archive-list-count">312</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/27/1.WEB%E5%89%8D%E7%AB%AFWeb/React/react-router/" class="title">1.WEB前端Web/React/react-router</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-27T13:24:04.185Z" itemprop="datePublished">2020-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/27/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/sass-guide/" class="title">1.WEB前端Web/Front-End-Standards/sass-guide</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-27T13:24:03.487Z" itemprop="datePublished">2020-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/27/hello-world/" class="title">Hello World</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-27T13:24:03.028Z" itemprop="datePublished">2020-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/6-%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93/">6.读书总结</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/26/6.%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93Book/%E4%BA%BA%E7%94%9F%E9%81%93%E7%90%86/" class="title">人生道理</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-26T01:12:57.000Z" itemprop="datePublished">2020-01-26</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/2-%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">2.编程语言</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/15/2.%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80Programming/English/%E7%94%9F%E6%B4%BB%E8%8B%B1%E8%AF%AD/" class="title">生活英语</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-15T01:12:57.000Z" itemprop="datePublished">2020-01-15</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">Catalogue</h3>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#CSS规范"><span class="toc-number">1.</span> <span class="toc-text">CSS规范</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#代码规范"><span class="toc-number">1.1.</span> <span class="toc-text">代码规范</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#编码规范"><span class="toc-number">1.1.1.</span> <span class="toc-text">编码规范</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#文档内嵌样式表编码"><span class="toc-number">1.1.1.1.</span> <span class="toc-text">文档内嵌样式表编码</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#文档外链样式表编码"><span class="toc-number">1.1.1.2.</span> <span class="toc-text">文档外链样式表编码</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#关于-charset"><span class="toc-number">1.1.1.3.</span> <span class="toc-text">关于 @charset</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#团队约定"><span class="toc-number">1.1.1.4.</span> <span class="toc-text">团队约定</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#代码风格"><span class="toc-number">1.1.2.</span> <span class="toc-text">代码风格</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#代码格式化"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">代码格式化</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#代码大小写"><span class="toc-number">1.1.2.2.</span> <span class="toc-text">代码大小写</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#选择器"><span class="toc-number">1.1.2.3.</span> <span class="toc-text">选择器</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#代码缩进"><span class="toc-number">1.1.2.4.</span> <span class="toc-text">代码缩进</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#分号"><span class="toc-number">1.1.2.5.</span> <span class="toc-text">分号</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#代码易读性"><span class="toc-number">1.1.2.6.</span> <span class="toc-text">代码易读性</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#属性值引号"><span class="toc-number">1.1.2.7.</span> <span class="toc-text">属性值引号</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#属性书写顺序"><span class="toc-number">1.1.2.8.</span> <span class="toc-text">属性书写顺序</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#CSS3浏览器私有前缀写法"><span class="toc-number">1.1.2.9.</span> <span class="toc-text">CSS3浏览器私有前缀写法</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#注释规范"><span class="toc-number">1.2.</span> <span class="toc-text">注释规范</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#团队约定-1"><span class="toc-number">1.2.1.</span> <span class="toc-text">团队约定</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#单行注释"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">单行注释</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#模块注释"><span class="toc-number">1.2.1.2.</span> <span class="toc-text">模块注释</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#文件信息注释"><span class="toc-number">1.2.1.3.</span> <span class="toc-text">文件信息注释</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SASS规范"><span class="toc-number">1.3.</span> <span class="toc-text">SASS规范</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#语法选用"><span class="toc-number">1.3.1.</span> <span class="toc-text">语法选用</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#SCSS"><span class="toc-number">1.3.1.1.</span> <span class="toc-text">SCSS</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Sass"><span class="toc-number">1.3.1.2.</span> <span class="toc-text">Sass</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#团队约定-2"><span class="toc-number">1.3.1.3.</span> <span class="toc-text">团队约定</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#编码格式"><span class="toc-number">1.3.2.</span> <span class="toc-text">编码格式</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#团队约定-3"><span class="toc-number">1.3.2.1.</span> <span class="toc-text">团队约定</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SASS注释规范"><span class="toc-number">1.3.3.</span> <span class="toc-text">SASS注释规范</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#团队约定-4"><span class="toc-number">1.3.3.1.</span> <span class="toc-text">团队约定</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#嵌套规范"><span class="toc-number">1.3.4.</span> <span class="toc-text">嵌套规范</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#选择器嵌套"><span class="toc-number">1.3.4.1.</span> <span class="toc-text">选择器嵌套</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#属性嵌套"><span class="toc-number">1.3.4.2.</span> <span class="toc-text">属性嵌套</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#变量"><span class="toc-number">1.3.5.</span> <span class="toc-text">变量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#混合-mixin"><span class="toc-number">1.3.6.</span> <span class="toc-text">混合(mixin)</span></a></li></ol></li></ol></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-1.WEB前端Web/Front-End-Standards/aotu/css/jdc_fd_guide_css" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      CSS规范
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/11/14/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/aotu/css/jdc_fd_guide_css/" class="article-date">
+	  <time datetime="2019-11-14T01:12:57.000Z" itemprop="datePublished">2019-11-14</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/1-WEB%E5%89%8D%E7%AB%AF/">1.WEB前端</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/CSS/" rel="tag">CSS</a>, <a class="article-tag-link" href="/tags/JavaScript/" rel="tag">JavaScript</a>, <a class="article-tag-link" href="/tags/%E8%A7%84%E8%8C%83/" rel="tag">规范</a>
+  </span>
+
+
+        
+
+	<span class="article-read hidden-xs">
+    	<i class="icon icon-eye-fill" aria-hidden="true"></i>
+    	<span id="/2019/11/14/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/aotu/css/jdc_fd_guide_css/" class="leancloud_visitors"  data-flag-title="CSS规范">0</span>
+    </span>
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/11/14/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/aotu/css/jdc_fd_guide_css/#comments" class="article-comment-link">Comments</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count: 4.3k(words)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">Read Count: 21(minutes)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h2 id="CSS规范"><a href="#CSS规范" class="headerlink" title="CSS规范"></a>CSS规范</h2><h3 id="代码规范"><a href="#代码规范" class="headerlink" title="代码规范"></a>代码规范</h3><h4 id="编码规范"><a href="#编码规范" class="headerlink" title="编码规范"></a>编码规范</h4><p>CSS样式表是一个序列通用字符集，传输和存储过程中，这些字符必须由支持 US-ASCII（例如 UTF-8, ISO 8859-x, SHIFT JIS 等）字符编码方式编译</p>
+<h5 id="文档内嵌样式表编码"><a href="#文档内嵌样式表编码" class="headerlink" title="文档内嵌样式表编码"></a>文档内嵌样式表编码</h5><blockquote>
+<p>When a style sheet is embedded in another document, such as in the STYLE element or “style” attribute of HTML, the style sheet shares the character encoding of the whole document.</p>
+</blockquote>
+<p>当样式出现在其它文档，如 HTML 的 STYLE 标签或标签属性 “style”，样式的编码由文档的决定。</p>
+<h5 id="文档外链样式表编码"><a href="#文档外链样式表编码" class="headerlink" title="文档外链样式表编码"></a>文档外链样式表编码</h5><blockquote>
+<p>When a style sheet resides in a separate file, user agents must observe the following priorities when determining a style sheet’s character encoding (from highest priority to lowest):</p>
+</blockquote>
+<blockquote>
+<ol>
+<li>An HTTP “charset” parameter in a “Content-Type” field (or similar parameters in other protocols)</li>
+<li>BOM and/or @charset </li>
+<li><link charset=""> or other metadata from the linking mechanism (if any)</li>
+<li>charset of referring style sheet or document (if any)</li>
+<li>Assume UTF-8</li>
+</ol>
+</blockquote>
+<p>文档外链样式表的编码可以由以下各项按照由高到低的优先级顺序决定：</p>
+<ol>
+<li>HTTP “Content-Type” 字段参数 “charset”（或其它协议相似的参数）</li>
+<li>BOM（byte-order mark）和（或）@charset</li>
+<li>Link 中的元数据设置（如果有的话）</li>
+<li>引用样式表字符集或文档编码（如果有的话）</li>
+<li>假定为 UTF-8 编码</li>
+</ol>
+<h5 id="关于-charset"><a href="#关于-charset" class="headerlink" title="关于 @charset"></a>关于 @charset</h5><blockquote>
+<p>Authors using an @charset rule must place the rule at the very beginning of the style sheet, preceded by no characters. (If a byte order mark is appropriate for the encoding used, it may precede the @charset rule.)</p>
+</blockquote>
+<blockquote>
+<p>@charset must be written literally, i.e., the 10 characters ‘@charset “‘ (lowercase, no backslash escapes), followed by the encoding name, followed by ‘“;’.</p>
+</blockquote>
+<ul>
+<li>@charset规则一定要在样式文件的第一行首个字符位置开始，否则的话就会有机会让 BOM 设置生效（如果有设置 BOM 的话）而优于 @charset 作为样式表的编码</li>
+<li><code>@charset &quot;&quot;;</code> 一定要写上，并且用小写字母，不能出现转义符</li>
+</ul>
+<h5 id="团队约定"><a href="#团队约定" class="headerlink" title="团队约定"></a>团队约定</h5><ul>
+<li>样式文件必须写上 @charset 规则，并且一定要在样式文件的第一行首个字符位置开始写，编码名用 “UTF-8”</li>
+<li>字符 <code>@charset &quot;&quot;;</code> 都用小写字母，不能出现转义符，编码名允许大小混写</li>
+<li>考虑到在使用“UTF-8”编码情况下 BOM 对代码的污染和编码显示的问题，在可控范围下，坚决不使用 BOM。（更多关于 BOM 可参考 <a href="https://zh.wikipedia.org/wiki/%E4%BD%8D%E5%85%83%E7%B5%84%E9%A0%86%E5%BA%8F%E8%A8%98%E8%99%9F" target="_blank" rel="noopener">BOM的介绍</a> 和 <a href="http://www.zhihu.com/question/20167122" target="_blank" rel="noopener">「带 BOM 的 UTF-8」和「无 BOM 的 UTF-8」有什么区别？</a> ）</li>
+</ul>
+<p><em>推荐：</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@charset &quot;UTF-8&quot;;</span><br><span class="line"></span><br><span class="line">.jdc&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p><em>不推荐：</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * @desc File Info</span><br><span class="line"> * @author Author Name</span><br><span class="line"> * @date 2015-10-10</span><br><span class="line"> */</span><br><span class="line"> </span><br><span class="line">/* @charset规则不在文件首行首个字符开始 */</span><br><span class="line">@charset &quot;UTF-8&quot;;</span><br><span class="line"></span><br><span class="line">.jdc&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@CHARSET &quot;UTF-8&quot;;</span><br><span class="line">/* @charset规则没有用小写 */</span><br><span class="line"></span><br><span class="line">.jdc&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/* 无@charset规则 */</span><br><span class="line">.jdc&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>更多关于样式编码：<a href="http://www.w3.org/TR/2011/REC-CSS2-20110607/syndata.html#charset" target="_blank" rel="noopener">CSS style sheet representation</a></p>
+<h4 id="代码风格"><a href="#代码风格" class="headerlink" title="代码风格"></a>代码风格</h4><h5 id="代码格式化"><a href="#代码格式化" class="headerlink" title="代码格式化"></a>代码格式化</h5><p>样式书写一般有两种：一种是紧凑格式 (Compact)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.jdc&#123; display: block;width: 50px;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>一种是展开格式（Expanded）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">.jdc&#123;</span><br><span class="line">    display: block;</span><br><span class="line">    width: 50px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>团队约定</strong></p>
+<p>统一使用展开格式书写样式</p>
+<h5 id="代码大小写"><a href="#代码大小写" class="headerlink" title="代码大小写"></a>代码大小写</h5><p>样式选择器，属性名，属性值关键字全部使用小写字母书写，属性字符串允许使用大小写。</p>
+<pre><code>/* 推荐 */
+.jdc{
+    display:block;
+}
+
+/* 不推荐 */
+.JDC{
+    DISPLAY:BLOCK;
+}</code></pre><h5 id="选择器"><a href="#选择器" class="headerlink" title="选择器"></a>选择器</h5><ul>
+<li>尽量少用通用选择器 <code>*</code></li>
+<li>不使用 ID 选择器</li>
+<li>不使用无具体语义定义的标签选择器</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">/* 推荐 */</span><br><span class="line"> .jdc &#123;...&#125;</span><br><span class="line"> .jdc li &#123;...&#125;</span><br><span class="line"> .jdc li p&#123;...&#125;</span><br><span class="line">	</span><br><span class="line">/* 不推荐 */</span><br><span class="line"> *&#123;...&#125;</span><br><span class="line"> #jdc &#123;...&#125;</span><br><span class="line"> .jdc div&#123;...&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="代码缩进"><a href="#代码缩进" class="headerlink" title="代码缩进"></a>代码缩进</h5><p>统一使用四个空格进行代码缩进，使得各编辑器表现一致（各编辑器有相关配置）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">.jdc &#123;</span><br><span class="line">    width: 100%;</span><br><span class="line">    height: 100%;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="分号"><a href="#分号" class="headerlink" title="分号"></a>分号</h5><p>每个属性声明末尾都要加分号；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">.jdc &#123;</span><br><span class="line">    width: 100%;</span><br><span class="line">    height: 100%;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="代码易读性"><a href="#代码易读性" class="headerlink" title="代码易读性"></a>代码易读性</h5><p>左括号与类名之间一个空格，冒号与属性值之间一个空格</p>
+<p><em>推荐：</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.jdc &#123; </span><br><span class="line">    width: 100%; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><em>不推荐：</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.jdc&#123; </span><br><span class="line">    width:100%;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>逗号分隔的取值，逗号之后一个空格</p>
+<p><em>推荐：</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.jdc &#123;</span><br><span class="line">    box-shadow: 1px 1px 1px #333, 2px 2px 2px #ccc;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><em>不推荐：</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.jdc &#123;</span><br><span class="line">    box-shadow: 1px 1px 1px #333,2px 2px 2px #ccc;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>为单个css选择器或新申明开启新行</p>
+<p><em>推荐：</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">.jdc,</span><br><span class="line">.jdc_logo,</span><br><span class="line">.jdc_hd &#123;</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br><span class="line">.nav&#123;</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><em>不推荐：</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">.jdc,jdc_logo,.jdc_hd &#123;</span><br><span class="line">	...</span><br><span class="line">&#125;.nav&#123;</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>颜色值 <code>rgb()</code> <code>rgba()</code> <code>hsl()</code> <code>hsla()</code> <code>rect()</code> 中不需有空格，且取值不要带有不必要的 0</p>
+<p><em>推荐：</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.jdc &#123;</span><br><span class="line">    color: rgba(255,255,255,.5);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><em>不推荐：</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.jdc &#123;</span><br><span class="line">    color: rgba( 255, 255, 255, 0.5 );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>属性值十六进制数值能用简写的尽量用简写</p>
+<p><em>推荐：</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.jdc &#123;</span><br><span class="line">    color: #fff;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><em>不推荐：</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.jdc &#123;</span><br><span class="line">    color: #ffffff;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>不要为 <code>0</code> 指明单位</p>
+<p><em>推荐：</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.jdc &#123;</span><br><span class="line">    margin: 0 10px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><em>不推荐：</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.jdc &#123;</span><br><span class="line">    margin: 0px 10px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="属性值引号"><a href="#属性值引号" class="headerlink" title="属性值引号"></a>属性值引号</h5><p>css属性值需要用到引号时，统一使用单引号</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">/* 推荐 */</span><br><span class="line">.jdc &#123; </span><br><span class="line">	font-family: &apos;Hiragino Sans GB&apos;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/* 不推荐 */</span><br><span class="line">.jdc &#123; </span><br><span class="line">	font-family: &quot;Hiragino Sans GB&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="属性书写顺序"><a href="#属性书写顺序" class="headerlink" title="属性书写顺序"></a>属性书写顺序</h5><p>建议遵循以下顺序：</p>
+<ol>
+<li>布局定位属性：display / position / float / clear  / visibility / overflow </li>
+<li>自身属性：width / height / margin / padding / border / background</li>
+<li>文本属性：color / font / text-decoration / text-align / vertical-align / white- space / break-word</li>
+<li>其他属性（CSS3）：content / cursor / border-radius / box-shadow / text-shadow / background:linear-gradient …</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">.jdc &#123;</span><br><span class="line">	display: block;</span><br><span class="line">	position: relative;</span><br><span class="line">	float: left;</span><br><span class="line">	width: 100px;</span><br><span class="line">	height: 100px;</span><br><span class="line">	margin: 0 10px;</span><br><span class="line">	padding: 20px 0;</span><br><span class="line">	font-family: Arial, &apos;Helvetica Neue&apos;, Helvetica, sans-serif;</span><br><span class="line">	color: #333;</span><br><span class="line">	background: rgba(0,0,0,.5);</span><br><span class="line">	-webkit-border-radius: 10px;</span><br><span class="line">    -moz-border-radius: 10px;</span><br><span class="line">    -o-border-radius: 10px;</span><br><span class="line">    -ms-border-radius: 10px;</span><br><span class="line">    border-radius: 10px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p><a href="https://www.mozilla.org/css/base/content.css" target="_blank" rel="noopener">mozilla官方属性顺序推荐</a></p>
+<h5 id="CSS3浏览器私有前缀写法"><a href="#CSS3浏览器私有前缀写法" class="headerlink" title="CSS3浏览器私有前缀写法"></a>CSS3浏览器私有前缀写法</h5><p>CSS3 浏览器私有前缀在前，标准前缀在后</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">.jdc &#123;</span><br><span class="line">    -webkit-border-radius: 10px;</span><br><span class="line">    -moz-border-radius: 10px;</span><br><span class="line">    -o-border-radius: 10px;</span><br><span class="line">    -ms-border-radius: 10px;</span><br><span class="line">    border-radius: 10px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>更多关于浏览器私有前辍写法：<a href="http://www.w3.org/TR/2011/REC-CSS2-20110607/syndata.html#vendor-keywords" target="_blank" rel="noopener">#Vendor-specific extensions</a></p>
+<h3 id="注释规范"><a href="#注释规范" class="headerlink" title="注释规范"></a>注释规范</h3><blockquote>
+<p>Comments begin with the characters <code>/*</code> and end with the characters <code>*/</code>. They may occur anywhere outside other tokens, and their contents have no influence on the rendering. Comments may not be nested.</p>
+</blockquote>
+<ul>
+<li>注释以字符 <code>/*</code> 开始，以字符 <code>*/</code> 结束</li>
+<li>注释不能被嵌套</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/*Comment Text*/</span><br></pre></td></tr></table></figure>
+
+<h4 id="团队约定-1"><a href="#团队约定-1" class="headerlink" title="团队约定"></a>团队约定</h4><h5 id="单行注释"><a href="#单行注释" class="headerlink" title="单行注释"></a>单行注释</h5><p>注释内容第一个字符和最后一个字符都是一个空格字符，单独占一行，行与行之间相隔一行</p>
+<p><em>推荐：</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/* Comment Text */</span><br><span class="line">.jdc&#123;&#125;</span><br><span class="line"></span><br><span class="line">/* Comment Text */</span><br><span class="line">.jdc&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p><em>不推荐：</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">/*Comment Text*/</span><br><span class="line">.jdc&#123;</span><br><span class="line">	display: block;</span><br><span class="line">&#125;</span><br><span class="line">.jdc&#123;</span><br><span class="line">	display: block;/*Comment Text*/</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="模块注释"><a href="#模块注释" class="headerlink" title="模块注释"></a>模块注释</h5><p>注释内容第一个字符和最后一个字符都是一个空格字符，<code>/*</code> 与 模块信息描述占一行，多个横线分隔符<code>-</code>与<code>*/</code>占一行，行与行之间相隔两行</p>
+<p><em>推荐：</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">/* Module A</span><br><span class="line">---------------------------------------------------------------- */</span><br><span class="line">.mod_a &#123;&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/* Module B</span><br><span class="line">---------------------------------------------------------------- */</span><br><span class="line">.mod_b &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p><em>不推荐：</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/* Module A ---------------------------------------------------- */</span><br><span class="line">.mod_a &#123;&#125;</span><br><span class="line">/* Module B ---------------------------------------------------- */</span><br><span class="line">.mod_b &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="文件信息注释"><a href="#文件信息注释" class="headerlink" title="文件信息注释"></a>文件信息注释</h5><p>在样式文件编码声明 <code>@charset</code> 语句下面注明页面名称、作者、创建日期等信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@charset &quot;UTF-8&quot;;</span><br><span class="line">/**</span><br><span class="line"> * @desc File Info</span><br><span class="line"> * @author Author Name</span><br><span class="line"> * @date 2015-10-10</span><br><span class="line"> */</span><br></pre></td></tr></table></figure>
+
+
+
+
+<p>更多关于CSS注释：<a href="http://www.w3.org/TR/2011/REC-CSS2-20110607/syndata.html#comments" target="_blank" rel="noopener">#Comments</a></p>
+<h3 id="SASS规范"><a href="#SASS规范" class="headerlink" title="SASS规范"></a>SASS规范</h3><h4 id="语法选用"><a href="#语法选用" class="headerlink" title="语法选用"></a>语法选用</h4><p>SASS有两种语法格式，一种是 SCSS (Sassy CSS)，另一种是缩进格式（Indented Syntax），有时称之为 Sass。</p>
+<h5 id="SCSS"><a href="#SCSS" class="headerlink" title="SCSS"></a>SCSS</h5><p>SCSS语法基于 CSS 语法扩展，每一个有效的 CSS 文件都是一个有效的具有相同含义的 SCSS 文件，换种说法就是 SCSS 能识别大多数的 CSS hacks 写法和浏览器前缀写法以及早期的 IE 滤镜写法，这种格式以 .scss 作为扩展名。</p>
+<h5 id="Sass"><a href="#Sass" class="headerlink" title="Sass"></a>Sass</h5><p>Sass 使用 “缩进” 代替 “花括号” 表示属性属于某个选择器，用 “换行” 代替 “分号” 分隔属性，很多人认为这样做比 SCSS 更容易阅读，书写也更快速。缩进格式也可以使用 Sass 的全部功能，只是与 SCSS 相比个别地方采取了不同的表达方式，具体请查看 <a href="http://sass-lang.com/documentation/file.INDENTED_SYNTAX.html" target="_blank" rel="noopener">the indented syntax reference</a>。这种格式以 .sass 作为拓展名。</p>
+<p>更详细的用法请阅读 SASS 官网文档：<a href="http://sass-lang.com/documentation/file.SASS_REFERENCE.html" target="_blank" rel="noopener">DOCUMENTATION</a></p>
+<h5 id="团队约定-2"><a href="#团队约定-2" class="headerlink" title="团队约定"></a>团队约定</h5><p>考虑到 SCSS 语法对 CSS 语法友好的兼容性和扩展性，我们在使用 SASS 编写样式的时候，统一使用 SCSS 语法</p>
+<h4 id="编码格式"><a href="#编码格式" class="headerlink" title="编码格式"></a>编码格式</h4><blockquote>
+<p>When running on Ruby 1.9 and later, Sass is aware of the character encoding of documents. Sass follows the CSS spec to determine the encoding of a stylesheet, and falls back to the Ruby string encoding. This means that it first checks the Unicode byte order mark, then the @charset declaration, then the Ruby string encoding. If none of these are set, it will assume the document is in UTF-8.</p>
+</blockquote>
+<p>当在 Ruby1.9或更新的版本运行的时候，SASS 能识辨文档的字符编码。SASS 遵循 CSS 规范去确定样式文件的编码，进而转回 Ruby 字符串编码。这意味着SASS编译的时候会首先检测 BOM，然后到 @charset 声明，再到 Ruby 字符串编码，如果以上都没有设置，SASS 会假定文档的编码为 UTF-8</p>
+<h5 id="团队约定-3"><a href="#团队约定-3" class="headerlink" title="团队约定"></a>团队约定</h5><p>严格遵守上面 “代码规范” 中的 “编码规范”</p>
+<p>更多关于 SASS 编码：<a href="http://sass-lang.com/documentation/file.SASS_REFERENCE.html" target="_blank" rel="noopener">SASS Encodings</a></p>
+<h4 id="SASS注释规范"><a href="#SASS注释规范" class="headerlink" title="SASS注释规范"></a>SASS注释规范</h4><p>SASS支持 CSS 标准的多行注释 <code>/* */</code>，同时也支持单行注释 <code>//</code>。</p>
+<ul>
+<li>多行注释在使用非 Compressed 模式进行编译后的输出文件中会保留下来，单行注释 <code>//</code> 侧会被移除</li>
+<li>多行注释和单行注释在 SASS 编译后输出的压缩 CSS 文件都会被移除</li>
+<li>当多行注释内容第一个字符是感叹号 “!” 的时候，即 <code>/*! */</code>，SASS 无论用哪一种编译方式编译注释都会保留</li>
+<li>注释内容可以加入 SASS 变量</li>
+</ul>
+<h5 id="团队约定-4"><a href="#团队约定-4" class="headerlink" title="团队约定"></a>团队约定</h5><p>SCSS 文件内</p>
+<ul>
+<li>全部遵循 CSS 注释规范</li>
+<li>不使用 <code>/*! */</code> 注释方式</li>
+<li>注释内不放 SASS 变量</li>
+</ul>
+<p>标准的注释规范如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">@charset &quot;UTF-8&quot;;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @desc File Info</span><br><span class="line"> * @author liqinuo</span><br><span class="line"> * @date 2015-10-10</span><br><span class="line"> */</span><br><span class="line"></span><br><span class="line">/* Module A</span><br><span class="line">----------------------------------------------------------------*/</span><br><span class="line">.mod_a &#123;&#125;</span><br><span class="line"></span><br><span class="line">/* module A logo */</span><br><span class="line">.mod_a_logo &#123;&#125;</span><br><span class="line"></span><br><span class="line">/* module A nav */</span><br><span class="line">.mod_a_nav &#123;&#125;</span><br><span class="line"></span><br><span class="line">/* Module B</span><br><span class="line">----------------------------------------------------------------*/</span><br><span class="line">.mod_b &#123;&#125;</span><br><span class="line"></span><br><span class="line">/* module B logo */</span><br><span class="line">.mod_b_logo &#123;&#125;</span><br><span class="line"></span><br><span class="line">/* module B nav */</span><br><span class="line">.mod_b_nav &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="嵌套规范"><a href="#嵌套规范" class="headerlink" title="嵌套规范"></a>嵌套规范</h4><h5 id="选择器嵌套"><a href="#选择器嵌套" class="headerlink" title="选择器嵌套"></a>选择器嵌套</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// CSS</span><br><span class="line">.jdc &#123;&#125;</span><br><span class="line">body .jdc &#123;&#125;</span><br><span class="line"></span><br><span class="line">// SCSS</span><br><span class="line">.jdc &#123;</span><br><span class="line">    body &amp; &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// CSS</span><br><span class="line">.jdc &#123;&#125;</span><br><span class="line">.jdc_cover &#123;&#125;</span><br><span class="line">.jdc_info &#123;&#125;</span><br><span class="line">.jdc_info_name &#123;&#125;</span><br><span class="line"></span><br><span class="line">// SCSS</span><br><span class="line">.jdc &#123;</span><br><span class="line">    &amp;_cover &#123;&#125;</span><br><span class="line">    &amp;_info &#123;</span><br><span class="line">        &amp;_name &#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="属性嵌套"><a href="#属性嵌套" class="headerlink" title="属性嵌套"></a>属性嵌套</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">// CSS</span><br><span class="line">.jdc &#123;</span><br><span class="line">    background-color: red;</span><br><span class="line">    background-repeat: no-repeat;</span><br><span class="line">    background-image: url(/img/icon.png);</span><br><span class="line">    background-position: 0 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// SCSS</span><br><span class="line">.jdc &#123;</span><br><span class="line">    background: &#123;</span><br><span class="line">        color: red;</span><br><span class="line">        repeat: no-repeat;</span><br><span class="line">        image: url(/img/icon.png);</span><br><span class="line">        position: 0 0;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h4><p>可复用属性尽量抽离为页面变量，易于统一维护</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// CSS</span><br><span class="line">.jdc &#123;</span><br><span class="line">    color: red;</span><br><span class="line">    border-color: red;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// SCSS</span><br><span class="line">$color: red;</span><br><span class="line">.jdc &#123;</span><br><span class="line">    color: $color;</span><br><span class="line">    border-color: $color;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="混合-mixin"><a href="#混合-mixin" class="headerlink" title="混合(mixin)"></a>混合(mixin)</h4><p>根据功能定义模块，然后在需要使用的地方通过 <code>@include</code> 调用，避免编码时重复输入代码段</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">// CSS</span><br><span class="line">.jdc_1 &#123;</span><br><span class="line">    -webkit-border-radius: 5px;</span><br><span class="line">    border-radius: 5px;</span><br><span class="line">&#125;</span><br><span class="line">.jdc_2 &#123;</span><br><span class="line">    -webkit-border-radius: 10px;</span><br><span class="line">    border-radius: 10px;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// SCSS</span><br><span class="line">@mixin radius($radius:5px) &#123;</span><br><span class="line">    -webkit-border-radius: $radius;</span><br><span class="line">    border-radius: $radius;</span><br><span class="line">&#125;</span><br><span class="line">.jdc_1 &#123;</span><br><span class="line">    @include radius; //参数使用默认值</span><br><span class="line">&#125;</span><br><span class="line">.jdc_2 &#123;</span><br><span class="line">    @include radius(10px);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">// CSS</span><br><span class="line">.jdc_1 &#123;</span><br><span class="line">    background: url(/img/icon.png) no-repeat -10px 0;</span><br><span class="line">&#125;</span><br><span class="line">.jdc_2 &#123;</span><br><span class="line">    background: url(/img/icon.png) no-repeat -20px 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// SCSS</span><br><span class="line">@mixin icon($x:0, $y:0) &#123;</span><br><span class="line">    background: url(/img/icon.png) no-repeat $x, $y;</span><br><span class="line">&#125;</span><br><span class="line">.jdc_1 &#123;</span><br><span class="line">    @include icon(-10px, 0);</span><br><span class="line">&#125;</span><br><span class="line">.jdc_2 &#123;</span><br><span class="line">    @include icon(-20px, 0);</span><br><span class="line">&#125;</span><br><span class="line">```	</span><br><span class="line"></span><br><span class="line">#### 占位选择器 %</span><br><span class="line"></span><br><span class="line">如果不调用则不会有任何多余的 css 文件，占位选择器以 `%` 标识定义，通过 `@extend` 调用</span><br></pre></td></tr></table></figure>
+<p>//scss<br>%borderbox {<br>    -webkit-box-sizing: border-box;<br>    box-sizing: border-box;<br>}<br>.jdc {<br>    @extend %borderbox;<br>}</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### @extend 继承</span><br></pre></td></tr></table></figure>
+<p>// CSS<br>.jdc_1 {<br>    font-size: 12px;<br>    color: red;<br>}<br>.jdc_2 {<br>    font-size: 12px;<br>    color: red;<br>    font-weight: bold;<br>}</p>
+<p>// SCSS<br>.jdc_1 {<br>    font-size: 12px;<br>    color: red;<br>}<br>.jdc_2 {<br>    @extend .jdc_1;<br>    font-weight: bold;<br>}</p>
+<p>// 或者<br>%font_red {<br>    font-size: 12px;<br>    color: red;<br>}<br>.jdc_1 {<br>    @extend %font_red;<br>}<br>.jdc_2 {<br>    @extend %font_red;<br>    font-weight: bold;<br>}</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### @for 循环</span><br></pre></td></tr></table></figure>
+<p>// CSS<br>.jdc_1 {background-position: 0 -20px;}<br>.jdc_2 {background-position: 0 -40px;}<br>.jdc_3 {background-position: 0 -60px;}</p>
+<p>// SCSS<br>@for $i from 1 through 3 {<br>    .jdc_#{$i} {<br>        background-position: 0 (-20px) * $i;<br>    }<br>}</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">注意：`#&#123;&#125;` 是连接符，变量连接使用时需要依赖</span><br><span class="line"></span><br><span class="line">#### @each 循环</span><br></pre></td></tr></table></figure>
+<p>// CSS<br>.jdc_list {<br>    background-image: url(/img/jdc_list.png);<br>}<br>.jdc_detail {<br>    background-image: url(/img/jdc_detail.png);<br>}</p>
+<p>// SCSS<br>@each $name in list, detail {<br>    .jdc_#{$name} {<br>        background-image: url(/img/jdc_#{$name}.png);<br>    }<br>}</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>// CSS<br>.jdc_list {<br>    background-image: url(/img/jdc_list.png);<br>    background-color: red;<br>}<br>.jdc_detail {<br>    background-image: url(/img/jdc_detail.png);<br>    background-color: blue;<br>}</p>
+<p>// SCSS<br>@each $name, $color in (list, red), (detail, blue) {<br>    .jdc_#{$name} {<br>        background-image: url(/img/jdc_#{$name}.png);<br>        background-color: $color;<br>    }<br>}</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### @function 函数</span><br></pre></td></tr></table></figure>
+<p>@function pxToRem($px) {<br>    @return $px / 10px * 1rem;<br>}<br>.jdc {<br>    font-size: pxToRem(12px);<br>}</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### 运算规范</span><br><span class="line"></span><br><span class="line">运算符之间空出一个空格</span><br></pre></td></tr></table></figure>
+<p>.jdc {<br>    width: 100px - 50px;<br>    height: 30px / 5;<br>}</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">注意运算单位，单位同时参与运算，所以 10px 不等于 10，乘除运算时需要特别注意</span><br></pre></td></tr></table></figure>
+<p>// 正确的运算格式<br>.jdc {<br>    width: 100px - 50px;<br>    width: 100px + 50px;<br>    width: 100px * 2;<br>    width: 100px / 2;<br>}</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 重置样式</span><br><span class="line"></span><br><span class="line">#### 移动端</span><br></pre></td></tr></table></figure>
+<ul>
+<li>{ -webkit-tap-highlight-color: transparent; outline: 0; margin: 0; padding: 0; vertical-align: baseline; }<br>body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, form, fieldset, legend, button, input, textarea, th, td { margin: 0; padding: 0; vertical-align: baseline; }<br>img { border: 0 none; vertical-align: top; }<br>i, em { font-style: normal; }<br>ol, ul { list-style: none; }<br>input, select, button, h1, h2, h3, h4, h5, h6 { font-size: 100%; font-family: inherit; }<br>table { border-collapse: collapse; border-spacing: 0; }<br>a { text-decoration: none; color: #666; }<br>body { margin: 0 auto; min-width: 320px; max-width: 640px; height: 100%; font-size: 14px; font-family: Helvetica, STHeiti STXihei, Microsoft JhengHei, Microsoft YaHei, Arial; line-height: 1.5; color: #666; -webkit-text-size-adjust: 100% !important; text-size-adjust: 100% !important; }<br>input[type=”text”], textarea { -webkit-appearance: none; -moz-appearance: none; appearance: none; }<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### PC端</span><br></pre></td></tr></table></figure>
+html, body, div, h1, h2, h3, h4, h5, h6, p, dl, dt, dd, ol, ul, li, fieldset, form, label, input, legend, table, caption, tbody, tfoot, thead, tr, th, td, textarea, article, aside, audio, canvas, figure, footer, header, mark, menu, nav, section, time, video { margin: 0; padding: 0; }<br>h1, h2, h3, h4, h5, h6 { font-size: 100%; font-weight: normal }<br>article, aside, dialog, figure, footer, header, hgroup, nav, section, blockquote { display: block; }<br>ul, ol { list-style: none; }<br>img { border: 0 none; vertical-align: top; }<br>blockquote, q { quotes: none; }<br>blockquote:before, blockquote:after, q:before, q:after { content: none; }<br>table { border-collapse: collapse; border-spacing: 0; }<br>strong, em, i { font-style: normal; font-weight: normal; }<br>ins { text-decoration: underline; }<br>del { text-decoration: line-through; }<br>mark { background: none; }<br>input::-ms-clear { display: none !important; }<br>body { font: 12px/1.5 \5FAE\8F6F\96C5\9ED1, \5B8B\4F53, “Hiragino Sans GB”, STHeiti, “WenQuanYi Micro Hei”, “Droid Sans Fallback”, SimSun, sans-serif; background: #fff; }<br>a { text-decoration: none; color: #333; }<br>a:hover { text-decoration: underline; }<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 媒体查询</span><br><span class="line"></span><br><span class="line">设备尺寸参考 ：[Mobile devices](http://mydevice.io/devices/)</span><br><span class="line"></span><br><span class="line">媒体查询类型浏览器支持情况：[CSS3 Media Queries overview](http://cssmediaqueries.com/overview.html)</span><br><span class="line"></span><br><span class="line">#### 常用查询语句</span><br><span class="line"></span><br><span class="line">判断设备横竖屏</span><br></pre></td></tr></table></figure>
+/* 横屏 */<br>@media all and (orientation :landscape) {</li>
+</ul>
+<p>} </p>
+<p>/* 竖屏 */<br>@media all and (orientation :portrait) {</p>
+<p>}</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">判断设备宽高</span><br></pre></td></tr></table></figure>
+<p>/* 设备宽度大于 320px 小于 640px */<br>@media all and (min-width:320px) and (max-width:640px) {</p>
+<p>} </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">判断设备像素比</span><br></pre></td></tr></table></figure>
+<p>/* 设备像素比为 1 */<br>@media only screen and (-webkit-min-device-pixel-ratio: 1), only screen and (min-device-pixel-ratio: 1) {</p>
+<p>}</p>
+<p>/* 设备像素比为 1.5 */<br>@media only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min-device-pixel-ratio: 1.5) {</p>
+<p>}</p>
+<p>/* 设备像素比为 2 */<br>@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2) {</p>
+<p>}</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### 常用设备设置</span><br><span class="line"></span><br><span class="line">##### iPhones</span><br></pre></td></tr></table></figure>
+<p>/* ———– iPhone 4 and 4S ———– */</p>
+<p>/* Portrait and Landscape */<br>@media only screen<br>  and (min-device-width: 320px)<br>  and (max-device-width: 480px)<br>  and (-webkit-min-device-pixel-ratio: 2) {</p>
+<p>}</p>
+<p>/* Portrait */<br>@media only screen<br>  and (min-device-width: 320px)<br>  and (max-device-width: 480px)<br>  and (-webkit-min-device-pixel-ratio: 2)<br>  and (orientation: portrait) {<br>}</p>
+<p>/* Landscape */<br>@media only screen<br>  and (min-device-width: 320px)<br>  and (max-device-width: 480px)<br>  and (-webkit-min-device-pixel-ratio: 2)<br>  and (orientation: landscape) {</p>
+<p>}</p>
+<p>/* ———– iPhone 5 and 5S ———– */</p>
+<p>/* Portrait and Landscape */<br>@media only screen<br>  and (min-device-width: 320px)<br>  and (max-device-width: 568px)<br>  and (-webkit-min-device-pixel-ratio: 2) {</p>
+<p>}</p>
+<p>/* Portrait */<br>@media only screen<br>  and (min-device-width: 320px)<br>  and (max-device-width: 568px)<br>  and (-webkit-min-device-pixel-ratio: 2)<br>  and (orientation: portrait) {<br>}</p>
+<p>/* Landscape */<br>@media only screen<br>  and (min-device-width: 320px)<br>  and (max-device-width: 568px)<br>  and (-webkit-min-device-pixel-ratio: 2)<br>  and (orientation: landscape) {</p>
+<p>}</p>
+<p>/* ———– iPhone 6 ———– */</p>
+<p>/* Portrait and Landscape */<br>@media only screen<br>  and (min-device-width: 375px)<br>  and (max-device-width: 667px)<br>  and (-webkit-min-device-pixel-ratio: 2) { </p>
+<p>}</p>
+<p>/* Portrait */<br>@media only screen<br>  and (min-device-width: 375px)<br>  and (max-device-width: 667px)<br>  and (-webkit-min-device-pixel-ratio: 2)<br>  and (orientation: portrait) { </p>
+<p>}</p>
+<p>/* Landscape */<br>@media only screen<br>  and (min-device-width: 375px)<br>  and (max-device-width: 667px)<br>  and (-webkit-min-device-pixel-ratio: 2)<br>  and (orientation: landscape) { </p>
+<p>}</p>
+<p>/* ———– iPhone 6+ ———– */</p>
+<p>/* Portrait and Landscape */<br>@media only screen<br>  and (min-device-width: 414px)<br>  and (max-device-width: 736px)<br>  and (-webkit-min-device-pixel-ratio: 3) { </p>
+<p>}</p>
+<p>/* Portrait */<br>@media only screen<br>  and (min-device-width: 414px)<br>  and (max-device-width: 736px)<br>  and (-webkit-min-device-pixel-ratio: 3)<br>  and (orientation: portrait) { </p>
+<p>}</p>
+<p>/* Landscape */<br>@media only screen<br>  and (min-device-width: 414px)<br>  and (max-device-width: 736px)<br>  and (-webkit-min-device-pixel-ratio: 3)<br>  and (orientation: landscape) { </p>
+<p>}</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">##### Galaxy Phones</span><br></pre></td></tr></table></figure>
+<p>/* ———– Galaxy S3 ———– */</p>
+<p>/* Portrait and Landscape */<br>@media screen<br>  and (device-width: 320px)<br>  and (device-height: 640px)<br>  and (-webkit-device-pixel-ratio: 2) {</p>
+<p>}</p>
+<p>/* Portrait */<br>@media screen<br>  and (device-width: 320px)<br>  and (device-height: 640px)<br>  and (-webkit-device-pixel-ratio: 2)<br>  and (orientation: portrait) {</p>
+<p>}</p>
+<p>/* Landscape */<br>@media screen<br>  and (device-width: 320px)<br>  and (device-height: 640px)<br>  and (-webkit-device-pixel-ratio: 2)<br>  and (orientation: landscape) {</p>
+<p>}</p>
+<p>/* ———– Galaxy S4 ———– */</p>
+<p>/* Portrait and Landscape */<br>@media screen<br>  and (device-width: 320px)<br>  and (device-height: 640px)<br>  and (-webkit-device-pixel-ratio: 3) {</p>
+<p>}</p>
+<p>/* Portrait */<br>@media screen<br>  and (device-width: 320px)<br>  and (device-height: 640px)<br>  and (-webkit-device-pixel-ratio: 3)<br>  and (orientation: portrait) {</p>
+<p>}</p>
+<p>/* Landscape */<br>@media screen<br>  and (device-width: 320px)<br>  and (device-height: 640px)<br>  and (-webkit-device-pixel-ratio: 3)<br>  and (orientation: landscape) {</p>
+<p>}</p>
+<p>/* ———– Galaxy S5 ———– */</p>
+<p>/* Portrait and Landscape */<br>@media screen<br>  and (device-width: 360px)<br>  and (device-height: 640px)<br>  and (-webkit-device-pixel-ratio: 3) {</p>
+<p>}</p>
+<p>/* Portrait */<br>@media screen<br>  and (device-width: 360px)<br>  and (device-height: 640px)<br>  and (-webkit-device-pixel-ratio: 3)<br>  and (orientation: portrait) {</p>
+<p>}</p>
+<p>/* Landscape */<br>@media screen<br>  and (device-width: 360px)<br>  and (device-height: 640px)<br>  and (-webkit-device-pixel-ratio: 3)<br>  and (orientation: landscape) {</p>
+<p>}</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">##### HTC Phones</span><br></pre></td></tr></table></figure>
+<p>/* ———– HTC One ———– */</p>
+<p>/* Portrait and Landscape */<br>@media screen<br>  and (device-width: 360px)<br>  and (device-height: 640px)<br>  and (-webkit-device-pixel-ratio: 3) {</p>
+<p>}</p>
+<p>/* Portrait */<br>@media screen<br>  and (device-width: 360px)<br>  and (device-height: 640px)<br>  and (-webkit-device-pixel-ratio: 3)<br>  and (orientation: portrait) {</p>
+<p>}</p>
+<p>/* Landscape */<br>@media screen<br>  and (device-width: 360px)<br>  and (device-height: 640px)<br>  and (-webkit-device-pixel-ratio: 3)<br>  and (orientation: landscape) {</p>
+<p>}</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">##### iPads</span><br></pre></td></tr></table></figure>
+<p>/* ———– iPad mini ———– */</p>
+<p>/* Portrait and Landscape */<br>@media only screen<br>  and (min-device-width: 768px)<br>  and (max-device-width: 1024px)<br>  and (-webkit-min-device-pixel-ratio: 1) {</p>
+<p>}</p>
+<p>/* Portrait */<br>@media only screen<br>  and (min-device-width: 768px)<br>  and (max-device-width: 1024px)<br>  and (orientation: portrait)<br>  and (-webkit-min-device-pixel-ratio: 1) {</p>
+<p>}</p>
+<p>/* Landscape */<br>@media only screen<br>  and (min-device-width: 768px)<br>  and (max-device-width: 1024px)<br>  and (orientation: landscape)<br>  and (-webkit-min-device-pixel-ratio: 1) {</p>
+<p>}</p>
+<p>/* ———– iPad 1 and 2 ———– */</p>
+<p>/* Portrait and Landscape */<br>@media only screen<br>  and (min-device-width: 768px)<br>  and (max-device-width: 1024px)<br>  and (-webkit-min-device-pixel-ratio: 1) {</p>
+<p>}</p>
+<p>/* Portrait */<br>@media only screen<br>  and (min-device-width: 768px)<br>  and (max-device-width: 1024px)<br>  and (orientation: portrait)<br>  and (-webkit-min-device-pixel-ratio: 1) {</p>
+<p>}</p>
+<p>/* Landscape */<br>@media only screen<br>  and (min-device-width: 768px)<br>  and (max-device-width: 1024px)<br>  and (orientation: landscape)<br>  and (-webkit-min-device-pixel-ratio: 1) {</p>
+<p>}</p>
+<p>/* ———– iPad 3 and 4 ———– */</p>
+<p>/* Portrait and Landscape */<br>@media only screen<br>  and (min-device-width: 768px)<br>  and (max-device-width: 1024px)<br>  and (-webkit-min-device-pixel-ratio: 2) {</p>
+<p>}</p>
+<p>/* Portrait */<br>@media only screen<br>  and (min-device-width: 768px)<br>  and (max-device-width: 1024px)<br>  and (orientation: portrait)<br>  and (-webkit-min-device-pixel-ratio: 2) {</p>
+<p>}</p>
+<p>/* Landscape */<br>@media only screen<br>  and (min-device-width: 768px)<br>  and (max-device-width: 1024px)<br>  and (orientation: landscape)<br>  and (-webkit-min-device-pixel-ratio: 2) {</p>
+<p>}<br>```</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a style="word-wrap:break-word;" href="http://yoursite.com/2019/11/14/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/aotu/css/jdc_fd_guide_css/" title="CSS规范" target="_blank" rel="external">http://yoursite.com/2019/11/14/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/aotu/css/jdc_fd_guide_css/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/chen08" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/chen08" target="_blank"><span class="text-dark">溟海</span><small class="ml-1x">Web Developer &amp; Designer</small></a></h3>
+        <div>天行健，君子以自强不息，地势坤，君子以厚德载物。 杀不死我的,终将使我强大 没有吃不了的苦,只有享不了的福</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2019/11/14/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/front-end-develop-standard/about/README/" title="小团队前端开发规范--概述"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/11/13/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/PHP%E8%A7%84%E8%8C%83/" title="PHP规范"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="Catalogue" role="button">
+        <span>[&nbsp;</span><span>Catalogue</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open alipay app scan this qrcode, buy me a coffee!</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open wechat app scan this qrcode, buy me a coffee!</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> alipay</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> wechat payment</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+
+
+<!-- custom analytics part create by xiamo -->
+<!-- <script defer src="https://cdn1.lncld.net/static/js/av-min-1.2.1.js"></script> -->
+<script defer src="/js/av-min-1.2.1.js"></script>
+<script defer>
+AV.init({
+  appId: 'ngFQzHw7z0HgQfrtn4En4WTN-gzGzoHsz',
+  appKey: 'W9hgBBfVDwRGJKoGp5a6HKpx'
+});
+
+function showTime(Counter) {
+	var query = new AV.Query(Counter);
+		var visitors= $('.leancloud_visitors');
+		query.greaterThanOrEqualTo("time", 0);		
+		query.find({
+			success: function(results) {
+				if (results.length == 0) {				
+					return;
+				}
+				var data = results;
+				visitors.each(function(){
+					var url = $(this).attr('id').trim();					
+					for (var i = 0; i < data.length; i++) {
+						var object = data[i];
+						var content = object.get('time');
+						var _url = object.get('url')
+						if(url == _url){
+							$(this).text(content);
+						}
+					}
+				})
+				
+			},
+			error: function(object, error) {
+				console.log("Error: " + error.code + " " + error.message);
+			}
+		});
+}
+
+function addCount(Counter) {
+	var Counter = AV.Object.extend("Counter");
+	url = $(".leancloud_visitors").attr('id').trim();
+	title = $(".leancloud_visitors").attr('data-flag-title').trim();
+	var query = new AV.Query(Counter);
+	query.equalTo("url", url);
+	query.find({
+		success: function(results) {
+			if (results.length > 0) {
+				var counter = results[0];
+				counter.fetchWhenSave(true);
+				counter.increment("time");
+				counter.save(null, {
+					success: function(counter) {
+						var content = counter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(counter, error) {
+						console.log('Failed to save Visitor num, with error message: ' + error.message);
+					}
+				});
+			} else {
+				var newcounter = new Counter();
+				newcounter.set("title", title);
+				newcounter.set("url", url);
+				newcounter.set("time", 1);
+				newcounter.save(null, {
+					success: function(newcounter) {
+					    console.log("newcounter.get('time')="+newcounter.get('time'));
+						var content = newcounter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(newcounter, error) {
+						console.log('Failed to create');
+					}
+				});
+			}
+		},
+		error: function(error) {
+			console.log('Error:' + error.code + " " + error.message);
+		}
+	});
+}
+$(function() {
+	var Counter = AV.Object.extend("Counter");
+	if ($('.leancloud_visitors').length == 1) {
+		addCount(Counter);
+	} else {
+		showTime(Counter);
+	}
+}); 
+</script>
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>

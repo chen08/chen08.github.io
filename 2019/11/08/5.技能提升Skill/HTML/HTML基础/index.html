@@ -1,0 +1,1602 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>HTML基础 | Hexo</title>
+  <script src="./js/jQuery.md5.js"></script>
+  <script>
+    
+    (function(){
+      localStorage.setItem('userinfo',hex_md5('123chen'))
+      
+      var localData = localStorage.getItem("userinfo");
+      // var localState = localStorage.getItem("state");
+        if(localStorage.getItem("state") === null){
+          var reason = window.prompt('请输入访问密码');
+          // var promptVal = window.prompt('请输入访问密码');
+          if(reason){
+              //填写内容并“确定”
+              var md5Prompt = hex_md5(reason)
+              //点击的是“确定” 
+              if (localData !== md5Prompt){
+                alert('密码错误！');
+                // history.back();
+                location.replace(location.href); 
+              }else{
+                // alert('0123');
+                localStorage.setItem('state',"1")
+              }
+          }
+          else if(reason === ""){
+              //未填写但“确定”
+              location.replace(location.href); 
+          }
+          else{
+            //“取消”事件
+            location.replace(location.href); 
+          }
+        }
+
+    })();
+  </script>
+ <link rel="alternate" href="/atom.xml" data="123chen" type="application/atom+xml">
+  <meta name="description" content="HTML基础点击关注本公众号获取文档最新更新,并可以领取配套于本指南的 《前端面试手册》 以及最标准的简历模板.  doctype(文档类型) 的作用是什么？✨ 这三种模式的区别是什么？(接上一问追问) HTML、XML 和 XHTML 有什么区别？ 什么是data-属性？ 你对HTML语义化的理解？✨ HTML5与HTML4的不同之处 有哪些常用的meta标签？ src和href的区别？ 知道i">
+<meta name="keywords" content="HTML,面试">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTML基础">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;08&#x2F;5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill&#x2F;HTML&#x2F;HTML%E5%9F%BA%E7%A1%80&#x2F;index.html">
+<meta property="og:site_name" content="学习的敌人是自己的满足，要认真学习一点东西，必须从不自满开始。对自己，“学而不厌”，对人家，“诲人不倦”，我们应取这种态度。">
+<meta property="og:description" content="HTML基础点击关注本公众号获取文档最新更新,并可以领取配套于本指南的 《前端面试手册》 以及最标准的简历模板.  doctype(文档类型) 的作用是什么？✨ 这三种模式的区别是什么？(接上一问追问) HTML、XML 和 XHTML 有什么区别？ 什么是data-属性？ 你对HTML语义化的理解？✨ HTML5与HTML4的不同之处 有哪些常用的meta标签？ src和href的区别？ 知道i">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https:&#x2F;&#x2F;xiaomuzhu-image.oss-cn-beijing.aliyuncs.com&#x2F;c84fdc0e47268832fa8914ab4d125002.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;08&#x2F;5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill&#x2F;HTML&#x2F;images&#x2F;request1.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;08&#x2F;5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill&#x2F;HTML&#x2F;images&#x2F;request2.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;08&#x2F;5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill&#x2F;HTML&#x2F;images&#x2F;html5.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;xiaomuzhu-image.oss-cn-beijing.aliyuncs.com&#x2F;d846f65d5025c4b6c4619662a0669503.png">
+<meta property="og:updated_time" content="2019-11-08T12:23:56.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;xiaomuzhu-image.oss-cn-beijing.aliyuncs.com&#x2F;c84fdc0e47268832fa8914ab4d125002.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://yoursite.com/2019/11/08/5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill/HTML/HTML%E5%9F%BA%E7%A1%80/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="学习的敌人是自己的满足，要认真学习一点东西，必须从不自满开始。对自己，“学而不厌”，对人家，“诲人不倦”，我们应取这种态度。" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/chen08" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">溟海</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer &amp; Designer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Guangzhou, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+          <!-- . -->
+        
+        
+          <li class="menu-item menu-item-home">
+            <a href="/.">
+              
+              <i class="icon icon-home-fill"></i>
+              
+              <span class="menu-title">Home</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- archives -->
+        
+        
+          <li class="menu-item menu-item-archives">
+            <a href="/archives">
+              
+              <i class="icon icon-archives-fill"></i>
+              
+              <span class="menu-title">Archives</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- categories -->
+        
+        
+          <li class="menu-item menu-item-categories">
+            <a href="/categories">
+              
+              <i class="icon icon-folder"></i>
+              
+              <span class="menu-title">Categories</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- tags -->
+        
+        
+          <li class="menu-item menu-item-tags">
+            <a href="/tags">
+              
+              <i class="icon icon-tags"></i>
+              
+              <span class="menu-title">Tags</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- repository -->
+        
+        
+          <li class="menu-item menu-item-repository">
+            <a href="/repository">
+              
+              <i class="icon icon-project"></i>
+              
+              <span class="menu-title">Repository</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- books -->
+        
+        
+          <li class="menu-item menu-item-books">
+            <a href="/books">
+              
+              <i class="icon icon-book-fill"></i>
+              
+              <span class="menu-title">Books</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- links -->
+        
+        
+          <li class="menu-item menu-item-links">
+            <a href="/links">
+              
+              <i class="icon icon-friendship"></i>
+              
+              <span class="menu-title">Links</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- about -->
+        
+        
+          <li class="menu-item menu-item-about">
+            <a href="/about">
+              
+              <i class="icon icon-cup-fill"></i>
+              
+              <span class="menu-title">About</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- navigation/webstack/index.html -->
+        
+        
+          <li class="menu-item menu-item-navigation">
+            <a href="/navigation/webstack/index.html">
+              
+              <i class="icon icon-delicious"></i>
+              
+              <span class="menu-title">Navigation</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- navigation/webstack/word.html -->
+        
+        
+          <li style="display: none;" class="menu-item menu-item-fixed">
+            <a href="/navigation/webstack/word.html">
+              
+              <i class="icon icon-delicious"></i>
+              
+              <span class="menu-title">menu.fixed</span>
+            </a>
+          </li>
+        
+
+
+        
+      </ul>
+
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/1-WEB%E5%89%8D%E7%AB%AF/">1.WEB前端</a><span class="category-list-count">140</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/2-%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">2.编程语言</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/3-%E4%BA%A7%E5%93%81%E8%AE%BE%E8%AE%A1/">3.产品设计</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/4-%E7%AE%A1%E7%90%86%E8%90%A5%E9%94%80/">4.管理营销</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/5-%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87/">5.技能提升</a><span class="category-list-count">155</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/6-%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93/">6.读书总结</a><span class="category-list-count">9</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/" rel="tag">CSS</a><span class="tag-list-count">18</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Dart/" rel="tag">Dart</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES6/" rel="tag">ES6</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES7/" rel="tag">ES7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/English/" rel="tag">English</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flutter/" rel="tag">Flutter</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a><span class="tag-list-count">20</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IMAGE/" rel="tag">IMAGE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JQuery/" rel="tag">JQuery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a><span class="tag-list-count">224</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">JavaScript设计模式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript%E9%AB%98%E7%BA%A7%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" rel="tag">JavaScript高级程序设计</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jquery/" rel="tag">Jquery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mysql/" rel="tag">Mysql</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NETWORK/" rel="tag">NETWORK</a><span class="tag-list-count">13</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node/" rel="tag">Node</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/" rel="tag">PHP</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/" rel="tag">React</a><span class="tag-list-count">31</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJS/" rel="tag">RxJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SVG/" rel="tag">SVG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sass/" rel="tag">Sass</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/" rel="tag">Vue</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%AE%89%E5%85%A8/" rel="tag">WEB安全</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webpack/" rel="tag">Webpack</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/" rel="tag">jQuery</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodeJS/" rel="tag">nodeJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B9%A6%E5%8D%95/" rel="tag">书单</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B9%A6%E7%B1%8D/" rel="tag">书籍</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/" rel="tag">前端安全</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83/" rel="tag">命名规范</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag">小程序</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" rel="tag">性能优化</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8F%92%E4%BB%B6/" rel="tag">插件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A1%86%E6%9E%B6/" rel="tag">框架</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" rel="tag">浏览器</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%84%E4%BB%B6/" rel="tag">组件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%84%E8%8C%83/" rel="tag">规范</a><span class="tag-list-count">67</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6%E5%AD%A6%E4%B9%A0/" rel="tag">软件学习</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a><span class="tag-list-count">153</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/CSS/" style="font-size: 13.71px;">CSS</a> <a href="/tags/Dart/" style="font-size: 13px;">Dart</a> <a href="/tags/ES6/" style="font-size: 13px;">ES6</a> <a href="/tags/ES7/" style="font-size: 13px;">ES7</a> <a href="/tags/English/" style="font-size: 13.18px;">English</a> <a href="/tags/Flutter/" style="font-size: 13px;">Flutter</a> <a href="/tags/Git/" style="font-size: 13.12px;">Git</a> <a href="/tags/HTML/" style="font-size: 13.76px;">HTML</a> <a href="/tags/HTTP/" style="font-size: 13.18px;">HTTP</a> <a href="/tags/IMAGE/" style="font-size: 13px;">IMAGE</a> <a href="/tags/JAVA/" style="font-size: 13.06px;">JAVA</a> <a href="/tags/JQuery/" style="font-size: 13px;">JQuery</a> <a href="/tags/JavaScript/" style="font-size: 14px;">JavaScript</a> <a href="/tags/JavaScript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 13px;">JavaScript设计模式</a> <a href="/tags/JavaScript%E9%AB%98%E7%BA%A7%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 13px;">JavaScript高级程序设计</a> <a href="/tags/Jquery/" style="font-size: 13px;">Jquery</a> <a href="/tags/Mysql/" style="font-size: 13px;">Mysql</a> <a href="/tags/NETWORK/" style="font-size: 13.53px;">NETWORK</a> <a href="/tags/Node/" style="font-size: 13.35px;">Node</a> <a href="/tags/PHP/" style="font-size: 13.24px;">PHP</a> <a href="/tags/React/" style="font-size: 13.82px;">React</a> <a href="/tags/RxJS/" style="font-size: 13px;">RxJS</a> <a href="/tags/SVG/" style="font-size: 13px;">SVG</a> <a href="/tags/Sass/" style="font-size: 13px;">Sass</a> <a href="/tags/TypeScript/" style="font-size: 13.29px;">TypeScript</a> <a href="/tags/Vue/" style="font-size: 13.65px;">Vue</a> <a href="/tags/WEB%E5%AE%89%E5%85%A8/" style="font-size: 13.29px;">WEB安全</a> <a href="/tags/Webpack/" style="font-size: 13.59px;">Webpack</a> <a href="/tags/jQuery/" style="font-size: 13.65px;">jQuery</a> <a href="/tags/nodeJS/" style="font-size: 13px;">nodeJS</a> <a href="/tags/python/" style="font-size: 13px;">python</a> <a href="/tags/%E4%B9%A6%E5%8D%95/" style="font-size: 13px;">书单</a> <a href="/tags/%E4%B9%A6%E7%B1%8D/" style="font-size: 13.06px;">书籍</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 13px;">前端</a> <a href="/tags/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/" style="font-size: 13.06px;">前端安全</a> <a href="/tags/%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83/" style="font-size: 13.41px;">命名规范</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 13px;">小程序</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 13.06px;">工具</a> <a href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" style="font-size: 13.47px;">性能优化</a> <a href="/tags/%E6%8F%92%E4%BB%B6/" style="font-size: 13px;">插件</a> <a href="/tags/%E6%A1%86%E6%9E%B6/" style="font-size: 13px;">框架</a> <a href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" style="font-size: 13px;">浏览器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13.18px;">算法</a> <a href="/tags/%E7%BB%84%E4%BB%B6/" style="font-size: 13px;">组件</a> <a href="/tags/%E8%A7%84%E8%8C%83/" style="font-size: 13.88px;">规范</a> <a href="/tags/%E8%BD%AF%E4%BB%B6%E5%AD%A6%E4%B9%A0/" style="font-size: 13px;">软件学习</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 13.35px;">随笔</a> <a href="/tags/%E9%9D%A2%E8%AF%95/" style="font-size: 13.94px;">面试</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a><span class="archive-list-count">312</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/27/1.WEB%E5%89%8D%E7%AB%AFWeb/React/react-router/" class="title">1.WEB前端Web/React/react-router</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-27T13:24:04.185Z" itemprop="datePublished">2020-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/27/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/sass-guide/" class="title">1.WEB前端Web/Front-End-Standards/sass-guide</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-27T13:24:03.487Z" itemprop="datePublished">2020-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/27/hello-world/" class="title">Hello World</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-27T13:24:03.028Z" itemprop="datePublished">2020-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/6-%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93/">6.读书总结</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/26/6.%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93Book/%E4%BA%BA%E7%94%9F%E9%81%93%E7%90%86/" class="title">人生道理</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-26T01:12:57.000Z" itemprop="datePublished">2020-01-26</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/2-%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">2.编程语言</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/15/2.%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80Programming/English/%E7%94%9F%E6%B4%BB%E8%8B%B1%E8%AF%AD/" class="title">生活英语</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-15T01:12:57.000Z" itemprop="datePublished">2020-01-15</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">Catalogue</h3>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#HTML基础"><span class="toc-number">1.</span> <span class="toc-text">HTML基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#doctype的作用是什么？✨"><span class="toc-number">1.1.</span> <span class="toc-text">doctype的作用是什么？✨</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#这三种模式的区别是什么？"><span class="toc-number">1.2.</span> <span class="toc-text">这三种模式的区别是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTML、XHTML、XML有什么区别"><span class="toc-number">1.3.</span> <span class="toc-text">HTML、XHTML、XML有什么区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是data-属性？"><span class="toc-number">1.4.</span> <span class="toc-text">什么是data-属性？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#你对HTML语义化的理解？✨"><span class="toc-number">1.5.</span> <span class="toc-text">你对HTML语义化的理解？✨</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTML5与HTML4的不同之处"><span class="toc-number">1.6.</span> <span class="toc-text">HTML5与HTML4的不同之处</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#有哪些常用的meta标签？"><span class="toc-number">1.7.</span> <span class="toc-text">有哪些常用的meta标签？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#src和href的区别？"><span class="toc-number">1.8.</span> <span class="toc-text">src和href的区别？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#知道img的srcset的作用是什么？（追问）"><span class="toc-number">1.9.</span> <span class="toc-text">知道img的srcset的作用是什么？（追问）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#还有哪一个标签能起到跟srcset相似作用？（追问）"><span class="toc-number">1.10.</span> <span class="toc-text">还有哪一个标签能起到跟srcset相似作用？（追问）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#script标签中defer和async的区别？✨"><span class="toc-number">1.11.</span> <span class="toc-text">script标签中defer和async的区别？✨</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#有几种前端储存的方式？✨"><span class="toc-number">1.12.</span> <span class="toc-text">有几种前端储存的方式？✨</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#这些方式的区别是什么？（追问）✨"><span class="toc-number">1.13.</span> <span class="toc-text">这些方式的区别是什么？（追问）✨</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#HTML-问题答案"><span class="toc-number">2.</span> <span class="toc-text">HTML  问题答案</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-下面代码中，在浏览器上显示为什么会有空格？"><span class="toc-number">2.1.</span> <span class="toc-text">1. 下面代码中，在浏览器上显示为什么会有空格？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-HTML-语义化是什么？"><span class="toc-number">2.2.</span> <span class="toc-text">2. HTML 语义化是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-为什么要进行-HTML-的语义化？"><span class="toc-number">2.3.</span> <span class="toc-text">3. 为什么要进行 HTML 的语义化？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-写-HTML-代码时应注意什么？"><span class="toc-number">2.4.</span> <span class="toc-text">4. 写 HTML 代码时应注意什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-块级元素有哪些？"><span class="toc-number">2.5.</span> <span class="toc-text">5. 块级元素有哪些？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-行内元素有哪些？"><span class="toc-number">2.6.</span> <span class="toc-text">6. 行内元素有哪些？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-行内块级元素有哪些？"><span class="toc-number">2.7.</span> <span class="toc-text">7. 行内块级元素有哪些？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-行内元素和块级元素的具体区别是什么？行内元素的-padding-和-margin-可以设置吗？"><span class="toc-number">2.8.</span> <span class="toc-text">8. 行内元素和块级元素的具体区别是什么？行内元素的 padding 和 margin 可以设置吗？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#块级元素的特性"><span class="toc-number">2.8.1.</span> <span class="toc-text">块级元素的特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#行内元素的特性"><span class="toc-number">2.8.2.</span> <span class="toc-text">行内元素的特性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-那么问题来了，浏览器还有默认的天生-inline-block-元素（拥有内在尺寸，可设置高宽，但不会自动换行），有哪些？-行内块级元素"><span class="toc-number">2.9.</span> <span class="toc-text">9. 那么问题来了，浏览器还有默认的天生 inline-block 元素（拥有内在尺寸，可设置高宽，但不会自动换行），有哪些？( 行内块级元素 )</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-每个-HTML-文件里开头都有个很重要的东西，DOCTYPE，这是做什么的？"><span class="toc-number">2.10.</span> <span class="toc-text">10 每个 HTML 文件里开头都有个很重要的东西，DOCTYPE，这是做什么的？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#11-get-和-post-的区别？"><span class="toc-number">2.11.</span> <span class="toc-text">11. get 和 post 的区别？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#12-什么是同源策略？跨域有哪些解决方案？什么是跨域？"><span class="toc-number">2.12.</span> <span class="toc-text">12. 什么是同源策略？跨域有哪些解决方案？什么是跨域？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是跨域？"><span class="toc-number">2.12.1.</span> <span class="toc-text">什么是跨域？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#跨域的解决方案"><span class="toc-number">2.12.2.</span> <span class="toc-text">跨域的解决方案</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#16-http-和-https-的区别？对-https-有什么了解？"><span class="toc-number">2.13.</span> <span class="toc-text">16. http 和 https 的区别？对 https 有什么了解？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP"><span class="toc-number">2.13.1.</span> <span class="toc-text">HTTP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTPS"><span class="toc-number">2.13.2.</span> <span class="toc-text">HTTPS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二者区别"><span class="toc-number">2.13.3.</span> <span class="toc-text">二者区别</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#13-一个原生的-lt-input-gt-标签都有些什么事件？在浏览器上-onchange-什么时候触发？"><span class="toc-number">2.14.</span> <span class="toc-text">13. 一个原生的&lt;input&gt;标签都有些什么事件？在浏览器上 onchange 什么时候触发？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#onchange-是怎么触发的？"><span class="toc-number">2.14.1.</span> <span class="toc-text">onchange 是怎么触发的？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#14-原生的变化如何监听？怎么知道-input-框的值是改变了？"><span class="toc-number">2.15.</span> <span class="toc-text">14. 原生的变化如何监听？怎么知道 input 框的值是改变了？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#15-html-原生事件"><span class="toc-number">2.16.</span> <span class="toc-text">15. html 原生事件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Keyboard-事件"><span class="toc-number">2.16.1.</span> <span class="toc-text">Keyboard 事件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Mouse-事件"><span class="toc-number">2.16.2.</span> <span class="toc-text">Mouse 事件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#17-http-缓存的原理，怎么进行的？"><span class="toc-number">2.17.</span> <span class="toc-text">17. http 缓存的原理，怎么进行的？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#18-CDN-了解吗？"><span class="toc-number">2.18.</span> <span class="toc-text">18. CDN 了解吗？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#19-HTML5-的新特性（或者说-HTML5-有代表性的标签）"><span class="toc-number">2.19.</span> <span class="toc-text">19. HTML5 的新特性（或者说 HTML5 有代表性的标签）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#HTML5-提供了新的元素来创建更好的页面结构："><span class="toc-number">2.19.1.</span> <span class="toc-text">HTML5 提供了新的元素来创建更好的页面结构：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTML5-Canvas"><span class="toc-number">2.19.2.</span> <span class="toc-text">HTML5 Canvas</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTML5-拖放"><span class="toc-number">2.19.3.</span> <span class="toc-text">HTML5 拖放</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTML5-地理定位"><span class="toc-number">2.19.4.</span> <span class="toc-text">HTML5 地理定位</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTML5-Audio-音频-、Video-视频"><span class="toc-number">2.19.5.</span> <span class="toc-text">HTML5 Audio(音频)、Video(视频)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTML5-语义元素"><span class="toc-number">2.19.6.</span> <span class="toc-text">HTML5 语义元素</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTML5-Web-存储"><span class="toc-number">2.19.7.</span> <span class="toc-text">HTML5 Web 存储</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#20-写一个选择器，完成从-DOM-中获取所有-lt-a-gt-中包含163-com的链接筛选出来。"><span class="toc-number">2.20.</span> <span class="toc-text">20. 写一个选择器，完成从 DOM 中获取所有&lt;a&gt;中包含163.com的链接筛选出来。</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#HTML5-的-form-如何关闭自动补全功能？"><span class="toc-number">2.20.1.</span> <span class="toc-text">HTML5 的 form 如何关闭自动补全功能？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如何实现浏览器内多个标签页之间的通信-阿里"><span class="toc-number">2.20.2.</span> <span class="toc-text">如何实现浏览器内多个标签页之间的通信? (阿里)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#webSocket-如何兼容低浏览器？-阿里"><span class="toc-number">2.20.3.</span> <span class="toc-text">webSocket 如何兼容低浏览器？(阿里)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#title-与-h1-的区别、b-与-strong-的区别、i-与-em-的区别？"><span class="toc-number">2.20.4.</span> <span class="toc-text">title 与 h1 的区别、b 与 strong 的区别、i 与 em 的区别？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#html5-有哪些新特性、移除了那些元素？如何处理-HTML5-新标签的浏览器兼容问题？如何区分-HTML-和-HTML5？"><span class="toc-number">2.20.5.</span> <span class="toc-text">html5 有哪些新特性、移除了那些元素？如何处理 HTML5 新标签的浏览器兼容问题？如何区分 HTML 和 HTML5？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTML5-的离线储存怎么使用，工作原理能不能解释一下？"><span class="toc-number">2.20.6.</span> <span class="toc-text">HTML5 的离线储存怎么使用，工作原理能不能解释一下？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#浏览器是怎么对-HTML5-的离线储存资源进行管理和加载的呢？"><span class="toc-number">2.20.7.</span> <span class="toc-text">浏览器是怎么对 HTML5 的离线储存资源进行管理和加载的呢？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#iframe-有那些缺点？"><span class="toc-number">2.20.8.</span> <span class="toc-text">iframe 有那些缺点？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Label-的作用是什么？是怎么用的？"><span class="toc-number">2.20.9.</span> <span class="toc-text">Label 的作用是什么？是怎么用的？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#页面可见性（Page-Visibility-API）-可以有哪些用途？"><span class="toc-number">2.20.10.</span> <span class="toc-text">页面可见性（Page Visibility API） 可以有哪些用途？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如何在页面上实现一个圆形的可点击区域？"><span class="toc-number">2.20.11.</span> <span class="toc-text">如何在页面上实现一个圆形的可点击区域？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实现不使用-border-画出-1px-高的线，在不同浏览器的标准模式与怪异模式下都能保持一致的效果。"><span class="toc-number">2.20.12.</span> <span class="toc-text">实现不使用 border 画出 1px 高的线，在不同浏览器的标准模式与怪异模式下都能保持一致的效果。</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#HTML与浏览器"><span class="toc-number">3.</span> <span class="toc-text">HTML与浏览器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Doctype-作用？标准模式与兼容模式各有什么区别"><span class="toc-number">3.0.1.</span> <span class="toc-text">Doctype 作用？标准模式与兼容模式各有什么区别?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTML-全局属性"><span class="toc-number">3.0.2.</span> <span class="toc-text">HTML 全局属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#canvas和svg的区别"><span class="toc-number">3.0.3.</span> <span class="toc-text">canvas和svg的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#行内元素有哪些？块级元素有哪些？-空-void-元素有那些？"><span class="toc-number">3.0.4.</span> <span class="toc-text">行内元素有哪些？块级元素有哪些？ 空(void)元素有那些？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#页面导入样式时，使用-link-和-import-有什么区别？"><span class="toc-number">3.0.5.</span> <span class="toc-text">页面导入样式时，使用 link 和@import 有什么区别？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#介绍一下你对浏览器内核的理解？"><span class="toc-number">3.0.6.</span> <span class="toc-text">介绍一下你对浏览器内核的理解？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTML5变化"><span class="toc-number">3.0.7.</span> <span class="toc-text">HTML5变化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#em-与-i-的区别"><span class="toc-number">3.0.8.</span> <span class="toc-text">em 与 i 的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#哪些元素可以自闭合？"><span class="toc-number">3.0.9.</span> <span class="toc-text">哪些元素可以自闭合？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTML和DOM的关系"><span class="toc-number">3.0.10.</span> <span class="toc-text">HTML和DOM的关系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#property和attribute的区别"><span class="toc-number">3.0.11.</span> <span class="toc-text">property和attribute的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#form-作用"><span class="toc-number">3.0.12.</span> <span class="toc-text">form 作用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#主流浏览器机器内核"><span class="toc-number">3.0.13.</span> <span class="toc-text">主流浏览器机器内核</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#简述一下你对-HTML-语义化的理解？"><span class="toc-number">3.0.14.</span> <span class="toc-text">简述一下你对 HTML 语义化的理解？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#请描述一下-cookies，sessionStorage-和-localStorage-的区别？"><span class="toc-number">3.0.15.</span> <span class="toc-text">请描述一下 cookies，sessionStorage 和 localStorage 的区别？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#html-中-title-属性和-alt-属性的区别？"><span class="toc-number">3.0.16.</span> <span class="toc-text">html 中 title 属性和 alt 属性的区别？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#另外还有一些关于-title-属性的知识："><span class="toc-number">3.0.17.</span> <span class="toc-text">另外还有一些关于 title 属性的知识：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么我们要弃用table标签？"><span class="toc-number">3.0.18.</span> <span class="toc-text">为什么我们要弃用table标签？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#head-元素"><span class="toc-number">3.0.19.</span> <span class="toc-text">head 元素</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#网页基本信息"><span class="toc-number">3.0.19.1.</span> <span class="toc-text">网页基本信息</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#其他文件链接"><span class="toc-number">3.0.19.2.</span> <span class="toc-text">其他文件链接</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#厂商定制"><span class="toc-number">3.0.19.3.</span> <span class="toc-text">厂商定制</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#移动端项目需要注意的4个问题"><span class="toc-number">3.0.20.</span> <span class="toc-text">移动端项目需要注意的4个问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#meta中设置viewport"><span class="toc-number">3.0.20.1.</span> <span class="toc-text">meta中设置viewport</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CSS样式统一问题"><span class="toc-number">3.0.20.2.</span> <span class="toc-text">CSS样式统一问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#一像素边框问题"><span class="toc-number">3.0.20.3.</span> <span class="toc-text">一像素边框问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#300毫秒点击延迟问题"><span class="toc-number">3.0.20.4.</span> <span class="toc-text">300毫秒点击延迟问题</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#公众号"><span class="toc-number">3.1.</span> <span class="toc-text">公众号</span></a></li></ol></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-5.技能提升Skill/HTML/HTML基础" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      HTML基础
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/11/08/5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill/HTML/HTML%E5%9F%BA%E7%A1%80/" class="article-date">
+	  <time datetime="2019-11-08T01:12:57.000Z" itemprop="datePublished">2019-11-08</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/5-%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87/">5.技能提升</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/HTML/" rel="tag">HTML</a>, <a class="article-tag-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a>
+  </span>
+
+
+        
+
+	<span class="article-read hidden-xs">
+    	<i class="icon icon-eye-fill" aria-hidden="true"></i>
+    	<span id="/2019/11/08/5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill/HTML/HTML%E5%9F%BA%E7%A1%80/" class="leancloud_visitors"  data-flag-title="HTML基础">0</span>
+    </span>
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/11/08/5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill/HTML/HTML%E5%9F%BA%E7%A1%80/#comments" class="article-comment-link">Comments</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count: 11.2k(words)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">Read Count: 42(minutes)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="HTML基础"><a href="#HTML基础" class="headerlink" title="HTML基础"></a>HTML基础</h1><p>点击关注本<a href="#公众号">公众号</a>获取文档最新更新,并可以领取配套于本指南的 <strong>《前端面试手册》</strong> 以及<strong>最标准的简历模板</strong>.</p>
+<ul>
+<li><a href="#doctype的作用是什么？✨">doctype(文档类型) 的作用是什么？✨</a></li>
+<li><a href="#这三种模式的区别是什么？">这三种模式的区别是什么？(接上一问追问)</a></li>
+<li><a href="#html、xhtml、xml有什么区别">HTML、XML 和 XHTML 有什么区别？</a></li>
+<li><a href="#什么是data-属性？">什么是data-属性？</a></li>
+<li><a href="#你对html语义化的理解？✨">你对HTML语义化的理解？✨</a></li>
+<li><a href="#html5与html4的不同之处">HTML5与HTML4的不同之处</a></li>
+<li><a href="#有哪些常用的meta标签？">有哪些常用的meta标签？</a></li>
+<li><a href="#src和href的区别？">src和href的区别？</a></li>
+<li><a href="#知道img的srcset的作用是什么？（追问）">知道img的srcset的作用是什么？（追问）</a></li>
+<li><a href="#还有哪一个标签能起到跟srcset相似作用？（追问）">还有哪一个标签能起到跟srcset相似作用？（追问）</a></li>
+<li><a href="#script标签中defer和async的区别？✨">script标签中defer和async的区别？✨</a></li>
+<li><a href="#有几种前端储存的方式？✨">有几种前端储存的方式？✨</a></li>
+<li><a href="#这些方式的区别是什么？（追问）✨">这些方式的区别是什么？（追问）✨</a></li>
+</ul>
+<p>本章是HTML考点的非重难点，因此我们采用简略回答的方式进行撰写，所以不会有太多详细的解释。</p>
+<blockquote>
+<p>我们约定，每个问题后我们标记『✨』的为高频面试题</p>
+</blockquote>
+<h2 id="doctype的作用是什么？✨"><a href="#doctype的作用是什么？✨" class="headerlink" title="doctype的作用是什么？✨"></a>doctype的作用是什么？✨</h2><p>DOCTYPE是html5标准网页声明，且必须声明在HTML文档的第一行。来告知浏览器的解析器用什么文档标准解析这个文档，不同的渲染模式会影响到浏览器对于 CSS 代码甚至 JavaScript 脚本的解析</p>
+<p>文档解析类型有：</p>
+<ul>
+<li>BackCompat：怪异模式，浏览器使用自己的怪异模式解析渲染页面。（如果没有声明DOCTYPE，默认就是这个模式）</li>
+<li>CSS1Compat：标准模式，浏览器使用W3C的标准解析渲染页面。</li>
+</ul>
+<blockquote>
+<p>IE8还有一种介乎于上述两者之间的近乎标准的模式，但是基本淘汰了。</p>
+</blockquote>
+<h2 id="这三种模式的区别是什么？"><a href="#这三种模式的区别是什么？" class="headerlink" title="这三种模式的区别是什么？"></a>这三种模式的区别是什么？</h2><ul>
+<li>标准模式(standards mode)：页面按照 HTML 与 CSS 的定义渲染</li>
+<li>怪异模式(quirks mode)模式： 会模拟更旧的浏览器的行为</li>
+<li>近乎标准(almost standards)模式： 会实施了一种表单元格尺寸的怪异行为（与IE7之前的单元格布局方式一致），除此之外符合标准定义</li>
+</ul>
+<h2 id="HTML、XHTML、XML有什么区别"><a href="#HTML、XHTML、XML有什么区别" class="headerlink" title="HTML、XHTML、XML有什么区别"></a>HTML、XHTML、XML有什么区别</h2><ul>
+<li>HTML(超文本标记语言): 在html4.0之前HTML先有实现再有标准，导致HTML非常混乱和松散</li>
+<li>XML(可扩展标记语言): 主要用于存储数据和结构，可扩展，大家熟悉的JSON也是相似的作用，但是更加轻量高效，所以XML现在市场越来越小了</li>
+<li>XHTML(可扩展超文本标记语言): 基于上面两者而来，W3C为了解决HTML混乱问题而生，并基于此诞生了HTML5，开头加入<code>&lt;!DOCTYPE html&gt;</code>的做法因此而来，如果不加就是兼容混乱的HTML，加了就是标准模式。</li>
+</ul>
+<blockquote>
+<p>XHTML中的DTD是类似于<code>&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Strict//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd&quot;&gt;</code>的形式,有严格版、过渡版、框架版等几个版本.</p>
+</blockquote>
+<h2 id="什么是data-属性？"><a href="#什么是data-属性？" class="headerlink" title="什么是data-属性？"></a>什么是data-属性？</h2><p>HTML的数据属性，用于将数据储存于标准的HTML元素中作为额外信息,我们可以通过js访问并操作它，来达到操作数据的目的。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">article</span></span></span><br><span class="line"><span class="tag">  <span class="attr">id</span>=<span class="string">"electriccars"</span></span></span><br><span class="line"><span class="tag">  <span class="attr">data-columns</span>=<span class="string">"3"</span></span></span><br><span class="line"><span class="tag">  <span class="attr">data-index-number</span>=<span class="string">"12314"</span></span></span><br><span class="line"><span class="tag">  <span class="attr">data-parent</span>=<span class="string">"cars"</span>&gt;</span></span><br><span class="line">...</span><br><span class="line"><span class="tag">&lt;/<span class="name">article</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>前端框架出现之后，这种方法已经不流行了</p>
+</blockquote>
+<h2 id="你对HTML语义化的理解？✨"><a href="#你对HTML语义化的理解？✨" class="headerlink" title="你对HTML语义化的理解？✨"></a>你对HTML语义化的理解？✨</h2><p>语义化是指使用恰当语义的html标签，让页面具有良好的结构与含义，比如<code>&lt;p&gt;</code>标签就代表段落，<code>&lt;article&gt;</code>代表正文内容等等。</p>
+<p>语义化的好处主要有两点：</p>
+<ul>
+<li>开发者友好：使用语义类标签增强了可读性，开发者也能够清晰地看出网页的结构，也更为便于团队的开发和维护</li>
+<li>机器友好：带有语义的文字表现力丰富，更适合搜索引擎的爬虫爬取有效信息，语义类还可以支持读屏软件，根据文章可以自动生成目录</li>
+</ul>
+<p>这对于简书、知乎这种富文本类的应用很重要，语义化对于其网站的内容传播有很大的帮助，但是对于功能性的web软件重要性大打折扣，比如一个按钮、Skeleton这种组件根本没有对应的语义，也不需要什么SEO。</p>
+<h2 id="HTML5与HTML4的不同之处"><a href="#HTML5与HTML4的不同之处" class="headerlink" title="HTML5与HTML4的不同之处"></a>HTML5与HTML4的不同之处</h2><ul>
+<li>文件类型声明（&lt;!DOCTYPE&gt;）仅有一型：<!DOCTYPE HTML>。</li>
+<li>新的解析顺序：不再基于SGML。</li>
+<li>新的元素：section, video, progress, nav, meter, time, aside, canvas, command, datalist, details, embed, figcaption, figure, footer, header, hgroup, keygen, mark, output, rp, rt, ruby, source, summary, wbr。</li>
+<li>input元素的新类型：date, email, url等等。</li>
+<li>新的属性：ping（用于a与area）, charset（用于meta）, async（用于script）。</li>
+<li>全域属性：id, tabindex, repeat。</li>
+<li>新的全域属性：contenteditable, contextmenu, draggable, dropzone, hidden, spellcheck。</li>
+<li>移除元素：acronym, applet, basefont, big, center, dir, font, frame, frameset, isindex, noframes, strike, tt</li>
+</ul>
+<h2 id="有哪些常用的meta标签？"><a href="#有哪些常用的meta标签？" class="headerlink" title="有哪些常用的meta标签？"></a>有哪些常用的meta标签？</h2><p>meta标签由name和content两个属性来定义，来描述一个HTML网页文档的<code>元信息</code>，例如作者、日期和时间、网页描述、关键词、页面刷新等，除了一些http标准规定了一些name作为大家使用的共识，开发者也可以自定义name。</p>
+<ul>
+<li>charset，用于描述HTML文档的编码形式</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span> &gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>http-equiv，顾名思义，相当于http的文件头作用,比如下面的代码就可以设置http的缓存过期日期</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">＜meta http-equiv="expires" content="Wed, 20 Jun 2019 22:33:00 GMT"＞</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>viewport，移动前端最熟悉不过，Web开发人员可以控制视口的大小和比例</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1, maximum-scale=1"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>apple-mobile-web-app-status-bar-style,开发过PWA应用的开发者应该很熟悉，为了自定义苹果工具栏的颜色。</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"apple-mobile-web-app-status-bar-style"</span> <span class="attr">content</span>=<span class="string">"black-translucent"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="src和href的区别？"><a href="#src和href的区别？" class="headerlink" title="src和href的区别？"></a>src和href的区别？</h2><ul>
+<li><p>src是指向外部资源的位置，指向的内容会嵌入到文档中当前标签所在的位置，在请求src资源时会将其指向的资源下载并应用到文档内，如js脚本，img图片和frame等元素。当浏览器解析到该元素时，会暂停其他资源的下载和处理，知道将该资源加载、编译、执行完毕，所以一般js脚本会放在底部而不是头部。</p>
+</li>
+<li><p>href是指向网络资源所在位置（的超链接），用来建立和当前元素或文档之间的连接，当浏览器识别到它他指向的文件时，就会并行下载资源，不会停止对当前文档的处理。</p>
+</li>
+</ul>
+<h2 id="知道img的srcset的作用是什么？（追问）"><a href="#知道img的srcset的作用是什么？（追问）" class="headerlink" title="知道img的srcset的作用是什么？（追问）"></a>知道img的srcset的作用是什么？（追问）</h2><p>可以设计响应式图片，我们可以使用两个新的属性srcset 和 sizes来提供更多额外的资源图像和提示，帮助浏览器选择正确的一个资源。</p>
+<p>srcset 定义了我们允许浏览器选择的图像集，以及每个图像的大小。</p>
+<p>sizes 定义了一组媒体条件（例如屏幕宽度）并且指明当某些媒体条件为真时，什么样的图片尺寸是最佳选择。</p>
+<p>所以，有了这些属性，浏览器会：</p>
+<ul>
+<li>查看设备宽度</li>
+<li>检查 sizes 列表中哪个媒体条件是第一个为真</li>
+<li>查看给予该媒体查询的槽大小</li>
+<li>加载 srcset 列表中引用的最接近所选的槽大小的图像</li>
+</ul>
+<blockquote>
+<p>srcset提供了根据屏幕条件选取图片的能力</p>
+</blockquote>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"clock-demo-thumb-200.png"</span></span></span><br><span class="line"><span class="tag">     <span class="attr">alt</span>=<span class="string">"Clock"</span></span></span><br><span class="line"><span class="tag">     <span class="attr">srcset</span>=<span class="string">"clock-demo-thumb-200.png 200w,</span></span></span><br><span class="line"><span class="tag"><span class="string">             clock-demo-thumb-400.png 400w"</span></span></span><br><span class="line"><span class="tag">     <span class="attr">sizes</span>=<span class="string">"(min-width: 600px) 200px, 50vw"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="还有哪一个标签能起到跟srcset相似作用？（追问）"><a href="#还有哪一个标签能起到跟srcset相似作用？（追问）" class="headerlink" title="还有哪一个标签能起到跟srcset相似作用？（追问）"></a>还有哪一个标签能起到跟srcset相似作用？（追问）</h2><p><code>&lt;picture&gt;</code>元素通过包含零或多个 <code>&lt;source&gt;</code> 元素和一个 <code>&lt;img&gt;</code>元素来为不同的显示/设备场景提供图像版本。浏览器会选择最匹配的子 <code>&lt;source&gt;</code> 元素，如果没有匹配的，就选择 <code>&lt;img&gt;</code> 元素的 src 属性中的URL。然后，所选图像呈现在<code>&lt;img&gt;</code>元素占据的空间中</p>
+<blockquote>
+<p>picture同样可以通过不同设备来匹配不同的图像资源</p>
+</blockquote>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">picture</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">source</span> <span class="attr">srcset</span>=<span class="string">"/media/examples/surfer-240-200.jpg"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">media</span>=<span class="string">"(min-width: 800px)"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"/media/examples/painted-hand-298-332.jpg"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">picture</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="script标签中defer和async的区别？✨"><a href="#script标签中defer和async的区别？✨" class="headerlink" title="script标签中defer和async的区别？✨"></a>script标签中defer和async的区别？✨</h2><ul>
+<li>defer：浏览器指示脚本在文档被解析后执行，script被异步加载后并不会立刻执行，而是等待文档被解析完毕后执行。</li>
+<li>async：同样是异步加载脚本，区别是脚本加载完毕后立即执行，这导致async属性下的脚本是乱序的，对于script有先后依赖关系的情况，并不适用。<br><img src="https://xiaomuzhu-image.oss-cn-beijing.aliyuncs.com/c84fdc0e47268832fa8914ab4d125002.png" alt="2019-06-13-07-13-42"></li>
+</ul>
+<blockquote>
+<p>蓝色线代表网络读取，红色线代表执行时间，这俩都是针对脚本的；绿色线代表 HTML 解析</p>
+</blockquote>
+<h2 id="有几种前端储存的方式？✨"><a href="#有几种前端储存的方式？✨" class="headerlink" title="有几种前端储存的方式？✨"></a>有几种前端储存的方式？✨</h2><p>cookies、localstorage、sessionstorage、Web SQL、IndexedDB</p>
+<h2 id="这些方式的区别是什么？（追问）✨"><a href="#这些方式的区别是什么？（追问）✨" class="headerlink" title="这些方式的区别是什么？（追问）✨"></a>这些方式的区别是什么？（追问）✨</h2><ul>
+<li><p>cookies： 在HTML5标准前本地储存的主要方式，优点是兼容性好，请求头自带cookie方便，缺点是大小只有4k，自动请求头加入cookie浪费流量，每个domain限制20个cookie，使用起来麻烦需要自行封装</p>
+</li>
+<li><p>localStorage：HTML5加入的以键值对(Key-Value)为标准的方式，优点是操作方便，永久性储存（除非手动删除），大小为5M，兼容IE8+</p>
+</li>
+<li><p>sessionStorage：与localStorage基本类似，区别是sessionStorage当页面关闭后会被清理，而且与cookie、localStorage不同，他不能在所有同源窗口中共享，是会话级别的储存方式</p>
+</li>
+<li><p>Web SQL：2010年被W3C废弃的本地数据库数据存储方案，但是主流浏览器（火狐除外）都已经有了相关的实现，web sql类似于SQLite，是真正意义上的关系型数据库，用sql进行操作，当我们用JavaScript时要进行转换，较为繁琐。</p>
+</li>
+<li><p>IndexedDB： 是被正式纳入HTML5标准的数据库储存方案，它是NoSQL数据库，用键值对进行储存，可以进行快速读取操作，非常适合web场景，同时用JavaScript进行操作会非常方便。</p>
+</li>
+</ul>
+<hr>
+<p>参考链接：</p>
+<ol>
+<li><a href="https://blog.csdn.net/Panda_m/article/details/78456358" target="_blank" rel="noopener">src与href</a></li>
+<li><a href="https://www.zhihu.com/question/20455165" target="_blank" rel="noopener">语义化</a></li>
+<li><a href="https://segmentfault.com/q/1010000000640869" target="_blank" rel="noopener">defer和async的区别</a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images" target="_blank" rel="noopener">响应式图片MDN</a></li>
+<li><a href="https://www.zhangxinxu.com/wordpress/2014/10/responsive-images-srcset-size-w-descriptor/" target="_blank" rel="noopener">张鑫旭-srcset释义</a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/picture" target="_blank" rel="noopener">picture元素-MDN</a></li>
+</ol>
+<hr>
+<h1 id="HTML-问题答案"><a href="#HTML-问题答案" class="headerlink" title="HTML  问题答案"></a>HTML  问题答案</h1><blockquote>
+<p>下面所有的代码都是个人作答，可能存在理解错误或者答案错误的地方，欢迎大家在<a href="https://github.com/springHyc/InterviewLibrary" target="_blank" rel="noopener">项目下方</a>或者<a href="https://github.com/springHyc/InterviewLibrary/issues" target="_blank" rel="noopener">项目的 issues</a>中留言指正。</p>
+</blockquote>
+<h2 id="1-下面代码中，在浏览器上显示为什么会有空格？"><a href="#1-下面代码中，在浏览器上显示为什么会有空格？" class="headerlink" title="1. 下面代码中，在浏览器上显示为什么会有空格？"></a>1. 下面代码中，在浏览器上显示为什么会有空格？</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">span</span>&gt;</span>1<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">span</span>&gt;</span>2<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">span</span>&gt;</span>3<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>显示结果：<code>1 2 3</code>，为什么会有空格 ?</p>
+<ul>
+<li><p>原因：</p>
+<blockquote>
+<p>行内元素之间产生的间距，是由于换行符、tab( 制表符 )、空格等字符引起，而字符的大小是定义字体大小来控制。（不论空格、换行符、tab 有几个，都显示一个空格）</p>
+</blockquote>
+<p>三个<code>span</code>标签之间都有换行符，而 “ 行内元素之间的空格相当于块级元素的回车换行<br>” 所以会在输出时，显示空格。</p>
+</li>
+<li><p>解决办法</p>
+<ol>
+<li>可以使用浮动来去除空格。</li>
+</ol>
+<blockquote>
+<p>不可否认，使用浮动技术是比较好的办法，实际工作中我们使用浮动也是比较多，但是也并不是每处地方都要使用浮动，而且使用浮动后还需要清除浮动的操作。</p>
+</blockquote>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span>&gt;</span>1<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span>&gt;</span>2<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span>&gt;</span>3<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line">    span &#123;</span><br><span class="line">      float: left;</span><br><span class="line">  &#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>由于 “ 行内元素之间产生的间距，是由于换行符、tab( 制表符 )、空格等字符引起，而<u>字符的大小是定义字体大小来控制</u>。” 所以我们可以控制父级元素的字符大小来去除空格。</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">span</span>&gt;</span>1<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">span</span>&gt;</span>2<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">span</span>&gt;</span>3<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line">    div&#123;</span><br><span class="line"><span class="css">      <span class="selector-tag">font-size</span>: 0; <span class="comment">/* 所有浏览器 */</span></span></span><br><span class="line"><span class="css">      *<span class="selector-tag">word-spacing</span><span class="selector-pseudo">:-1px</span>;<span class="comment">/* 使用word-spacing 修复 IE6、7 中始终存在的 1px 空隙，减少单词间的空白（即字间隔） */</span></span></span><br><span class="line">    &#125;</span><br><span class="line">    span &#123;</span><br><span class="line">      font-size: 16;</span><br><span class="line"><span class="css">      <span class="selector-tag">letter-spacing</span>: <span class="selector-tag">normal</span>;<span class="comment">/* 设置字母、字间距为0 */</span></span></span><br><span class="line"><span class="css">      <span class="selector-tag">word-spacing</span>: <span class="selector-tag">normal</span>; <span class="comment">/* 设置单词、字段间距为0 */</span></span></span><br><span class="line">    &#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>经过测试后，可发现设置 font-size:0 并不能使得换行符、tab( 制表符 )、空格等在所有浏览器中产生的额外间距消失：IE6 、 7 浏览器始终存在的 1px 空隙。</p>
+<p>针对 IE6、7 浏览器，使用 word-spacing 修复 IE6、7 中始终存在的 1px 空隙，减少 单词间的空白（即字间隔 <code>*word-spacing:-1px;</code></p>
+<ul>
+<li>相关：</li>
+</ul>
+<blockquote>
+<p>行内元素的高度由其内容撑开，<strong>不可显示的设置其高度</strong>，这就是为什么我们一次次的在 span 上设置 height 属性不好使的原因。</p>
+</blockquote>
+<h2 id="2-HTML-语义化是什么？"><a href="#2-HTML-语义化是什么？" class="headerlink" title="2. HTML 语义化是什么？"></a>2. HTML 语义化是什么？</h2><p>就是写出的代码符合内容的结构话（内容语义化），选择合适的标签（代码语义化）能够便于开发者阅读和写出更优雅的代码的同时能让浏览器的爬虫和机器很好的解析。</p>
+<h2 id="3-为什么要进行-HTML-的语义化？"><a href="#3-为什么要进行-HTML-的语义化？" class="headerlink" title="3. 为什么要进行 HTML 的语义化？"></a>3. 为什么要进行 HTML 的语义化？</h2><h2 id="4-写-HTML-代码时应注意什么？"><a href="#4-写-HTML-代码时应注意什么？" class="headerlink" title="4. 写 HTML 代码时应注意什么？"></a>4. 写 HTML 代码时应注意什么？</h2><ul>
+<li>尽可能少的使用无语义的标签。例如<code>div</code>,<code>span</code></li>
+<li>在语义不明显时，既可以使用<code>div</code>又可以使用<code>P</code>的时候，尽量使用<code>P</code>，因为<code>P</code>在默认情况下有上下间距，对兼容特殊终端有利</li>
+<li>不要使用纯样式标签，例如：<code>b,font,u</code>, 该用 CSS 设置</li>
+<li>需要强调的文本，可以包含在 strong 或 em 标签中（浏览器预设样式，能用 CSS 指定就不用它们）， strong 默认样式是加粗（不要用 b）， em 是斜体（不用 i）</li>
+<li>使用表格时，标题要用 caption，表头用 thead，主体部分用 tbody 包围，尾部用<br>tfoot 包围。表头和一般单元格要区分开，表头用 th，单元格用 td</li>
+<li>表单域要用 fieldset 标签包起来，并用 legend 标签说明表单的用途</li>
+<li>每个 input 标签对应的说明文本都需要使用 label 标签，并且通过为 input 设置 id<br>属性，在 lable 标签中设置 for=someld 来让说明文本和相对应的 input 关联起来</li>
+</ul>
+<blockquote>
+<p>备注 :<br><a href="https://www.w3cschool.cn/html5/html5-semantic-elements.html" target="_blank" rel="noopener">HTML5 语义元素</a></p>
+</blockquote>
+<h2 id="5-块级元素有哪些？"><a href="#5-块级元素有哪些？" class="headerlink" title="5. 块级元素有哪些？"></a>5. 块级元素有哪些？</h2><ul>
+<li>div</li>
+<li>p</li>
+<li>H1</li>
+<li>H2</li>
+<li>H3</li>
+<li>H4</li>
+<li>H5</li>
+<li>H6</li>
+<li>form</li>
+<li>ul</li>
+</ul>
+<h2 id="6-行内元素有哪些？"><a href="#6-行内元素有哪些？" class="headerlink" title="6. 行内元素有哪些？"></a>6. 行内元素有哪些？</h2><ul>
+<li>span</li>
+<li>a</li>
+<li>b</li>
+<li>br</li>
+<li>i</li>
+<li>input</li>
+</ul>
+<h2 id="7-行内块级元素有哪些？"><a href="#7-行内块级元素有哪些？" class="headerlink" title="7. 行内块级元素有哪些？"></a>7. 行内块级元素有哪些？</h2><ul>
+<li>img</li>
+<li>input</li>
+<li>button</li>
+<li>texterea</li>
+<li>label</li>
+</ul>
+<h2 id="8-行内元素和块级元素的具体区别是什么？行内元素的-padding-和-margin-可以设置吗？"><a href="#8-行内元素和块级元素的具体区别是什么？行内元素的-padding-和-margin-可以设置吗？" class="headerlink" title="8. 行内元素和块级元素的具体区别是什么？行内元素的 padding 和 margin 可以设置吗？"></a>8. 行内元素和块级元素的具体区别是什么？行内元素的 padding 和 margin 可以设置吗？</h2><p>行内元素:</p>
+<ul>
+<li>和相邻的内联元素在同一行；</li>
+<li>width\height\padding-bottom\padding-bottom 和 margin-top\margin-bottom 都不可改变（也就是 padding 和 margin 的 left 和 right 是可以改变的）</li>
+<li>宽度只与内容有关；</li>
+<li>行内元素只能容纳文本或其他行内元素。</li>
+</ul>
+<p>块级元素</p>
+<ul>
+<li>总是在新的一行上开始，占据一整行，而且后面的元素也会另起一行显示；</li>
+<li>width\height\padding\margin 都可控制；</li>
+<li>宽度始终与浏览器宽度一致，与内容无关；</li>
+<li>它可以容纳内联元素和其他块元素。</li>
+</ul>
+<h3 id="块级元素的特性"><a href="#块级元素的特性" class="headerlink" title="块级元素的特性"></a>块级元素的特性</h3><ul>
+<li>总是在新行上开始，占据一整行，而且其后的元素也会另起一行显示</li>
+<li>宽度 (width)、高度 (height)、内边距 (padding) 和外边距 (margin) 都可控制</li>
+<li>宽带始终是与浏览器宽度一样，与内容无关</li>
+<li>它可以容纳内联元素和其他块元素</li>
+</ul>
+<h3 id="行内元素的特性"><a href="#行内元素的特性" class="headerlink" title="行内元素的特性"></a>行内元素的特性</h3><ul>
+<li>和相邻的内联元素在同一行</li>
+<li>宽度 (width)、高度 (height)、内边距的 top/bottom(padding-top/padding-bottom)<br>和外边距的 top/bottom(margin-top/margin-bottom) 都不可改变（也就是 padding 和<br>margin 的 left 和 right 是可以设置的），就是里面文字或图片的大小</li>
+<li>宽度只与内容有关</li>
+<li>行内元素只能容纳文本或者其他行内元素</li>
+</ul>
+<h2 id="9-那么问题来了，浏览器还有默认的天生-inline-block-元素（拥有内在尺寸，可设置高宽，但不会自动换行），有哪些？-行内块级元素"><a href="#9-那么问题来了，浏览器还有默认的天生-inline-block-元素（拥有内在尺寸，可设置高宽，但不会自动换行），有哪些？-行内块级元素" class="headerlink" title="9. 那么问题来了，浏览器还有默认的天生 inline-block 元素（拥有内在尺寸，可设置高宽，但不会自动换行），有哪些？( 行内块级元素 )"></a>9. 那么问题来了，浏览器还有默认的天生 inline-block 元素（拥有内在尺寸，可设置高宽，但不会自动换行），有哪些？( 行内块级元素 )</h2><ul>
+<li><code>&lt;input&gt;</code></li>
+<li><code>&lt;img&gt;</code></li>
+<li><code>&lt;button&gt;</code></li>
+<li><code>&lt;texterea&gt;</code></li>
+<li><code>&lt;label&gt;</code></li>
+</ul>
+<h2 id="10-每个-HTML-文件里开头都有个很重要的东西，DOCTYPE，这是做什么的？"><a href="#10-每个-HTML-文件里开头都有个很重要的东西，DOCTYPE，这是做什么的？" class="headerlink" title="10 每个 HTML 文件里开头都有个很重要的东西，DOCTYPE，这是做什么的？"></a>10 每个 HTML 文件里开头都有个很重要的东西，<code>DOCTYPE</code>，这是做什么的？</h2><p><code>&lt;DOCTYPE&gt;</code>声明位于文档中最前面的位置，处于<code>&lt;html&gt;</code>标签之前。他是标准通用标记语言的文档类型声明，有助于在浏览器中正确的显示网页。此标签可以告知浏览器文档使用哪种类型的 HTML 或 XHTML 规范。</p>
+<p><strong>重点就是，告诉浏览器按照何种规范来解析页面。</strong></p>
+<h2 id="11-get-和-post-的区别？"><a href="#11-get-和-post-的区别？" class="headerlink" title="11. get 和 post 的区别？"></a>11. get 和 post 的区别？</h2><blockquote>
+<p>要本质的东西，不要说 API 使用上的区别</p>
+</blockquote>
+<p>GET 和 POST 本质上就是 TCP 链接，并无差别。但是由于 HTTP 的规定和浏览器/服务器的限制，导致他们在应用过程中体现出一些不同。 GET 和 POST 还有一个重大区别，简单的说：GET 产生一个 TCP 数据包；POST 产生两个 TCP 数据包。对于 GET 方式的请求，浏览器会把 http header 和 data 一并发送出去，服务器响应 200（返回数据）； 而对于 POST，浏览器先发送 header，服务器响应 100 continue，浏览器再发送 data，服务器响应 200 ok（返回数据）。 但是，比如你想在 GET 请求里带 body，一样可以发送 Expect: 100-continue 并等待 100 continue，这是符合标准的。</p>
+<p>作者：杨光链接：<a href="https://www.zhihu.com/question/28586791/answer/145424285" target="_blank" rel="noopener">https://www.zhihu.com/question/28586791/answer/145424285</a><br>来源：知乎著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
+<p>从前端的常规使用来说，由于服务器和浏览器的限制，出现了一些不同之处：</p>
+<ul>
+<li>GET 在浏览器回退时是无害的，而 POST 会再次提交请求。</li>
+<li>GET 产生的 URL 地址可以被书签收藏，而 POST 不可</li>
+<li>GET 请求会被浏览器主动 cache，而 POST 不会，除非手动设置。</li>
+<li>GET 请求只能进行 url 编码，而 POST 支持多种编码方式。</li>
+<li>GET 请求参数会被完整保留在浏览器历史记录里，而 POST 中的参数不会被保留。</li>
+<li>GET 请求在 URL 中传送的参数是有长度限制的(大多数浏览器限制在 2K，大多数服务器在 64K 左右)，而 POST 么有。</li>
+<li>对参数的数据类型，GET 只接受 ASCII 字符，而 POST 没有限制。</li>
+<li>GET 比 POST 更不安全，因为参数直接暴露在 URL 上，所以不能用来传递敏感信息。</li>
+<li>GET 参数通过 URL 传递，POST 放在 Request body 中。</li>
+</ul>
+<blockquote>
+<p><a href="https://mp.weixin.qq.com/s?__biz=MzI3NzIzMzg3Mw==&mid=100000054&idx=1&sn=71f6c214f3833d9ca20b9f7dcd9d33e4#rd" target="_blank" rel="noopener">这个解释很棒</a></p>
+</blockquote>
+<h2 id="12-什么是同源策略？跨域有哪些解决方案？什么是跨域？"><a href="#12-什么是同源策略？跨域有哪些解决方案？什么是跨域？" class="headerlink" title="12. 什么是同源策略？跨域有哪些解决方案？什么是跨域？"></a>12. 什么是同源策略？跨域有哪些解决方案？什么是跨域？</h2><h3 id="什么是跨域？"><a href="#什么是跨域？" class="headerlink" title="什么是跨域？"></a>什么是跨域？</h3><p>浏览器从一个域名的网页去请求另一个域名的资源时，域名、端口、协议任一不同，都是跨域。</p>
+<blockquote>
+<p>一级域名和二级域名：<br>在完整的域名中，最右一个“.”的右边部分称为顶级域名或一级域名。<br>含二级域名的“二级域名.顶级域名”这样的结构一起称为“二级域名，以此类推。所提及的“域名”都为整个字符串。<br>例如： yahoo.com.cn 中，<br>com、cn 都是顶级域名（参见通用顶级域名概念）。<br>yahoo 为三级域名。<br>com 为二级域名。<br>cn 为顶级域名或一级域名。<br>每一级域名控制它下一级的域名分配。例如，顶级域名 cn 下定义了 com.cn 、net.cn 和 org.cn 。（注：com、net、org 也称为顶级域名（参见通用顶级域名概念），或二级域名。）</p>
+</blockquote>
+<ul>
+<li><p>域名不同</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 主域名不同</span></span><br><span class="line">http:<span class="comment">//www.baidu.com/index.html</span></span><br><span class="line">http:<span class="comment">//www.sina.com/test.js</span></span><br><span class="line"><span class="comment">// 子域名不同</span></span><br><span class="line">http:<span class="comment">//www.666.baidu.com/index.html</span></span><br><span class="line">http:<span class="comment">//www.555.baidu.com/test.js</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 域名或域名IP</span></span><br><span class="line">http:<span class="comment">//www.baidu.com/index.html</span></span><br><span class="line">http:<span class="comment">//180.149.132.47/test.js</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>端口不同</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="comment">//www.baidu.com:8080/index.html</span></span><br><span class="line">http:<span class="comment">//www.baidu.com:8081/test.js</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>协议不同</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="comment">//www.baidu.com:8080/index.html</span></span><br><span class="line">https:<span class="comment">//www.baidu.com:8080/test.js</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="跨域的解决方案"><a href="#跨域的解决方案" class="headerlink" title="跨域的解决方案"></a>跨域的解决方案</h3><ul>
+<li>通过 JSONP 跨域<br>填充式 json。类似往页面添加一个 script 标签，通过 src 属性去触发对指定地址的请求,故只能是 Get 请求</li>
+<li>代理<br>通过后端去调用。<br><a href="http://www.baidu.com/index.html" target="_blank" rel="noopener">www.baidu.com/index.html</a> 需要调用 <a href="http://www.sina.com/server.php，可以写一个接口" target="_blank" rel="noopener">www.sina.com/server.php，可以写一个接口</a> <a href="http://www.baidu.com/server.php，由这个接口在后端去调用" target="_blank" rel="noopener">www.baidu.com/server.php，由这个接口在后端去调用</a> <a href="http://www.sina.com/server.php" target="_blank" rel="noopener">www.sina.com/server.php</a> 并拿到返回值，然后再返回给 index.html</li>
+</ul>
+<ul>
+<li>PHP 端修改 header<br>header(‘Access-Control-Allow-Origin:*’);//允许所有来源访问<br>header(‘Access-Control-Allow-Method:POST,GET’);//允许访问的方式</li>
+<li>documen.domian<br>document.domian 可以解决不同 window 之间不能进行交互的操作。只适用于主域相同，子域不相同的情况。</li>
+</ul>
+<h2 id="16-http-和-https-的区别？对-https-有什么了解？"><a href="#16-http-和-https-的区别？对-https-有什么了解？" class="headerlink" title="16. http 和 https 的区别？对 https 有什么了解？"></a>16. http 和 https 的区别？对 https 有什么了解？</h2><h3 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h3><p>超文本传输协议 HTTP 协议被用于在 Web 浏览器和网站服务器之间传递信息。HTTP 协议以明文方式发送内容，不提供任何方式的数据加密，如果攻击者截取了 Web 浏览器和网站服务器之间的传输报文，就可以直接读懂其中的信息，因此 HTTP 协议不适合传输一些敏感信息，比如信用卡号、密码等。</p>
+<h3 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h3><p>https 是比 http 更加安全的网络协议，可以说 HTTPS = HTTP + SSL。HTTPS 是在 HTTP 下加入 SSL 层，HTTPS 的安全基础是 SSL，因此加密的详细内容就需要 SSL。</p>
+<h3 id="二者区别"><a href="#二者区别" class="headerlink" title="二者区别"></a>二者区别</h3><ul>
+<li>http 工作于应用层,是超文本传输协议，信息是明文传输，https 工作在传输层,是具有安全性的 ssl 加密传输协议。</li>
+<li>http 和 https 使用的是完全不同的连接方式，用的端口也不一样，前者是 80，后者是 443。</li>
+<li>http 的连接很简单，是无状态的；HTTPS 协议是由 SSL+HTTP 协议构建的可进行加密传输、身份认证的网络协议，比 http 协议安全。</li>
+<li>HTTP 无需证书，而 HTTPS 需要 CA 机构 wosign 的颁发的 SSL 证书</li>
+</ul>
+<h2 id="13-一个原生的-lt-input-gt-标签都有些什么事件？在浏览器上-onchange-什么时候触发？"><a href="#13-一个原生的-lt-input-gt-标签都有些什么事件？在浏览器上-onchange-什么时候触发？" class="headerlink" title="13. 一个原生的&lt;input&gt;标签都有些什么事件？在浏览器上 onchange 什么时候触发？"></a>13. 一个原生的<code>&lt;input&gt;</code>标签都有些什么事件？在浏览器上 onchange 什么时候触发？</h2><h3 id="onchange-是怎么触发的？"><a href="#onchange-是怎么触发的？" class="headerlink" title="onchange 是怎么触发的？"></a>onchange 是怎么触发的？</h3><p>当 input 捕获到焦点后，系统储存当前值，当 input 焦点离开后，判断当前值与之前存储的值是否不等，如果为 true 则触发 onchange 事件。非 ie 敲回车也可以实现触发</p>
+<h2 id="14-原生的变化如何监听？怎么知道-input-框的值是改变了？"><a href="#14-原生的变化如何监听？怎么知道-input-框的值是改变了？" class="headerlink" title="14. 原生的变化如何监听？怎么知道 input 框的值是改变了？"></a>14. 原生的变化如何监听？怎么知道 input 框的值是改变了？</h2><p>在<code>&lt;input&gt;</code>上添加一个属性<code>defaultValue</code>,用来做对比，或者将原始值记录下来。</p>
+<h2 id="15-html-原生事件"><a href="#15-html-原生事件" class="headerlink" title="15. html 原生事件"></a>15. html 原生事件</h2><h3 id="Keyboard-事件"><a href="#Keyboard-事件" class="headerlink" title="Keyboard 事件"></a>Keyboard 事件</h3><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>onkeydown</td>
+<td>script</td>
+<td>在用户按下按键时触发。</td>
+</tr>
+<tr>
+<td>onkeypress</td>
+<td>script</td>
+<td>在用户敲击按钮时触发。</td>
+</tr>
+<tr>
+<td>onkeyup</td>
+<td>script</td>
+<td>当用户释放按键时触发。</td>
+</tr>
+</tbody></table>
+<h3 id="Mouse-事件"><a href="#Mouse-事件" class="headerlink" title="Mouse 事件"></a>Mouse 事件</h3><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>onclick</td>
+<td>script</td>
+<td>元素上发生鼠标点击时触发。</td>
+</tr>
+<tr>
+<td>ondblclick</td>
+<td>script</td>
+<td>元素上发生鼠标双击时触发。</td>
+</tr>
+<tr>
+<td>ondrag</td>
+<td>script</td>
+<td>元素被拖动时运行的脚本。</td>
+</tr>
+<tr>
+<td>ondragend</td>
+<td>script</td>
+<td>在拖动操作末端运行的脚本。</td>
+</tr>
+<tr>
+<td>ondragenter</td>
+<td>script</td>
+<td>当元素元素已被拖动到有效拖放区域时运行的脚本。</td>
+</tr>
+<tr>
+<td>ondragleave</td>
+<td>script</td>
+<td>当元素离开有效拖放目标时运行的脚本。</td>
+</tr>
+<tr>
+<td>ondragover</td>
+<td>script</td>
+<td>当元素在有效拖放目标上正在被拖动时运行的脚本。</td>
+</tr>
+<tr>
+<td>ondragstart</td>
+<td>script</td>
+<td>在拖动操作开端运行的脚本。</td>
+</tr>
+<tr>
+<td>ondrop</td>
+<td>script</td>
+<td>当被拖元素正在被拖放时运行的脚本。</td>
+</tr>
+<tr>
+<td>onmousedown</td>
+<td>script</td>
+<td>当元素上按下鼠标按钮时触发。</td>
+</tr>
+<tr>
+<td>onmousemove</td>
+<td>script</td>
+<td>当鼠标指针移动到元素上时触发。</td>
+</tr>
+<tr>
+<td>onmouseout</td>
+<td>script</td>
+<td>当鼠标指针移出元素时触发。</td>
+</tr>
+<tr>
+<td>onmouseover</td>
+<td>script</td>
+<td>当鼠标指针移动到元素上时触发。</td>
+</tr>
+<tr>
+<td>onmouseup</td>
+<td>script</td>
+<td>当在元素上释放鼠标按钮时触发。</td>
+</tr>
+<tr>
+<td>onmousewheel</td>
+<td>script</td>
+<td>当鼠标滚轮正在被滚动时运行的脚本。</td>
+</tr>
+<tr>
+<td>onscroll</td>
+<td>script</td>
+<td>当元素滚动条被滚动时运行的脚本。</td>
+</tr>
+</tbody></table>
+<h2 id="17-http-缓存的原理，怎么进行的？"><a href="#17-http-缓存的原理，怎么进行的？" class="headerlink" title="17. http 缓存的原理，怎么进行的？"></a>17. http 缓存的原理，怎么进行的？</h2><p>缓存缓存，就是把需要的东西存起来，不需要每次都去请求。主要目的减小服务器压力，放到客户端上来讲，还利于节省流量，还能流畅的把 UI 显示出来，提高了用户体验。对于 Http 缓存来讲，主要的就是校验缓存的有效性，也就是新鲜度。</p>
+<p>缓存机制有：强制缓存和对比缓存。</p>
+<p>请求流程 1：</p>
+<p><img src="../images/request1.png" alt="请求流程1"><br>请求流程 2：<br><img src="../images/request2.png" alt="请求流程2"></p>
+<h2 id="18-CDN-了解吗？"><a href="#18-CDN-了解吗？" class="headerlink" title="18. CDN 了解吗？"></a>18. CDN 了解吗？</h2><p>内容分发网络。CDN 系统能够实时地根据网络流量和各节点的连接、负载状况以及到用户的距离和响应时间等综合信息将用户的请求重新导向离用户最近的服务节点上。其目的是使用户可就近取得所需内容，解决 Internet 网络拥挤的状况，提高用户访问网站的响应速度。</p>
+<h2 id="19-HTML5-的新特性（或者说-HTML5-有代表性的标签）"><a href="#19-HTML5-的新特性（或者说-HTML5-有代表性的标签）" class="headerlink" title="19. HTML5 的新特性（或者说 HTML5 有代表性的标签）"></a>19. HTML5 的新特性（或者说 HTML5 有代表性的标签）</h2><h3 id="HTML5-提供了新的元素来创建更好的页面结构："><a href="#HTML5-提供了新的元素来创建更好的页面结构：" class="headerlink" title="HTML5 提供了新的元素来创建更好的页面结构："></a>HTML5 提供了新的元素来创建更好的页面结构：</h3><table>
+<thead>
+<tr>
+<th>标签</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><article></td>
+<td>定义页面独立的内容区域。</td>
+</tr>
+<tr>
+<td><aside></td>
+<td>定义页面的侧边栏内容。</td>
+</tr>
+<tr>
+<td><header></td>
+<td>定义了文档的头部区域</td>
+</tr>
+<tr>
+<td><footer></td>
+<td>定义 section 或 document 的页脚。</td>
+</tr>
+<tr>
+<td><mark></td>
+<td>定义带有记号的文本。</td>
+</tr>
+<tr>
+<td><nav></td>
+<td>定义导航链接的部分。</td>
+</tr>
+<tr>
+<td><progress></td>
+<td>定义任何类型的任务的进度。</td>
+</tr>
+<tr>
+<td><time></td>
+<td>定义日期或时间。</td>
+</tr>
+</tbody></table>
+<h3 id="HTML5-Canvas"><a href="#HTML5-Canvas" class="headerlink" title="HTML5 Canvas"></a>HTML5 Canvas</h3><p>HTML5 <canvas> 元素用于图形的绘制，通过脚本 (通常是 JavaScript)来完成.</p>
+<p><canvas> 标签只是图形容器，您必须使用脚本来绘制图形。</p>
+<h3 id="HTML5-拖放"><a href="#HTML5-拖放" class="headerlink" title="HTML5 拖放"></a>HTML5 拖放</h3><p><code>&lt;img draggable=&quot;true&quot;&gt;</code></p>
+<h3 id="HTML5-地理定位"><a href="#HTML5-地理定位" class="headerlink" title="HTML5 地理定位"></a>HTML5 地理定位</h3><p>Geolocation API 用于获得用户的地理位置。</p>
+<h3 id="HTML5-Audio-音频-、Video-视频"><a href="#HTML5-Audio-音频-、Video-视频" class="headerlink" title="HTML5 Audio(音频)、Video(视频)"></a>HTML5 Audio(音频)、Video(视频)</h3><h3 id="HTML5-语义元素"><a href="#HTML5-语义元素" class="headerlink" title="HTML5 语义元素"></a>HTML5 语义元素</h3><p><img src="../images/html5.png" alt="html5"></p>
+<h3 id="HTML5-Web-存储"><a href="#HTML5-Web-存储" class="headerlink" title="HTML5 Web 存储"></a>HTML5 Web 存储</h3><ul>
+<li>localStorage</li>
+<li>sessionStorage</li>
+</ul>
+<blockquote>
+<p><a href="https://blog.csdn.net/chandoudeyuyi/article/details/69206236" target="_blank" rel="noopener">参考</a></p>
+</blockquote>
+<h2 id="20-写一个选择器，完成从-DOM-中获取所有-lt-a-gt-中包含163-com的链接筛选出来。"><a href="#20-写一个选择器，完成从-DOM-中获取所有-lt-a-gt-中包含163-com的链接筛选出来。" class="headerlink" title="20. 写一个选择器，完成从 DOM 中获取所有&lt;a&gt;中包含163.com的链接筛选出来。"></a>20. 写一个选择器，完成从 DOM 中获取所有<code>&lt;a&gt;</code>中包含<code>163.com</code>的链接筛选出来。</h2><blockquote>
+<p>其实考察的是如何自己实现<code>$</code>符号，使用的是<code>document.queryElementAll(a[href*=163.com])</code>。这个很可能是不对的。</p>
+</blockquote>
+<h3 id="HTML5-的-form-如何关闭自动补全功能？"><a href="#HTML5-的-form-如何关闭自动补全功能？" class="headerlink" title="HTML5 的 form 如何关闭自动补全功能？"></a>HTML5 的 form 如何关闭自动补全功能？</h3><p>给不想要提示的 form 或某个 input 设置为 autocomplete=off。</p>
+<h3 id="如何实现浏览器内多个标签页之间的通信-阿里"><a href="#如何实现浏览器内多个标签页之间的通信-阿里" class="headerlink" title="如何实现浏览器内多个标签页之间的通信? (阿里)"></a>如何实现浏览器内多个标签页之间的通信? (阿里)</h3><ul>
+<li>WebSocket、SharedWorker；</li>
+<li>也可以调用 localstorge、cookies 等本地存储方式；</li>
+</ul>
+<p>localstorge 另一个浏览上下文里被添加、修改或删除时，它都会触发一个<code>storage</code>事件，</p>
+<p>我们通过监听事件，控制它的值来进行页面信息通信；</p>
+<p>注意 quirks：Safari 在无痕模式下设置 localstorge 值时会抛出 QuotaExceededError 的异常；</p>
+<h3 id="webSocket-如何兼容低浏览器？-阿里"><a href="#webSocket-如何兼容低浏览器？-阿里" class="headerlink" title="webSocket 如何兼容低浏览器？(阿里)"></a>webSocket 如何兼容低浏览器？(阿里)</h3><ul>
+<li>Adobe Flash Socket 、</li>
+<li>ActiveX HTMLFile (IE) 、</li>
+<li>基于 multipart 编码发送 XHR 、</li>
+<li>基于长轮询的 XHR</li>
+</ul>
+<h3 id="title-与-h1-的区别、b-与-strong-的区别、i-与-em-的区别？"><a href="#title-与-h1-的区别、b-与-strong-的区别、i-与-em-的区别？" class="headerlink" title="title 与 h1 的区别、b 与 strong 的区别、i 与 em 的区别？"></a>title 与 h1 的区别、b 与 strong 的区别、i 与 em 的区别？</h3><ul>
+<li>title 属性没有明确意义只表示是个标题，H1 则表示层次明确的标题，对页面信息的抓取也有很大的影响；</li>
+<li>strong 是标明重点内容，有语气加强的含义，使用阅读设备阅读网络时：strong 会重读，而 b 是展示强调内容。</li>
+<li>i 内容展示为斜体，em 表示强调的文本；</li>
+</ul>
+<p>Physical Style Elements – 自然样式标签</p>
+<p>b, i, u, s, pre</p>
+<p>Semantic Style Elements – 语义样式标签</p>
+<p>strong, em, ins, del, code</p>
+<p>应该准确使用语义样式标签, 但不能滥用, 如果不能确定时首选使用自然样式标签。</p>
+<h3 id="html5-有哪些新特性、移除了那些元素？如何处理-HTML5-新标签的浏览器兼容问题？如何区分-HTML-和-HTML5？"><a href="#html5-有哪些新特性、移除了那些元素？如何处理-HTML5-新标签的浏览器兼容问题？如何区分-HTML-和-HTML5？" class="headerlink" title="html5 有哪些新特性、移除了那些元素？如何处理 HTML5 新标签的浏览器兼容问题？如何区分 HTML 和 HTML5？"></a>html5 有哪些新特性、移除了那些元素？如何处理 HTML5 新标签的浏览器兼容问题？如何区分 HTML 和 HTML5？</h3><ul>
+<li><p>HTML5 现在已经不是 SGML 的子集，主要是关于图像，位置，存储，多任务等。<br>功能的增加：</p>
+<ul>
+<li>绘画 canvas</li>
+<li>用于媒介播放的 video 和 audio 元素</li>
+<li>本地离线存储 localStorage 长期存储数据，浏览器关闭后数据不丢失</li>
+<li>sessionStorage 的数据在浏览器关闭后自动删除</li>
+<li>语意化更好的内容元素，比如 article、footer、header、nav、section</li>
+<li>表单控件，calendar、date、time、email、url、search</li>
+<li>新的技术 webworker, websocket, Geolocation</li>
+</ul>
+</li>
+<li><p>移除的元素：</p>
+<ul>
+<li>纯表现的元素：basefont，big，center，font, s，strike，tt，u;</li>
+<li>对可用性产生负面影响的元素：frame，frameset，noframes；</li>
+</ul>
+</li>
+<li><p>支持 HTML5 新标签：</p>
+<ul>
+<li><p>IE8/IE7/IE6 支持通过 document.createElement 方法产生的标签，</p>
+</li>
+<li><p>可以利用这一特性让这些浏览器支持 HTML5 新标签，</p>
+</li>
+<li><p>浏览器支持新标签后，还需要添加标签默认的样式。</p>
+</li>
+<li><p>当然也可以直接使用成熟的框架、比如 html5shim;</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--[if lt IE 9]&gt;</span></span><br><span class="line"><span class="comment">  &lt;script&gt;</span></span><br><span class="line"><span class="comment">    src = 'http://html5shim.googlecode.com/svn/trunk/html5.js'</span></span><br><span class="line"><span class="comment">  &lt;/script&gt;</span></span><br><span class="line"><span class="comment">&lt;![endif]--&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>如何区分 HTML5： DOCTYPE 声明\新增的结构元素\功能元素</p>
+</li>
+</ul>
+<h3 id="HTML5-的离线储存怎么使用，工作原理能不能解释一下？"><a href="#HTML5-的离线储存怎么使用，工作原理能不能解释一下？" class="headerlink" title="HTML5 的离线储存怎么使用，工作原理能不能解释一下？"></a>HTML5 的离线储存怎么使用，工作原理能不能解释一下？</h3><p>在用户没有与因特网连接时，可以正常访问站点或应用，在用户与因特网连接时，更新用户机器上的缓存文件。</p>
+<p>原理：HTML5 的离线存储是基于一个新建的.appcache 文件的缓存机制(不是存储技术)，通过这个文件上的解析清单离线存储资源，这些资源就会像 cookie 一样被存储了下来。之后当网络在处于离线状态下时，浏览器会通过被离线存储的数据进行页面展示。</p>
+<p>如何使用：</p>
+<ol>
+<li>页面头部像下面一样加入一个 manifest 的属性；</li>
+<li>在 cache.manifest 文件的编写离线存储的资源</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">CACHE MANIFEST</span><br><span class="line">#v1.0</span><br><span class="line"></span><br><span class="line">CACHE:</span><br><span class="line">js/app.js</span><br><span class="line">css/style.css</span><br><span class="line"></span><br><span class="line">NETWORK:</span><br><span class="line">assets/logo.png</span><br><span class="line"></span><br><span class="line">FALLBACK:</span><br><span class="line">/html5/ /404.html</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="浏览器是怎么对-HTML5-的离线储存资源进行管理和加载的呢？"><a href="#浏览器是怎么对-HTML5-的离线储存资源进行管理和加载的呢？" class="headerlink" title="浏览器是怎么对 HTML5 的离线储存资源进行管理和加载的呢？"></a>浏览器是怎么对 HTML5 的离线储存资源进行管理和加载的呢？</h3><ul>
+<li>在线的情况下，浏览器发现 html 头部有 manifest 属性，它会请求 manifest 文件，如果是第一次访问 app，那么浏览器就会根据 manifest 文件的内容下载相应的资源并且进行离线存储。如果已经访问过 app 并且资源已经离线存储了，那么浏览器就会使用离线的资源加载页面，然后浏览器会对比新的 manifest 文件与旧的 manifest 文件，如果文件没有发生改变，就不做任何操作，如果文件改变了，那么就会重新下载文件中的资源并进行离线存储。</li>
+<li>离线的情况下，浏览器就直接使用离线存储的资源。</li>
+</ul>
+<p>在离线状态时，操作 window.applicationCache 进行需求实现。</p>
+<p>参考链接：<a href="https://yanhaijing.com/html/2014/12/28/html5-manifest/" target="_blank" rel="noopener">HTML5 离线缓存-manifest 简介</a></p>
+<h3 id="iframe-有那些缺点？"><a href="#iframe-有那些缺点？" class="headerlink" title="iframe 有那些缺点？"></a>iframe 有那些缺点？</h3><ul>
+<li>iframe 会阻塞主页面的 Onload 事件；</li>
+<li>搜索引擎的检索程序无法解读这种页面，不利于 SEO;</li>
+<li>iframe 和主页面共享连接池，而浏览器对相同域的连接有限制，所以会影响页面的并行加载。</li>
+</ul>
+<p>使用 iframe 之前需要考虑这两个缺点。如果需要使用 iframe，最好是通过 javascript</p>
+<p>动态给 iframe 添加 src 属性值，这样可以绕开以上两个问题。</p>
+<h3 id="Label-的作用是什么？是怎么用的？"><a href="#Label-的作用是什么？是怎么用的？" class="headerlink" title="Label 的作用是什么？是怎么用的？"></a>Label 的作用是什么？是怎么用的？</h3><p>label 标签来定义表单控制间的关系,当用户选择该标签时，浏览器会自动将焦点转到和标签相关的表单控件上。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"Name"</span>&gt;</span>Number:<span class="tag">&lt;/<span class="name">label</span>&gt;</span> <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">“text“name</span>=<span class="string">"Name"</span> <span class="attr">id</span>=<span class="string">"Name"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">label</span>&gt;</span>Date:<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"B"</span>/&gt;</span><span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="页面可见性（Page-Visibility-API）-可以有哪些用途？"><a href="#页面可见性（Page-Visibility-API）-可以有哪些用途？" class="headerlink" title="页面可见性（Page Visibility API） 可以有哪些用途？"></a>页面可见性（Page Visibility API） 可以有哪些用途？</h3><ul>
+<li>通过 visibilityState 的值检测页面当前是否可见，以及打开网页的时间等;</li>
+<li>在页面被切换到其他后台进程的时候，自动暂停音乐或视频的播放；</li>
+</ul>
+<h3 id="如何在页面上实现一个圆形的可点击区域？"><a href="#如何在页面上实现一个圆形的可点击区域？" class="headerlink" title="如何在页面上实现一个圆形的可点击区域？"></a>如何在页面上实现一个圆形的可点击区域？</h3><ul>
+<li>map+area 或者 svg</li>
+<li>border-radius</li>
+<li>纯 js 实现 需要求一个点在不在圆上简单算法、获取鼠标坐标等等</li>
+</ul>
+<h3 id="实现不使用-border-画出-1px-高的线，在不同浏览器的标准模式与怪异模式下都能保持一致的效果。"><a href="#实现不使用-border-画出-1px-高的线，在不同浏览器的标准模式与怪异模式下都能保持一致的效果。" class="headerlink" title="实现不使用 border 画出 1px 高的线，在不同浏览器的标准模式与怪异模式下都能保持一致的效果。"></a>实现不使用 border 画出 1px 高的线，在不同浏览器的标准模式与怪异模式下都能保持一致的效果。</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"height:1px;overflow:hidden;background:red"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="HTML与浏览器"><a href="#HTML与浏览器" class="headerlink" title="HTML与浏览器"></a>HTML与浏览器</h1><h3 id="Doctype-作用？标准模式与兼容模式各有什么区别"><a href="#Doctype-作用？标准模式与兼容模式各有什么区别" class="headerlink" title="Doctype 作用？标准模式与兼容模式各有什么区别?"></a>Doctype 作用？标准模式与兼容模式各有什么区别?</h3><p>DOCTYPE是用来声明文档类型和DTD规范的。<br><code>&lt;!DOCTYPE html&gt;</code>声明位于HTML文档中的第一行，不是一个HTML标签，处于 html 标签之前。告知浏览器的解析器用什么文档标准解析这个文档。DOCTYPE不存在或格式不正确会导致文档以兼容模式呈现。</p>
+<p>标准模式的排版 和 JS 运作模式都是以该浏览器支持的最高标准运行。在兼容模式中，页面以宽松的向后兼容的方式显示,模拟老式浏览器的行为以防止站点无法工作。</p>
+<p>在HTML4.01中&lt;!doctype&gt;声明指向一个DTD，由于HTML4.01基于SGML，所以DTD指定了标记规则以保证浏览器正确渲染内容<br>HTML5不基于SGML，所以不用指定DTD</p>
+<h3 id="HTML-全局属性"><a href="#HTML-全局属性" class="headerlink" title="HTML 全局属性"></a>HTML 全局属性</h3><p>全局属性是所有HTML元素共有的属性; 它们可以用于所有元素，即使属性可能对某些元素不起作用。</p>
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Global_attributes" target="_blank" rel="noopener">全局属性 | MDN</a></p>
+<h3 id="canvas和svg的区别"><a href="#canvas和svg的区别" class="headerlink" title="canvas和svg的区别"></a>canvas和svg的区别</h3><p>canvas是html5提供的新元素&lt;canvas&gt;，而svg存在的历史要比canvas久远，已经有十几年了。svg并不是html5专有的标签，最初svg是用xml技术（超文本扩展语言，可以自定义标签或属性）描述二维图形的语言。在H5中看似canvas与svg很像，但是，他们有巨大的差别。</p>
+<p>首先，从它们的功能上来讲，canvas可以看做是一个画布。，其绘制出来的图形为<strong>标量图</strong>，因此，可以在canvas中引入jpg或png这类格式的图片，在实际开发中，大型的网络<strong>游戏</strong>都是用canvas画布做出来的，并且canvas的技术现在已经相当的成熟。另外，我们喜欢用canvas来做一些统计用的图表，如柱状图曲线图或饼状图等。<br>而svg，所绘制的图形为<strong>矢量图</strong>，所以其用法上受到了限制。因为只能绘制矢量图，所以svg中不能引入普通的图片，因为矢量图的不会失真的效果，在项目中我们会用来<strong>做小图标</strong>。但是由于其本质为矢量图，可以被无限放大而不会失真，这很适合被用来做地图，而百度地图就是用svg技术做出来的。</p>
+<p>另外从技术发面来讲canvas里面绘制的图形不能被引擎抓取，如我们要让canvas里面的一个图片跟随鼠标事件: canvas.onmouseover=function(){}。<br>而svg里面的图形可以被引擎抓取，支持事件的绑定。另外canvas中我们绘制图形通常是通过javascript来实现，svg更多的是通过标签来来实现，如在svg中绘制正矩形形就要用<rect>，这里我们不能用属性style=”width:XXX;height:XXX;”来定义。</p>
+<h3 id="行内元素有哪些？块级元素有哪些？-空-void-元素有那些？"><a href="#行内元素有哪些？块级元素有哪些？-空-void-元素有那些？" class="headerlink" title="行内元素有哪些？块级元素有哪些？ 空(void)元素有那些？"></a>行内元素有哪些？块级元素有哪些？ 空(void)元素有那些？</h3><p>定义：CSS 规范规定，每个元素都有 display 属性，确定该元素的类型，每个元素都有默认的 display 值，如 div 的 display 默认值为“block”，则为“块级”元素；span 默认 display 属性值为“inline”，是“行内”元素。</p>
+<ul>
+<li>行内元素有：a b span img input select strong（强调的语气）</li>
+<li>块级元素有：div ul ol li dl dt dd h1 h2 h3 h4…p</li>
+<li>空元素：<ul>
+<li>常见: br hr img input link meta</li>
+<li>不常见: area base col command embed keygen param source track wbr</li>
+</ul>
+</li>
+</ul>
+<p>不同浏览器（版本）、HTML4（5）、CSS2 等实际略有差异<br>参考: <a href="http://stackoverflow.com/questions/6867254/browsers-default-css-for-html-elements" target="_blank" rel="noopener">http://stackoverflow.com/questions/6867254/browsers-default-css-for-html-elements</a></p>
+<h3 id="页面导入样式时，使用-link-和-import-有什么区别？"><a href="#页面导入样式时，使用-link-和-import-有什么区别？" class="headerlink" title="页面导入样式时，使用 link 和@import 有什么区别？"></a>页面导入样式时，使用 link 和@import 有什么区别？</h3><ul>
+<li>link 属于 XHTML 标签，除了加载 CSS 外，还能用于定义 RSS, 定义 rel 连接属性等作用；而@import 是 CSS 提供的，只能用于加载 CSS;</li>
+<li>页面被加载的时，link 会同时被加载，而@import 引用的 CSS 会等到页面被加载完再加载;</li>
+<li>import 是 CSS2.1 提出的，只在 IE5 以上才能被识别，而 link 是 XHTML 标签，无兼容问题;</li>
+<li>link 支持使用 js 控制 DOM 去改变样式，而@import 不支持;</li>
+</ul>
+<h3 id="介绍一下你对浏览器内核的理解？"><a href="#介绍一下你对浏览器内核的理解？" class="headerlink" title="介绍一下你对浏览器内核的理解？"></a>介绍一下你对浏览器内核的理解？</h3><p>主要分成两部分：渲染引擎(layout engineer 或 Rendering Engine)和 JS 引擎。</p>
+<p>渲染引擎：负责取得网页的内容（HTML、XML、图像等等）、整理讯息（例如加入 CSS 等），以及计算网页的显示方式，然后渲染到用户的屏幕上。</p>
+<p>JS 引擎则：解析和执行 javascript 来实现逻辑和控制 DOM 进行交互。</p>
+<p>最开始渲染引擎和 JS 引擎并没有区分的很明确，后来 JS 引擎越来越独立，内核就倾向于只指渲染引擎。</p>
+<h3 id="HTML5变化"><a href="#HTML5变化" class="headerlink" title="HTML5变化"></a>HTML5变化</h3><ul>
+<li><a href="http://www.w3school.com.cn/html/html5_new_elements.asp" target="_blank" rel="noopener">新的语义化元素</a><ul>
+<li>header footer nav main article  section</li>
+<li>删除了一些纯样式的标签</li>
+</ul>
+</li>
+<li><a href="http://caibaojian.com/html5/form.html" target="_blank" rel="noopener">表单增强</a></li>
+<li>新API<ul>
+<li>离线 （applicationCache ）</li>
+<li>音视频 （audio, vidio）</li>
+<li>图形 （canvans）</li>
+<li>实时通信（websoket）</li>
+<li>本地存储（localStorage, indexDB）</li>
+<li>设备能力（地图定位，手机摇一摇）</li>
+</ul>
+</li>
+</ul>
+<h3 id="em-与-i-的区别"><a href="#em-与-i-的区别" class="headerlink" title="em 与 i 的区别"></a>em 与 i 的区别</h3><ul>
+<li>效果都是斜体</li>
+<li>em 是语义化标签，表强调</li>
+<li>i 是样式标签， 表斜体</li>
+</ul>
+<h3 id="哪些元素可以自闭合？"><a href="#哪些元素可以自闭合？" class="headerlink" title="哪些元素可以自闭合？"></a>哪些元素可以自闭合？</h3><ul>
+<li>表单元素 input</li>
+<li>img</li>
+<li>br,  hr</li>
+<li>meta, link</li>
+</ul>
+<h3 id="HTML和DOM的关系"><a href="#HTML和DOM的关系" class="headerlink" title="HTML和DOM的关系"></a>HTML和DOM的关系</h3><ul>
+<li>HTML只是一个字符串</li>
+<li>DOM由HTML解析而来</li>
+<li>JS可以维护DOM</li>
+</ul>
+<h3 id="property和attribute的区别"><a href="#property和attribute的区别" class="headerlink" title="property和attribute的区别"></a>property和attribute的区别</h3><p>例如一个input标签 <code>&lt;input value=&quot;3&quot; /&gt;</code><br>他的attribute是3<br>但如果使用<code>input.value = 4</code> 或 直接修改值为4，这时再去getAttribute得到的还是”3”</p>
+<h3 id="form-作用"><a href="#form-作用" class="headerlink" title="form 作用"></a>form 作用</h3><ul>
+<li>直接提交表单</li>
+<li>使用submit / reset按钮</li>
+<li>便于浏览器保存表单</li>
+<li>第三方库可以整体取值</li>
+<li>第三方库可以进行表单验证</li>
+</ul>
+<h3 id="主流浏览器机器内核"><a href="#主流浏览器机器内核" class="headerlink" title="主流浏览器机器内核"></a>主流浏览器机器内核</h3><table>
+<thead>
+<tr>
+<th>浏览器</th>
+<th>内核</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>IE</td>
+<td>Trident</td>
+<td>IE、猎豹安全、360 极速浏览器、百度浏览器</td>
+</tr>
+<tr>
+<td>firefox</td>
+<td>Gecko</td>
+<td></td>
+</tr>
+<tr>
+<td>Safari</td>
+<td>webkit</td>
+<td>从 Safari 推出之时起，它的渲染引擎就是 Webkit，一提到 webkit，首先想到的便是 chrome，Webkit 的鼻祖其实是 Safari。</td>
+</tr>
+<tr>
+<td>chrome</td>
+<td>Chromium/Blink</td>
+<td>在 Chromium 项目中研发 Blink 渲染引擎（即浏览器核心），内置于 Chrome 浏览器之中。Blink 其实是 WebKit 的分支。大部分国产浏览器最新版都采用 Blink 内核。二次开发</td>
+</tr>
+<tr>
+<td>Opera</td>
+<td>blink</td>
+<td>Opera内核原为：Presto，现在跟随 chrome 用 blink 内核。</td>
+</tr>
+</tbody></table>
+<h3 id="简述一下你对-HTML-语义化的理解？"><a href="#简述一下你对-HTML-语义化的理解？" class="headerlink" title="简述一下你对 HTML 语义化的理解？"></a>简述一下你对 HTML 语义化的理解？</h3><ul>
+<li>用正确的标签做正确的事情。</li>
+<li>html 语义化让页面的内容结构化，结构更清晰，便于对浏览器、搜索引擎解析;</li>
+<li>即使在没有样式 CSS 情况下也以一种文档格式显示，并且是容易阅读的;</li>
+<li>搜索引擎的爬虫也依赖于 HTML 标记来确定上下文和各个关键字的权重，利于 SEO;</li>
+<li>使阅读源代码的人对网站更容易将网站分块，便于阅读维护理解。</li>
+</ul>
+<h3 id="请描述一下-cookies，sessionStorage-和-localStorage-的区别？"><a href="#请描述一下-cookies，sessionStorage-和-localStorage-的区别？" class="headerlink" title="请描述一下 cookies，sessionStorage 和 localStorage 的区别？"></a>请描述一下 cookies，sessionStorage 和 localStorage 的区别？</h3><ul>
+<li>cookie 是网站为了标示用户身份而储存在用户本地终端（Client Side）上的数据（通常经过加密）</li>
+<li>cookie 数据始终在同源的 http 请求中携带（即使不需要），记会在浏览器和服务器间来回传递。</li>
+<li>sessionStorage 和 localStorage 不会自动把数据发给服务器，仅在本地保存。</li>
+<li>存储大小：<ul>
+<li>cookie 数据大小不能超过 4k。</li>
+<li>sessionStorage 和 localStorage 虽然也有存储大小的限制，但比 cookie 大得多，可以达到 5M 或更大。</li>
+</ul>
+</li>
+<li>有效期（生命周期）：<ul>
+<li>localStorage: 存储持久数据，浏览器关闭后数据不丢失除非主动删除数据；</li>
+<li>sessionStorage: 数据在当前浏览器窗口关闭后自动删除。</li>
+<li>cookie: 设置的 cookie 过期时间之前一直有效，即使窗口或浏览器关闭</li>
+</ul>
+</li>
+<li>共享<ul>
+<li>sessionStorage不能共享，localStorage在同源文档之间共享，cookie在同源且符合path规则的文档之间共享</li>
+</ul>
+</li>
+</ul>
+<h3 id="html-中-title-属性和-alt-属性的区别？"><a href="#html-中-title-属性和-alt-属性的区别？" class="headerlink" title="html 中 title 属性和 alt 属性的区别？"></a>html 中 title 属性和 alt 属性的区别？</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"#"</span> <span class="attr">alt</span>=<span class="string">"alt信息"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+<p>当图片不输出信息的时候，会显示 alt 信息 鼠标放上去没有信息，当图片正常读取，不会出现 alt 信息。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"#"</span> <span class="attr">alt</span>=<span class="string">"alt信息"</span> <span class="attr">title</span>=<span class="string">"title信息"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>当图片不输出信息的时候，会显示 alt 信息 鼠标放上去会出现 title 信息；</li>
+<li>当图片正常输出的时候，不会出现 alt 信息，鼠标放上去会出现 title 信息。</li>
+<li>除了纯装饰图片外都必须设置有意义的值，搜索引擎会分析。</li>
+</ul>
+<h3 id="另外还有一些关于-title-属性的知识："><a href="#另外还有一些关于-title-属性的知识：" class="headerlink" title="另外还有一些关于 title 属性的知识："></a>另外还有一些关于 title 属性的知识：</h3><ul>
+<li>title 属性可以用在除了 base，basefont，head，html，meta，param，script 和 title 之外的所有标签。</li>
+<li>title 属性的功能是提示。额外的说明信息和非本质的信息请使用 title 属性。title 属性值可以比 alt 属性值设置的更长。</li>
+<li>title 属性有一个很好的用途，即为链接添加描述性文字，特别是当连接本身并不是十分清楚的表达了链接的目的。</li>
+</ul>
+<h3 id="为什么我们要弃用table标签？"><a href="#为什么我们要弃用table标签？" class="headerlink" title="为什么我们要弃用table标签？"></a>为什么我们要弃用table标签？</h3><p>table的缺点在于服务器把代码加载到本地服务器的过程中，本来是加载一行执行一行，但是table标签是里面的东西<strong>全都下载完之后才会显示出来</strong>，那么如果图片很多的话就会导致网页一直加载不出来，除非所有的图片和内容都加载完。如果要等到所有的图片全都加载完之后才显示出来的话那也太慢了，所以table标签现在我们基本放弃使用了。</p>
+<h3 id="head-元素"><a href="#head-元素" class="headerlink" title="head 元素"></a>head 元素</h3><p>head子元素大概分为三类，分别是：</p>
+<ul>
+<li>描述网页基本信息的</li>
+<li>指向渲染网页需要其他文件链接的</li>
+<li>各大厂商根据自己需要定制的</li>
+</ul>
+<h4 id="网页基本信息"><a href="#网页基本信息" class="headerlink" title="网页基本信息"></a>网页基本信息</h4><p>一个网页，首先得有个标题，就跟人有名字一样。除此之外，还可以根据实际需要补充一些基本信息。</p>
+<ul>
+<li>文档标题（浏览器标签中显示的文本）：<title>深入了解 head 元素</title></li>
+<li>编码格式：<meta charset="utf-8"> 如果你的页面出现乱码，那一般就是编码格式不对</li>
+<li>视窗设置：<meta name="viewport" content="width=device-width, initial-scale=1.0"></li>
+<li>搜索引擎优化相关内容： <meta name="description" content=“帮助你深层次了解HTML文档结构”></li>
+<li>IE浏览器版本渲染设置：<meta http-equiv="X-UA-Compatible" content="ie=edge"></li>
+</ul>
+<h4 id="其他文件链接"><a href="#其他文件链接" class="headerlink" title="其他文件链接"></a>其他文件链接</h4><ul>
+<li>CSS 文件：<link rel="stylesheet" type="text/css" href="style.css"></li>
+<li>JavaScript 文件：&lt;script src=“script.js”&gt;</script></li>
+</ul>
+<p>但是为了让页面的样子更早的让用户看到，一般把JS文件放到body的底部</p>
+<h4 id="厂商定制"><a href="#厂商定制" class="headerlink" title="厂商定制"></a>厂商定制</h4><p>同样分享页面到QQ的聊天窗口，有些页面直接就是一个链接，但是有些页面有标题，图片，还有文字介绍。为什么区别这么明显呢？其实就是看有没有设置下面这三个内容</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">itemprop</span>=<span class="string">"name"</span> <span class="attr">content</span>=<span class="string">"这是分享的标题"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">itemprop</span>=<span class="string">"image"</span> <span class="attr">content</span>=<span class="string">"http://imgcache.qq.com/qqshow/ac/v4/global/logo.png"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"description"</span> <span class="attr">itemprop</span>=<span class="string">"description"</span> <span class="attr">content</span>=<span class="string">"这是要分享的内容"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="移动端项目需要注意的4个问题"><a href="#移动端项目需要注意的4个问题" class="headerlink" title="移动端项目需要注意的4个问题"></a>移动端项目需要注意的4个问题</h3><h4 id="meta中设置viewport"><a href="#meta中设置viewport" class="headerlink" title="meta中设置viewport"></a>meta中设置viewport</h4><p>阻止用户手滑放大或缩小页面，需要在 index.html中添加meta元素,设置viewport。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="CSS样式统一问题"><a href="#CSS样式统一问题" class="headerlink" title="CSS样式统一问题"></a>CSS样式统一问题</h4><p>我们需要重置页面样式，因为在不同的手机浏览器上，默认的css样式不是统一的。 解决方法：使用reset.css重置所有元素的默认样式</p>
+<h4 id="一像素边框问题"><a href="#一像素边框问题" class="headerlink" title="一像素边框问题"></a>一像素边框问题</h4><p>有的手机分辨率比较高，是2倍屏或3倍屏，手机上的浏览器就会把CSS中的1像素值展示为2个或3个物理宽度 解决方法： 添加一个border.css库，将利用<strong>scroll缩放的原理</strong>将边框重置。当我们需要使用一像素边框时只需要在标签上添加对应类名，如设置底部一像素边框就在标签上加入”border-bottom”的class名</p>
+<h4 id="300毫秒点击延迟问题"><a href="#300毫秒点击延迟问题" class="headerlink" title="300毫秒点击延迟问题"></a>300毫秒点击延迟问题</h4><p>在移动端开发中，某些机型上使用click事件会延迟300ms才执行，这样影响了用户体验。 解决方法： 引入<a href="https://www.jianshu.com/p/05b142d84780" target="_blank" rel="noopener">fastclick.js</a>。</p>
+<h2 id="公众号"><a href="#公众号" class="headerlink" title="公众号"></a>公众号</h2><p>想要实时关注笔者最新的文章和最新的文档更新请关注公众号<strong>程序员面试官</strong>,后续的文章会优先在公众号更新.</p>
+<p><strong>简历模板:</strong> 关注公众号回复「模板」获取</p>
+<p><strong>《前端面试手册》:</strong> 配套于本指南的突击手册,关注公众号回复「fed」获取</p>
+<p><img src="https://xiaomuzhu-image.oss-cn-beijing.aliyuncs.com/d846f65d5025c4b6c4619662a0669503.png" alt="2019-08-12-03-18-41"></p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a style="word-wrap:break-word;" href="http://yoursite.com/2019/11/08/5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill/HTML/HTML%E5%9F%BA%E7%A1%80/" title="HTML基础" target="_blank" rel="external">http://yoursite.com/2019/11/08/5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill/HTML/HTML%E5%9F%BA%E7%A1%80/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/chen08" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/chen08" target="_blank"><span class="text-dark">溟海</span><small class="ml-1x">Web Developer &amp; Designer</small></a></h3>
+        <div>天行健，君子以自强不息，地势坤，君子以厚德载物。 杀不死我的,终将使我强大 没有吃不了的苦,只有享不了的福</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2019/11/08/5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill/Git/5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87%20-%20%E5%89%AF%E6%9C%AC/" title="Git常见面试题"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/11/08/5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill/JavaScript/BOM/" title="BOM"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="Catalogue" role="button">
+        <span>[&nbsp;</span><span>Catalogue</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open alipay app scan this qrcode, buy me a coffee!</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open wechat app scan this qrcode, buy me a coffee!</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> alipay</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> wechat payment</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+
+
+<!-- custom analytics part create by xiamo -->
+<!-- <script defer src="https://cdn1.lncld.net/static/js/av-min-1.2.1.js"></script> -->
+<script defer src="/js/av-min-1.2.1.js"></script>
+<script defer>
+AV.init({
+  appId: 'ngFQzHw7z0HgQfrtn4En4WTN-gzGzoHsz',
+  appKey: 'W9hgBBfVDwRGJKoGp5a6HKpx'
+});
+
+function showTime(Counter) {
+	var query = new AV.Query(Counter);
+		var visitors= $('.leancloud_visitors');
+		query.greaterThanOrEqualTo("time", 0);		
+		query.find({
+			success: function(results) {
+				if (results.length == 0) {				
+					return;
+				}
+				var data = results;
+				visitors.each(function(){
+					var url = $(this).attr('id').trim();					
+					for (var i = 0; i < data.length; i++) {
+						var object = data[i];
+						var content = object.get('time');
+						var _url = object.get('url')
+						if(url == _url){
+							$(this).text(content);
+						}
+					}
+				})
+				
+			},
+			error: function(object, error) {
+				console.log("Error: " + error.code + " " + error.message);
+			}
+		});
+}
+
+function addCount(Counter) {
+	var Counter = AV.Object.extend("Counter");
+	url = $(".leancloud_visitors").attr('id').trim();
+	title = $(".leancloud_visitors").attr('data-flag-title').trim();
+	var query = new AV.Query(Counter);
+	query.equalTo("url", url);
+	query.find({
+		success: function(results) {
+			if (results.length > 0) {
+				var counter = results[0];
+				counter.fetchWhenSave(true);
+				counter.increment("time");
+				counter.save(null, {
+					success: function(counter) {
+						var content = counter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(counter, error) {
+						console.log('Failed to save Visitor num, with error message: ' + error.message);
+					}
+				});
+			} else {
+				var newcounter = new Counter();
+				newcounter.set("title", title);
+				newcounter.set("url", url);
+				newcounter.set("time", 1);
+				newcounter.save(null, {
+					success: function(newcounter) {
+					    console.log("newcounter.get('time')="+newcounter.get('time'));
+						var content = newcounter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(newcounter, error) {
+						console.log('Failed to create');
+					}
+				});
+			}
+		},
+		error: function(error) {
+			console.log('Error:' + error.code + " " + error.message);
+		}
+	});
+}
+$(function() {
+	var Counter = AV.Object.extend("Counter");
+	if ($('.leancloud_visitors').length == 1) {
+		addCount(Counter);
+	} else {
+		showTime(Counter);
+	}
+}); 
+</script>
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>

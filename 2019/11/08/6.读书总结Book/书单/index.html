@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>书单 | Hexo</title>
+  <script src="./js/jQuery.md5.js"></script>
+  <script>
+    
+    (function(){
+      localStorage.setItem('userinfo',hex_md5('123chen'))
+      
+      var localData = localStorage.getItem("userinfo");
+      // var localState = localStorage.getItem("state");
+        if(localStorage.getItem("state") === null){
+          var reason = window.prompt('请输入访问密码');
+          // var promptVal = window.prompt('请输入访问密码');
+          if(reason){
+              //填写内容并“确定”
+              var md5Prompt = hex_md5(reason)
+              //点击的是“确定” 
+              if (localData !== md5Prompt){
+                alert('密码错误！');
+                // history.back();
+                location.replace(location.href); 
+              }else{
+                // alert('0123');
+                localStorage.setItem('state',"1")
+              }
+          }
+          else if(reason === ""){
+              //未填写但“确定”
+              location.replace(location.href); 
+          }
+          else{
+            //“取消”事件
+            location.replace(location.href); 
+          }
+        }
+
+    })();
+  </script>
+ <link rel="alternate" href="/atom.xml" data="123chen" type="application/atom+xml">
+  <meta name="description" content="书单 以下书籍都是我亲自买来看过，并且觉得还不错，值得推荐的！ 我还特意筛选了下，尽量形成一个合理的知识体系，从宏观到微观，从理论到实用。  一、社会、人类  《人类简史》[以色列]尤瓦尔·赫拉利 （一部世界史竟然能够畅销，确实不容易，注意认清作者，有一本名字一样的） 《人类学透镜》詹姆斯·皮科克（入门书籍） 《社会学入门》詹姆斯·汉斯林（都说是入门了，给你一个更宽广的视角吧） 《论人类不平等的起">
+<meta name="keywords" content="书单">
+<meta property="og:type" content="article">
+<meta property="og:title" content="书单">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;08&#x2F;6.%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93Book&#x2F;%E4%B9%A6%E5%8D%95&#x2F;index.html">
+<meta property="og:site_name" content="学习的敌人是自己的满足，要认真学习一点东西，必须从不自满开始。对自己，“学而不厌”，对人家，“诲人不倦”，我们应取这种态度。">
+<meta property="og:description" content="书单 以下书籍都是我亲自买来看过，并且觉得还不错，值得推荐的！ 我还特意筛选了下，尽量形成一个合理的知识体系，从宏观到微观，从理论到实用。  一、社会、人类  《人类简史》[以色列]尤瓦尔·赫拉利 （一部世界史竟然能够畅销，确实不容易，注意认清作者，有一本名字一样的） 《人类学透镜》詹姆斯·皮科克（入门书籍） 《社会学入门》詹姆斯·汉斯林（都说是入门了，给你一个更宽广的视角吧） 《论人类不平等的起">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2020-01-15T09:49:21.969Z">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://yoursite.com/2019/11/08/6.%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93Book/%E4%B9%A6%E5%8D%95/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="学习的敌人是自己的满足，要认真学习一点东西，必须从不自满开始。对自己，“学而不厌”，对人家，“诲人不倦”，我们应取这种态度。" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/chen08" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">溟海</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer &amp; Designer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Guangzhou, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+          <!-- . -->
+        
+        
+          <li class="menu-item menu-item-home">
+            <a href="/.">
+              
+              <i class="icon icon-home-fill"></i>
+              
+              <span class="menu-title">Home</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- archives -->
+        
+        
+          <li class="menu-item menu-item-archives">
+            <a href="/archives">
+              
+              <i class="icon icon-archives-fill"></i>
+              
+              <span class="menu-title">Archives</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- categories -->
+        
+        
+          <li class="menu-item menu-item-categories">
+            <a href="/categories">
+              
+              <i class="icon icon-folder"></i>
+              
+              <span class="menu-title">Categories</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- tags -->
+        
+        
+          <li class="menu-item menu-item-tags">
+            <a href="/tags">
+              
+              <i class="icon icon-tags"></i>
+              
+              <span class="menu-title">Tags</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- repository -->
+        
+        
+          <li class="menu-item menu-item-repository">
+            <a href="/repository">
+              
+              <i class="icon icon-project"></i>
+              
+              <span class="menu-title">Repository</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- books -->
+        
+        
+          <li class="menu-item menu-item-books">
+            <a href="/books">
+              
+              <i class="icon icon-book-fill"></i>
+              
+              <span class="menu-title">Books</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- links -->
+        
+        
+          <li class="menu-item menu-item-links">
+            <a href="/links">
+              
+              <i class="icon icon-friendship"></i>
+              
+              <span class="menu-title">Links</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- about -->
+        
+        
+          <li class="menu-item menu-item-about">
+            <a href="/about">
+              
+              <i class="icon icon-cup-fill"></i>
+              
+              <span class="menu-title">About</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- navigation/webstack/index.html -->
+        
+        
+          <li class="menu-item menu-item-navigation">
+            <a href="/navigation/webstack/index.html">
+              
+              <i class="icon icon-delicious"></i>
+              
+              <span class="menu-title">Navigation</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- navigation/webstack/word.html -->
+        
+        
+          <li style="display: none;" class="menu-item menu-item-fixed">
+            <a href="/navigation/webstack/word.html">
+              
+              <i class="icon icon-delicious"></i>
+              
+              <span class="menu-title">menu.fixed</span>
+            </a>
+          </li>
+        
+
+
+        
+      </ul>
+
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/1-WEB%E5%89%8D%E7%AB%AF/">1.WEB前端</a><span class="category-list-count">140</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/2-%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">2.编程语言</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/3-%E4%BA%A7%E5%93%81%E8%AE%BE%E8%AE%A1/">3.产品设计</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/4-%E7%AE%A1%E7%90%86%E8%90%A5%E9%94%80/">4.管理营销</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/5-%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87/">5.技能提升</a><span class="category-list-count">155</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/6-%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93/">6.读书总结</a><span class="category-list-count">9</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/" rel="tag">CSS</a><span class="tag-list-count">18</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Dart/" rel="tag">Dart</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES6/" rel="tag">ES6</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES7/" rel="tag">ES7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/English/" rel="tag">English</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flutter/" rel="tag">Flutter</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a><span class="tag-list-count">20</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IMAGE/" rel="tag">IMAGE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JQuery/" rel="tag">JQuery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a><span class="tag-list-count">224</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">JavaScript设计模式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript%E9%AB%98%E7%BA%A7%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" rel="tag">JavaScript高级程序设计</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jquery/" rel="tag">Jquery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mysql/" rel="tag">Mysql</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NETWORK/" rel="tag">NETWORK</a><span class="tag-list-count">13</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node/" rel="tag">Node</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/" rel="tag">PHP</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/" rel="tag">React</a><span class="tag-list-count">31</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJS/" rel="tag">RxJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SVG/" rel="tag">SVG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sass/" rel="tag">Sass</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/" rel="tag">Vue</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%AE%89%E5%85%A8/" rel="tag">WEB安全</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webpack/" rel="tag">Webpack</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/" rel="tag">jQuery</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodeJS/" rel="tag">nodeJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B9%A6%E5%8D%95/" rel="tag">书单</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B9%A6%E7%B1%8D/" rel="tag">书籍</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/" rel="tag">前端安全</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83/" rel="tag">命名规范</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag">小程序</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" rel="tag">性能优化</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8F%92%E4%BB%B6/" rel="tag">插件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A1%86%E6%9E%B6/" rel="tag">框架</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" rel="tag">浏览器</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%84%E4%BB%B6/" rel="tag">组件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%84%E8%8C%83/" rel="tag">规范</a><span class="tag-list-count">67</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6%E5%AD%A6%E4%B9%A0/" rel="tag">软件学习</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a><span class="tag-list-count">153</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/CSS/" style="font-size: 13.71px;">CSS</a> <a href="/tags/Dart/" style="font-size: 13px;">Dart</a> <a href="/tags/ES6/" style="font-size: 13px;">ES6</a> <a href="/tags/ES7/" style="font-size: 13px;">ES7</a> <a href="/tags/English/" style="font-size: 13.18px;">English</a> <a href="/tags/Flutter/" style="font-size: 13px;">Flutter</a> <a href="/tags/Git/" style="font-size: 13.12px;">Git</a> <a href="/tags/HTML/" style="font-size: 13.76px;">HTML</a> <a href="/tags/HTTP/" style="font-size: 13.18px;">HTTP</a> <a href="/tags/IMAGE/" style="font-size: 13px;">IMAGE</a> <a href="/tags/JAVA/" style="font-size: 13.06px;">JAVA</a> <a href="/tags/JQuery/" style="font-size: 13px;">JQuery</a> <a href="/tags/JavaScript/" style="font-size: 14px;">JavaScript</a> <a href="/tags/JavaScript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 13px;">JavaScript设计模式</a> <a href="/tags/JavaScript%E9%AB%98%E7%BA%A7%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 13px;">JavaScript高级程序设计</a> <a href="/tags/Jquery/" style="font-size: 13px;">Jquery</a> <a href="/tags/Mysql/" style="font-size: 13px;">Mysql</a> <a href="/tags/NETWORK/" style="font-size: 13.53px;">NETWORK</a> <a href="/tags/Node/" style="font-size: 13.35px;">Node</a> <a href="/tags/PHP/" style="font-size: 13.24px;">PHP</a> <a href="/tags/React/" style="font-size: 13.82px;">React</a> <a href="/tags/RxJS/" style="font-size: 13px;">RxJS</a> <a href="/tags/SVG/" style="font-size: 13px;">SVG</a> <a href="/tags/Sass/" style="font-size: 13px;">Sass</a> <a href="/tags/TypeScript/" style="font-size: 13.29px;">TypeScript</a> <a href="/tags/Vue/" style="font-size: 13.65px;">Vue</a> <a href="/tags/WEB%E5%AE%89%E5%85%A8/" style="font-size: 13.29px;">WEB安全</a> <a href="/tags/Webpack/" style="font-size: 13.59px;">Webpack</a> <a href="/tags/jQuery/" style="font-size: 13.65px;">jQuery</a> <a href="/tags/nodeJS/" style="font-size: 13px;">nodeJS</a> <a href="/tags/python/" style="font-size: 13px;">python</a> <a href="/tags/%E4%B9%A6%E5%8D%95/" style="font-size: 13px;">书单</a> <a href="/tags/%E4%B9%A6%E7%B1%8D/" style="font-size: 13.06px;">书籍</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 13px;">前端</a> <a href="/tags/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/" style="font-size: 13.06px;">前端安全</a> <a href="/tags/%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83/" style="font-size: 13.41px;">命名规范</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 13px;">小程序</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 13.06px;">工具</a> <a href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" style="font-size: 13.47px;">性能优化</a> <a href="/tags/%E6%8F%92%E4%BB%B6/" style="font-size: 13px;">插件</a> <a href="/tags/%E6%A1%86%E6%9E%B6/" style="font-size: 13px;">框架</a> <a href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" style="font-size: 13px;">浏览器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13.18px;">算法</a> <a href="/tags/%E7%BB%84%E4%BB%B6/" style="font-size: 13px;">组件</a> <a href="/tags/%E8%A7%84%E8%8C%83/" style="font-size: 13.88px;">规范</a> <a href="/tags/%E8%BD%AF%E4%BB%B6%E5%AD%A6%E4%B9%A0/" style="font-size: 13px;">软件学习</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 13.35px;">随笔</a> <a href="/tags/%E9%9D%A2%E8%AF%95/" style="font-size: 13.94px;">面试</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a><span class="archive-list-count">312</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/27/1.WEB%E5%89%8D%E7%AB%AFWeb/React/react-router/" class="title">1.WEB前端Web/React/react-router</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-27T13:24:04.185Z" itemprop="datePublished">2020-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/27/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/sass-guide/" class="title">1.WEB前端Web/Front-End-Standards/sass-guide</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-27T13:24:03.487Z" itemprop="datePublished">2020-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/27/hello-world/" class="title">Hello World</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-27T13:24:03.028Z" itemprop="datePublished">2020-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/6-%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93/">6.读书总结</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/26/6.%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93Book/%E4%BA%BA%E7%94%9F%E9%81%93%E7%90%86/" class="title">人生道理</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-26T01:12:57.000Z" itemprop="datePublished">2020-01-26</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/2-%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">2.编程语言</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/15/2.%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80Programming/English/%E7%94%9F%E6%B4%BB%E8%8B%B1%E8%AF%AD/" class="title">生活英语</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-15T01:12:57.000Z" itemprop="datePublished">2020-01-15</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">Catalogue</h3>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#书单"><span class="toc-number">1.</span> <span class="toc-text">书单</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#豆瓣TOP500书单"><span class="toc-number">1.0.1.</span> <span class="toc-text">豆瓣TOP500书单</span></a></li></ol></li></ol></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-6.读书总结Book/书单" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      书单
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/11/08/6.%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93Book/%E4%B9%A6%E5%8D%95/" class="article-date">
+	  <time datetime="2019-11-08T01:12:57.000Z" itemprop="datePublished">2019-11-08</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/6-%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93/">6.读书总结</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/%E4%B9%A6%E5%8D%95/" rel="tag">书单</a>
+  </span>
+
+
+        
+
+	<span class="article-read hidden-xs">
+    	<i class="icon icon-eye-fill" aria-hidden="true"></i>
+    	<span id="/2019/11/08/6.%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93Book/%E4%B9%A6%E5%8D%95/" class="leancloud_visitors"  data-flag-title="书单">0</span>
+    </span>
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/11/08/6.%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93Book/%E4%B9%A6%E5%8D%95/#comments" class="article-comment-link">Comments</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count: 7.5k(words)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">Read Count: 29(minutes)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="书单"><a href="#书单" class="headerlink" title="书单"></a>书单</h1><ul>
+<li>以下书籍都是我亲自买来看过，并且觉得还不错，值得推荐的！ 我还特意筛选了下，尽量形成一个合理的知识体系，从宏观到微观，从理论到实用。</li>
+</ul>
+<p>一、社会、人类</p>
+<ol>
+<li>《人类简史》[以色列]尤瓦尔·赫拉利 （一部世界史竟然能够畅销，确实不容易，注意认清作者，有一本名字一样的）</li>
+<li>《人类学透镜》詹姆斯·皮科克（入门书籍）</li>
+<li>《社会学入门》詹姆斯·汉斯林（都说是入门了，给你一个更宽广的视角吧）</li>
+<li>《论人类不平等的起源》卢梭（不介绍了，经典书籍）</li>
+<li>《国富论》亚当斯密</li>
+<li>《功利主义》穆勒（这里的功利主义真和我们生活中常说的功利不一样）</li>
+<li>《1984》、《动物庄园》不解释，细思极恐。</li>
+<li>《自私的美德》安.兰德（ 作者力倡个人主义，认为不能使个人利益得到最大伸张的社会，就不是理想社会，我觉得在我们国情下尤其具有启发意义。 ）</li>
+<li>《人生的智慧》叔本华（有人评论“ 如果一生只读一本心灵鸡汤，就要读这一本。”）</li>
+<li>《帕斯卡尔思想录》（ 12岁独自发现了“三角形的内角和等于180度” ，17岁时写成《圆锥曲线论》的神人 ）</li>
+</ol>
+<p>二、心理</p>
+<ol>
+<li>《社会心理学》戴维迈尔斯（社会心理学最好的作品，我觉得没有之一）</li>
+<li>《爱的艺术》弗洛姆（网友评价：书薄，但是分量重）</li>
+<li>《生命之爱》弗洛姆（很喜欢这个心理学家的书）</li>
+<li>《心的出路》 伊莉莎白•库伯勒•罗斯 （其中的核心理念挺认可的）</li>
+<li>《心灵简史》[英]乔治·汉弗瑞等（心灵成长的通俗诠释，可读，易读）</li>
+<li>《幸福之路》罗素（听书名就知道了）</li>
+<li>《进化心理学》巴斯（读完对婚姻和择偶有更深的认知）</li>
+<li>《亲密关系》罗兰.米勒（和上一本搭配着看，有意思）</li>
+<li>《乌合之众》（理解各种社会现象，反思自我）</li>
+</ol>
+<p>三、文化</p>
+<ol>
+<li>《中国文化的深层结构》孙隆基（可能不是很好读，我读了几遍）</li>
+<li>《素书》（据传是黄石公所做，没做考证，但我觉得很好，耐心品味）</li>
+<li>《菜根谭》洪应明（中国传统文化还是有很多不错的，不过少部分内容辩证看待吧）</li>
+<li>《智慧书》巴尔塔沙·葛拉西安（一本小册子，据说曾经风靡欧洲，还是要自己悟吧）</li>
+<li>《人情与面子》黄光国（对于中国人际关系的划分是经典）</li>
+<li>《权经》冯道（ 五代十国的传奇人物,一生历经五朝十二帝,可谓真正的官场不倒翁 ）</li>
+</ol>
+<p>四、思维</p>
+<ol>
+<li>《超越感觉：批判性思考指南》文森特•鲁吉罗（批判性思考，个人最提倡的）</li>
+<li>《尼采的锤子》[英]尼古拉斯·费恩（小故事中有哲理，我觉得挺有趣的）</li>
+<li>《思考的力量》理查德保罗（个人非常喜欢的一本，但是有点晦涩，需要耐心）</li>
+<li>《学会提问：批判性思维指南》这本更加简明</li>
+<li>《像心理学家一样思考》[美] 唐纳德·麦克伯尼（相对浅显，易读）</li>
+<li>《我们如何思维》约翰杜威（实用主义的典型代表杜威，理论和干货多）</li>
+<li>《有效思维》[英] L. S. 斯泰宾（读的人应该不多，我印象最深的是有关自我中心主义）</li>
+<li>《身边的逻辑学》伯纳·派顿（前面几章看的很爽，后面好像印象较浅）</li>
+</ol>
+<p>五、教育</p>
+<ol>
+<li>《如何成为卓越的大学教师》肯·贝恩（推荐中国的大学老师好好读，好多大学老师是不合格的）</li>
+<li>《给教师的建议》[苏] B.A. 苏霍姆林斯基（教育界有人说话必称“苏霍姆林斯基说过…所以，不解释，推荐所有老师看）</li>
+<li>《光有爱还不够》克洛德·阿尔莫（真正的父母之爱，是帮助孩子构建自我。）</li>
+<li>《教学设计原理》加涅（老师、培训师建议看，课程设计与开发经典之作）</li>
+<li>《民主·经验·教育》约翰杜威（杜威，大牛，不解释）</li>
+</ol>
+<p>六、职业发展和求职</p>
+<ol>
+<li>《适合比成功更重要》[美] 布朗温•卢埃林（有测评，不过仅供参考）</li>
+<li>《富爸爸，穷爸爸》（观念还是很不错的，反正对那时候的我非常具有启发性）</li>
+<li>《快乐富有过一生》汉斯·雅各比（个人认为观念上的引导还是不错的）</li>
+<li>《聘之有道面试读心术》王新宇（看看企业招人的逻辑、逆向思考）</li>
+<li>《金字塔原理：思考、写作和解决问题的逻辑》[美] 巴巴拉·明托</li>
+<li>《首先，打破一切常规》（识别优势，准确自我定位）</li>
+<li>偶的知乎专栏和公众号，里头有大量职业发展相关文章（职业探索、面试官要求、求职技巧等）</li>
+</ol>
+<p>吾生有涯而知无涯，然则怕什么真理无穷，进一寸有一寸的欢喜。</p>
+<p>诚心建议有心人收藏此文，并且里头的书有时间都找来看看。</p>
+<p>书单好不好我不评价，从中随便挑几本看看：</p>
+<h3 id="豆瓣TOP500书单"><a href="#豆瓣TOP500书单" class="headerlink" title="豆瓣TOP500书单"></a>豆瓣TOP500书单</h3><p>1.《百年孤独》（豆瓣评分：9.2）<br>2.《如何阅读一本书》（豆瓣部分：8.5）<br>3.《少有人走的路》（豆瓣部分：8.4）<br>4.《乌合之众》（豆瓣部分：8.4）<br>5.《追风筝的人》（豆瓣部分：8.8）<br>6.《万历十五年》（豆瓣评分：8.9）<br>7.《红楼梦》（豆瓣部分：9.5）<br>8.《三体》（豆瓣部分：8.8）<br>9.《失控》（豆瓣评分：8.8）<br>10.《白夜行》（豆瓣部分：9.1）<br>11.《不能承受的生命之轻》（豆瓣评分：8.4）<br>12.《社会心理学》（豆瓣评分：9）<br>13.《心理学与生活》（豆瓣评分：8.7）<br>14.《小王子》（豆瓣部分：9）<br>15.《影响力》（豆瓣评分：8.6）<br>16.《哥德尔、艾舍尔、巴赫》（豆瓣部分：9.4）<br>17.《通往奴役之路》（豆瓣部分：8.9）<br>18.《历史深处的忧虑》（豆瓣部分：9）<br>19.《霍乱时期的爱情》（豆瓣部分：9）<br>20.《枪炮、病菌与钢铁》（豆瓣部分：8.8）<br>21.《月亮和六便士》（豆瓣评分：9）<br>22.《论美国的民主》（豆瓣评分：9.2）<br>23.《送你一颗子弹》（豆瓣部分：8.6）<br>24.《中国历代政治得失》（豆瓣部分：9.1）<br>25.《文学回忆录（全2册）》（豆瓣评分：9.2）<br>26.《围城》（豆瓣部分：8.9）<br>27.《民主的细节》（豆瓣部分：8.6）<br>28.《寻路中国》（豆瓣部分：9）<br>29.《人类简史》（豆瓣评分：9.3）<br>30.《艺术的故事》（豆瓣部分：9.6）<br>31.《解忧杂货店》（豆瓣部分：8.6）<br>32.《看不见的城市》（豆瓣部分：8.8）<br>33.《天才在左疯子在右》（豆瓣部分：8.3）<br>34.《高效能人士的七个习惯（精华版）》（豆瓣部分：8.2）<br>35.《设计中的设计》（豆瓣部分：8.6）<br>36.《目送》（豆瓣评分：8.7）37.《看见》（豆瓣部分：8.8）<br>38.《江城》（豆瓣评分：9）<br>39.《娱乐至死》（豆瓣部分：8.6）<br>40.《情人》（豆瓣部分：8.1）<br>41.《把时间当作朋友》（豆瓣部分：8.6）<br>42.《社会契约论》（豆瓣部分：8.8）<br>43.《我们仁》（豆瓣部分：8.6）<br>44.《社会性动物》（豆瓣部分：9.1）<br>45.《理想国》（豆瓣部分：8.7）46.《自控力》（豆瓣部分：8.3）<br>47.《思考，快与慢》（豆瓣部分：8.3）<br>48.《国史大绸（上下）》（豆瓣部分：9.3）<br>49.《写给大家看的设计书（第3版）》（豆瓣部分：8.6）<br>50.《狂热分子》（豆瓣评分：9.1）<br>51.《遇见未知的自己》（豆瓣部分：8.1）<br>52.《苏菲的世界》（豆瓣部分：8.5）<br>53.《天朝的崩溃》（豆瓣评分：9）<br>54.《这些人，那些事》（豆瓣评分：8.8）<br>55.《嫌疑人X的献身》（豆瓣部分：8.9.）<br>56.《牧羊少年奇幻之旅》（豆瓣部分：8.7）<br>57.《浪潮之巅》（豆瓣部分：9.1）<br>58.《挪威的森林》（豆瓣部分：8）<br>59.《菊与刀》（豆瓣评分：8.2）<br>60.《一九八四》（豆瓣部分：9.3）<br>61.《史记（全十册）》（豆瓣部分：9.5）<br>62.《查令十字街84号》（豆瓣评分：8.4）<br>63.《从一到无穷大》（豆瓣评分：9.1）<br>64.《爱的艺术》（豆瓣部分：8.8）<br>65.《决策与判断》（豆瓣评分：8.5）<br>66.《黑客与画家》（豆瓣评分：8.8）<br>67.《学会提问》（豆瓣部分：8.6）<br>68.《心是孤独的猎手》（豆瓣部分：8.5）<br>69.《点石成金》（豆瓣部分：8.5）<br>70.《自私的基因》（豆瓣部分：8.7）<br>71.《孤独六讲》（豆瓣部分：8.1）<br>72.《最好的告别》（豆瓣评分：9）<br>73.《卡拉马佐夫兄弟》（豆瓣部分：9.3）<br>74.《窗边的小豆豆》（豆瓣部分：8.7）<br>75.《刀锋》（豆瓣部分：9）<br>76.《三体》（豆瓣部分：9.2）<br>77.《故事》（豆瓣评分：9.2）<br>78.《亲爱的安德烈》（豆瓣部分：8.7）<br>79.《三体》（豆瓣评分：9.2）<br>80.《卓有成效的管理者》（豆瓣评分：8.8）<br>81.《沟通的艺术（插图修订第14版）》（豆瓣部分：8.7）<br>82.《《华尔街日报》是如何讲故事的》（豆瓣部分：8.4）<br>83.《当我谈跑步时我谈些什么》（豆瓣部分：8.1）<br>84.《活着》（豆瓣部分：9.1）<br>85.《中国大历史》（豆瓣部分：8.3）<br>86.《西方哲学史（上卷）》（豆瓣部分：8.9）<br>87.《夹边沟记事》（豆瓣部分：9.1）<br>88.《无声告白》（豆瓣评分：8.2）<br>89.《定位》（豆瓣部分：8.3）<br>90.《何以笙箫默》（豆瓣部分：8）<br>91.《总统是靠不住的》（豆瓣部分：8.8）<br>92.《设计心理学》（豆瓣部分：8.2）<br>93.《万物静默如谜》（豆瓣部分：8.5）<br>94.《平凡的世界（全三部）》（豆瓣评分：9）<br>95.《我也有一个梦想》（豆瓣部分：9）<br>96.《最初的爱情最后的仪式》（豆瓣部分：8）<br>97.《规训与惩罚》（豆瓣部分：9.1）<br>98.《认识电影》（豆瓣评分：8.9）<br>99.《沉默的大多数》（豆瓣部分：9.1）<br>100.《带一本书去巴黎》（豆瓣部分：8.5）<br>101.《学习之道（第2版）》（豆瓣部分：8.3）<br>102.《君主论》（豆瓣评分：8.7）<br>103.《耶路撒冷三千年》（豆瓣部分：8）<br>103.《耶路撒冷三千年》（豆瓣部分：8）<br>104.《玫瑰的名字》（豆瓣评分：8.5）<br>105.《万物：创世》（豆瓣评分：8.9）<br>106.《拖延心理学》（豆瓣部分：8.2）<br>107.《进化心理学》（豆瓣部分：8.9）<br>108.《史蒂夫·乔布斯传》（豆瓣评分：8.7）<br>109.《悉达多》（豆瓣评分：9）<br>110.《叫魂》（豆瓣部分：8.9）<br>111.《非暴力沟通》（豆瓣部分：8.5）<br>112.《金字塔原理》（豆瓣评分：8.1）<br>113.《时间简史》（豆瓣部分：8.8）<br>114.《唯有孤独恒常如新》（豆瓣部分：8.2）<br>115.《光荣与梦想》（豆瓣部分：8.9）<br>116.《乡关何处》（豆瓣评分：8.6）<br>117.《巨流河》（豆瓣部分：8.7）<br>118.《旧制度与大革命》（豆瓣部分：8.9）<br>119.《斯通纳》（豆瓣部分：8.8）<br>120.《恶意》（豆瓣部分：8.4）<br>121.《灿烂千阳》（豆瓣部分：8.8）<br>122.《常识》（豆瓣部分：8.1）<br>123.《发现之旅》（豆瓣部分：9）<br>124.《悲伤与理智》（豆瓣评分：8.7）<br>125.《穷查理宝典》（豆瓣部分：9）<br>126.《永恒的终结》（豆瓣评分：9）<br>127.《局外人》（豆瓣部分：9）<br>128.《聪明的投资者》（豆瓣部分：9）<br>129.《激荡三十年（上）》（豆瓣部分：8.8）<br>130.《极权主义的起源》（豆瓣部分：8.7）<br>131.《计算机程序的构造和解释》（豆瓣部分：9.5）<br>132.《上帝掷骰子吗》（豆瓣部分：9.2）<br>133.《伟大的博弈》（豆瓣部分：8.3）<br>134.《三生三世十里桃花》（豆瓣部分：8.3）<br>135.《暗时间》（豆瓣评分：8.5）<br>136.《人生的枷锁》（豆瓣评分：9）<br>137.《创业维艰》（豆瓣部分：8.5）<br>138.《开放社会及其敌人（全二卷）》（豆瓣评分：8.9）<br>139.《瓦尔登湖》（豆瓣部分：8.5）<br>140.《动物农场》（豆瓣部分：9.2）<br>141.《精益创业》（豆瓣部分：8.4）<br>142.《旅行的艺术》（豆瓣部分：8.3）<br>143.《论自由》（豆瓣部分：8.7）<br>144.《三国演义（全二册）》（豆瓣部分：9.2）<br>145.《万物有灵且美》（豆瓣部分：8.8）<br>146.《正义论》（豆瓣部分：8.8）<br>147.《繁花》（豆瓣部分：8.7）<br>148.《巴菲特致股东的信》（豆瓣部分：8.3）<br>149.《别做正常的傻瓜》（豆瓣部分：8.2）<br>150.《路西法效应》（豆瓣评分：8.6）<br>151.《经济学原理》（豆瓣部分：9.4）<br>152.《什么是数学》（豆瓣部分：9.1）<br>153.《退步集》（豆瓣部分：8.1）<br>154.《如何阅读一本小说》（豆瓣部分：8.1）<br>155.《潜规则》（豆瓣部分：8.3）<br>156.《批评官员的尺度》（豆瓣部分：8.9）<br>157.《美国大城市的死与生（纪念版）》（豆瓣部分：8.7）<br>158.《源泉》（豆瓣部分：9.1）<br>159.《新教伦理与资本主义精神》（豆瓣评分：8.8）<br>160.《存在与时间》（豆瓣部分：8.7）<br>161.《美丽新世界》（豆瓣部分：8.5）<br>162.《正见》（豆瓣评分：8.8）<br>163.《万物简史》（豆瓣评分：8.8）<br>164.《美国宪政历程》（豆瓣部分：9.1）<br>165.《忧郁的热带》（豆瓣部分：9.1）<br>166.《香水》（豆瓣评分：8.5）<br>167.《异乡人》（豆瓣部分：8.9）<br>168.《华胥引（全二册）》（豆瓣部分：8.6）<br>169.《数学之美》（豆瓣评分：8.7）<br>170.《焚舟纪》（豆瓣部分：8.5）<br>171.《树上的男爵》（豆瓣部分：9）<br>172.《上学记》（豆瓣部分：8.8）<br>173.《国富论》（豆瓣部分：9）<br>174.《人间词话》（豆瓣评分：9）<br>175.《24个比利》（豆瓣部分：8.3）<br>176.《1Q84BOOK1》（豆瓣评分：8.3）<br>177.《与“众”不同的心理学》（豆瓣部分：8.8）<br>178.《维特根斯坦传》（豆瓣部分：9.1）<br>179.《微微一笑很倾城》（豆瓣部分：8.2）<br>180.《午夜之子》（豆瓣评分：8.4）<br>181.《平如美棠》（豆瓣评分：9）<br>182.《天真的人类学家》（豆瓣部分：8.8）<br>183.《人类的群星闪耀时》（豆瓣评分：8.7）<br>184.《杀死一只知更鸟》（豆瓣部分：9.2）<br>185.《算法导论（原书第2版）》（豆瓣评分：9.4）<br>186.《重来》（豆瓣部分：8.3）<br>187.《乡土中国》（豆瓣部分：9.2）<br>188.《疯癫与文明》（豆瓣评分：8.7）<br>189.《伊斯坦布尔》（豆瓣评分：8.4）<br>190.《圣经》（豆瓣部分：9）<br>191.《利维坦》（豆瓣部分：8.6）<br>192.《昨日的世界》（豆瓣评分：9.2）<br>193.《肖申克的救赎》（豆瓣部分：9.1）<br>194.《1984》（豆瓣部分：9.3）<br>195.《小于一》（豆瓣评分：8.6）<br>196.《经济学原理（上下）》（豆瓣评分：9）<br>197.《代码大全（第2版）》（豆瓣评分：9.3）<br>198.《精神分析引论》（豆瓣部分：8.6）<br>199.《启示录》（豆瓣评分：8.5）<br>200.《飘（上下）》（豆瓣部分：9.3）<br>201.《联邦党人文集》（豆瓣部分：9）<br>202.《用户体验的要素》（豆瓣评分：8.2）<br>203.《众病之王》（豆瓣部分：9.1）<br>204.《一九八四·动物农场》（豆瓣部分：9.2）<br>205.《情感化设计》（豆瓣评分：8）<br>206.《哈利·波特与魔法石》（豆瓣评分：9）<br>207.《追寻记忆的痕迹》（豆瓣评分：8.9）<br>208.《拆掉思维里的墙》（豆瓣评分：8）<br>209.《邓小平时代》（豆瓣评分：8.8）<br>210.《作为意志和表象的世界》（豆瓣部分：8.9）<br>211.《怪诞行为学》（豆瓣部分：8.1）<br>212.《哈扎尔辞典（阳本）》（豆瓣部分：8.8）<br>213.《时间旅行者的妻子》（豆瓣部分：8.1）<br>214.《为什么读经典》（豆瓣部分：8.3）<br>215.《致命的自负》（豆瓣评分：8.8）<br>216.《安吉拉·卡特的精怪故事集》（豆瓣部分：8）<br>217.《漫长的告别》（豆瓣部分：8.1）<br>218.《十一种孤独》（豆瓣评分：8.1）<br>219.《彼得·林奇的成功投资》（豆瓣部分：8.7）<br>220.《沉思录》（豆瓣部分：8.2)<br>221.《观念的水位》（豆瓣部分：8.3）<br>222.《没有人给他写信的上校》（豆瓣部分：8.5）<br>223.《晚清七十年（全五册）》（豆瓣部分：8.8）<br>224.《你今天真好看》（豆瓣部分：8.8）<br>225.《姑获鸟之夏》（豆瓣部分：8.1）<br>226.《博尔赫斯小说集》（豆瓣部分：9.1）<br>227.《来自新世界（上下）》（豆瓣部分：9）<br>228.《逃避自由》（豆瓣部分：8.9）<br>229.《我不知道该说什么，关于死亡还是爱情》（豆瓣部分：8.9）<br>230.《设计中的设计l全本》（豆瓣部分：9.1）<br>231.《策略思维》（豆瓣部分：8.5）<br>232.《反脆弱》（豆瓣评分：8.3）233.《狼图腾》（豆瓣评分：8.3）<br>234.《亲密关系》（豆瓣部分：8.7）<br>235.《全球通史（上）》（豆瓣部分：9.2）<br>236.《创新者的窘境》（豆瓣部分：8.5）<br>237.《大问题》（豆瓣评分：9）<br>238.《人间失格》（豆瓣部分：8.3）<br>239.《简约至上》（豆瓣部分：8.4）<br>240.《雕刻时光》（豆瓣部分：9）<br>241.《你一定爱读的极简欧洲史》（豆瓣部分：8.3）<br>242.《一桩事先张扬的凶杀案》（豆瓣评分：8.6）<br>243.《达·芬奇密码》（豆瓣评分：8.2）<br>244.《游戏改变世界》（豆瓣部分：8.2）<br>245.《福尔摩斯探案全集（上中下）》（豆瓣部分：9.2）<br>246.《失物之书》（豆瓣部分：8.5）<br>247.《股票作手回忆录》（豆瓣部分：8.7）<br>248.《生命是什么》（豆瓣部分：8.7）<br>249.《黄金时代》（豆瓣部分：8.8）<br>250.《那些古怪又让人忧心的问题》（豆瓣部分：8.2）<br>251.《东方快车谋杀案》（豆瓣部分：9）<br>252.《顾准文集》（豆瓣部分：9.1）<br>253.《富爸爸，穷爸爸》（豆瓣部分：8.2）<br>254.《论中国》（豆瓣部分：8.6）<br>255.《金色梦乡》（豆瓣部分：9）<br>256.《九故事》（豆瓣部分：8.5）<br>257.《怦然心动的人生整理魔法》（豆瓣部分：8）<br>258.《爱你就像爱生命》（豆瓣部分：8.8）<br>259.《中国近代史（上册）》（豆瓣部分：9.4）<br>260.《禅与摩托车维修艺术》（豆瓣部分：8.4）<br>261.《强风吹拂》（豆瓣部分：9.1）<br>262.《浮生六记》（豆瓣评分：8.9）<br>263.《活了100万次的猫》（豆瓣部分：8.9）<br>264.《金融的逻辑》（豆瓣部分：8）<br>265.《第二性》（豆瓣部分：8.6）<br>266.《我的孤独是一座花园》（豆瓣部分：8.7）<br>267.《美的历程》（豆瓣部分：8.8）<br>268.《火星救援》（豆瓣部分：8.9）<br>269.《无人生还》（豆瓣部分：8.9）<br>270.《我执》（豆瓣评分：8）<br>271.《野蛮大陆》（豆瓣部分：9）<br>272.《ZO0》（豆瓣部分：8.6）<br>273.《尤利西斯》（豆瓣部分：8.4）<br>274.《冬牧场》（豆瓣部分：9）<br>275.《偷影子的人》（豆瓣评分 8)<br>276.《激荡三十年（下）》（豆瓣评分：8.9）<br>277.《野火集》（豆瓣评分：8.8）<br>278.《大教堂》（豆瓣部分：8.5）<br>279.《猜猜我有多爱你》（豆瓣部分：9.3）<br>280.《了不起的盖茨比》（豆瓣部分：8.3）<br>281.《一个人的朝圣》（豆瓣部分：8.1）<br>282.《如星划过夜空》（豆瓣部分：8.9）<br>283.《人性中的善良天使》（豆瓣评分：8.8）<br>284.《历史研究》（豆瓣部分：9.1）<br>285.《自由》（豆瓣部分：8.5）<br>286.《十四堂人生创意课》（豆瓣评分：8.2）<br>287.《新世界》（豆瓣评分：8.9）<br>288.《毛姆短篇小说精选集》（豆瓣部分：9.1）<br>289.《失明症漫记》（豆瓣部分：9.1）<br>290.《公正》（豆瓣评分：9.1）<br>291.《血酬定律》（豆瓣部分：8.2）<br>292.《城记》（豆瓣部分：8.7）<br>293.《天国之秋》（豆瓣部分：8.7）<br>294.《美学散步》（豆瓣部分：8.8）<br>295.《如果在冬夜，一个旅人》（豆瓣部分：8.7）<br>296.《金融炼金术》（豆瓣部分：8.4）<br>297.《孙子兵法》（豆瓣部分：9.3）<br>298.《一个陌生女人的来信》（豆瓣部分：8.7）<br>299.《德米安》（豆瓣部分：9）<br>300.《傲慢与偏见》（豆瓣部分：8.8）<br>301.《边城》（豆瓣部分：8.6）<br>302.《铁皮鼓》（豆瓣评分：8.5）<br>303.《悟空传》（豆瓣部分：8.4）<br>304.《寻找家园》（豆瓣部分：9.2）<br>305.《从优秀到卓越》（豆瓣部分：8.1）<br>306.《1453：君士坦丁堡之战》（豆瓣评分：9）<br>307.《证券分析》（豆瓣部分：8.8）<br>308.《水浒传（全二册）》（豆瓣部分：8.5）<br>309.《秘密花园》（豆瓣部分：8.1）<br>310.《海边的卡夫卡》（豆瓣部分：8.1）<br>311.《西藏生死书》（豆瓣评分：8.6）<br>312.《佛祖在一号线》（豆瓣部分：8.2）<br>313.《超越时空》（豆瓣部分：9）<br>314.《改变心理学的40项研究》（豆瓣部分：8.8）<br>315.《C程序设计语言》（豆瓣部分：9.4）<br>316.《中国文化要义》（豆瓣部分：9）<br>317.《哪来的天才？》（豆瓣部分：8）<br>318.《相约星期二》（豆瓣评分：8.4）<br>319.《倾城之恋》（豆瓣部分：8.5）<br>320.《阿拉伯的劳伦斯》（豆瓣部分：9.1）<br>321.《城门开》（豆瓣部分：8.4）<br>322.《孩子你慢慢来》（豆瓣部分：8.8）<br>323.《中国法律与中国社会》（豆瓣评分：9.2）<br>324.《被淹没和被拯救的》（豆瓣部分：9.1）<br>325.《第五项修炼》（豆瓣部分：8.5）<br>326.《日瓦戈医生》（豆瓣部分：8.6）<br>327.《自由秩序原理》（豆瓣部分：9）<br>328.《写作这回事》（豆瓣部分：8.6）<br>329.《人生的智慧》（豆瓣评分：9.3）<br>330.《占星术杀人魔法》（豆瓣潮编：8.5)<br>331.《基业长青》（豆瓣部分：8.2）<br>332.《我的阿勒泰》（豆瓣部分：8.8）<br>333.《江村经济》（豆瓣部分：8.9）<br>334.《观看之道》（豆瓣评分：8.3）<br>335.《设计模式》（豆瓣部分：9.1）<br>336.《经济学的思维方式（第11版）》（豆瓣部分：8.7）<br>337.《渴望生活》（豆瓣部分：9.2）<br>338.《古拉格：一部历史》（豆瓣部分：9.2）<br>339.《超越死亡》（豆瓣部分：9）<br>340.《你的灯亮着吗？》（豆瓣评分：8.2）<br>341.《明朝那些事儿（壹）》（豆瓣评分：8.8）<br>342.《当世界年纪还小的时候》（豆瓣评分：8.6）<br>343.《中国哲学简史》（豆瓣评分：8.8）<br>344.《资治通篮（全二十册）》（豆瓣部分：9.3）<br>345.《生活与命运》（豆瓣部分：9）<br>346.《西班牙旅行笔记》（豆瓣部分：8.6）<br>347.《中国近代史》（豆瓣评分：8.8）<br>348.《向前一步》（豆瓣部分：8.1）<br>349.《谈谈方法》（豆瓣部分：8.6）<br>350.《长恨歌》（豆瓣部分：8.3）<br>351.《奇特的一生》（豆瓣部分：8.3）<br>352.《夏洛的网》（豆瓣部分：8.5）<br>353.《银河系漫游指南》（豆瓣部分：8.8）<br>354.《清明上河图密码》（豆瓣部分：8.2）<br>355.《二十首情诗和一首绝望的歌》（豆瓣部分：8.3）<br>356.《中国文化的深层结构》（豆瓣部分：8.6）<br>357.《简爱》（豆瓣部分：8.5）<br>358.《一个广告人的自白》（豆瓣评分：8.4）<br>359.《时间的针脚》（豆瓣部分：8.4）<br>360.《华夏意匠》（豆瓣评分：9.2）<br>361.《没有色彩的多崎作和他的巡礼之年》（豆瓣部分：8.3）<br>362.《野蛮生长》（豆瓣评分：8.3）<br>363.《我不喜欢这世界，我只喜欢你》（豆瓣部分：8.2）<br>364.《全球通史（下）》（豆瓣部分：9.2）<br>365.《魍魉之匣（上）》（豆瓣部分：8.5）<br>366.《质数的孤独》（豆瓣评分：8）<br>367.《思考的技术》（豆瓣部分：8）<br>368.《自由在高处》（豆瓣部分：8.1）<br>369.《习惯的力量》（豆瓣部分：8）<br>370.《刺猬的优雅》（豆瓣部分：8.1）<br>371.《泛若不系之舟》（豆瓣部分：8.6）<br>372.《基地》（豆瓣部分：9.2）<br>373.《最好的我们》（豆瓣评分：8.9）<br>374.《独裁者手册》（豆瓣评分：8.9）<br>375.《别闹了，费曼先生》（豆瓣部分：8.9）<br>376.《穆斯林的葬礼》（豆瓣部分：8.3）<br>377.《人性的弱点全集》（豆瓣部分：8.3）<br>378.《蝇王》（豆瓣评分：8.2）<br>379.《不去会死！》（豆瓣评分：8.2）<br>380.《我在伊朗长大》（豆瓣部分：9.3）<br>381.《财富之城》（豆瓣评分：8.9）<br>382.《逃离》（豆瓣评分：8）<br>383.《对伪心理学说不》（豆瓣部分：9.2）<br>384.《金雀花王朝》（豆瓣部分：8.6）<br>385.《复杂》（豆瓣部分：8.8）<br>386.《X的悲剧》（豆瓣评分：8.5）<br>387.《八十年代访谈录》（豆瓣潮金：8.5)<br>388.《万有引力之虹》（豆瓣部分：8.3）<br>389.《怎样选择成长股》（豆瓣部分：8.5）<br>390.《我们的祖先》（豆瓣部分：9.4）<br>391.《想象的共同体》（豆瓣部分：8.8）<br>392.《此间的少年》（豆瓣部分：8.4）<br>393.《所罗门王的指环》（豆瓣部分：9.2）<br>394.《美的历史》（豆瓣评分：8.4）<br>395.《认得几个字》（豆瓣部分：8.2）<br>396.《好妈妈胜过好老师》（豆瓣评分：9.1）<br>397.《万火归一》（豆瓣评分：8.7）<br>398.《万万没想到》（豆瓣部分：8.5）<br>399.《风之影》（豆瓣部分：8.6）<br>400.《恶童日记》（豆瓣评分：8.6）<br>401.《步步惊心》（豆瓣评分：8.1）<br>402.《项塔兰》（豆瓣部分：9.1）<br>403.《惶然录》（豆瓣评分：9）<br>404.《佳期如梦》（豆瓣部分：8）<br>405.《大卫，不可以》（豆瓣评分：8.8）<br>406.《共产党宣言》（豆瓣部分：8.6）407.《逻辑哲学论》（豆瓣部分：9.1）<br>408.《爱弥儿》（豆瓣部分：8.7）<br>409.《传统十论》（豆瓣部分：9.1）<br>410.《全球通史（第7版上册）》<br>（豆瓣评分：8.9）<br>411.《奥克诺斯》（豆瓣部分：9.1）<br>412.《大萝卜和难挑的鳄梨》（豆瓣部分：8.1）<br>413.《冰与火之歌（卷一）》<br>（豆瓣部分：9.3）<br>414.《交往与空间》（豆瓣评分：8.8）<br>415.《消费社会》（豆瓣部分：8.4）<br>416.《纯粹理性批判》（豆瓣部分：8.9）<br>417.《1Q84BOOK2》（豆瓣部分：8.4）<br>418.《一朵桔梗花》（豆瓣评分：8.5）<br>419.《荆棘鸟》（豆瓣评分：8.6）<br>420.《大英博物馆世界简史（全3册）》（豆瓣部分：9.2）<br>421.《偷书贼》（豆瓣部分：8）<br>422.《杂草的故事》（豆瓣评分：8.4）<br>423.《深夜食堂01》（豆瓣部分：9）<br>424.《理解媒介》（豆瓣评分：8.5）<br>425.《毛姆传》（豆瓣部分：8.4）<br>426.《蛤蟆的油》（豆瓣评分：8.4）<br>427.《电影艺术（插图第8版）》（豆瓣部分：8.9）<br>428.《道德经》（豆瓣部分：9.4）<br>429.《过于喧嚣的孤独》（豆瓣部分：8.8）<br>430.《圣诞忆旧集》（豆瓣评分：8.6）<br>431.《台北人》（豆瓣评分：8.9）<br>432.《伯罗奔尼撒战争史》（豆瓣评分：8.9）<br>433.《洞穴奇案》（豆瓣评分：9.1）<br>434.《万物既伟大又渺小》（豆瓣评分：9）<br>435.《2666》（豆瓣部分：8.6）<br>436.《神们自己》（豆瓣评分：8.4）<br>437.《月光落在左手上》（豆瓣部分：8.3）<br>438.《给孩子的诗》（豆瓣部分：8.2）<br>439.《迷宫中的将军》（豆瓣评分：8.6）<br>440.《天龙八部》（豆瓣部分：9）<br>441.《老子注译及评介》（豆瓣部分：9.2）<br>442.《大败局》（豆瓣部分：8.3）<br>443.《梦中的欢快葬礼和十二个异乡故事》（豆瓣部分：8.6）<br>444.《重新认识你自己》（豆瓣部分：8.6）<br>445.《高难度谈话》（豆瓣评分：8.2）<br>446.《版式设计原理》（豆瓣部分：8.4）<br>447.《改变》（豆瓣评分：8.5）<br>448.《追忆似水年华》（豆瓣评分：9.1）<br>449.《街道的美学》（豆瓣部分：8.6）<br>450.《社会学的想像力》（豆瓣部分：8.6）<br>451.《文明的冲突与世界秩序的重建》（豆瓣部分：8.4）<br>452.《金阁寺》（豆瓣部分：8.6）<br>453.《未央歌》（豆瓣部分：8.4）<br>454.《无缘社会》（豆瓣部分：8.4）<br>455.《没有个性的人》（豆瓣部分：9）<br>456.《一个村庄里的中国》（豆瓣部分：8）<br>457.《深入理解计算机系统》（豆瓣部分：9.5）<br>458.《生活在别处》（豆瓣部分：8.3）<br>459.《忧伤的时候，到厨房去》（豆瓣部分：8.2）<br>460《我的精神家园》（豆瓣部分：9）<br>461.《纳尔齐斯与歌尔德蒙》（豆瓣评分：9.2）<br>462.《许三观卖血记》（豆瓣评分：8.7）<br>463.《文明之光（第一册）》（豆瓣部分：9）<br>464.《单向度的人》（豆瓣部分：8.4）<br>465.《莲花》（豆瓣部分：8）<br>466.《所有我们看不见的光》（豆瓣部分：9）<br>467.《门萨的娼妓》（豆瓣部分：8）<br>468.《脑髓地狱》（豆瓣部分：8）<br>469.《我爱问连岳》（豆瓣部分：8.1）<br>470.《信息简史》（豆瓣部分：8.8）<br>471.《那些回不去的年少时光》（豆瓣评分：8.5）<br>472.《政府论（下篇）》（豆瓣部分：8.9）<br>473.《袁氏当国》（豆瓣部分：8.5）<br>474.《集体行动的逻辑》（豆瓣评分：8.5）<br>475.《商业模式新生代》（豆瓣部分：8.4）<br>476.《童年的消逝》（豆瓣部分：8.4）<br>477.《寂静的春天》（豆瓣评分：8.3）<br>478.《呼啸山庄》（豆瓣部分：8.4）<br>479.《罗伯特议事规则》（豆瓣部分：8.7）<br>480.《深入理解计算机系统（原书第2版）》（豆瓣评分：9.7）<br>481.《纯真博物馆》（豆瓣评分：8.1）<br>482.《编程珠玑》（豆瓣部分：9.2）<br>483.《金枝（上下册）》（豆瓣部分：8.8）<br>484.《重新发现社会》（豆瓣部分：8.4）<br>485.《看海的人》（豆瓣部分：8.4）<br>486.《最好的时光》（豆瓣部分：8.4）<br>487.《云中歌1》（豆瓣部分：8.2）<br>488.《就业、利息和货币通论》（豆瓣部分：8.6）<br>489.《致D》（豆瓣部分：8.5）<br>490.《世界尽头与冷酷仙境》（豆瓣部分：8.5）<br>491.《喜宝》（豆瓣评分：8.1）<br>492.《巴黎评论·作家访谈l》（豆瓣部分：9）<br>493.《西方美学史》（豆瓣评分：8.7）<br>494.《海子诗全集》（豆瓣评分：9.2）<br>495《失落的一角》（豆瓣评分：8.8）<br>496.《博尔赫斯谈话录》（豆瓣部分：8.8）<br>497.《自杀论》（豆瓣部分：8.4）<br>498.《我脑袋里的怪东西》（豆瓣部分：8.7）<br>499.《诗学》（豆瓣部分：8.9）<br>500.《如何读，为什么读》（豆瓣部分：8.4）</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a style="word-wrap:break-word;" href="http://yoursite.com/2019/11/08/6.%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93Book/%E4%B9%A6%E5%8D%95/" title="书单" target="_blank" rel="external">http://yoursite.com/2019/11/08/6.%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93Book/%E4%B9%A6%E5%8D%95/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/chen08" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/chen08" target="_blank"><span class="text-dark">溟海</span><small class="ml-1x">Web Developer &amp; Designer</small></a></h3>
+        <div>天行健，君子以自强不息，地势坤，君子以厚德载物。 杀不死我的,终将使我强大 没有吃不了的苦,只有享不了的福</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2019/11/08/6.%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93Book/markdown/" title="Markdown使用参考"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/11/08/1.WEB%E5%89%8D%E7%AB%AFWeb/CSS/" title="CSS"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="Catalogue" role="button">
+        <span>[&nbsp;</span><span>Catalogue</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open alipay app scan this qrcode, buy me a coffee!</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open wechat app scan this qrcode, buy me a coffee!</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> alipay</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> wechat payment</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+
+
+<!-- custom analytics part create by xiamo -->
+<!-- <script defer src="https://cdn1.lncld.net/static/js/av-min-1.2.1.js"></script> -->
+<script defer src="/js/av-min-1.2.1.js"></script>
+<script defer>
+AV.init({
+  appId: 'ngFQzHw7z0HgQfrtn4En4WTN-gzGzoHsz',
+  appKey: 'W9hgBBfVDwRGJKoGp5a6HKpx'
+});
+
+function showTime(Counter) {
+	var query = new AV.Query(Counter);
+		var visitors= $('.leancloud_visitors');
+		query.greaterThanOrEqualTo("time", 0);		
+		query.find({
+			success: function(results) {
+				if (results.length == 0) {				
+					return;
+				}
+				var data = results;
+				visitors.each(function(){
+					var url = $(this).attr('id').trim();					
+					for (var i = 0; i < data.length; i++) {
+						var object = data[i];
+						var content = object.get('time');
+						var _url = object.get('url')
+						if(url == _url){
+							$(this).text(content);
+						}
+					}
+				})
+				
+			},
+			error: function(object, error) {
+				console.log("Error: " + error.code + " " + error.message);
+			}
+		});
+}
+
+function addCount(Counter) {
+	var Counter = AV.Object.extend("Counter");
+	url = $(".leancloud_visitors").attr('id').trim();
+	title = $(".leancloud_visitors").attr('data-flag-title').trim();
+	var query = new AV.Query(Counter);
+	query.equalTo("url", url);
+	query.find({
+		success: function(results) {
+			if (results.length > 0) {
+				var counter = results[0];
+				counter.fetchWhenSave(true);
+				counter.increment("time");
+				counter.save(null, {
+					success: function(counter) {
+						var content = counter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(counter, error) {
+						console.log('Failed to save Visitor num, with error message: ' + error.message);
+					}
+				});
+			} else {
+				var newcounter = new Counter();
+				newcounter.set("title", title);
+				newcounter.set("url", url);
+				newcounter.set("time", 1);
+				newcounter.save(null, {
+					success: function(newcounter) {
+					    console.log("newcounter.get('time')="+newcounter.get('time'));
+						var content = newcounter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(newcounter, error) {
+						console.log('Failed to create');
+					}
+				});
+			}
+		},
+		error: function(error) {
+			console.log('Error:' + error.code + " " + error.message);
+		}
+	});
+}
+$(function() {
+	var Counter = AV.Object.extend("Counter");
+	if ($('.leancloud_visitors').length == 1) {
+		addCount(Counter);
+	} else {
+		showTime(Counter);
+	}
+}); 
+</script>
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>

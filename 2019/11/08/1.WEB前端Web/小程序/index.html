@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>小程序 | Hexo</title>
+  <script src="./js/jQuery.md5.js"></script>
+  <script>
+    
+    (function(){
+      localStorage.setItem('userinfo',hex_md5('123chen'))
+      
+      var localData = localStorage.getItem("userinfo");
+      // var localState = localStorage.getItem("state");
+        if(localStorage.getItem("state") === null){
+          var reason = window.prompt('请输入访问密码');
+          // var promptVal = window.prompt('请输入访问密码');
+          if(reason){
+              //填写内容并“确定”
+              var md5Prompt = hex_md5(reason)
+              //点击的是“确定” 
+              if (localData !== md5Prompt){
+                alert('密码错误！');
+                // history.back();
+                location.replace(location.href); 
+              }else{
+                // alert('0123');
+                localStorage.setItem('state',"1")
+              }
+          }
+          else if(reason === ""){
+              //未填写但“确定”
+              location.replace(location.href); 
+          }
+          else{
+            //“取消”事件
+            location.replace(location.href); 
+          }
+        }
+
+    })();
+  </script>
+ <link rel="alternate" href="/atom.xml" data="123chen" type="application/atom+xml">
+  <meta name="description" content="小程序目录 官方文档 开发者文档 微信小程序设计指南   框架 小程序配置 App 页面 生命周期 事件 自定义组件 语法 场景码值   API 组件 授权 兼容处理 更新机制 插件 常见问题 审核 小程序评测常见问题 小程序评测综合评定为达标，则开发者能享受极速审核：提交小程序审核将在2小时内审核完毕。工作时间：周一到周五，9点-21点；周六周日，9点-19点。    小程序配置配置包括：全局配">
+<meta name="keywords" content="JavaScript,小程序">
+<meta property="og:type" content="article">
+<meta property="og:title" content="小程序">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;08&#x2F;1.WEB%E5%89%8D%E7%AB%AFWeb&#x2F;%E5%B0%8F%E7%A8%8B%E5%BA%8F&#x2F;index.html">
+<meta property="og:site_name" content="学习的敌人是自己的满足，要认真学习一点东西，必须从不自满开始。对自己，“学而不厌”，对人家，“诲人不倦”，我们应取这种态度。">
+<meta property="og:description" content="小程序目录 官方文档 开发者文档 微信小程序设计指南   框架 小程序配置 App 页面 生命周期 事件 自定义组件 语法 场景码值   API 组件 授权 兼容处理 更新机制 插件 常见问题 审核 小程序评测常见问题 小程序评测综合评定为达标，则开发者能享受极速审核：提交小程序审核将在2小时内审核完毕。工作时间：周一到周五，9点-21点；周六周日，9点-19点。    小程序配置配置包括：全局配">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-11-23T05:02:34.000Z">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://yoursite.com/2019/11/08/1.WEB%E5%89%8D%E7%AB%AFWeb/%E5%B0%8F%E7%A8%8B%E5%BA%8F/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="学习的敌人是自己的满足，要认真学习一点东西，必须从不自满开始。对自己，“学而不厌”，对人家，“诲人不倦”，我们应取这种态度。" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/chen08" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">溟海</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer &amp; Designer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Guangzhou, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+          <!-- . -->
+        
+        
+          <li class="menu-item menu-item-home">
+            <a href="/.">
+              
+              <i class="icon icon-home-fill"></i>
+              
+              <span class="menu-title">Home</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- archives -->
+        
+        
+          <li class="menu-item menu-item-archives">
+            <a href="/archives">
+              
+              <i class="icon icon-archives-fill"></i>
+              
+              <span class="menu-title">Archives</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- categories -->
+        
+        
+          <li class="menu-item menu-item-categories">
+            <a href="/categories">
+              
+              <i class="icon icon-folder"></i>
+              
+              <span class="menu-title">Categories</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- tags -->
+        
+        
+          <li class="menu-item menu-item-tags">
+            <a href="/tags">
+              
+              <i class="icon icon-tags"></i>
+              
+              <span class="menu-title">Tags</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- repository -->
+        
+        
+          <li class="menu-item menu-item-repository">
+            <a href="/repository">
+              
+              <i class="icon icon-project"></i>
+              
+              <span class="menu-title">Repository</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- books -->
+        
+        
+          <li class="menu-item menu-item-books">
+            <a href="/books">
+              
+              <i class="icon icon-book-fill"></i>
+              
+              <span class="menu-title">Books</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- links -->
+        
+        
+          <li class="menu-item menu-item-links">
+            <a href="/links">
+              
+              <i class="icon icon-friendship"></i>
+              
+              <span class="menu-title">Links</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- about -->
+        
+        
+          <li class="menu-item menu-item-about">
+            <a href="/about">
+              
+              <i class="icon icon-cup-fill"></i>
+              
+              <span class="menu-title">About</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- navigation/webstack/index.html -->
+        
+        
+          <li class="menu-item menu-item-navigation">
+            <a href="/navigation/webstack/index.html">
+              
+              <i class="icon icon-delicious"></i>
+              
+              <span class="menu-title">Navigation</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- navigation/webstack/word.html -->
+        
+        
+          <li style="display: none;" class="menu-item menu-item-fixed">
+            <a href="/navigation/webstack/word.html">
+              
+              <i class="icon icon-delicious"></i>
+              
+              <span class="menu-title">menu.fixed</span>
+            </a>
+          </li>
+        
+
+
+        
+      </ul>
+
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/1-WEB%E5%89%8D%E7%AB%AF/">1.WEB前端</a><span class="category-list-count">140</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/2-%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">2.编程语言</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/3-%E4%BA%A7%E5%93%81%E8%AE%BE%E8%AE%A1/">3.产品设计</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/4-%E7%AE%A1%E7%90%86%E8%90%A5%E9%94%80/">4.管理营销</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/5-%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87/">5.技能提升</a><span class="category-list-count">155</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/6-%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93/">6.读书总结</a><span class="category-list-count">9</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/" rel="tag">CSS</a><span class="tag-list-count">18</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Dart/" rel="tag">Dart</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES6/" rel="tag">ES6</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES7/" rel="tag">ES7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/English/" rel="tag">English</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flutter/" rel="tag">Flutter</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a><span class="tag-list-count">20</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IMAGE/" rel="tag">IMAGE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JQuery/" rel="tag">JQuery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a><span class="tag-list-count">224</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">JavaScript设计模式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript%E9%AB%98%E7%BA%A7%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" rel="tag">JavaScript高级程序设计</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jquery/" rel="tag">Jquery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mysql/" rel="tag">Mysql</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NETWORK/" rel="tag">NETWORK</a><span class="tag-list-count">13</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node/" rel="tag">Node</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/" rel="tag">PHP</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/" rel="tag">React</a><span class="tag-list-count">31</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJS/" rel="tag">RxJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SVG/" rel="tag">SVG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sass/" rel="tag">Sass</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/" rel="tag">Vue</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%AE%89%E5%85%A8/" rel="tag">WEB安全</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webpack/" rel="tag">Webpack</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/" rel="tag">jQuery</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodeJS/" rel="tag">nodeJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B9%A6%E5%8D%95/" rel="tag">书单</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B9%A6%E7%B1%8D/" rel="tag">书籍</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/" rel="tag">前端安全</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83/" rel="tag">命名规范</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag">小程序</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" rel="tag">性能优化</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8F%92%E4%BB%B6/" rel="tag">插件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A1%86%E6%9E%B6/" rel="tag">框架</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" rel="tag">浏览器</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%84%E4%BB%B6/" rel="tag">组件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%84%E8%8C%83/" rel="tag">规范</a><span class="tag-list-count">67</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6%E5%AD%A6%E4%B9%A0/" rel="tag">软件学习</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a><span class="tag-list-count">153</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/CSS/" style="font-size: 13.71px;">CSS</a> <a href="/tags/Dart/" style="font-size: 13px;">Dart</a> <a href="/tags/ES6/" style="font-size: 13px;">ES6</a> <a href="/tags/ES7/" style="font-size: 13px;">ES7</a> <a href="/tags/English/" style="font-size: 13.18px;">English</a> <a href="/tags/Flutter/" style="font-size: 13px;">Flutter</a> <a href="/tags/Git/" style="font-size: 13.12px;">Git</a> <a href="/tags/HTML/" style="font-size: 13.76px;">HTML</a> <a href="/tags/HTTP/" style="font-size: 13.18px;">HTTP</a> <a href="/tags/IMAGE/" style="font-size: 13px;">IMAGE</a> <a href="/tags/JAVA/" style="font-size: 13.06px;">JAVA</a> <a href="/tags/JQuery/" style="font-size: 13px;">JQuery</a> <a href="/tags/JavaScript/" style="font-size: 14px;">JavaScript</a> <a href="/tags/JavaScript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 13px;">JavaScript设计模式</a> <a href="/tags/JavaScript%E9%AB%98%E7%BA%A7%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 13px;">JavaScript高级程序设计</a> <a href="/tags/Jquery/" style="font-size: 13px;">Jquery</a> <a href="/tags/Mysql/" style="font-size: 13px;">Mysql</a> <a href="/tags/NETWORK/" style="font-size: 13.53px;">NETWORK</a> <a href="/tags/Node/" style="font-size: 13.35px;">Node</a> <a href="/tags/PHP/" style="font-size: 13.24px;">PHP</a> <a href="/tags/React/" style="font-size: 13.82px;">React</a> <a href="/tags/RxJS/" style="font-size: 13px;">RxJS</a> <a href="/tags/SVG/" style="font-size: 13px;">SVG</a> <a href="/tags/Sass/" style="font-size: 13px;">Sass</a> <a href="/tags/TypeScript/" style="font-size: 13.29px;">TypeScript</a> <a href="/tags/Vue/" style="font-size: 13.65px;">Vue</a> <a href="/tags/WEB%E5%AE%89%E5%85%A8/" style="font-size: 13.29px;">WEB安全</a> <a href="/tags/Webpack/" style="font-size: 13.59px;">Webpack</a> <a href="/tags/jQuery/" style="font-size: 13.65px;">jQuery</a> <a href="/tags/nodeJS/" style="font-size: 13px;">nodeJS</a> <a href="/tags/python/" style="font-size: 13px;">python</a> <a href="/tags/%E4%B9%A6%E5%8D%95/" style="font-size: 13px;">书单</a> <a href="/tags/%E4%B9%A6%E7%B1%8D/" style="font-size: 13.06px;">书籍</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 13px;">前端</a> <a href="/tags/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/" style="font-size: 13.06px;">前端安全</a> <a href="/tags/%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83/" style="font-size: 13.41px;">命名规范</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 13px;">小程序</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 13.06px;">工具</a> <a href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" style="font-size: 13.47px;">性能优化</a> <a href="/tags/%E6%8F%92%E4%BB%B6/" style="font-size: 13px;">插件</a> <a href="/tags/%E6%A1%86%E6%9E%B6/" style="font-size: 13px;">框架</a> <a href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" style="font-size: 13px;">浏览器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13.18px;">算法</a> <a href="/tags/%E7%BB%84%E4%BB%B6/" style="font-size: 13px;">组件</a> <a href="/tags/%E8%A7%84%E8%8C%83/" style="font-size: 13.88px;">规范</a> <a href="/tags/%E8%BD%AF%E4%BB%B6%E5%AD%A6%E4%B9%A0/" style="font-size: 13px;">软件学习</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 13.35px;">随笔</a> <a href="/tags/%E9%9D%A2%E8%AF%95/" style="font-size: 13.94px;">面试</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a><span class="archive-list-count">312</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/27/1.WEB%E5%89%8D%E7%AB%AFWeb/React/react-router/" class="title">1.WEB前端Web/React/react-router</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-27T13:24:04.185Z" itemprop="datePublished">2020-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/27/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/sass-guide/" class="title">1.WEB前端Web/Front-End-Standards/sass-guide</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-27T13:24:03.487Z" itemprop="datePublished">2020-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/27/hello-world/" class="title">Hello World</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-27T13:24:03.028Z" itemprop="datePublished">2020-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/6-%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93/">6.读书总结</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/26/6.%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93Book/%E4%BA%BA%E7%94%9F%E9%81%93%E7%90%86/" class="title">人生道理</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-26T01:12:57.000Z" itemprop="datePublished">2020-01-26</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/2-%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">2.编程语言</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/15/2.%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80Programming/English/%E7%94%9F%E6%B4%BB%E8%8B%B1%E8%AF%AD/" class="title">生活英语</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-15T01:12:57.000Z" itemprop="datePublished">2020-01-15</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">Catalogue</h3>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#小程序"><span class="toc-number">1.</span> <span class="toc-text">小程序</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#目录"><span class="toc-number">1.1.</span> <span class="toc-text">目录</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#小程序配置"><span class="toc-number">2.</span> <span class="toc-text">小程序配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#全局配置"><span class="toc-number">2.1.</span> <span class="toc-text">全局配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#pages"><span class="toc-number">2.1.1.</span> <span class="toc-text">pages</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#window"><span class="toc-number">2.1.2.</span> <span class="toc-text">window</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tabBar"><span class="toc-number">2.1.3.</span> <span class="toc-text">tabBar</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#权限"><span class="toc-number">2.1.4.</span> <span class="toc-text">权限</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#跳转到其他小程序"><span class="toc-number">2.1.5.</span> <span class="toc-text">跳转到其他小程序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他"><span class="toc-number">2.1.6.</span> <span class="toc-text">其他</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#页面配置"><span class="toc-number">2.2.</span> <span class="toc-text">页面配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#下拉刷新"><span class="toc-number">2.2.1.</span> <span class="toc-text">下拉刷新</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sitemap-配置"><span class="toc-number">2.3.</span> <span class="toc-text">sitemap 配置</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#App"><span class="toc-number">3.</span> <span class="toc-text">App</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#注册-App"><span class="toc-number">3.1.</span> <span class="toc-text">注册 App</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#获取-App"><span class="toc-number">3.2.</span> <span class="toc-text">获取 App</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#页面"><span class="toc-number">4.</span> <span class="toc-text">页面</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#注册页面"><span class="toc-number">4.1.</span> <span class="toc-text">注册页面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#getCurrentPages"><span class="toc-number">4.2.</span> <span class="toc-text">getCurrentPages</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#生命周期"><span class="toc-number">5.</span> <span class="toc-text">生命周期</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#事件"><span class="toc-number">6.</span> <span class="toc-text">事件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#事件-1"><span class="toc-number">6.1.</span> <span class="toc-text">事件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#event-上的对象"><span class="toc-number">6.2.</span> <span class="toc-text">event 上的对象</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#自定义组件"><span class="toc-number">7.</span> <span class="toc-text">自定义组件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#注意点"><span class="toc-number">7.1.</span> <span class="toc-text">注意点</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#语法"><span class="toc-number">8.</span> <span class="toc-text">语法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#WXML"><span class="toc-number">8.1.</span> <span class="toc-text">WXML</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#条件"><span class="toc-number">8.1.1.</span> <span class="toc-text">条件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#循环"><span class="toc-number">8.1.2.</span> <span class="toc-text">循环</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#引用"><span class="toc-number">8.1.3.</span> <span class="toc-text">引用</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#常见码值"><span class="toc-number">9.</span> <span class="toc-text">常见码值</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#API"><span class="toc-number">10.</span> <span class="toc-text">API</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#同步，异步-API"><span class="toc-number">10.0.1.</span> <span class="toc-text">同步，异步 API</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#生命周期-1"><span class="toc-number">10.0.2.</span> <span class="toc-text">生命周期</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#事件-2"><span class="toc-number">10.0.3.</span> <span class="toc-text">事件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常用-API"><span class="toc-number">10.0.4.</span> <span class="toc-text">常用 API</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#路由"><span class="toc-number">10.0.4.1.</span> <span class="toc-text">路由</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#显示信息"><span class="toc-number">10.0.4.2.</span> <span class="toc-text">显示信息</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#导航"><span class="toc-number">10.0.4.3.</span> <span class="toc-text">导航</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据存储"><span class="toc-number">10.0.4.4.</span> <span class="toc-text">数据存储</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#获取用户信息"><span class="toc-number">10.0.5.</span> <span class="toc-text">获取用户信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据分析"><span class="toc-number">10.0.6.</span> <span class="toc-text">数据分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#页面滚动"><span class="toc-number">10.0.6.1.</span> <span class="toc-text">页面滚动</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#背景音频"><span class="toc-number">10.0.6.2.</span> <span class="toc-text">背景音频</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#其他-1"><span class="toc-number">10.0.6.3.</span> <span class="toc-text">其他</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#授权"><span class="toc-number">10.0.7.</span> <span class="toc-text">授权</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#客服"><span class="toc-number">10.0.8.</span> <span class="toc-text">客服</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#尺寸单位"><span class="toc-number">10.1.</span> <span class="toc-text">尺寸单位</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#打开-App"><span class="toc-number">10.1.1.</span> <span class="toc-text">打开 App</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#更新机制"><span class="toc-number">10.2.</span> <span class="toc-text">更新机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#真机调试"><span class="toc-number">10.3.</span> <span class="toc-text">真机调试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一些坑"><span class="toc-number">10.4.</span> <span class="toc-text">一些坑</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他资源"><span class="toc-number">10.5.</span> <span class="toc-text">其他资源</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#授权-1"><span class="toc-number">11.</span> <span class="toc-text">授权</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#获取用户的授权设置"><span class="toc-number">11.1.</span> <span class="toc-text">获取用户的授权设置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#打开设置"><span class="toc-number">11.2.</span> <span class="toc-text">打开设置</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#常见问题"><span class="toc-number">12.</span> <span class="toc-text">常见问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#在CSS用背景图用本地路径，图片不显示"><span class="toc-number">12.1.</span> <span class="toc-text">在CSS用背景图用本地路径，图片不显示</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IOS-中设置了Image的图片不显示"><span class="toc-number">12.2.</span> <span class="toc-text">IOS 中设置了Image的图片不显示</span></a></li></ol></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-1.WEB前端Web/小程序" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      小程序
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/11/08/1.WEB%E5%89%8D%E7%AB%AFWeb/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" class="article-date">
+	  <time datetime="2019-11-08T01:12:57.000Z" itemprop="datePublished">2019-11-08</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/1-WEB%E5%89%8D%E7%AB%AF/">1.WEB前端</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/JavaScript/" rel="tag">JavaScript</a>, <a class="article-tag-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag">小程序</a>
+  </span>
+
+
+        
+
+	<span class="article-read hidden-xs">
+    	<i class="icon icon-eye-fill" aria-hidden="true"></i>
+    	<span id="/2019/11/08/1.WEB%E5%89%8D%E7%AB%AFWeb/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" class="leancloud_visitors"  data-flag-title="小程序">0</span>
+    </span>
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/11/08/1.WEB%E5%89%8D%E7%AB%AFWeb/%E5%B0%8F%E7%A8%8B%E5%BA%8F/#comments" class="article-comment-link">Comments</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count: 4.9k(words)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">Read Count: 20(minutes)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="小程序"><a href="#小程序" class="headerlink" title="小程序"></a>小程序</h1><h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li>官方文档<ul>
+<li><a href="https://developers.weixin.qq.com/miniprogram/dev/index.html?t=19031317" target="_blank" rel="noopener">开发者文档</a></li>
+<li><a href="https://developers.weixin.qq.com/miniprogram/design/index.html" target="_blank" rel="noopener">微信小程序设计指南</a></li>
+</ul>
+</li>
+<li>框架<ul>
+<li><a href="content/framework/config.md">小程序配置</a></li>
+<li><a href="content/framework/app.md">App</a></li>
+<li><a href="content/framework/page.md">页面</a> <a href="content/framework/life-cycle.md">生命周期</a></li>
+<li><a href="content/framework/event.md">事件</a></li>
+<li><a href="content/framework/component.md">自定义组件</a></li>
+<li><a href="content/framework/grammar.md">语法</a></li>
+<li><a href="content/framework/scene-list.md">场景码值</a></li>
+</ul>
+</li>
+<li><a href="content/api.md">API</a></li>
+<li>组件</li>
+<li><a href="content/authorize.md">授权</a></li>
+<li>兼容处理</li>
+<li>更新机制</li>
+<li>插件</li>
+<li><a href="content/bug.md">常见问题</a></li>
+<li>审核<ul>
+<li><a href="http://kf.qq.com/faq/190108BJnmUN190108RrEnqE.html" target="_blank" rel="noopener">小程序评测常见问题</a> 小程序评测综合评定为达标，则开发者能享受极速审核：提交小程序审核将在2小时内审核完毕。工作时间：周一到周五，9点-21点；周六周日，9点-19点。</li>
+</ul>
+</li>
+</ul>
+<h1 id="小程序配置"><a href="#小程序配置" class="headerlink" title="小程序配置"></a>小程序配置</h1><p>配置包括：全局配置，页面配置 和 sitemap 配置。</p>
+<h2 id="全局配置"><a href="#全局配置" class="headerlink" title="全局配置"></a>全局配置</h2><p>根目录下的 <code>app.json</code> 文件用来对微信小程序进行全局配置。 <a href="https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html" target="_blank" rel="noopener">文档地址</a>。</p>
+<h3 id="pages"><a href="#pages" class="headerlink" title="pages"></a>pages</h3><p>配置小程序包含的页面。如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pages: [&quot;pages/index/index&quot;, &quot;pages/logs/logs&quot;]</span><br></pre></td></tr></table></figure>
+
+<h3 id="window"><a href="#window" class="headerlink" title="window"></a>window</h3><p>用于设置小程序的状态栏、导航条、标题、窗口背景色。如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&quot;window&quot;: &#123;</span><br><span class="line">  &quot;navigationBarBackgroundColor&quot;: &quot;#ffffff&quot;,</span><br><span class="line">  &quot;navigationBarTextStyle&quot;: &quot;black&quot;,</span><br><span class="line">  &quot;navigationBarTitleText&quot;: &quot;微信接口功能演示&quot;,</span><br><span class="line">  &quot;backgroundColor&quot;: &quot;#eeeeee&quot;,</span><br><span class="line">  &quot;backgroundTextStyle&quot;: &quot;light&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="tabBar"><a href="#tabBar" class="headerlink" title="tabBar"></a>tabBar</h3><p>tabBar 的配置。 tabBar 只能配置最少 2 个、最多 5 个 tab。</p>
+<h3 id="权限"><a href="#权限" class="headerlink" title="权限"></a>权限</h3><p>用 <code>permission</code> 来设置。如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&quot;permission&quot;: &#123;</span><br><span class="line">  &quot;scope.userLocation&quot;: &#123;</span><br><span class="line">    &quot;desc&quot;: &quot;你的位置信息将用于小程序位置接口的效果展示&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="跳转到其他小程序"><a href="#跳转到其他小程序" class="headerlink" title="跳转到其他小程序"></a>跳转到其他小程序</h3><p>当小程序需要使用 wx.navigateToMiniProgram 接口跳转到其他小程序时，需要先在配置文件中声明需要跳转的小程序 appId 列表，最多允许填写 10 个。如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">navigateToMiniProgramAppIdList: []</span><br></pre></td></tr></table></figure>
+
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
+<li>usingComponents 全局自定义组件配置。</li>
+<li>plugins 使用到的插件。</li>
+<li>networkTimeout 网络超时时间。</li>
+<li>debug 是否开启 debug 模式，默认关闭。</li>
+<li>requiredBackgroundModes 需要在后台使用的能力，如「音乐播放」。</li>
+<li>functionalPages 是否启用插件功能页，默认关闭</li>
+</ul>
+<h2 id="页面配置"><a href="#页面配置" class="headerlink" title="页面配置"></a>页面配置</h2><p>每个页面可以用 <code>xx.json</code> 来配置每个页面进行配置。如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;navigationBarBackgroundColor&quot;: &quot;#ffffff&quot;, // 会覆盖 app.json 里的值</span><br><span class="line">  &quot;navigationBarTextStyle&quot;: &quot;black&quot;,</span><br><span class="line">  &quot;navigationBarTitleText&quot;: &quot;微信接口功能演示&quot;,</span><br><span class="line">  &quot;backgroundColor&quot;: &quot;#eeeeee&quot;,</span><br><span class="line">  &quot;backgroundTextStyle&quot;: &quot;light&quot;,</span><br><span class="line">  &quot;usingComponents&quot;: &#123;</span><br><span class="line">    &quot;painter&quot;:&quot;/components/painter/painter&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="下拉刷新"><a href="#下拉刷新" class="headerlink" title="下拉刷新"></a>下拉刷新</h3><p>默认不开启。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">enablePullDownRefresh: true</span><br></pre></td></tr></table></figure>
+
+<p>监听下拉刷新</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Page(&#123;</span><br><span class="line">  onPullDownRefresh: function() &#123;</span><br><span class="line">    // Do something when pull down.</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="sitemap-配置"><a href="#sitemap-配置" class="headerlink" title="sitemap 配置"></a>sitemap 配置</h2><p>小程序根目录下的 sitemap.json 文件用于配置小程序及其页面是否允许被微信索引，文件内容为一个 JSON 对象，如果没有 sitemap.json ，则默认为所有页面都允许被索引。如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;rules&quot;:[&#123;</span><br><span class="line">    &quot;action&quot;: &quot;allow&quot;, // 能被索引</span><br><span class="line">    &quot;page&quot;: &quot;path/to/page&quot;,</span><br><span class="line">    &quot;params&quot;: [&quot;a&quot;, &quot;b&quot;],</span><br><span class="line">    &quot;matching&quot;: &quot;exact&quot;</span><br><span class="line">  &#125;, &#123;</span><br><span class="line">    &quot;action&quot;: &quot;disallow&quot;, // 不能被索引</span><br><span class="line">    &quot;page&quot;: &quot;path/to/page&quot;</span><br><span class="line">  &#125;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="App"><a href="#App" class="headerlink" title="App"></a>App</h1><h2 id="注册-App"><a href="#注册-App" class="headerlink" title="注册 App"></a>注册 App</h2><p>在 小程序 根路径的 <code>app.js</code> 下注册。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">App(&#123;</span><br><span class="line">  onLaunch (options) &#123; // 监听小程序初始化</span><br><span class="line">    // Do something initial when launch.</span><br><span class="line">  &#125;,</span><br><span class="line">  onShow (options) &#123; // 监听小程序启动或切前台</span><br><span class="line">    // Do something when show.</span><br><span class="line">  &#125;,</span><br><span class="line">  onHide () &#123; // 监听小程序切后台</span><br><span class="line">    // Do something when hide.</span><br><span class="line">  &#125;,</span><br><span class="line">  onError (msg) &#123;</span><br><span class="line">    console.log(msg)</span><br><span class="line">  &#125;,</span><br><span class="line">  onPageNotFound() &#123; // 页面不存在监听函数。</span><br><span class="line">    wx.redirectTo(&#123; // 页面找不到后，跳转到指定页面</span><br><span class="line">      url: &apos;pages/...&apos;</span><br><span class="line">    &#125;) // 如果是 tabbar 页面，请使用 wx.switchTab</span><br><span class="line">  &#125;,</span><br><span class="line">  globalData: &#123;&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="获取-App"><a href="#获取-App" class="headerlink" title="获取 App"></a>获取 App</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var appInstance = getApp()</span><br><span class="line">console.log(appInstance.globalData)</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="页面"><a href="#页面" class="headerlink" title="页面"></a>页面</h1><h2 id="注册页面"><a href="#注册页面" class="headerlink" title="注册页面"></a>注册页面</h2><p>注册小程序中的一个页面。 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">Page(&#123;</span><br><span class="line">  data: &#123;</span><br><span class="line">    text: &quot;This is page data.&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  onLoad: function(options) &#123;</span><br><span class="line">    // Do some initialize when page load.</span><br><span class="line">  &#125;,</span><br><span class="line">  onReady: function() &#123; // 页面初次渲染完成</span><br><span class="line">    // Do something when page ready.</span><br><span class="line">  &#125;,</span><br><span class="line">  onShow: function() &#123;</span><br><span class="line">    // Do something when page show.</span><br><span class="line">  &#125;,</span><br><span class="line">  onHide: function() &#123;</span><br><span class="line">    // Do something when page hide.</span><br><span class="line">  &#125;,</span><br><span class="line">  onUnload: function() &#123;</span><br><span class="line">    // Do something when page close.</span><br><span class="line">  &#125;,</span><br><span class="line">  onPullDownRefresh: function() &#123;</span><br><span class="line">    // Do something when pull down.</span><br><span class="line">  &#125;,</span><br><span class="line">  onReachBottom: function() &#123;</span><br><span class="line">    // Do something when page reach bottom.</span><br><span class="line">  &#125;,</span><br><span class="line">  onShareAppMessage: function () &#123;</span><br><span class="line">    // return custom share data when user share.</span><br><span class="line">  &#125;,</span><br><span class="line">  onPageScroll: function() &#123;</span><br><span class="line">    // Do something when page scroll</span><br><span class="line">  &#125;,</span><br><span class="line">  onResize: function() &#123;</span><br><span class="line">    // Do something when page resize</span><br><span class="line">  &#125;,</span><br><span class="line">  onTabItemTap(item) &#123;</span><br><span class="line">    console.log(item.index)</span><br><span class="line">    console.log(item.pagePath)</span><br><span class="line">    console.log(item.text)</span><br><span class="line">  &#125;,</span><br><span class="line">  // Event handler.</span><br><span class="line">  viewTap: function() &#123;</span><br><span class="line">    this.setData(&#123;</span><br><span class="line">      text: &apos;Set some data for updating view.&apos;</span><br><span class="line">    &#125;, function() &#123;</span><br><span class="line">      // this is setData callback</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;,</span><br><span class="line">  customData: &#123;</span><br><span class="line">    hi: &apos;MINA&apos;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="getCurrentPages"><a href="#getCurrentPages" class="headerlink" title="getCurrentPages"></a>getCurrentPages</h2><p>获取当前页面栈。 注意：</p>
+<ul>
+<li>不要尝试修改页面栈，会导致路由以及页面状态错误。</li>
+<li>不要在 App.onLaunch 的时候调用 getCurrentPages()，此时 page 还没有生成。</li>
+</ul>
+<h1 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h1><p>onLoad, onShow, onReady, onHide, onUnload。 页面加载后，先执行 onLoad，然后执行 onShow， 然后执行 onHide。</p>
+<h1 id="事件"><a href="#事件" class="headerlink" title="事件"></a>事件</h1><p><a href="https://developers.weixin.qq.com/miniprogram/dev/framework/view/wxml/event.html" target="_blank" rel="noopener">文档</a>。</p>
+<h2 id="事件-1"><a href="#事件-1" class="headerlink" title="事件"></a>事件</h2><p>事件包括 冒泡事件 和 非冒泡事件。</p>
+<p>冒泡事件: </p>
+<ul>
+<li>touchstart, touchmove, touchcancel, touchend</li>
+<li>tap</li>
+<li>longpress 长按。手指触摸后，超过350ms再离开，如果指定了事件回调函数并触发了这个事件，tap事件将不被触发。</li>
+<li>touchforcechange 在支持 3D Touch 的 iPhone 设备，重按时会触发。</li>
+<li>transitionend</li>
+<li>animationstart, animationiteration, animationend</li>
+</ul>
+<p>用 <code>bind</code> 或 <code>catch</code> 跟 事件名来绑定事件。 bind事件绑定不会阻止冒泡事件向上冒泡，catch事件绑定可以阻止冒泡事件向上冒泡。如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;view id=&quot;outer&quot; bind:touchstart=&quot;handleTap1&quot; capture-bind:touchstart=&quot;handleTap2&quot;&gt;</span><br><span class="line">  outer view</span><br><span class="line">  &lt;view id=&quot;inner&quot; bind:touchstart=&quot;handleTap3&quot; capture-bind:touchstart=&quot;handleTap4&quot;&gt;</span><br><span class="line">    inner view</span><br><span class="line">  &lt;/view&gt;</span><br><span class="line">&lt;/view&gt;</span><br></pre></td></tr></table></figure>
+
+<p>非冒泡事件:</p>
+<ul>
+<li>form 的 submit 事件</li>
+<li>input 的 input 事件</li>
+</ul>
+<h2 id="event-上的对象"><a href="#event-上的对象" class="headerlink" title="event 上的对象"></a>event 上的对象</h2><ul>
+<li>type 事件类型</li>
+<li>currentTarget 事件绑定的当前组件。<ul>
+<li>dataset 当前组件上由data-开头的自定义属性组成的集合。</li>
+</ul>
+</li>
+<li>target 触发事件的源组件。<ul>
+<li>dataset</li>
+</ul>
+</li>
+<li>touches<ul>
+<li>pageX, pageY, clientX, clientY</li>
+</ul>
+</li>
+<li>mask</li>
+</ul>
+<h1 id="自定义组件"><a href="#自定义组件" class="headerlink" title="自定义组件"></a>自定义组件</h1><p><a href="https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/" target="_blank" rel="noopener">文档</a></p>
+<p>类似于页面，一个自定义组件由 json wxml wxss js 4个文件组成。要编写一个自定义组件，首先需要在 json 文件中进行自定义组件声明（将 component 字段设为 true 可这一组文件设为自定义组件）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;component&quot;: true</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>wxml 中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;view class=&quot;inner&quot;&gt;</span><br><span class="line">  &#123;&#123;innerText&#125;&#125;</span><br><span class="line">&lt;/view&gt;</span><br><span class="line">&lt;slot&gt;&lt;/slot&gt; 外部子</span><br></pre></td></tr></table></figure>
+
+<p>js 中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">Component(&#123;</span><br><span class="line">  properties: &#123;</span><br><span class="line">    // 这里定义了innerText属性，属性值可以在组件使用时指定</span><br><span class="line">    innerText: &#123;</span><br><span class="line">      type: String,</span><br><span class="line">      value: &apos;default value&apos;,</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  data: &#123;</span><br><span class="line">    // 这里是一些组件内部数据</span><br><span class="line">    someData: &#123;&#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    // 这里是一个自定义方法</span><br><span class="line">    customMethod: function()&#123;&#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h2><p>一些需要注意的细节：</p>
+<ul>
+<li>因为 WXML 节点标签名只能是小写字母、中划线和下划线的组合，所以自定义组件的标签名也只能包含这些字符。</li>
+<li>自定义组件也是可以引用自定义组件的，引用方法类似于页面引用自定义组件的方式（使用 usingComponents 字段）。</li>
+<li>自定义组件和页面所在项目根目录名不能以“wx-”为前缀，否则会报错。</li>
+</ul>
+<p>注意，是否在页面文件中使用 usingComponents 会使得页面的 this 对象的原型稍有差异，包括：</p>
+<ul>
+<li>使用 usingComponents 页面的原型与不使用时不一致，即 Object.getPrototypeOf(this) 结果不同。</li>
+<li>使用 usingComponents 时会多一些方法，如 selectComponent 。</li>
+<li>出于性能考虑，使用 usingComponents 时， setData 内容不会被直接深复制，即 this.setData({ field: obj }) 后 this.data.field === obj 。（深复制会在这个值被组件间传递时发生。）</li>
+</ul>
+<h1 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h1><h2 id="WXML"><a href="#WXML" class="headerlink" title="WXML"></a>WXML</h2><h3 id="条件"><a href="#条件" class="headerlink" title="条件"></a>条件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;view wx:if=&quot;&#123;&#123;length &gt; 5&#125;&#125;&quot;&gt; 1 &lt;/view&gt;</span><br><span class="line">&lt;view wx:elif=&quot;&#123;&#123;length &gt; 2&#125;&#125;&quot;&gt; 2 &lt;/view&gt;</span><br><span class="line">&lt;view wx:else&gt; 3 &lt;/view&gt;</span><br></pre></td></tr></table></figure>
+
+<p>如果要一次性判断多个组件标签，可以使用一个 <code>&lt;block/&gt;</code> 标签将多个组件包装起来，并在上边使用 wx:if 控制属性。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;block wx:if=&quot;&#123;&#123;true&#125;&#125;&quot;&gt;</span><br><span class="line">  &lt;view&gt; view1 &lt;/view&gt;</span><br><span class="line">  &lt;view&gt; view2 &lt;/view&gt;</span><br><span class="line">&lt;/block&gt;</span><br></pre></td></tr></table></figure>
+
+<p><code>&lt;block/&gt;</code> 不会输出。</p>
+<h3 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;view wx:for=&quot;&#123;&#123;array&#125;&#125;&quot; wx:for-index=&quot;idx&quot;&gt;</span><br><span class="line">  &#123;&#123;idx&#125;&#125;: &#123;&#123;item.message&#125;&#125;</span><br><span class="line">&lt;/view&gt;</span><br><span class="line"></span><br><span class="line">&lt;view wx:for=&quot;&#123;&#123;array&#125;&#125;&quot; wx:for-index=&quot;idx&quot; wx:for-item=&quot;itemName&quot;&gt;</span><br><span class="line">  &#123;&#123;idx&#125;&#125;: &#123;&#123;itemName.message&#125;&#125;</span><br><span class="line">&lt;/view&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><p>用 <code>import</code> 的方式  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 定义：item.wxml --&gt;</span><br><span class="line">&lt;template name=&quot;item&quot;&gt;</span><br><span class="line">  &lt;text&gt;&#123;&#123;text&#125;&#125;&lt;/text&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- 使用 --&gt;</span><br><span class="line">&lt;import src=&quot;item.wxml&quot;/&gt;</span><br><span class="line">&lt;template is=&quot;item&quot; data=&quot;&#123;&#123;text: &apos;forbar&apos;&#125;&#125;&quot;/&gt;</span><br></pre></td></tr></table></figure>
+
+<p>用 <code>include</code> 的方式  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- header.wxml --&gt;</span><br><span class="line">&lt;view&gt; header &lt;/view&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- 使用 --&gt;</span><br><span class="line">&lt;include src=&quot;header.wxml&quot;/&gt;</span><br><span class="line">&lt;view&gt; body &lt;/view&gt;</span><br></pre></td></tr></table></figure>
+
+<h1 id="常见码值"><a href="#常见码值" class="headerlink" title="常见码值"></a>常见码值</h1><p><a href="https://developers.weixin.qq.com/miniprogram/dev/reference/scene-list.html" target="_blank" rel="noopener">文档</a></p>
+<ul>
+<li>1001  发现栏小程序主入口，「最近使用」列表（基础库2.2.4版本起包含「我的小程序」列表）  查看</li>
+<li>1005  微信首页顶部搜索框的搜索结果页 查看</li>
+<li>1006  发现栏小程序主入口搜索框的搜索结果页  查看</li>
+<li>1007  单人聊天会话中的小程序消息卡片 查看</li>
+<li>1008  群聊会话中的小程序消息卡片 查看</li>
+<li>1011  扫描二维码 查看</li>
+<li>1012  长按图片识别二维码 查看</li>
+<li>1013  扫描手机相册中选取的二维码 查看</li>
+<li>1014  小程序模板消息 查看</li>
+<li>1017  前往小程序体验版的入口页  查看</li>
+<li>1019  微信钱包（微信客户端7.0.0版本改为支付入口）  查看</li>
+<li>1020  公众号 profile 页相关小程序列表  查看</li>
+<li>1022  聊天顶部置顶小程序入口（微信客户端6.6.1版本起废弃）  /</li>
+<li>1023  安卓系统桌面图标  查看</li>
+<li>1024  小程序 profile 页 查看</li>
+<li>1025  扫描一维码 查看</li>
+<li>1026  发现栏小程序主入口，「附近的小程序」列表  查看</li>
+<li>1027  微信首页顶部搜索框搜索结果页「使用过的小程序」列表 查看</li>
+<li>1028  我的卡包  查看</li>
+<li>1029  小程序中的卡券详情页  查看</li>
+<li>1030  自动化测试下打开小程序 /</li>
+<li>1031  长按图片识别一维码 查看</li>
+<li>1032  扫描手机相册中选取的一维码 查看</li>
+<li>1034  微信支付完成页 查看</li>
+<li>1035  公众号自定义菜单  查看</li>
+<li>1036  App 分享消息卡片  查看</li>
+<li>1037  小程序打开小程序  查看</li>
+<li>1038  从另一个小程序返回 查看</li>
+<li>1039  摇电视 查看</li>
+<li>1042  添加好友搜索框的搜索结果页 查看</li>
+<li>1043  公众号模板消息 查看</li>
+<li>1044  带 shareTicket 的小程序消息卡片 详情 查看</li>
+<li>1045  朋友圈广告 查看</li>
+<li>1046  朋友圈广告详情页  查看</li>
+<li>1047  扫描小程序码  查看</li>
+<li>1048  长按图片识别小程序码  查看</li>
+<li>1049  扫描手机相册中选取的小程序码  查看</li>
+<li>1052  卡券的适用门店列表 查看</li>
+<li>1053  搜一搜的结果页 查看</li>
+<li>1054  顶部搜索框小程序快捷入口（微信客户端版本6.7.4起废弃） /</li>
+<li>1056  聊天顶部音乐播放器右上角菜单  查看</li>
+<li>1057  钱包中的银行卡详情页  查看</li>
+<li>1058  公众号文章 查看</li>
+<li>1059  体验版小程序绑定邀请页 /</li>
+<li>1064  微信首页连Wi-Fi状态栏 查看</li>
+<li>1067  公众号文章广告 查看</li>
+<li>1068  附近小程序列表广告（已废弃）  /</li>
+<li>1069  移动应用  查看</li>
+<li>1071  钱包中的银行卡列表页  查看</li>
+<li>1072  二维码收款页面 查看</li>
+<li>1073  客服消息列表下发的小程序消息卡片  查看</li>
+<li>1074  公众号会话下发的小程序消息卡片 查看</li>
+<li>1077  摇周边 查看</li>
+<li>1078  微信连Wi-Fi成功提示页 查看</li>
+<li>1079  微信游戏中心  查看</li>
+<li>1081  客服消息下发的文字链  查看</li>
+<li>1082  公众号会话下发的文字链 查看</li>
+<li>1084  朋友圈广告原生页  查看</li>
+<li>1089  微信聊天主界面下拉，「最近使用」栏（基础库2.2.4版本起包含「我的小程序」栏）  查看</li>
+<li>1090  长按小程序右上角菜单唤出最近使用历史  查看</li>
+<li>1091  公众号文章商品卡片 查看</li>
+<li>1092  城市服务入口  查看</li>
+<li>1095  小程序广告组件 查看</li>
+<li>1096  聊天记录  查看</li>
+<li>1097  微信支付签约页 查看</li>
+<li>1099  页面内嵌插件  /</li>
+<li>1102  公众号 profile 页服务预览 查看</li>
+<li>1103  发现栏小程序主入口，「我的小程序」列表（基础库2.2.4版本起废弃）  /</li>
+<li>1104  微信聊天主界面下拉，「我的小程序」栏（基础库2.2.4版本起废弃） /</li>
+<li>1129  微信爬虫访问 详情</li>
+</ul>
+<h1 id="API"><a href="#API" class="headerlink" title="API"></a>API</h1><h3 id="同步，异步-API"><a href="#同步，异步-API" class="headerlink" title="同步，异步 API"></a>同步，异步 API</h3><p>以 Sync 结尾的 API 一定是同步 API。也有一些 同步API 是不以 Sync 结尾的。</p>
+<p>异步 API 通常都接受一个 Object 类型的参数。该参数包括:</p>
+<ul>
+<li>success: 接口成功回调</li>
+<li>fail: 接口失败回调</li>
+<li>complete: 接口调用结束的回调函数。调用成功、失败都会执行。</li>
+</ul>
+<p>这三个参数都会包含 </p>
+<ul>
+<li>errMsg 错误信息，如果调用成功返回 ${apiName}:ok。</li>
+<li>errCode 错误码，仅部分 API 支持。</li>
+</ul>
+<h3 id="生命周期-1"><a href="#生命周期-1" class="headerlink" title="生命周期"></a>生命周期</h3><p>TODO。</p>
+<h3 id="事件-2"><a href="#事件-2" class="headerlink" title="事件"></a>事件</h3><p>要传一些额外的数据到事件回调上要通过在元素上设置 <code>data-xx</code>。 在回调中通过 <code>event.currentTarget.dataset</code> 来拿值。</p>
+<h3 id="常用-API"><a href="#常用-API" class="headerlink" title="常用 API"></a>常用 API</h3><h4 id="路由"><a href="#路由" class="headerlink" title="路由"></a>路由</h4><ul>
+<li>wx.redirectTo 关闭当前页面，跳转到应用内的某个页面</li>
+<li>wx.navigateTo 保留当前页面，跳转到应用内的某个页面。小程序最多打开5个页面，页面数量为 5，这个api就没用了。 合理用 <code>wx.navigateBack</code> 和 <code>wx.reLaunch</code> 来规避这个问题。</li>
+<li>wx.navigateToMiniProgram({appId, path, extraData}) 打开另一个小程序。 navigator 组件也可以完成该功能。</li>
+<li>wx.reLaunch({url: ‘’, success: …}) 关闭所有页面，打开到应用内的某个页面。</li>
+<li>wx.navigateBack({delta: 1}) 关闭当前页面，返回上一页面或多级页面。可通过 getCurrentPages 获取当前的页面栈，决定需要返回几层。</li>
+<li>wx.switchTab({url: ‘’}) 跳转到 tabBar 页面，并关闭其他所有非 tabBar 页面。</li>
+</ul>
+<h4 id="显示信息"><a href="#显示信息" class="headerlink" title="显示信息"></a>显示信息</h4><ul>
+<li>wx.showToast({title, icon: ‘none|success|…’, image, mask, duration})|wx.hideToast 信息提示</li>
+<li>wx.showModal 模态框</li>
+<li>wx.showLoading({title, mask: true})|wx.hideLoading</li>
+<li>wx.showActionSheet 显示操作菜单</li>
+</ul>
+<h4 id="导航"><a href="#导航" class="headerlink" title="导航"></a>导航</h4><ul>
+<li>wx.setNavigationBarTitle({title: ‘商品详情页’}) 设置导航栏标题</li>
+<li>wx.setNavigationBarColor({frontColor: ‘#ffffff|#000000’, backgroundColor: ‘#ff0000’})</li>
+</ul>
+<h4 id="数据存储"><a href="#数据存储" class="headerlink" title="数据存储"></a>数据存储</h4><ul>
+<li>wx.setStorageSync(string key, any data)</li>
+<li>wx.getStorageSync(string key)</li>
+<li>wx.removeStorageSync(string key)</li>
+</ul>
+<h3 id="获取用户信息"><a href="#获取用户信息" class="headerlink" title="获取用户信息"></a>获取用户信息</h3><p>获取用户信息必须通过按钮的方式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;button open-type=&quot;getUserInfo&quot; bindgetuserinfo=&quot;&quot;&gt;&lt;/button&gt;</span><br></pre></td></tr></table></figure>
+<p>事件回调中的 <code>event.detail.userInfo</code> 是用户信息。</p>
+<p>通过 <code>wx.getUserInfo({success(userInfo) =&gt; {}})</code> 已被废除。  UseInfo 包括 昵称，头像，性别，所在国家，省，市。不包括 openid。</p>
+<p>登录：<br>wx.login({success({code}) =&gt; {}}) 。拿到 code 后，调用服务器端代码，服务器拿 code 去换 openid, session_key。</p>
+<p>检查登录情况：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">wx.checkSession(&#123;</span><br><span class="line">  success() &#123;</span><br><span class="line">    // session_key 未过期，并且在本生命周期一直有效</span><br><span class="line">  &#125;,</span><br><span class="line">  fail() &#123;</span><br><span class="line">    // session_key 已经失效，需要重新执行登录流程</span><br><span class="line">    wx.login() // 重新登录</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>获取用户手机号。 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;button open-type=&quot;getPhoneNumber&quot; bindgetphonenumber=&quot;getPhoneNumber&quot;&gt;&lt;/button&gt;</span><br></pre></td></tr></table></figure>
+
+<p>注意：获取微信用户绑定的手机号，需先调用wx.login接口。该接口针对非个人开发者，且完成了认证的小程序开放。</p>
+<h3 id="数据分析"><a href="#数据分析" class="headerlink" title="数据分析"></a>数据分析</h3><ul>
+<li>数据上报 wx.reportMonitor(string name, number value)</li>
+<li>数据分析 wx.reportAnalytics(string eventName, Object data)</li>
+</ul>
+<h4 id="页面滚动"><a href="#页面滚动" class="headerlink" title="页面滚动"></a>页面滚动</h4><ul>
+<li>wx.pageScrollTo({scrollTop: 100 /<em>单位px</em>/, duration: 200 /<em>单位毫秒</em>/})</li>
+</ul>
+<p>组件 <code>scrollView</code> 中有 属性 <code>scroll-into-view</code>，将 <code>scrollView</code> 滚动到指定元素的位置。</p>
+<h4 id="背景音频"><a href="#背景音频" class="headerlink" title="背景音频"></a>背景音频</h4><ul>
+<li>wx.getBackgroundAudioManager()</li>
+<li>BackgroundAudioManager.play()|pause()</li>
+</ul>
+<h4 id="其他-1"><a href="#其他-1" class="headerlink" title="其他"></a>其他</h4><p>位置，录音，相机。</p>
+<h3 id="授权"><a href="#授权" class="headerlink" title="授权"></a>授权</h3><p>询问用户是否同意授权小程序使用某项功能或获取用户的某些数据。示例代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">wx.getSetting(&#123; // 获取用户当前的授权状态。</span><br><span class="line">  success(res) &#123;</span><br><span class="line">    if (!res.authSetting[&apos;scope.record&apos;]) &#123;</span><br><span class="line">      wx.authorize(&#123;</span><br><span class="line">        scope: &apos;scope.record&apos;,</span><br><span class="line">        success() &#123;</span><br><span class="line">          // 用户已经同意小程序使用录音功能，后续调用 wx.startRecord 接口不会弹窗询问</span><br><span class="line">          wx.startRecord()</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>需要授权的有: 用户信息,地理位置，通讯地址，发票抬头，获取发票，微信运动步数量，录音功能，摄像头，保存到相册。</p>
+<p>具体见<a href="https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html" target="_blank" rel="noopener">这里</a>。</p>
+<h3 id="客服"><a href="#客服" class="headerlink" title="客服"></a>客服</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;button open-type=&quot;contact&quot; bindcontact=&quot;handleContact&quot;&gt;&lt;/button&gt;</span><br></pre></td></tr></table></figure>
+
+<p>bindcontact 事件回调获取到用户所点消息的页面路径 path 和对应的参数 query</p>
+<h2 id="尺寸单位"><a href="#尺寸单位" class="headerlink" title="尺寸单位"></a>尺寸单位</h2><p>rpx（responsive pixel）: 屏幕的宽度是 750rpx。会自动做响应式的处理。</p>
+<h3 id="打开-App"><a href="#打开-App" class="headerlink" title="打开 App"></a>打开 App</h3><p>比较复杂。和场景值有关。</p>
+<h2 id="更新机制"><a href="#更新机制" class="headerlink" title="更新机制"></a>更新机制</h2><p>小程序启动会有两种情况，一种是「冷启动」，一种是「热启动」。 假如用户已经打开过某小程序，然后在一定时间内再次打开该小程序，此时无需重新启动，只需将后台态的小程序切换到前台，这个过程就是热启动；冷启动指的是用户首次打开或小程序被微信主动销毁后再次打开的情况，此时小程序需要重新加载启动。</p>
+<p>小程序冷启动时如果发现有新版本，将会异步下载新版本的代码包，并同时用客户端本地的包进行启动，即新版本的小程序需要等下一次冷启动才会应用上。 如果需要马上应用最新版本，可以使用 wx.getUpdateManager API 进行处理。</p>
+<h2 id="真机调试"><a href="#真机调试" class="headerlink" title="真机调试"></a>真机调试</h2><p>点击开发者工具的工具栏上 “远程调试” 按钮。工具会将本地代码进行处理打包并上传，就绪之后，使用手机客户端扫描二维码即可弹出调试窗口，开始远程调试。</p>
+<h2 id="一些坑"><a href="#一些坑" class="headerlink" title="一些坑"></a>一些坑</h2><p>在 js 中拿 <code>data</code> 中的属性，要用 <code>this.data.xxx</code> 而不是直接 <code>this.xxx</code>。写惯了 Vue 的不习惯。</p>
+<p>将页面保存为发朋友圈的图片，只能用 canvas 画，然后用 canvas 导出图片到本地，然后调用 download 的api。用 canvas 来画页面，有很多坑，比如画图片是网络图片，必须先把图片下载下来再画，并且在设置小程序管理后台设置 download 域名白名单，包含要下载的图片的域名。 超长文字和多行文字缩略问题。可以用库 <a href="https://github.com/Kujiale-Mobile/Painter" target="_blank" rel="noopener">Painter</a>。 用这个库要注意的是， 画文字时，如果要设置居中，文件的居中线是 left 的值。 可以看下<a href="https://juejin.im/post/5b7e48566fb9a01a1059543f" target="_blank" rel="noopener">轻松生成小程序分享海报</a></p>
+<h2 id="其他资源"><a href="#其他资源" class="headerlink" title="其他资源"></a>其他资源</h2><h1 id="授权-1"><a href="#授权-1" class="headerlink" title="授权"></a>授权</h1><h2 id="获取用户的授权设置"><a href="#获取用户的授权设置" class="headerlink" title="获取用户的授权设置"></a>获取用户的授权设置</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">wx.getSetting(&#123;</span><br><span class="line">  success (res) &#123;</span><br><span class="line">    console.log(res.authSetting)</span><br><span class="line">    // res.authSetting = &#123;</span><br><span class="line">    //   &quot;scope.userInfo&quot;: true,</span><br><span class="line">    //   &quot;scope.userLocation&quot;: true</span><br><span class="line">    // &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="打开设置"><a href="#打开设置" class="headerlink" title="打开设置"></a>打开设置</h2><p>调起客户端小程序设置界面，返回用户设置的操作结果。2.3.0 版本开始，用户发生点击行为后，才可以跳转打开设置页，管理授权信息。<br><strong>设置界面只会出现小程序已经向用户请求过的权限。</strong></p>
+<p>打开小程序设置页的方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 方法一 --&gt;</span><br><span class="line">&lt;button open-type=&quot;openSetting&quot; bindopensetting=&quot;callback&quot;&gt;打开设置页&lt;/button&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- 方法二 --&gt;</span><br><span class="line">&lt;button bindtap=&quot;openSetting&quot;&gt;打开设置页&lt;/button&gt;  openSetting() &#123;wx.openSetting()&#125;</span><br></pre></td></tr></table></figure>
+
+<p>示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">wx.openSetting(&#123;</span><br><span class="line">  success (res) &#123;</span><br><span class="line">    console.log(res.authSetting) // 操作结果</span><br><span class="line">    // res.authSetting = &#123;</span><br><span class="line">    //   &quot;scope.userInfo&quot;: true,</span><br><span class="line">    //   &quot;scope.userLocation&quot;: true</span><br><span class="line">    // &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h1 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h1><h2 id="在CSS用背景图用本地路径，图片不显示"><a href="#在CSS用背景图用本地路径，图片不显示" class="headerlink" title="在CSS用背景图用本地路径，图片不显示"></a>在CSS用背景图用本地路径，图片不显示</h2><p>原因：在 CSS 中设置背景图不支持本地图片。<br>解决方案：用 base64 的或者网络路径。或者用 <code>image</code> 标签。</p>
+<h2 id="IOS-中设置了Image的图片不显示"><a href="#IOS-中设置了Image的图片不显示" class="headerlink" title="IOS 中设置了Image的图片不显示"></a>IOS 中设置了Image的图片不显示</h2><p>解决方案：不要在 Image 上设置背景色。</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a style="word-wrap:break-word;" href="http://yoursite.com/2019/11/08/1.WEB%E5%89%8D%E7%AB%AFWeb/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" title="小程序" target="_blank" rel="external">http://yoursite.com/2019/11/08/1.WEB%E5%89%8D%E7%AB%AFWeb/%E5%B0%8F%E7%A8%8B%E5%BA%8F/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/chen08" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/chen08" target="_blank"><span class="text-dark">溟海</span><small class="ml-1x">Web Developer &amp; Designer</small></a></h3>
+        <div>天行健，君子以自强不息，地势坤，君子以厚德载物。 杀不死我的,终将使我强大 没有吃不了的苦,只有享不了的福</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2019/11/08/1.WEB%E5%89%8D%E7%AB%AFWeb/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/" title="前端安全"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/11/08/2.%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80Programming/2.%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/" title="编程语言"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="Catalogue" role="button">
+        <span>[&nbsp;</span><span>Catalogue</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open alipay app scan this qrcode, buy me a coffee!</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open wechat app scan this qrcode, buy me a coffee!</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> alipay</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> wechat payment</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+
+
+<!-- custom analytics part create by xiamo -->
+<!-- <script defer src="https://cdn1.lncld.net/static/js/av-min-1.2.1.js"></script> -->
+<script defer src="/js/av-min-1.2.1.js"></script>
+<script defer>
+AV.init({
+  appId: 'ngFQzHw7z0HgQfrtn4En4WTN-gzGzoHsz',
+  appKey: 'W9hgBBfVDwRGJKoGp5a6HKpx'
+});
+
+function showTime(Counter) {
+	var query = new AV.Query(Counter);
+		var visitors= $('.leancloud_visitors');
+		query.greaterThanOrEqualTo("time", 0);		
+		query.find({
+			success: function(results) {
+				if (results.length == 0) {				
+					return;
+				}
+				var data = results;
+				visitors.each(function(){
+					var url = $(this).attr('id').trim();					
+					for (var i = 0; i < data.length; i++) {
+						var object = data[i];
+						var content = object.get('time');
+						var _url = object.get('url')
+						if(url == _url){
+							$(this).text(content);
+						}
+					}
+				})
+				
+			},
+			error: function(object, error) {
+				console.log("Error: " + error.code + " " + error.message);
+			}
+		});
+}
+
+function addCount(Counter) {
+	var Counter = AV.Object.extend("Counter");
+	url = $(".leancloud_visitors").attr('id').trim();
+	title = $(".leancloud_visitors").attr('data-flag-title').trim();
+	var query = new AV.Query(Counter);
+	query.equalTo("url", url);
+	query.find({
+		success: function(results) {
+			if (results.length > 0) {
+				var counter = results[0];
+				counter.fetchWhenSave(true);
+				counter.increment("time");
+				counter.save(null, {
+					success: function(counter) {
+						var content = counter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(counter, error) {
+						console.log('Failed to save Visitor num, with error message: ' + error.message);
+					}
+				});
+			} else {
+				var newcounter = new Counter();
+				newcounter.set("title", title);
+				newcounter.set("url", url);
+				newcounter.set("time", 1);
+				newcounter.save(null, {
+					success: function(newcounter) {
+					    console.log("newcounter.get('time')="+newcounter.get('time'));
+						var content = newcounter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(newcounter, error) {
+						console.log('Failed to create');
+					}
+				});
+			}
+		},
+		error: function(error) {
+			console.log('Error:' + error.code + " " + error.message);
+		}
+	});
+}
+$(function() {
+	var Counter = AV.Object.extend("Counter");
+	if ($('.leancloud_visitors').length == 1) {
+		addCount(Counter);
+	} else {
+		showTime(Counter);
+	}
+}); 
+</script>
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>

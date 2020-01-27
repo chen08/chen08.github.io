@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>React学习 | Hexo</title>
+  <script src="./js/jQuery.md5.js"></script>
+  <script>
+    
+    (function(){
+      localStorage.setItem('userinfo',hex_md5('123chen'))
+      
+      var localData = localStorage.getItem("userinfo");
+      // var localState = localStorage.getItem("state");
+        if(localStorage.getItem("state") === null){
+          var reason = window.prompt('请输入访问密码');
+          // var promptVal = window.prompt('请输入访问密码');
+          if(reason){
+              //填写内容并“确定”
+              var md5Prompt = hex_md5(reason)
+              //点击的是“确定” 
+              if (localData !== md5Prompt){
+                alert('密码错误！');
+                // history.back();
+                location.replace(location.href); 
+              }else{
+                // alert('0123');
+                localStorage.setItem('state',"1")
+              }
+          }
+          else if(reason === ""){
+              //未填写但“确定”
+              location.replace(location.href); 
+          }
+          else{
+            //“取消”事件
+            location.replace(location.href); 
+          }
+        }
+
+    })();
+  </script>
+ <link rel="alternate" href="/atom.xml" data="123chen" type="application/atom+xml">
+  <meta name="description" content="React学习redux学习移动样板Ant Design 实战教程（beta 版）一个 react + redux 的完整项目 和 个人总结React 示例项目 · 简易留言板。react基础 PostCSSPostCSS是一个用 JavaScript 工具和插件转换 CSS 代码的工具跟我一起使用create-react-app脚手架搭建vw-layout解决方案 简单易用的react工程化模板">
+<meta name="keywords" content="React">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React学习">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;27&#x2F;2.%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80Programming&#x2F;React&#x2F;React%E5%AD%A6%E4%B9%A0&#x2F;index.html">
+<meta property="og:site_name" content="学习的敌人是自己的满足，要认真学习一点东西，必须从不自满开始。对自己，“学而不厌”，对人家，“诲人不倦”，我们应取这种态度。">
+<meta property="og:description" content="React学习redux学习移动样板Ant Design 实战教程（beta 版）一个 react + redux 的完整项目 和 个人总结React 示例项目 · 简易留言板。react基础 PostCSSPostCSS是一个用 JavaScript 工具和插件转换 CSS 代码的工具跟我一起使用create-react-app脚手架搭建vw-layout解决方案 简单易用的react工程化模板">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-12-03T13:26:19.258Z">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://yoursite.com/2019/11/27/2.%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80Programming/React/React%E5%AD%A6%E4%B9%A0/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="学习的敌人是自己的满足，要认真学习一点东西，必须从不自满开始。对自己，“学而不厌”，对人家，“诲人不倦”，我们应取这种态度。" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/chen08" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">溟海</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer &amp; Designer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Guangzhou, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+          <!-- . -->
+        
+        
+          <li class="menu-item menu-item-home">
+            <a href="/.">
+              
+              <i class="icon icon-home-fill"></i>
+              
+              <span class="menu-title">Home</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- archives -->
+        
+        
+          <li class="menu-item menu-item-archives">
+            <a href="/archives">
+              
+              <i class="icon icon-archives-fill"></i>
+              
+              <span class="menu-title">Archives</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- categories -->
+        
+        
+          <li class="menu-item menu-item-categories">
+            <a href="/categories">
+              
+              <i class="icon icon-folder"></i>
+              
+              <span class="menu-title">Categories</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- tags -->
+        
+        
+          <li class="menu-item menu-item-tags">
+            <a href="/tags">
+              
+              <i class="icon icon-tags"></i>
+              
+              <span class="menu-title">Tags</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- repository -->
+        
+        
+          <li class="menu-item menu-item-repository">
+            <a href="/repository">
+              
+              <i class="icon icon-project"></i>
+              
+              <span class="menu-title">Repository</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- books -->
+        
+        
+          <li class="menu-item menu-item-books">
+            <a href="/books">
+              
+              <i class="icon icon-book-fill"></i>
+              
+              <span class="menu-title">Books</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- links -->
+        
+        
+          <li class="menu-item menu-item-links">
+            <a href="/links">
+              
+              <i class="icon icon-friendship"></i>
+              
+              <span class="menu-title">Links</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- about -->
+        
+        
+          <li class="menu-item menu-item-about">
+            <a href="/about">
+              
+              <i class="icon icon-cup-fill"></i>
+              
+              <span class="menu-title">About</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- navigation/webstack/index.html -->
+        
+        
+          <li class="menu-item menu-item-navigation">
+            <a href="/navigation/webstack/index.html">
+              
+              <i class="icon icon-delicious"></i>
+              
+              <span class="menu-title">Navigation</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- navigation/webstack/word.html -->
+        
+        
+          <li style="display: none;" class="menu-item menu-item-fixed">
+            <a href="/navigation/webstack/word.html">
+              
+              <i class="icon icon-delicious"></i>
+              
+              <span class="menu-title">menu.fixed</span>
+            </a>
+          </li>
+        
+
+
+        
+      </ul>
+
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/1-WEB%E5%89%8D%E7%AB%AF/">1.WEB前端</a><span class="category-list-count">140</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/2-%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">2.编程语言</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/3-%E4%BA%A7%E5%93%81%E8%AE%BE%E8%AE%A1/">3.产品设计</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/4-%E7%AE%A1%E7%90%86%E8%90%A5%E9%94%80/">4.管理营销</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/5-%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87/">5.技能提升</a><span class="category-list-count">155</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/6-%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93/">6.读书总结</a><span class="category-list-count">9</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/" rel="tag">CSS</a><span class="tag-list-count">18</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Dart/" rel="tag">Dart</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES6/" rel="tag">ES6</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES7/" rel="tag">ES7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/English/" rel="tag">English</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flutter/" rel="tag">Flutter</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a><span class="tag-list-count">20</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IMAGE/" rel="tag">IMAGE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JQuery/" rel="tag">JQuery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a><span class="tag-list-count">224</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">JavaScript设计模式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript%E9%AB%98%E7%BA%A7%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" rel="tag">JavaScript高级程序设计</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jquery/" rel="tag">Jquery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mysql/" rel="tag">Mysql</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NETWORK/" rel="tag">NETWORK</a><span class="tag-list-count">13</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node/" rel="tag">Node</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/" rel="tag">PHP</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/" rel="tag">React</a><span class="tag-list-count">31</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJS/" rel="tag">RxJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SVG/" rel="tag">SVG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sass/" rel="tag">Sass</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/" rel="tag">Vue</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%AE%89%E5%85%A8/" rel="tag">WEB安全</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webpack/" rel="tag">Webpack</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/" rel="tag">jQuery</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodeJS/" rel="tag">nodeJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B9%A6%E5%8D%95/" rel="tag">书单</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B9%A6%E7%B1%8D/" rel="tag">书籍</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/" rel="tag">前端安全</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83/" rel="tag">命名规范</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag">小程序</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" rel="tag">性能优化</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8F%92%E4%BB%B6/" rel="tag">插件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A1%86%E6%9E%B6/" rel="tag">框架</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" rel="tag">浏览器</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%84%E4%BB%B6/" rel="tag">组件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%84%E8%8C%83/" rel="tag">规范</a><span class="tag-list-count">67</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6%E5%AD%A6%E4%B9%A0/" rel="tag">软件学习</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a><span class="tag-list-count">153</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/CSS/" style="font-size: 13.71px;">CSS</a> <a href="/tags/Dart/" style="font-size: 13px;">Dart</a> <a href="/tags/ES6/" style="font-size: 13px;">ES6</a> <a href="/tags/ES7/" style="font-size: 13px;">ES7</a> <a href="/tags/English/" style="font-size: 13.18px;">English</a> <a href="/tags/Flutter/" style="font-size: 13px;">Flutter</a> <a href="/tags/Git/" style="font-size: 13.12px;">Git</a> <a href="/tags/HTML/" style="font-size: 13.76px;">HTML</a> <a href="/tags/HTTP/" style="font-size: 13.18px;">HTTP</a> <a href="/tags/IMAGE/" style="font-size: 13px;">IMAGE</a> <a href="/tags/JAVA/" style="font-size: 13.06px;">JAVA</a> <a href="/tags/JQuery/" style="font-size: 13px;">JQuery</a> <a href="/tags/JavaScript/" style="font-size: 14px;">JavaScript</a> <a href="/tags/JavaScript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 13px;">JavaScript设计模式</a> <a href="/tags/JavaScript%E9%AB%98%E7%BA%A7%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 13px;">JavaScript高级程序设计</a> <a href="/tags/Jquery/" style="font-size: 13px;">Jquery</a> <a href="/tags/Mysql/" style="font-size: 13px;">Mysql</a> <a href="/tags/NETWORK/" style="font-size: 13.53px;">NETWORK</a> <a href="/tags/Node/" style="font-size: 13.35px;">Node</a> <a href="/tags/PHP/" style="font-size: 13.24px;">PHP</a> <a href="/tags/React/" style="font-size: 13.82px;">React</a> <a href="/tags/RxJS/" style="font-size: 13px;">RxJS</a> <a href="/tags/SVG/" style="font-size: 13px;">SVG</a> <a href="/tags/Sass/" style="font-size: 13px;">Sass</a> <a href="/tags/TypeScript/" style="font-size: 13.29px;">TypeScript</a> <a href="/tags/Vue/" style="font-size: 13.65px;">Vue</a> <a href="/tags/WEB%E5%AE%89%E5%85%A8/" style="font-size: 13.29px;">WEB安全</a> <a href="/tags/Webpack/" style="font-size: 13.59px;">Webpack</a> <a href="/tags/jQuery/" style="font-size: 13.65px;">jQuery</a> <a href="/tags/nodeJS/" style="font-size: 13px;">nodeJS</a> <a href="/tags/python/" style="font-size: 13px;">python</a> <a href="/tags/%E4%B9%A6%E5%8D%95/" style="font-size: 13px;">书单</a> <a href="/tags/%E4%B9%A6%E7%B1%8D/" style="font-size: 13.06px;">书籍</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 13px;">前端</a> <a href="/tags/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/" style="font-size: 13.06px;">前端安全</a> <a href="/tags/%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83/" style="font-size: 13.41px;">命名规范</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 13px;">小程序</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 13.06px;">工具</a> <a href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" style="font-size: 13.47px;">性能优化</a> <a href="/tags/%E6%8F%92%E4%BB%B6/" style="font-size: 13px;">插件</a> <a href="/tags/%E6%A1%86%E6%9E%B6/" style="font-size: 13px;">框架</a> <a href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" style="font-size: 13px;">浏览器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13.18px;">算法</a> <a href="/tags/%E7%BB%84%E4%BB%B6/" style="font-size: 13px;">组件</a> <a href="/tags/%E8%A7%84%E8%8C%83/" style="font-size: 13.88px;">规范</a> <a href="/tags/%E8%BD%AF%E4%BB%B6%E5%AD%A6%E4%B9%A0/" style="font-size: 13px;">软件学习</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 13.35px;">随笔</a> <a href="/tags/%E9%9D%A2%E8%AF%95/" style="font-size: 13.94px;">面试</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a><span class="archive-list-count">312</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/27/1.WEB%E5%89%8D%E7%AB%AFWeb/React/react-router/" class="title">1.WEB前端Web/React/react-router</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-27T13:24:04.185Z" itemprop="datePublished">2020-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/27/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/sass-guide/" class="title">1.WEB前端Web/Front-End-Standards/sass-guide</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-27T13:24:03.487Z" itemprop="datePublished">2020-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/27/hello-world/" class="title">Hello World</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-27T13:24:03.028Z" itemprop="datePublished">2020-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/6-%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93/">6.读书总结</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/26/6.%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93Book/%E4%BA%BA%E7%94%9F%E9%81%93%E7%90%86/" class="title">人生道理</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-26T01:12:57.000Z" itemprop="datePublished">2020-01-26</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/2-%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">2.编程语言</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/15/2.%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80Programming/English/%E7%94%9F%E6%B4%BB%E8%8B%B1%E8%AF%AD/" class="title">生活英语</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-15T01:12:57.000Z" itemprop="datePublished">2020-01-15</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">Catalogue</h3>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#React学习"><span class="toc-number">1.</span> <span class="toc-text">React学习</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#项目实战"><span class="toc-number">1.1.</span> <span class="toc-text">项目实战</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#react实战"><span class="toc-number">1.2.</span> <span class="toc-text">react实战</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#认识-React"><span class="toc-number"></span> <span class="toc-text">认识 React</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JSX-语法"><span class="toc-number"></span> <span class="toc-text">JSX 语法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#不加任何引号"><span class="toc-number">0.1.</span> <span class="toc-text">不加任何引号</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#标签一定要有对应的结束标标签或结束标识："><span class="toc-number">0.2.</span> <span class="toc-text">标签一定要有对应的结束标标签或结束标识：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#只能有一个根节点"><span class="toc-number">0.3.</span> <span class="toc-text">只能有一个根节点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#不能在标签当中加注释"><span class="toc-number">0.4.</span> <span class="toc-text">不能在标签当中加注释</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#jsx-语法允许-html-标签和-javascript-代码混写"><span class="toc-number">0.5.</span> <span class="toc-text">jsx 语法允许 html 标签和 javascript 代码混写</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#React-使用"><span class="toc-number"></span> <span class="toc-text">React 使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#React-是一个第三方的框架库，所以在使用前要先把相关的库文件引入。"><span class="toc-number">0.1.</span> <span class="toc-text">React 是一个第三方的框架库，所以在使用前要先把相关的库文件引入。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#React-是基于-jsx-语法去实现，所以需要明确-script-的类型为-text-babel"><span class="toc-number">0.2.</span> <span class="toc-text">React 是基于 jsx 语法去实现，所以需要明确 script 的类型为 text/babel</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用-React-的核心对象和方法ReactDOM-render进行将-html-标签渲染到指定的容器"><span class="toc-number">0.3.</span> <span class="toc-text">使用 React 的核心对象和方法ReactDOM.render进行将 html 标签渲染到指定的容器</span></a></li></ol></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-2.编程语言Programming/React/React学习" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      React学习
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/11/27/2.%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80Programming/React/React%E5%AD%A6%E4%B9%A0/" class="article-date">
+	  <time datetime="2019-11-27T01:12:57.000Z" itemprop="datePublished">2019-11-27</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/2-%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">2.编程语言</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/React/" rel="tag">React</a>
+  </span>
+
+
+        
+
+	<span class="article-read hidden-xs">
+    	<i class="icon icon-eye-fill" aria-hidden="true"></i>
+    	<span id="/2019/11/27/2.%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80Programming/React/React%E5%AD%A6%E4%B9%A0/" class="leancloud_visitors"  data-flag-title="React学习">0</span>
+    </span>
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/11/27/2.%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80Programming/React/React%E5%AD%A6%E4%B9%A0/#comments" class="article-comment-link">Comments</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count: 5.2k(words)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">Read Count: 27(minutes)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h2 id="React学习"><a href="#React学习" class="headerlink" title="React学习"></a>React学习</h2><p><a href="https://www.redux.org.cn" target="_blank" rel="noopener">redux学习</a><br><a href="https://github.com/ant-design/antd-mobile-samples" target="_blank" rel="noopener">移动样板</a><br><a href="https://www.yuque.com/ant-design/course" target="_blank" rel="noopener">Ant Design 实战教程（beta 版）</a><br><a href="https://github.com/bailicangdu/react-pxq" target="_blank" rel="noopener">一个 react + redux 的完整项目 和 个人总结</a><br><a href="https://github.com/kenberkeley/react-demo" target="_blank" rel="noopener">React 示例项目 · 简易留言板。</a><br><a href="https://github.com/Tianyu5177/0318_react" target="_blank" rel="noopener">react基础</a></p>
+<p>PostCSS<br><a href="https://www.postcss.com.cn" target="_blank" rel="noopener">PostCSS是一个用 JavaScript 工具和插件转换 CSS 代码的工具</a><br><a href="https://www.cnblogs.com/smart-girl/p/11389368.html" target="_blank" rel="noopener">跟我一起使用create-react-app脚手架搭建vw-layout解决方案</a></p>
+<p><a href="https://github.com/jinjiaxing/react-template-easily" target="_blank" rel="noopener">简单易用的react工程化模板，适用于h5，webapp，hybrid开发</a><br><a href="https://github.com/jinjiaxing/react-te-cli" target="_blank" rel="noopener">react-te-cli</a></p>
+<h3 id="项目实战"><a href="#项目实战" class="headerlink" title="项目实战"></a>项目实战</h3><p><a href="https://github.com/Hi-Sen/React-Antd-demo" target="_blank" rel="noopener">react + antd +webpack 基础入门分享</a><br><a href="https://github.com/myqianlan/antd-admin-boilerplate" target="_blank" rel="noopener">以 antd 为基础组件构建的一套中后台管理系统的基本架构模板</a><br><a href="https://github.com/bang88/ant-console" target="_blank" rel="noopener">后台基础模板( ant + react + react router + es6 + webpack)</a><br><a href="https://github.com/tzuser/ant-mobile-base" target="_blank" rel="noopener">ant基础环境搭建</a><br><a href="https://github.com/liubaiye/react-music" target="_blank" rel="noopener">基础react 开发的一个音乐播放器</a><br><a href="https://github.com/renshunli/react-base-mobiles" target="_blank" rel="noopener">react 移动端基础项目</a><br><a href="https://github.com/gaohan1994/react-vw-layout" target="_blank" rel="noopener">使用create-react-app脚手架搭建vw-layout解决方案</a></p>
+<p><a href="https://blog.csdn.net/m18565890306/article/details/95180428" target="_blank" rel="noopener">antd-mobile的下拉刷新上拉加载使用</a></p>
+<h3 id="react实战"><a href="#react实战" class="headerlink" title="react实战"></a>react实战</h3><p><a href="https://github.com/hfpp2012/hello-react" target="_blank" rel="noopener">hello-react</a><br><a href="https://github.com/tzuser/ant-mobile-base" target="_blank" rel="noopener">ant基础环境搭建</a><br><a href="https://github.com/GuoYongfeng/redux-complete-sample" target="_blank" rel="noopener">最全的redux基础示例项目</a></p>
+<h1 id="认识-React"><a href="#认识-React" class="headerlink" title="认识 React"></a>认识 React</h1><p>React 是 facebook 开源的一套框架，可总结为以下几个特点：</p>
+<ul>
+<li>基于 JSX 语法糖实现</li>
+<li>JUST THE UI：在多层架构的设计模式中，React 并不算 MVC 的架构，它可理解为 MVC 的 V 层。</li>
+<li>VIRTUAL DOM：虚拟DOM，是轻量的 js 对象，只保留了原生 dom 的一些常用的属性和方法。</li>
+<li>DATA FLOW： React是单向响应的数据流。</li>
+</ul>
+<h1 id="JSX-语法"><a href="#JSX-语法" class="headerlink" title="JSX 语法"></a>JSX 语法</h1><p>一种特殊的 js 语法糖，可以在代码中把 html 标签当对象使用，其可以总结成以下几个特点：</p>
+<h3 id="不加任何引号"><a href="#不加任何引号" class="headerlink" title="不加任何引号"></a>不加任何引号</h3><p>以前在 js 中使用 html 标签都是加上引号当成字符串使用，而在 jsx 语法中不用加引号，直接当对象使用</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> html = <span class="xml"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>React<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span>;</span><br></pre></td></tr></table></figure>
+<h3 id="标签一定要有对应的结束标标签或结束标识："><a href="#标签一定要有对应的结束标标签或结束标识：" class="headerlink" title="标签一定要有对应的结束标标签或结束标识："></a>标签一定要有对应的结束标标签或结束标识：</h3><p>有时候我们在写 html 结构的时候，都没有把对应的结束标识加上，但浏览器能正常解析，但在 jsx 语法当中，则要强制写标准的 html 结构<br>这一段 html　标签在浏览器是能正常解析</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">value</span>=<span class="string">"React"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这一段在 jsx 语法当中则会报错</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> html = <span class="xml"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">value</span>=<span class="string">"React"</span>&gt;</span>;</span></span><br></pre></td></tr></table></figure>
+<p>jsx 正确写法应该是这样的</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> html = <span class="xml"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">value</span>=<span class="string">"React"</span> /&gt;</span>;</span></span><br><span class="line"><span class="xml">var div = <span class="tag">&lt;<span class="name">div</span>&gt;</span>React<span class="tag">&lt;/<span class="name">div</span>&gt;</span>;</span></span><br></pre></td></tr></table></figure>
+<h3 id="只能有一个根节点"><a href="#只能有一个根节点" class="headerlink" title="只能有一个根节点"></a>只能有一个根节点</h3><p>在 jsx 语法当中，最顶层的结构一定只有一个节点，不能出现兄弟节点</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> html = </span><br><span class="line">&lt;div&gt;</span><br><span class="line">    &lt;h1&gt;Tom&lt;<span class="regexp">/h1&gt;</span></span><br><span class="line"><span class="regexp">    &lt;h1&gt;Lucy&lt;/</span>h2&gt;</span><br><span class="line">&lt;<span class="regexp">/div&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="不能在标签当中加注释"><a href="#不能在标签当中加注释" class="headerlink" title="不能在标签当中加注释"></a>不能在标签当中加注释</h3><p>在 jsx 语法当中，html 标签是一个对象，是一种数据结构，而不是真实的 dom 节点，也不是字符串，所以在标签当中不能添加注释。<br>下面的代码是在标签当中添加了注释，所以会报错。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> html = </span><br><span class="line">&lt;div&gt;</span><br><span class="line">    &lt;!--不能添加注释，这里会报错--&gt;</span><br><span class="line">    &lt;h1&gt;Tom&lt;<span class="regexp">/h1&gt;</span></span><br><span class="line"><span class="regexp">    &lt;h1&gt;Lucy&lt;/</span>h2&gt;</span><br><span class="line">&lt;<span class="regexp">/div&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="jsx-语法允许-html-标签和-javascript-代码混写"><a href="#jsx-语法允许-html-标签和-javascript-代码混写" class="headerlink" title="jsx 语法允许 html 标签和 javascript 代码混写"></a>jsx 语法允许 html 标签和 javascript 代码混写</h3><p>在 jsx 语法当中，要在 html 标签中用到 js 代码，则用花括号（{expression}）括起来。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name = <span class="string">"DK"</span>;</span><br><span class="line"><span class="keyword">var</span> style = &#123;<span class="attr">fontSize</span>: <span class="string">'12px'</span>, <span class="attr">color</span>: <span class="string">'red'</span>&#125;;</span><br><span class="line"><span class="keyword">var</span> html = <span class="xml"><span class="tag">&lt;<span class="name">span</span> <span class="attr">style</span>=<span class="string">&#123;style&#125;</span>&gt;</span>&#123;name&#125;<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span>;</span><br></pre></td></tr></table></figure>
+<p>最终上面的代码将会解析成</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">style</span>=<span class="string">"font-size:12px; color:red"</span>&gt;</span>DK<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="React-使用"><a href="#React-使用" class="headerlink" title="React 使用"></a>React 使用</h1><h3 id="React-是一个第三方的框架库，所以在使用前要先把相关的库文件引入。"><a href="#React-是一个第三方的框架库，所以在使用前要先把相关的库文件引入。" class="headerlink" title="React 是一个第三方的框架库，所以在使用前要先把相关的库文件引入。"></a>React 是一个第三方的框架库，所以在使用前要先把相关的库文件引入。</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--React 核心库--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"../../../../libs/react/react.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--React 跟 Dom 相关的功能库--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"../../../../libs/react/react-dom.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--babel 库，将 JSX 语法转为 JavaScript 语法--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"../../../../libs/react/browser.min.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="React-是基于-jsx-语法去实现，所以需要明确-script-的类型为-text-babel"><a href="#React-是基于-jsx-语法去实现，所以需要明确-script-的类型为-text-babel" class="headerlink" title="React 是基于 jsx 语法去实现，所以需要明确 script 的类型为 text/babel"></a>React 是基于 jsx 语法去实现，所以需要明确 script 的类型为 text/babel</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/bebal"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="使用-React-的核心对象和方法ReactDOM-render进行将-html-标签渲染到指定的容器"><a href="#使用-React-的核心对象和方法ReactDOM-render进行将-html-标签渲染到指定的容器" class="headerlink" title="使用 React 的核心对象和方法ReactDOM.render进行将 html 标签渲染到指定的容器"></a>使用 React 的核心对象和方法<code>ReactDOM.render</code>进行将 html 标签渲染到指定的容器</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"div1"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"div2"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"div3"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!--jsx 语法--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/babel"</span>&gt;</span></span><br><span class="line"><span class="actionscript">        <span class="comment">//将标签直接渲染到容器 div1 当中</span></span></span><br><span class="line"><span class="javascript">        ReactDOM.render(<span class="xml"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>DK<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span>, <span class="built_in">document</span>.getElementById(<span class="string">'div1'</span>));</span></span><br><span class="line"></span><br><span class="line"><span class="actionscript">        <span class="keyword">var</span> _style = &#123;fontSize: <span class="string">'12px'</span>, color: <span class="string">'red'</span>&#125;;</span></span><br><span class="line"><span class="actionscript">        <span class="keyword">var</span> _name = <span class="string">"Tom"</span>;</span></span><br><span class="line"><span class="actionscript">        <span class="keyword">var</span> _obj = &#123;name: <span class="string">"DK"</span>, age: <span class="number">18</span>&#125;;</span></span><br><span class="line"><span class="actionscript">        <span class="comment">//标签与 js 代码混写</span></span></span><br><span class="line"><span class="javascript">        ReactDOM.render(<span class="xml"><span class="tag">&lt;<span class="name">h1</span> <span class="attr">style</span>=<span class="string">&#123;_style&#125;</span>&gt;</span>&#123;_obj.age + (1 + 2)&#125;<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span>, <span class="built_in">document</span>.getElementById(<span class="string">'div2'</span>));</span></span><br><span class="line"></span><br><span class="line"><span class="actionscript">        <span class="keyword">var</span> array = [<span class="string">"Tom"</span>, <span class="string">"Lucy"</span>, <span class="string">"Lily"</span>];</span></span><br><span class="line"><span class="actionscript">        <span class="comment">//多级标签和 js 代码混写</span></span></span><br><span class="line">        ReactDOM.render(</span><br><span class="line"><span class="handlebars"><span class="xml">            <span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span></span><br><span class="line"><span class="handlebars"><span class="xml">                <span class="tag">&lt;<span class="name">ul</span>&gt;</span></span></span></span><br><span class="line">                    &#123;</span><br><span class="line"><span class="actionscript">                        array.map(<span class="function"><span class="keyword">function</span><span class="params">(arg1, arg2)</span></span>&#123;</span></span><br><span class="line"><span class="javascript">                            <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">li</span> <span class="attr">key</span>=<span class="string">&#123;arg2&#125;</span>&gt;</span>&#123;arg1&#125;<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span>;</span></span><br><span class="line">                        &#125;)</span><br><span class="line">                    &#125;</span><br><span class="line"><span class="handlebars"><span class="xml">                <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span></span></span><br><span class="line"><span class="handlebars"><span class="xml">                <span class="tag">&lt;<span class="name">ul</span>&gt;</span><span class="tag">&lt;<span class="name">li</span>&gt;</span>Sam<span class="tag">&lt;/<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span></span></span><br><span class="line"><span class="handlebars"><span class="xml">                <span class="tag">&lt;<span class="name">ul</span>&gt;</span><span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> /&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span></span></span><br><span class="line"><span class="handlebars"><span class="xml">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span>,</span></span></span><br><span class="line"><span class="javascript">            <span class="built_in">document</span>.getElementById(<span class="string">'div3'</span>)</span></span><br><span class="line">        );</span><br><span class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>[效果预览]</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">title</span>&gt;</span>React-JSX<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1"</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--React 核心库--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"../js/react.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--React 跟 Dom 相关的功能库--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"../js/react-dom.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--jsx 转换 js 的框架 babel--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"../js/browser.min.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"div1"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"div2"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"div3"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">&lt;!--jsx 语法--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/babel"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="javascript">            ReactDOM.render(<span class="xml"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>DK<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span>, <span class="built_in">document</span>.getElementById(<span class="string">'div1'</span>));</span></span><br><span class="line"></span><br><span class="line"><span class="actionscript">            <span class="keyword">var</span> _style = &#123;fontSize: <span class="string">'12px'</span>, color: <span class="string">'red'</span>&#125;;</span></span><br><span class="line"><span class="actionscript">            <span class="keyword">var</span> _name = <span class="string">"Tom"</span>;</span></span><br><span class="line"><span class="actionscript">            <span class="keyword">var</span> _obj = &#123;name: <span class="string">"DK"</span>, age: <span class="number">18</span>&#125;;</span></span><br><span class="line"><span class="javascript">            ReactDOM.render(<span class="xml"><span class="tag">&lt;<span class="name">h1</span> <span class="attr">style</span>=<span class="string">&#123;_style&#125;</span>&gt;</span>&#123;_obj.age + (1 + 2)&#125;<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span>, <span class="built_in">document</span>.getElementById(<span class="string">'div2'</span>));</span></span><br><span class="line"></span><br><span class="line"><span class="actionscript">            <span class="keyword">var</span> array = [<span class="string">"Tom"</span>, <span class="string">"Lucy"</span>, <span class="string">"Lily"</span>];</span></span><br><span class="line">            ReactDOM.render(</span><br><span class="line"><span class="handlebars"><span class="xml">                <span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span></span><br><span class="line"><span class="handlebars"><span class="xml">                    <span class="tag">&lt;<span class="name">ul</span>&gt;</span></span></span></span><br><span class="line">                        &#123;</span><br><span class="line"><span class="actionscript">                            array.map(<span class="function"><span class="keyword">function</span><span class="params">(arg1, arg2)</span></span>&#123;</span></span><br><span class="line"><span class="javascript">                                <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">li</span> <span class="attr">key</span>=<span class="string">&#123;arg2&#125;</span>&gt;</span>&#123;arg1&#125;<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span>;</span></span><br><span class="line">                            &#125;)</span><br><span class="line">                        &#125;</span><br><span class="line"><span class="handlebars"><span class="xml">                    <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span></span></span><br><span class="line"><span class="handlebars"><span class="xml">                    <span class="tag">&lt;<span class="name">ul</span>&gt;</span><span class="tag">&lt;<span class="name">li</span>&gt;</span>Sam<span class="tag">&lt;/<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span></span></span><br><span class="line"><span class="handlebars"><span class="xml">                    <span class="tag">&lt;<span class="name">ul</span>&gt;</span><span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> /&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span></span></span><br><span class="line"><span class="handlebars"><span class="xml">                <span class="tag">&lt;/<span class="name">div</span>&gt;</span>,</span></span></span><br><span class="line"><span class="javascript">                <span class="built_in">document</span>.getElementById(<span class="string">'div3'</span>)</span></span><br><span class="line">            );</span><br><span class="line">        <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//envconfig.js</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 全局配置文件</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">let</span> baseURL; </span><br><span class="line"><span class="keyword">let</span> imgUrl = <span class="string">'//elm.cangdu.org/img/'</span>;</span><br><span class="line"><span class="keyword">if</span>(process.env.NODE_ENV === <span class="string">'development'</span>)&#123;</span><br><span class="line">  baseURL = <span class="string">'//api.cangdu.org'</span>;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">  baseURL = <span class="string">'//api.cangdu.org'</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;imgUrl, baseURL&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> config = &#123;</span><br><span class="line">	<span class="comment">// 注册</span></span><br><span class="line">	register: <span class="string">'g1/user/register'</span>,</span><br><span class="line">	<span class="comment">// 短信验证码</span></span><br><span class="line">	captcha: <span class="string">'g1/system/sms/captcha'</span>,</span><br><span class="line">	<span class="comment">// 登录</span></span><br><span class="line">	login: <span class="string">'g1/user/login'</span>,</span><br><span class="line">	<span class="comment">// 忘记密码</span></span><br><span class="line">	forgetPwd: <span class="string">'g1/user/forgetPwd'</span>,</span><br><span class="line">	<span class="comment">// 首页信息</span></span><br><span class="line">	desktop: <span class="string">'p1/desktop/init'</span>,</span><br><span class="line">	<span class="comment">// 个人中心</span></span><br><span class="line">	mine: <span class="string">'p1/user/detail'</span>,</span><br><span class="line">	<span class="comment">// 修改用户信息</span></span><br><span class="line">	changeUser: <span class="string">'p1/user/changeUser'</span>,</span><br><span class="line">	<span class="comment">// 运动记录列表</span></span><br><span class="line">	exerciseList: <span class="string">'p1/exercise/list'</span>,</span><br><span class="line">	<span class="comment">// 添加运动记录</span></span><br><span class="line">	addExercise: <span class="string">'p1/exercise/add'</span>,</span><br><span class="line">	<span class="comment">// 获取血糖监测提醒</span></span><br><span class="line">	glu: <span class="string">'p1/monitor/glu'</span>,</span><br><span class="line">	<span class="comment">// 获取复查监测提醒</span></span><br><span class="line">	review: <span class="string">'p1/monitor/review'</span>,</span><br><span class="line">	<span class="comment">// 添加血糖监测提醒</span></span><br><span class="line">	addGlu: <span class="string">'p1/monitor/addGluMonitors'</span>,</span><br><span class="line">	<span class="comment">// 修改血糖监测提醒</span></span><br><span class="line">	editGlu: <span class="string">'p1/monitor/editGluMonitors'</span>,</span><br><span class="line">	<span class="comment">// 删除血糖提醒</span></span><br><span class="line">	deleteGluMonitors: <span class="string">'p1/monitor/deleteGluMonitors'</span>,</span><br><span class="line">	<span class="comment">// 添加复查监测提醒</span></span><br><span class="line">	addReview: <span class="string">'p1/monitor/addReviewMonitors'</span>,</span><br><span class="line">	<span class="comment">// 修改复查监测提醒</span></span><br><span class="line">	editReview: <span class="string">'p1/monitor/editReviewMonitors'</span>,</span><br><span class="line">	<span class="comment">// 删除复查提醒</span></span><br><span class="line">	deleteReviewMonitors: <span class="string">'p1/monitor/deleteReviewMonitors'</span>,</span><br><span class="line">	<span class="comment">// 修改检查提醒</span></span><br><span class="line">	setMonitors: <span class="string">'p1/monitor/setMonitors'</span>,</span><br><span class="line">	<span class="comment">// 添加血糖管理</span></span><br><span class="line">	addGlus: <span class="string">'p1/glu/addGlus'</span>,</span><br><span class="line">	<span class="comment">// 获取血糖记录列表</span></span><br><span class="line">	getGlus: <span class="string">'p1/glu/glurecords'</span>,</span><br><span class="line">	<span class="comment">// 获取血糖记录列表</span></span><br><span class="line">	getGlusDaily: <span class="string">'p1/glu/daily/list'</span>,</span><br><span class="line">	<span class="comment">// 获取个人档案</span></span><br><span class="line">	detailEhr: <span class="string">'p1/ehr/detail'</span>,</span><br><span class="line">	<span class="comment">// 添加个人档案</span></span><br><span class="line">	addEhr: <span class="string">'p1/ehr/addEhr'</span>,</span><br><span class="line">	<span class="comment">// 修改个人档案</span></span><br><span class="line">	editEhr: <span class="string">'p1/ehr/editEhr'</span>,</span><br><span class="line">	<span class="comment">// 获取站内信息</span></span><br><span class="line">	getMessages: <span class="string">'p1/message/getMessages'</span>,</span><br><span class="line">	<span class="comment">// 删除站内信息</span></span><br><span class="line">	deleteMessages: <span class="string">'p1/message/delete/'</span>,</span><br><span class="line">	<span class="comment">// 更改站内信息</span></span><br><span class="line">	changeMessages: <span class="string">'p1/message/change/'</span>,</span><br><span class="line">	<span class="comment">//添加身高记录</span></span><br><span class="line">	addHeight: <span class="string">'p1/height/addHeight'</span>,</span><br><span class="line">	<span class="comment">// 获取身高记录</span></span><br><span class="line">	getHeight: <span class="string">'p1/height/getHeight'</span>,</span><br><span class="line">	<span class="comment">// 获取身高记录曲线</span></span><br><span class="line">	getHeightGraph: <span class="string">'p1/height/getGraph'</span>,</span><br><span class="line">	<span class="comment">// 添加胰岛素治疗记录</span></span><br><span class="line">	addInsList: <span class="string">'p1/ins/add'</span>,</span><br><span class="line">	<span class="comment">// 获取胰岛素治疗记录</span></span><br><span class="line">	getInsList: <span class="string">'p1/ins/list'</span>,</span><br><span class="line">	<span class="comment">// 根据日期获取胰岛素治疗记录.</span></span><br><span class="line">	dailyInsList: <span class="string">'p1/ins/daily/list'</span>,</span><br><span class="line">	<span class="comment">// 根据日期获取运动记录</span></span><br><span class="line">	sportDaily: <span class="string">'p1/exercise/daily/list'</span>,</span><br><span class="line">	<span class="comment">// 根据日期获取胰岛素记录</span></span><br><span class="line">	insDaily: <span class="string">'p1/ins/daily/list'</span>,</span><br><span class="line">	<span class="comment">// 根据日期获取饮食记录</span></span><br><span class="line">	dietsDaily: <span class="string">'p1/diets/daily/list'</span>,</span><br><span class="line">	<span class="comment">// 获取小儿低GI食谱</span></span><br><span class="line">	getLowRecipes: <span class="string">'g1/food/getBooks'</span>,</span><br><span class="line">	<span class="comment">// 获取食谱详情</span></span><br><span class="line">	getRecipesDetails: <span class="string">'g1/food/getBook/'</span>,</span><br><span class="line">	<span class="comment">// 收藏食谱</span></span><br><span class="line">	followFood: <span class="string">'p1/favorites/'</span>,</span><br><span class="line">	<span class="comment">// 获取收藏食谱</span></span><br><span class="line">	followList: <span class="string">'p1/favorites/list'</span>,</span><br><span class="line">	<span class="comment">// 获取自定义食谱</span></span><br><span class="line">	getMyBooks: <span class="string">'p1/diets/getMyBooks'</span>,</span><br><span class="line">	<span class="comment">// 获取我的饮食记录</span></span><br><span class="line">	getDiets: <span class="string">'p1/diets/list'</span>,</span><br><span class="line">	<span class="comment">// 添加饮食记录</span></span><br><span class="line">	addDiets: <span class="string">'p1/diets/addDiets'</span>,</span><br><span class="line">	<span class="comment">// 获取食材</span></span><br><span class="line">	getMaterials: <span class="string">'g1/food/getMaterials'</span>,</span><br><span class="line">	<span class="comment">// 添加自定义食谱</span></span><br><span class="line">	addMyBooks: <span class="string">'p1/diets/addMyBooks'</span>,</span><br><span class="line">	<span class="comment">// 获取食材中的独立食材</span></span><br><span class="line">	aloneGetBook: <span class="string">'g1/food/getBook/materials/'</span>,</span><br><span class="line">	<span class="comment">// 获取单克食材能量</span></span><br><span class="line">	aloneMaterials: <span class="string">'g1/food/getBook/materials/alone/'</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> config;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> Axios <span class="keyword">from</span> <span class="string">'../http'</span></span><br><span class="line"><span class="keyword">import</span> ApiName <span class="keyword">from</span> <span class="string">'../http/httpApiName'</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">window</span>.Axios = Axios</span><br><span class="line"><span class="built_in">window</span>.ApiName = ApiName</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line">381</span><br><span class="line">382</span><br><span class="line">383</span><br><span class="line">384</span><br><span class="line">385</span><br><span class="line">386</span><br><span class="line">387</span><br><span class="line">388</span><br><span class="line">389</span><br><span class="line">390</span><br><span class="line">391</span><br><span class="line">392</span><br><span class="line">393</span><br><span class="line">394</span><br><span class="line">395</span><br><span class="line">396</span><br><span class="line">397</span><br><span class="line">398</span><br><span class="line">399</span><br><span class="line">400</span><br><span class="line">401</span><br><span class="line">402</span><br><span class="line">403</span><br><span class="line">404</span><br><span class="line">405</span><br><span class="line">406</span><br><span class="line">407</span><br><span class="line">408</span><br><span class="line">409</span><br><span class="line">410</span><br><span class="line">411</span><br><span class="line">412</span><br><span class="line">413</span><br><span class="line">414</span><br><span class="line">415</span><br><span class="line">416</span><br><span class="line">417</span><br><span class="line">418</span><br><span class="line">419</span><br><span class="line">420</span><br><span class="line">421</span><br><span class="line">422</span><br><span class="line">423</span><br><span class="line">424</span><br><span class="line">425</span><br><span class="line">426</span><br><span class="line">427</span><br><span class="line">428</span><br><span class="line">429</span><br><span class="line">430</span><br><span class="line">431</span><br><span class="line">432</span><br><span class="line">433</span><br><span class="line">434</span><br><span class="line">435</span><br><span class="line">436</span><br><span class="line">437</span><br><span class="line">438</span><br><span class="line">439</span><br><span class="line">440</span><br><span class="line">441</span><br><span class="line">442</span><br><span class="line">443</span><br><span class="line">444</span><br><span class="line">445</span><br><span class="line">446</span><br><span class="line">447</span><br><span class="line">448</span><br><span class="line">449</span><br><span class="line">450</span><br><span class="line">451</span><br><span class="line">452</span><br><span class="line">453</span><br><span class="line">454</span><br><span class="line">455</span><br><span class="line">456</span><br><span class="line">457</span><br><span class="line">458</span><br><span class="line">459</span><br><span class="line">460</span><br><span class="line">461</span><br><span class="line">462</span><br><span class="line">463</span><br><span class="line">464</span><br><span class="line">465</span><br><span class="line">466</span><br><span class="line">467</span><br><span class="line">468</span><br><span class="line">469</span><br><span class="line">470</span><br><span class="line">471</span><br><span class="line">472</span><br><span class="line">473</span><br><span class="line">474</span><br><span class="line">475</span><br><span class="line">476</span><br><span class="line">477</span><br><span class="line">478</span><br><span class="line">479</span><br><span class="line">480</span><br><span class="line">481</span><br><span class="line">482</span><br><span class="line">483</span><br><span class="line">484</span><br><span class="line">485</span><br><span class="line">486</span><br><span class="line">487</span><br><span class="line">488</span><br><span class="line">489</span><br><span class="line">490</span><br><span class="line">491</span><br><span class="line">492</span><br><span class="line">493</span><br><span class="line">494</span><br><span class="line">495</span><br><span class="line">496</span><br><span class="line">497</span><br><span class="line">498</span><br><span class="line">499</span><br><span class="line">500</span><br><span class="line">501</span><br><span class="line">502</span><br><span class="line">503</span><br><span class="line">504</span><br><span class="line">505</span><br><span class="line">506</span><br><span class="line">507</span><br><span class="line">508</span><br><span class="line">509</span><br><span class="line">510</span><br><span class="line">511</span><br><span class="line">512</span><br><span class="line">513</span><br><span class="line">514</span><br><span class="line">515</span><br><span class="line">516</span><br><span class="line">517</span><br><span class="line">518</span><br><span class="line">519</span><br><span class="line">520</span><br><span class="line">521</span><br><span class="line">522</span><br><span class="line">523</span><br><span class="line">524</span><br><span class="line">525</span><br><span class="line">526</span><br><span class="line">527</span><br><span class="line">528</span><br><span class="line">529</span><br><span class="line">530</span><br><span class="line">531</span><br><span class="line">532</span><br><span class="line">533</span><br><span class="line">534</span><br><span class="line">535</span><br><span class="line">536</span><br><span class="line">537</span><br><span class="line">538</span><br><span class="line">539</span><br><span class="line">540</span><br><span class="line">541</span><br><span class="line">542</span><br><span class="line">543</span><br><span class="line">544</span><br><span class="line">545</span><br><span class="line">546</span><br><span class="line">547</span><br><span class="line">548</span><br><span class="line">549</span><br><span class="line">550</span><br><span class="line">551</span><br><span class="line">552</span><br><span class="line">553</span><br><span class="line">554</span><br><span class="line">555</span><br><span class="line">556</span><br><span class="line">557</span><br><span class="line">558</span><br><span class="line">559</span><br><span class="line">560</span><br><span class="line">561</span><br><span class="line">562</span><br><span class="line">563</span><br><span class="line">564</span><br><span class="line">565</span><br><span class="line">566</span><br><span class="line">567</span><br><span class="line">568</span><br><span class="line">569</span><br><span class="line">570</span><br><span class="line">571</span><br><span class="line">572</span><br><span class="line">573</span><br><span class="line">574</span><br><span class="line">575</span><br><span class="line">576</span><br><span class="line">577</span><br><span class="line">578</span><br><span class="line">579</span><br><span class="line">580</span><br><span class="line">581</span><br><span class="line">582</span><br><span class="line">583</span><br><span class="line">584</span><br><span class="line">585</span><br><span class="line">586</span><br><span class="line">587</span><br><span class="line">588</span><br><span class="line">589</span><br><span class="line">590</span><br><span class="line">591</span><br><span class="line">592</span><br><span class="line">593</span><br><span class="line">594</span><br><span class="line">595</span><br><span class="line">596</span><br><span class="line">597</span><br><span class="line">598</span><br><span class="line">599</span><br><span class="line">600</span><br><span class="line">601</span><br><span class="line">602</span><br><span class="line">603</span><br><span class="line">604</span><br><span class="line">605</span><br><span class="line">606</span><br><span class="line">607</span><br><span class="line">608</span><br><span class="line">609</span><br><span class="line">610</span><br><span class="line">611</span><br><span class="line">612</span><br><span class="line">613</span><br><span class="line">614</span><br><span class="line">615</span><br><span class="line">616</span><br><span class="line">617</span><br><span class="line">618</span><br><span class="line">619</span><br><span class="line">620</span><br><span class="line">621</span><br><span class="line">622</span><br><span class="line">623</span><br><span class="line">624</span><br><span class="line">625</span><br><span class="line">626</span><br><span class="line">627</span><br><span class="line">628</span><br><span class="line">629</span><br><span class="line">630</span><br><span class="line">631</span><br><span class="line">632</span><br><span class="line">633</span><br><span class="line">634</span><br><span class="line">635</span><br><span class="line">636</span><br><span class="line">637</span><br><span class="line">638</span><br><span class="line">639</span><br><span class="line">640</span><br><span class="line">641</span><br><span class="line">642</span><br><span class="line">643</span><br><span class="line">644</span><br><span class="line">645</span><br><span class="line">646</span><br><span class="line">647</span><br><span class="line">648</span><br><span class="line">649</span><br><span class="line">650</span><br><span class="line">651</span><br><span class="line">652</span><br><span class="line">653</span><br><span class="line">654</span><br><span class="line">655</span><br><span class="line">656</span><br><span class="line">657</span><br><span class="line">658</span><br><span class="line">659</span><br><span class="line">660</span><br><span class="line">661</span><br><span class="line">662</span><br><span class="line">663</span><br><span class="line">664</span><br><span class="line">665</span><br><span class="line">666</span><br><span class="line">667</span><br><span class="line">668</span><br><span class="line">669</span><br><span class="line">670</span><br><span class="line">671</span><br><span class="line">672</span><br><span class="line">673</span><br><span class="line">674</span><br><span class="line">675</span><br><span class="line">676</span><br><span class="line">677</span><br><span class="line">678</span><br><span class="line">679</span><br><span class="line">680</span><br><span class="line">681</span><br><span class="line">682</span><br><span class="line">683</span><br><span class="line">684</span><br><span class="line">685</span><br><span class="line">686</span><br><span class="line">687</span><br><span class="line">688</span><br><span class="line">689</span><br><span class="line">690</span><br><span class="line">691</span><br><span class="line">692</span><br><span class="line">693</span><br><span class="line">694</span><br><span class="line">695</span><br><span class="line">696</span><br><span class="line">697</span><br><span class="line">698</span><br><span class="line">699</span><br><span class="line">700</span><br><span class="line">701</span><br><span class="line">702</span><br><span class="line">703</span><br><span class="line">704</span><br><span class="line">705</span><br><span class="line">706</span><br><span class="line">707</span><br><span class="line">708</span><br><span class="line">709</span><br><span class="line">710</span><br><span class="line">711</span><br><span class="line">712</span><br><span class="line">713</span><br><span class="line">714</span><br><span class="line">715</span><br><span class="line">716</span><br><span class="line">717</span><br><span class="line">718</span><br><span class="line">719</span><br><span class="line">720</span><br><span class="line">721</span><br><span class="line">722</span><br><span class="line">723</span><br><span class="line">724</span><br><span class="line">725</span><br><span class="line">726</span><br><span class="line">727</span><br><span class="line">728</span><br><span class="line">729</span><br><span class="line">730</span><br><span class="line">731</span><br><span class="line">732</span><br><span class="line">733</span><br><span class="line">734</span><br><span class="line">735</span><br><span class="line">736</span><br><span class="line">737</span><br><span class="line">738</span><br><span class="line">739</span><br><span class="line">740</span><br></pre></td><td class="code"><pre><span class="line">|--utils</span><br><span class="line"><span class="comment">//mixin.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> methods =&gt; &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="params">target</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">Object</span>.assign(target.prototype, methods);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 字符串填充函数</span></span><br><span class="line"><span class="comment"> * @param  &#123;string&#125; value      目标字符串</span></span><br><span class="line"><span class="comment"> * @param  &#123;array&#125; position 需要填充的位置</span></span><br><span class="line"><span class="comment"> * @param  &#123;string&#125; padstr   填充字符串</span></span><br><span class="line"><span class="comment"> * @return &#123;string&#125;          返回目标字符串</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> padStr = <span class="function">(<span class="params">value, position, padstr, inputElement</span>) =&gt;</span> &#123;</span><br><span class="line">  position.forEach(<span class="function">(<span class="params">item, index</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (value.length &gt; item + index) &#123;</span><br><span class="line">      value = value.substring(<span class="number">0</span>, item + index) + padstr + value.substring(item + index)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">  value = value.trim();</span><br><span class="line">  <span class="comment">// 解决安卓部分浏览器插入空格后光标错位问题</span></span><br><span class="line">  requestAnimationFrame(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    inputElement.setSelectionRange(value.length, value.length); </span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="keyword">return</span> value;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//asyncComponent.jsx</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> React, &#123; Component &#125; <span class="keyword">from</span> <span class="string">"react"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">asyncComponent</span>(<span class="params">importComponent</span>) </span>&#123;</span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">AsyncComponent</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">      <span class="keyword">super</span>(props);</span><br><span class="line"></span><br><span class="line">      <span class="keyword">this</span>.state = &#123;</span><br><span class="line">        component: <span class="literal">null</span></span><br><span class="line">      &#125;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">async</span> componentDidMount() &#123;</span><br><span class="line">      <span class="keyword">const</span> &#123; <span class="attr">default</span>: component &#125; = <span class="keyword">await</span> importComponent();</span><br><span class="line"></span><br><span class="line">      <span class="keyword">this</span>.setState(&#123;component&#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    render() &#123;</span><br><span class="line">      <span class="keyword">const</span> C = <span class="keyword">this</span>.state.component;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">return</span> C ? <span class="xml"><span class="tag">&lt;<span class="name">C</span> &#123;<span class="attr">...this.props</span>&#125; /&gt;</span> : null;</span></span><br><span class="line"><span class="xml">    &#125;</span></span><br><span class="line"><span class="xml">  &#125;</span></span><br><span class="line"></span><br><span class="line"><span class="xml">  return AsyncComponent;</span></span><br><span class="line"><span class="xml">&#125;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="xml">//setRem.js</span></span><br><span class="line"><span class="xml">(function(psdw)&#123;</span></span><br><span class="line"><span class="xml">  var dpr=0 , rem=0 , scale=0;</span></span><br><span class="line"><span class="xml">  var htmlDOM=document.documentElement;</span></span><br><span class="line"><span class="xml">  dpr=window.devicePixelRatio;</span></span><br><span class="line"><span class="xml">  var currentWidth=htmlDOM.clientWidth;</span></span><br><span class="line"><span class="xml">  scale=currentWidth/psdw;</span></span><br><span class="line"><span class="xml">  rem=psdw/10;</span></span><br><span class="line"><span class="xml">  rem=rem*scale;</span></span><br><span class="line"><span class="xml">  htmlDOM.style.fontSize=rem+'px';</span></span><br><span class="line"><span class="xml">  htmlDOM.setAttribute('data-dpr',dpr)</span></span><br><span class="line"><span class="xml">&#125;)(750)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="xml">//myUtils.js</span></span><br><span class="line"></span><br><span class="line"><span class="xml">import es6Promise from 'es6-promise';</span></span><br><span class="line"><span class="xml">es6Promise.polyfill();</span></span><br><span class="line"><span class="xml">import axios from 'axios'</span></span><br><span class="line"><span class="xml">import qs from 'qs'</span></span><br><span class="line"></span><br><span class="line"><span class="xml">// http request 拦截器</span></span><br><span class="line"><span class="xml">axios.interceptors.request.use(</span></span><br><span class="line"><span class="xml">	config =&gt; &#123;</span></span><br><span class="line"><span class="xml">		if (local('userInfo')) &#123;</span></span><br><span class="line"><span class="xml">			config.headers.accessToken = local('userInfo').accessToken;</span></span><br><span class="line"><span class="xml">		&#125;</span></span><br><span class="line"><span class="xml">		return config;</span></span><br><span class="line"><span class="xml">	&#125;,</span></span><br><span class="line"><span class="xml">	err =&gt; &#123;</span></span><br><span class="line"><span class="xml">		return Promise.reject(err);</span></span><br><span class="line"><span class="xml">	&#125;);</span></span><br><span class="line"></span><br><span class="line"><span class="xml">// http response 拦截器</span></span><br><span class="line"><span class="xml">axios.interceptors.response.use(</span></span><br><span class="line"><span class="xml">	response =&gt; &#123;</span></span><br><span class="line"><span class="xml">		return response;</span></span><br><span class="line"><span class="xml">	&#125;,</span></span><br><span class="line"><span class="xml">	error =&gt; &#123;</span></span><br><span class="line"><span class="xml">		if (error.response) &#123;</span></span><br><span class="line"><span class="xml">			switch (error.response.status) &#123;</span></span><br><span class="line"><span class="xml">				case 401:</span></span><br><span class="line"><span class="xml">					window.location.href = '#/login'</span></span><br><span class="line"><span class="xml">					break;</span></span><br><span class="line"><span class="xml">			&#125;</span></span><br><span class="line"><span class="xml">		&#125;</span></span><br><span class="line"><span class="xml">		return Promise.reject(error.response.data) // 返回接口返回的错误信息</span></span><br><span class="line"><span class="xml">	&#125;);</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="xml">var fetch = (&#123;</span></span><br><span class="line"><span class="xml">	url = '',</span></span><br><span class="line"><span class="xml">	method = 'get',</span></span><br><span class="line"><span class="xml">	responseType = 'json',</span></span><br><span class="line"><span class="xml">	data = data,</span></span><br><span class="line"><span class="xml">	headers = &#123;&#125;,</span></span><br><span class="line"><span class="xml">	complete = null,</span></span><br><span class="line"><span class="xml">	setData = false</span></span><br><span class="line"><span class="xml">&#125; = &#123;&#125;) =&gt; &#123;</span></span><br><span class="line"><span class="xml">	let _headers = &#123;&#125;;</span></span><br><span class="line"></span><br><span class="line"><span class="xml">	/* 全局封装数据请求方式</span></span><br><span class="line"><span class="xml">	 * post请求参数放入qs.stringify(data)</span></span><br><span class="line"><span class="xml">	 * get请求参数放入params中</span></span><br><span class="line"><span class="xml">	 */</span></span><br><span class="line"><span class="xml">	return new Promise((resolve, reject) =&gt; &#123;</span></span><br><span class="line"><span class="xml">		axios(&#123;</span></span><br><span class="line"><span class="xml">			url: url,</span></span><br><span class="line"><span class="xml">			data: method == 'post' ? (setData ? data : qs.stringify(data)) : &#123;&#125;,</span></span><br><span class="line"><span class="xml">			method: method,</span></span><br><span class="line"><span class="xml">			headers: Object.assign(_headers, headers),</span></span><br><span class="line"><span class="xml">			params: method == 'get' ? data : &#123;&#125;,</span></span><br><span class="line"><span class="xml">			responseType: responseType</span></span><br><span class="line"><span class="xml">		&#125;).then((res) =&gt; &#123;</span></span><br><span class="line"><span class="xml">			typeof complete == 'function' &amp;&amp; complete(res);</span></span><br><span class="line"><span class="xml">			resolve(res.data);</span></span><br><span class="line"><span class="xml">		&#125;).catch((error) =&gt; &#123;</span></span><br><span class="line"><span class="xml">			typeof complete == 'function' &amp;&amp; complete(error);</span></span><br><span class="line"><span class="xml">			reject(error)</span></span><br><span class="line"><span class="xml">		&#125;)</span></span><br><span class="line"><span class="xml">	&#125;)</span></span><br><span class="line"><span class="xml">&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="xml">var query = (name, str) =&gt; &#123;</span></span><br><span class="line"><span class="xml">	var reg = new RegExp("(^|&amp;)" + name + "=([^&amp;|^#]*)(&amp;|#|$)");</span></span><br><span class="line"><span class="xml">	var str = str ? str : window.location.href;</span></span><br><span class="line"><span class="xml">	var r = str.substr(str.indexOf("?") + 1).match(reg);</span></span><br><span class="line"><span class="xml">	return (r != null) ? unescape(r[2]) : null;</span></span><br><span class="line"><span class="xml">&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="xml">var session = (aKey, aVal) =&gt; &#123;</span></span><br><span class="line"><span class="xml">	if (typeof aVal == "undefined") &#123;</span></span><br><span class="line"><span class="xml">		return JSON.parse(sessionStorage.getItem(aKey));</span></span><br><span class="line"><span class="xml">	&#125; else &#123;</span></span><br><span class="line"><span class="xml">		sessionStorage.setItem(aKey, JSON.stringify(aVal));</span></span><br><span class="line"><span class="xml">	&#125;</span></span><br><span class="line"><span class="xml">&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="xml">var local = (aKey, aVal) =&gt; &#123;</span></span><br><span class="line"><span class="xml">	if (typeof aVal == "undefined") &#123;</span></span><br><span class="line"><span class="xml">		return JSON.parse(localStorage.getItem(aKey));</span></span><br><span class="line"><span class="xml">	&#125; else &#123;</span></span><br><span class="line"><span class="xml">		localStorage.setItem(aKey, JSON.stringify(aVal));</span></span><br><span class="line"><span class="xml">	&#125;</span></span><br><span class="line"><span class="xml">&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="xml">var sessionRemove = (aKey) =&gt; &#123;</span></span><br><span class="line"><span class="xml">	sessionStorage.removeItem(aKey);</span></span><br><span class="line"><span class="xml">&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="xml">var localRemove = (aKey) =&gt; &#123;</span></span><br><span class="line"><span class="xml">	localStorage.removeItem(aKey);</span></span><br><span class="line"><span class="xml">&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="xml">var platform = () =&gt; &#123;</span></span><br><span class="line"><span class="xml">	var u = navigator.userAgent,</span></span><br><span class="line"><span class="xml">		app = navigator.appVersion;</span></span><br><span class="line"><span class="xml">	return &#123; //移动终端浏览器版本信息</span></span><br><span class="line"><span class="xml">		trident: u.indexOf('Trident') &gt; -1, //IE内核</span></span><br><span class="line"><span class="xml">		presto: u.indexOf('Presto') &gt; -1, //opera内核</span></span><br><span class="line"><span class="xml">		webKit: u.indexOf('AppleWebKit') &gt; -1, //苹果、谷歌内核</span></span><br><span class="line"><span class="xml">		gecko: u.indexOf('Gecko') &gt; -1 &amp;&amp; u.indexOf('KHTML') == -1, //火狐内核</span></span><br><span class="line"><span class="xml">		mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端</span></span><br><span class="line"><span class="xml">		ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端</span></span><br><span class="line"><span class="xml">		android: u.indexOf('Android') &gt; -1 || u.indexOf('Linux') &gt; -1, //android终端或者uc浏览器</span></span><br><span class="line"><span class="xml">		iPhone: u.indexOf('iPhone') &gt; -1 || u.indexOf('Mac') &gt; -1, //是否为iPhone或者QQHD浏览器</span></span><br><span class="line"><span class="xml">		iPad: u.indexOf('iPad') &gt; -1, //是否iPad</span></span><br><span class="line"><span class="xml">		webApp: u.indexOf('Safari') == -1 //是否web应该程序，没有头部与底部</span></span><br><span class="line"><span class="xml">	&#125;;</span></span><br><span class="line"><span class="xml">&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="xml">var GoLogin = (Modal) =&gt; &#123;</span></span><br><span class="line"><span class="xml">	Modal.alert('您的账号未登录', '登陆后您的数据将永久保存到云端', [&#123;</span></span><br><span class="line"><span class="xml">		text: '取消',</span></span><br><span class="line"><span class="xml">		onPress: () =&gt; console.log('cancel')</span></span><br><span class="line"><span class="xml">	&#125;, &#123;</span></span><br><span class="line"><span class="xml">		text: '登录',</span></span><br><span class="line"><span class="xml">		onPress: () =&gt; window.location.href = '#/login',</span></span><br><span class="line"><span class="xml">		style: &#123;</span></span><br><span class="line"><span class="xml">			color: '#E95941'</span></span><br><span class="line"><span class="xml">		&#125;</span></span><br><span class="line"><span class="xml">	&#125;])</span></span><br><span class="line"><span class="xml">&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="xml">var toastBox,</span></span><br><span class="line"><span class="xml">	toastTimer;</span></span><br><span class="line"><span class="xml">var toast = (message, time = 3000, callback) =&gt; &#123;</span></span><br><span class="line"><span class="xml">	// 如果存在toast消息框就销毁</span></span><br><span class="line"><span class="xml">	// 全局只保证出现一个toast</span></span><br><span class="line"><span class="xml">	if (toastBox) &#123;</span></span><br><span class="line"><span class="xml">		document.body.removeChild(toastBox);</span></span><br><span class="line"><span class="xml">		clearTimeout(toastTimer);</span></span><br><span class="line"><span class="xml">	&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="xml">	// 创建消息框体</span></span><br><span class="line"><span class="xml">	toastBox = document.createElement('div');</span></span><br><span class="line"><span class="xml">	var msg = document.createElement('div');</span></span><br><span class="line"><span class="xml">	toastBox.className = 'native-toast';</span></span><br><span class="line"><span class="xml">	msg.className = 'native-toast-msg';</span></span><br><span class="line"><span class="xml">	msg.innerHTML = message;</span></span><br><span class="line"><span class="xml">	toastBox.appendChild(msg)</span></span><br><span class="line"><span class="xml">	document.body.append(toastBox)</span></span><br><span class="line"><span class="xml">	setTimeout(() =&gt; &#123;</span></span><br><span class="line"><span class="xml">		msg.classList.add('active')</span></span><br><span class="line"><span class="xml">	&#125;, 0)</span></span><br><span class="line"></span><br><span class="line"><span class="xml">	// 销毁消息框体</span></span><br><span class="line"><span class="xml">	toastTimer = setTimeout(() =&gt; &#123;</span></span><br><span class="line"><span class="xml">		document.body.removeChild(toastBox);</span></span><br><span class="line"><span class="xml">		clearTimeout(toastTimer);</span></span><br><span class="line"><span class="xml">		typeof callback == 'function' &amp;&amp; callback();</span></span><br><span class="line"><span class="xml">		toastBox = null;</span></span><br><span class="line"><span class="xml">	&#125;, time)</span></span><br><span class="line"><span class="xml">&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="xml">export &#123;</span></span><br><span class="line"><span class="xml">	fetch,</span></span><br><span class="line"><span class="xml">	query,</span></span><br><span class="line"><span class="xml">	session,</span></span><br><span class="line"><span class="xml">	local,</span></span><br><span class="line"><span class="xml">	sessionRemove,</span></span><br><span class="line"><span class="xml">	localRemove,</span></span><br><span class="line"><span class="xml">	platform,</span></span><br><span class="line"><span class="xml">	GoLogin,</span></span><br><span class="line"><span class="xml">	toast</span></span><br><span class="line"><span class="xml">&#125;;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="xml">//util.js</span></span><br><span class="line"><span class="xml">export default &#123;</span></span><br><span class="line"><span class="xml">    log()&#123;</span></span><br><span class="line"><span class="xml">        console.log(1)</span></span><br><span class="line"><span class="xml">    &#125;</span></span><br><span class="line"><span class="xml">&#125;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="xml">//rem.js</span></span><br><span class="line"><span class="xml">/* 1像素 */</span></span><br><span class="line"><span class="xml">var viewport = document.querySelector("meta[name=viewport]")</span></span><br><span class="line"><span class="xml">if (window.devicePixelRatio === 1) &#123;</span></span><br><span class="line"><span class="xml">    viewport.setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no')</span></span><br><span class="line"><span class="xml">&#125;</span></span><br><span class="line"><span class="xml">if (window.devicePixelRatio === 2) &#123;</span></span><br><span class="line"><span class="xml">    viewport.setAttribute('content', 'width=device-width, initial-scale=0.5, maximum-scale=0.5, minimum-scale=0.5, user-scalable=no')</span></span><br><span class="line"><span class="xml">&#125;</span></span><br><span class="line"><span class="xml">if (window.devicePixelRatio === 3) &#123;</span></span><br><span class="line"><span class="xml">    viewport.setAttribute('content', 'width=device-width, initial-scale=0.333333333, maximum-scale=0.333333333, minimum-scale=0.333333333, user-scalable=no')</span></span><br><span class="line"><span class="xml">&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="xml">// 基准大小</span></span><br><span class="line"><span class="xml">const baseSize = 32</span></span><br><span class="line"><span class="xml">// 设置 rem 函数</span></span><br><span class="line"><span class="xml">function setRem() &#123;</span></span><br><span class="line"><span class="xml">    // 当前页面宽度相对于 750 宽的缩放比例，可根据自己需要修改。</span></span><br><span class="line"><span class="xml">    const scale = document.documentElement.clientWidth / 750</span></span><br><span class="line"><span class="xml">    // 设置页面根节点字体大小</span></span><br><span class="line"><span class="xml">    document.documentElement.style.fontSize =</span></span><br><span class="line"><span class="xml">        baseSize * Math.min(scale, 2) + 'px'</span></span><br><span class="line"><span class="xml">&#125;</span></span><br><span class="line"><span class="xml">// 初始化</span></span><br><span class="line"><span class="xml">setRem()</span></span><br><span class="line"><span class="xml">// 改变窗口大小时重新设置 rem</span></span><br><span class="line"><span class="xml">window.onresize = function() &#123;</span></span><br><span class="line"><span class="xml">    setRem()</span></span><br><span class="line"><span class="xml">&#125;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="xml">//animation.js</span></span><br><span class="line"></span><br><span class="line"><span class="xml">class ListLight &#123;</span></span><br><span class="line"></span><br><span class="line"><span class="xml">    constructor()&#123;</span></span><br><span class="line"><span class="xml">        this.init();</span></span><br><span class="line"><span class="xml">    &#125;</span></span><br><span class="line"></span><br><span class="line"><span class="xml">    init()&#123;</span></span><br><span class="line"><span class="xml">        this.addEventLight();</span></span><br><span class="line"><span class="xml">    &#125;</span></span><br><span class="line"></span><br><span class="line"><span class="xml">    addEventLight()&#123;</span></span><br><span class="line"><span class="xml">        document.body.addEventListener('touchstart',(e) =&gt; &#123;</span></span><br><span class="line"><span class="xml">            var ev = e || window.event;</span></span><br><span class="line"><span class="xml">            var target = ev.target || ev.srcElement;</span></span><br><span class="line"><span class="xml">            if(target.className.indexOf('rsl-list-light') !== -1)&#123;</span></span><br><span class="line"><span class="xml">                if(target.className.indexOf('rsl-list-light-active') === -1)&#123;</span></span><br><span class="line"><span class="xml">                    target.classList.add('rsl-list-light-active');</span></span><br><span class="line"><span class="xml">                &#125;</span></span><br><span class="line"><span class="xml">            &#125;</span></span><br><span class="line"><span class="xml">        &#125;);</span></span><br><span class="line"><span class="xml">        document.body.addEventListener('touchend',(e) =&gt; &#123;</span></span><br><span class="line"><span class="xml">            var ev = e || window.event;</span></span><br><span class="line"><span class="xml">            var target = ev.target || ev.srcElement;</span></span><br><span class="line"><span class="xml">            if(target.className.indexOf('rsl-list-light') !== -1)&#123;</span></span><br><span class="line"><span class="xml">                if(target.className.indexOf('rsl-list-light-active') &gt; -1)&#123;</span></span><br><span class="line"><span class="xml">                    target.classList.remove('rsl-list-light-active');</span></span><br><span class="line"><span class="xml">                &#125;</span></span><br><span class="line"><span class="xml">            &#125;</span></span><br><span class="line"><span class="xml">        &#125;);</span></span><br><span class="line"><span class="xml">        document.body.addEventListener('touchcancel',(e) =&gt; &#123;</span></span><br><span class="line"><span class="xml">            var ev = e || window.event;</span></span><br><span class="line"><span class="xml">            var target = ev.target || ev.srcElement;</span></span><br><span class="line"><span class="xml">            if(target.className.indexOf('rsl-list-light') !== -1)&#123;</span></span><br><span class="line"><span class="xml">                if(target.className.indexOf('rsl-list-light-active') &gt; -1)&#123;</span></span><br><span class="line"><span class="xml">                    target.classList.remove('rsl-list-light-active');</span></span><br><span class="line"><span class="xml">                &#125;</span></span><br><span class="line"><span class="xml">            &#125;</span></span><br><span class="line"><span class="xml">        &#125;);</span></span><br><span class="line"><span class="xml">    &#125;</span></span><br><span class="line"><span class="xml">&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="xml">export default new ListLight();</span></span><br><span class="line"></span><br><span class="line"><span class="xml">//|--tools</span></span><br><span class="line"><span class="xml">//imgCompress.js</span></span><br><span class="line"><span class="xml">/**</span></span><br><span class="line"><span class="xml"> * 图片压缩</span></span><br><span class="line"><span class="xml"> * @param file 图片对象</span></span><br><span class="line"><span class="xml"> * @param callback(base64,Blob,file) 图片处理成功后的回调</span></span><br><span class="line"><span class="xml"> */</span></span><br><span class="line"><span class="xml">import base64ToBlob from './convertImgDataToBlob.js'</span></span><br><span class="line"></span><br><span class="line"><span class="xml">export default (inFile = &#123;&#125;, callback) =&gt; &#123;</span></span><br><span class="line"><span class="xml">    var EXIF = window.EXIF;</span></span><br><span class="line"><span class="xml">    //图片方向角 added by lzk</span></span><br><span class="line"><span class="xml">    var Orientation = null</span></span><br><span class="line"></span><br><span class="line"><span class="xml">    //var inputID="file";</span></span><br><span class="line"><span class="xml">    var file = inFile;</span></span><br><span class="line"><span class="xml">    if(!(window.FileReader &amp;&amp; window.File &amp;&amp; window.FileList &amp;&amp; window.Blob))&#123;</span></span><br><span class="line"><span class="xml">        // show.innerHTML = '您的浏览器不支持fileReader';</span></span><br><span class="line"><span class="xml">        // upimg.setAttribute('disabled', 'disabled');</span></span><br><span class="line"><span class="xml">        return false;</span></span><br><span class="line"><span class="xml">    &#125;</span></span><br><span class="line"><span class="xml">    var reader = new FileReader()</span></span><br><span class="line"></span><br><span class="line"><span class="xml">    //获取照片方向角属性，用户旋转控制</span></span><br><span class="line"><span class="xml">    EXIF.getData(file, function() &#123;</span></span><br><span class="line"><span class="xml">        // alert(EXIF.pretty(this));</span></span><br><span class="line"><span class="xml">        EXIF.getAllTags(this)</span></span><br><span class="line"><span class="xml">        //alert(EXIF.getTag(this, 'Orientation'));</span></span><br><span class="line"><span class="xml">        Orientation = EXIF.getTag(this, 'Orientation')</span></span><br><span class="line"><span class="xml">        //return;</span></span><br><span class="line"><span class="xml">    &#125;)</span></span><br><span class="line"></span><br><span class="line"><span class="xml">    reader.onload = function(e) &#123;</span></span><br><span class="line"><span class="xml">        var image = document.createElement('img')</span></span><br><span class="line"><span class="xml">        image.onload = function() &#123;</span></span><br><span class="line"><span class="xml">            var canvas = document.createElement('canvas')</span></span><br><span class="line"><span class="xml">            var x = this.width</span></span><br><span class="line"><span class="xml">            var y = this.height</span></span><br><span class="line"><span class="xml">            this.width = 375 * 2</span></span><br><span class="line"><span class="xml">            this.height = this.width / x * y</span></span><br><span class="line"><span class="xml">            var width = this.width</span></span><br><span class="line"><span class="xml">            var height = this.height</span></span><br><span class="line"></span><br><span class="line"><span class="xml">            canvas.width = this.width</span></span><br><span class="line"><span class="xml">            canvas.height = this.height</span></span><br><span class="line"></span><br><span class="line"><span class="xml">            var context = canvas.getContext('2d')</span></span><br><span class="line"><span class="xml">            context.clearRect(0, 0, width, height)</span></span><br><span class="line"></span><br><span class="line"><span class="xml">            // context.drawImage(this, 0, 0, this.width, this.height);</span></span><br><span class="line"></span><br><span class="line"><span class="xml">            switch (Orientation) &#123;</span></span><br><span class="line"><span class="xml">                case 3:</span></span><br><span class="line"><span class="xml">                    context.rotate(180 * Math.PI / 180)</span></span><br><span class="line"><span class="xml">                    context.drawImage(</span></span><br><span class="line"><span class="xml">                        this,</span></span><br><span class="line"><span class="xml">                        -this.width,</span></span><br><span class="line"><span class="xml">                        -this.height,</span></span><br><span class="line"><span class="xml">                        this.width,</span></span><br><span class="line"><span class="xml">                        this.height</span></span><br><span class="line"><span class="xml">                    )</span></span><br><span class="line"><span class="xml">                    break</span></span><br><span class="line"><span class="xml">                case 6:</span></span><br><span class="line"><span class="xml">                    context.rotate(90 * Math.PI / 180)</span></span><br><span class="line"><span class="xml">                    context.drawImage(</span></span><br><span class="line"><span class="xml">                        this,</span></span><br><span class="line"><span class="xml">                        0,</span></span><br><span class="line"><span class="xml">                        -this.width,</span></span><br><span class="line"><span class="xml">                        this.height,</span></span><br><span class="line"><span class="xml">                        this.width</span></span><br><span class="line"><span class="xml">                    )</span></span><br><span class="line"><span class="xml">                    break</span></span><br><span class="line"><span class="xml">                case 8:</span></span><br><span class="line"><span class="xml">                    context.rotate(270 * Math.PI / 180)</span></span><br><span class="line"><span class="xml">                    context.drawImage(</span></span><br><span class="line"><span class="xml">                        this,</span></span><br><span class="line"><span class="xml">                        -this.height,</span></span><br><span class="line"><span class="xml">                        0,</span></span><br><span class="line"><span class="xml">                        this.height,</span></span><br><span class="line"><span class="xml">                        this.width</span></span><br><span class="line"><span class="xml">                    )</span></span><br><span class="line"><span class="xml">                    break</span></span><br><span class="line"><span class="xml">                case 2:</span></span><br><span class="line"><span class="xml">                    context.translate(this.width, 0)</span></span><br><span class="line"><span class="xml">                    context.scale(-1, 1)</span></span><br><span class="line"><span class="xml">                    context.drawImage(this, 0, 0, this.width, this.height)</span></span><br><span class="line"><span class="xml">                    break</span></span><br><span class="line"><span class="xml">                case 4:</span></span><br><span class="line"><span class="xml">                    context.translate(this.width, 0)</span></span><br><span class="line"><span class="xml">                    context.scale(-1, 1)</span></span><br><span class="line"><span class="xml">                    context.rotate(180 * Math.PI / 180)</span></span><br><span class="line"><span class="xml">                    context.drawImage(</span></span><br><span class="line"><span class="xml">                        this,</span></span><br><span class="line"><span class="xml">                        -this.width,</span></span><br><span class="line"><span class="xml">                        -this.height,</span></span><br><span class="line"><span class="xml">                        this.width,</span></span><br><span class="line"><span class="xml">                        this.height</span></span><br><span class="line"><span class="xml">                    )</span></span><br><span class="line"><span class="xml">                    break</span></span><br><span class="line"><span class="xml">                case 5:</span></span><br><span class="line"><span class="xml">                    context.translate(this.width, 0)</span></span><br><span class="line"><span class="xml">                    context.scale(-1, 1)</span></span><br><span class="line"><span class="xml">                    context.rotate(90 * Math.PI / 180)</span></span><br><span class="line"><span class="xml">                    context.drawImage(</span></span><br><span class="line"><span class="xml">                        this,</span></span><br><span class="line"><span class="xml">                        0,</span></span><br><span class="line"><span class="xml">                        -this.width,</span></span><br><span class="line"><span class="xml">                        this.height,</span></span><br><span class="line"><span class="xml">                        this.width</span></span><br><span class="line"><span class="xml">                    )</span></span><br><span class="line"><span class="xml">                    break</span></span><br><span class="line"><span class="xml">                case 7:</span></span><br><span class="line"><span class="xml">                    context.translate(this.width, 0)</span></span><br><span class="line"><span class="xml">                    context.scale(-1, 1)</span></span><br><span class="line"><span class="xml">                    context.rotate(270 * Math.PI / 180)</span></span><br><span class="line"><span class="xml">                    context.drawImage(</span></span><br><span class="line"><span class="xml">                        this,</span></span><br><span class="line"><span class="xml">                        -this.height,</span></span><br><span class="line"><span class="xml">                        0,</span></span><br><span class="line"><span class="xml">                        this.height,</span></span><br><span class="line"><span class="xml">                        this.width</span></span><br><span class="line"><span class="xml">                    )</span></span><br><span class="line"><span class="xml">                    break</span></span><br><span class="line"><span class="xml">                default:</span></span><br><span class="line"><span class="xml">                    context.drawImage(this, 0, 0, this.width, this.height)</span></span><br><span class="line"><span class="xml">            &#125;</span></span><br><span class="line"></span><br><span class="line"><span class="xml">            var quality = 0.9 //可以理解为压缩程度</span></span><br><span class="line"><span class="xml">            //quality :图片质量。0 到 1 之间的数字，并且只在格式为 image/jpeg 或 image/webp 时才有效，如果参数值格式不合法，将会被忽略并使用默认值</span></span><br><span class="line"><span class="xml">            var data</span></span><br><span class="line"><span class="xml">            var result</span></span><br><span class="line"><span class="xml">            var length</span></span><br><span class="line"><span class="xml">            //处理图片过大问题</span></span><br><span class="line"><span class="xml">            //控制图片上传的大小，注意若图片过大 ajax上传的时候会出现参数为null的错误</span></span><br><span class="line"><span class="xml">            //这里如果图片过大会将图片压缩程度放大</span></span><br><span class="line"><span class="xml">            do &#123;</span></span><br><span class="line"><span class="xml">                data = canvas.toDataURL('image/jpeg', quality) //压缩图片</span></span><br><span class="line"><span class="xml">                length = data.length</span></span><br><span class="line"><span class="xml">                result = (length / 4 * 3 + 1023) / 1024 //计算压缩后图片的大小（单位：KB）</span></span><br><span class="line"><span class="xml">                quality -= 0.05</span></span><br><span class="line"><span class="xml">            &#125; while (result &gt; 450)</span></span><br><span class="line"><span class="xml">            //data：base64</span></span><br><span class="line"><span class="xml">            let blob = base64ToBlob(data)</span></span><br><span class="line"><span class="xml">            callback(data,blob,file) //回调函数</span></span><br><span class="line"><span class="xml">        &#125;</span></span><br><span class="line"><span class="xml">        image.src = e.target.result</span></span><br><span class="line"><span class="xml">    &#125;</span></span><br><span class="line"><span class="xml">    reader.readAsDataURL(file)</span></span><br><span class="line"><span class="xml">&#125;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="xml">//convertImgDataToBlob.js</span></span><br><span class="line"></span><br><span class="line"><span class="xml">/**</span></span><br><span class="line"><span class="xml"> * base64格式转换成Blob</span></span><br><span class="line"><span class="xml"> * @param base64Data</span></span><br><span class="line"><span class="xml"> * @return Blob</span></span><br><span class="line"><span class="xml"> */</span></span><br><span class="line"></span><br><span class="line"><span class="xml">export default (base64Data) =&gt; &#123;</span></span><br><span class="line"><span class="xml">    var format = 'image/jpeg'</span></span><br><span class="line"><span class="xml">    var base64 = base64Data</span></span><br><span class="line"><span class="xml">    var code = window.atob(base64.split(',')[1])</span></span><br><span class="line"><span class="xml">    var aBuffer = new window.ArrayBuffer(code.length)</span></span><br><span class="line"><span class="xml">    var uBuffer = new window.Uint8Array(aBuffer)</span></span><br><span class="line"><span class="xml">    for (var i = 0; i <span class="tag">&lt; <span class="attr">code.length</span>; <span class="attr">i</span>++) &#123;</span></span></span><br><span class="line"><span class="xml">        uBuffer[i] = code.charCodeAt(i) &amp; 0xff</span></span><br><span class="line"><span class="xml">    &#125;</span></span><br><span class="line"><span class="xml">    // console.info([aBuffer]);</span></span><br><span class="line"><span class="xml">    // console.info(uBuffer);</span></span><br><span class="line"><span class="xml">    // console.info(uBuffer.buffer);</span></span><br><span class="line"><span class="xml">    // console.info(uBuffer.buffer == aBuffer); //true</span></span><br><span class="line"></span><br><span class="line"><span class="xml">    var blob = null</span></span><br><span class="line"><span class="xml">    try &#123;</span></span><br><span class="line"><span class="xml">        blob = new Blob([uBuffer], &#123;</span></span><br><span class="line"><span class="xml">            type: format</span></span><br><span class="line"><span class="xml">        &#125;)</span></span><br><span class="line"><span class="xml">    &#125; catch (e) &#123;</span></span><br><span class="line"><span class="xml">        window.BlobBuilder =</span></span><br><span class="line"><span class="xml">            window.BlobBuilder ||</span></span><br><span class="line"><span class="xml">            window.WebKitBlobBuilder ||</span></span><br><span class="line"><span class="xml">            window.MozBlobBuilder ||</span></span><br><span class="line"><span class="xml">            window.MSBlobBuilder</span></span><br><span class="line"><span class="xml">        if (e.name === 'TypeError' &amp;&amp; window.BlobBuilder) &#123;</span></span><br><span class="line"><span class="xml">            var bb = new window.BlobBuilder()</span></span><br><span class="line"><span class="xml">            bb.append(uBuffer.buffer)</span></span><br><span class="line"><span class="xml">            blob = bb.getBlob('image/jpeg')</span></span><br><span class="line"><span class="xml">        &#125; else if (e.name === 'InvalidStateError') &#123;</span></span><br><span class="line"><span class="xml">            blob = new Blob([aBuffer], &#123;</span></span><br><span class="line"><span class="xml">                type: format</span></span><br><span class="line"><span class="xml">            &#125;)</span></span><br><span class="line"><span class="xml">        &#125; else &#123;</span></span><br><span class="line"><span class="xml">        &#125;</span></span><br><span class="line"><span class="xml">    &#125;</span></span><br><span class="line"><span class="xml">    return blob</span></span><br><span class="line"><span class="xml">&#125;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="xml">//registerServiceWorker</span></span><br><span class="line"><span class="xml">// In production, we register a service worker to serve assets from local cache.</span></span><br><span class="line"></span><br><span class="line"><span class="xml">// This lets the app load faster on subsequent visits in production, and gives</span></span><br><span class="line"><span class="xml">// it offline capabilities. However, it also means that developers (and users)</span></span><br><span class="line"><span class="xml">// will only see deployed updates on the "N+1" visit to a page, since previously</span></span><br><span class="line"><span class="xml">// cached resources are updated in the background.</span></span><br><span class="line"></span><br><span class="line"><span class="xml">// To learn more about the benefits of this model, read https://goo.gl/KwvDNy.</span></span><br><span class="line"><span class="xml">// This link also includes instructions on opting out of this behavior.</span></span><br><span class="line"></span><br><span class="line"><span class="xml">const isLocalhost = Boolean(</span></span><br><span class="line"><span class="xml">    window.location.hostname === 'localhost' ||</span></span><br><span class="line"><span class="xml">        // [::1] is the IPv6 localhost address.</span></span><br><span class="line"><span class="xml">        window.location.hostname === '[::1]' ||</span></span><br><span class="line"><span class="xml">        // 127.0.0.1/8 is considered localhost for IPv4.</span></span><br><span class="line"><span class="xml">        window.location.hostname.match(</span></span><br><span class="line"><span class="xml">            /^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))&#123;3&#125;$/</span></span><br><span class="line"><span class="xml">        )</span></span><br><span class="line"><span class="xml">)</span></span><br><span class="line"></span><br><span class="line"><span class="xml">export default function register() &#123;</span></span><br><span class="line"><span class="xml">    if (process.env.NODE_ENV === 'production' &amp;&amp; 'serviceWorker' in navigator) &#123;</span></span><br><span class="line"><span class="xml">        // The URL constructor is available in all browsers that support SW.</span></span><br><span class="line"><span class="xml">        const publicUrl = new URL(process.env.PUBLIC_URL, window.location)</span></span><br><span class="line"><span class="xml">        if (publicUrl.origin !== window.location.origin) &#123;</span></span><br><span class="line"><span class="xml">            // Our service worker won't work if PUBLIC_URL is on a different origin</span></span><br><span class="line"><span class="xml">            // from what our page is served on. This might happen if a CDN is used to</span></span><br><span class="line"><span class="xml">            // serve assets; see https://github.com/facebookincubator/create-react-app/issues/2374</span></span><br><span class="line"><span class="xml">            return</span></span><br><span class="line"><span class="xml">        &#125;</span></span><br><span class="line"></span><br><span class="line"><span class="xml">        window.addEventListener('load', () =&gt; &#123;</span></span><br><span class="line"><span class="xml">            const swUrl = `$&#123;process.env.PUBLIC_URL&#125;/service-worker.js`</span></span><br><span class="line"></span><br><span class="line"><span class="xml">            if (isLocalhost) &#123;</span></span><br><span class="line"><span class="xml">                // This is running on localhost. Lets check if a service worker still exists or not.</span></span><br><span class="line"><span class="xml">                checkValidServiceWorker(swUrl)</span></span><br><span class="line"></span><br><span class="line"><span class="xml">                // Add some additional logging to localhost, pointing developers to the</span></span><br><span class="line"><span class="xml">                // service worker/PWA documentation.</span></span><br><span class="line"><span class="xml">                navigator.serviceWorker.ready.then(() =&gt; &#123;</span></span><br><span class="line"><span class="xml">                    console.log(</span></span><br><span class="line"><span class="xml">                        'This web app is being served cache-first by a service ' +</span></span><br><span class="line"><span class="xml">                            'worker. To learn more, visit https://goo.gl/SC7cgQ'</span></span><br><span class="line"><span class="xml">                    )</span></span><br><span class="line"><span class="xml">                &#125;)</span></span><br><span class="line"><span class="xml">            &#125; else &#123;</span></span><br><span class="line"><span class="xml">                // Is not local host. Just register service worker</span></span><br><span class="line"><span class="xml">                registerValidSW(swUrl)</span></span><br><span class="line"><span class="xml">            &#125;</span></span><br><span class="line"><span class="xml">        &#125;)</span></span><br><span class="line"><span class="xml">    &#125;</span></span><br><span class="line"><span class="xml">&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="xml">function registerValidSW(swUrl) &#123;</span></span><br><span class="line"><span class="xml">    navigator.serviceWorker</span></span><br><span class="line"><span class="xml">        .register(swUrl)</span></span><br><span class="line"><span class="xml">        .then(registration =&gt; &#123;</span></span><br><span class="line"><span class="xml">            registration.onupdatefound = () =&gt; &#123;</span></span><br><span class="line"><span class="xml">                const installingWorker = registration.installing</span></span><br><span class="line"><span class="xml">                installingWorker.onstatechange = () =&gt; &#123;</span></span><br><span class="line"><span class="xml">                    if (installingWorker.state === 'installed') &#123;</span></span><br><span class="line"><span class="xml">                        if (navigator.serviceWorker.controller) &#123;</span></span><br><span class="line"><span class="xml">                            // At this point, the old content will have been purged and</span></span><br><span class="line"><span class="xml">                            // the fresh content will have been added to the cache.</span></span><br><span class="line"><span class="xml">                            // It's the perfect time to display a "New content is</span></span><br><span class="line"><span class="xml">                            // available; please refresh." message in your web app.</span></span><br><span class="line"><span class="xml">                            console.log(</span></span><br><span class="line"><span class="xml">                                'New content is available; please refresh.'</span></span><br><span class="line"><span class="xml">                            )</span></span><br><span class="line"><span class="xml">                        &#125; else &#123;</span></span><br><span class="line"><span class="xml">                            // At this point, everything has been precached.</span></span><br><span class="line"><span class="xml">                            // It's the perfect time to display a</span></span><br><span class="line"><span class="xml">                            // "Content is cached for offline use." message.</span></span><br><span class="line"><span class="xml">                            console.log('Content is cached for offline use.')</span></span><br><span class="line"><span class="xml">                        &#125;</span></span><br><span class="line"><span class="xml">                    &#125;</span></span><br><span class="line"><span class="xml">                &#125;</span></span><br><span class="line"><span class="xml">            &#125;</span></span><br><span class="line"><span class="xml">        &#125;)</span></span><br><span class="line"><span class="xml">        .catch(error =&gt; &#123;</span></span><br><span class="line"><span class="xml">            console.error('Error during service worker registration:', error)</span></span><br><span class="line"><span class="xml">        &#125;)</span></span><br><span class="line"><span class="xml">&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="xml">function checkValidServiceWorker(swUrl) &#123;</span></span><br><span class="line"><span class="xml">    // Check if the service worker can be found. If it can't reload the page.</span></span><br><span class="line"><span class="xml">    fetch(swUrl)</span></span><br><span class="line"><span class="xml">        .then(response =&gt; &#123;</span></span><br><span class="line"><span class="xml">            // Ensure service worker exists, and that we really are getting a JS file.</span></span><br><span class="line"><span class="xml">            if (</span></span><br><span class="line"><span class="xml">                response.status === 404 ||</span></span><br><span class="line"><span class="xml">                response.headers.get('content-type').indexOf('javascript') ===</span></span><br><span class="line"><span class="xml">                    -1</span></span><br><span class="line"><span class="xml">            ) &#123;</span></span><br><span class="line"><span class="xml">                // No service worker found. Probably a different app. Reload the page.</span></span><br><span class="line"><span class="xml">                navigator.serviceWorker.ready.then(registration =&gt; &#123;</span></span><br><span class="line"><span class="xml">                    registration.unregister().then(() =&gt; &#123;</span></span><br><span class="line"><span class="xml">                        window.location.reload()</span></span><br><span class="line"><span class="xml">                    &#125;)</span></span><br><span class="line"><span class="xml">                &#125;)</span></span><br><span class="line"><span class="xml">            &#125; else &#123;</span></span><br><span class="line"><span class="xml">                // Service worker found. Proceed as normal.</span></span><br><span class="line"><span class="xml">                registerValidSW(swUrl)</span></span><br><span class="line"><span class="xml">            &#125;</span></span><br><span class="line"><span class="xml">        &#125;)</span></span><br><span class="line"><span class="xml">        .catch(() =&gt; &#123;</span></span><br><span class="line"><span class="xml">            console.log(</span></span><br><span class="line"><span class="xml">                'No internet connection found. App is running in offline mode.'</span></span><br><span class="line"><span class="xml">            )</span></span><br><span class="line"><span class="xml">        &#125;)</span></span><br><span class="line"><span class="xml">&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="xml">export function unregister() &#123;</span></span><br><span class="line"><span class="xml">    if ('serviceWorker' in navigator) &#123;</span></span><br><span class="line"><span class="xml">        navigator.serviceWorker.ready.then(registration =&gt; &#123;</span></span><br><span class="line"><span class="xml">            registration.unregister()</span></span><br><span class="line"><span class="xml">        &#125;)</span></span><br><span class="line"><span class="xml">    &#125;</span></span><br><span class="line"><span class="xml">&#125;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="xml">//indexForCollection.js</span></span><br><span class="line"><span class="xml">//@arr 构造的原始数据</span></span><br><span class="line"><span class="xml">//@start 开始的index值 默认为0</span></span><br><span class="line"><span class="xml">//@index 构造index的键名 默认为index</span></span><br><span class="line"><span class="xml">function indexForCollection(arr, start = 0, index = 'index') &#123;</span></span><br><span class="line"></span><br><span class="line"><span class="xml">    return arr.map((v, i)=&gt;&#123;</span></span><br><span class="line"><span class="xml">        v[index] = start + i</span></span><br><span class="line"><span class="xml">        return v</span></span><br><span class="line"></span><br><span class="line"><span class="xml">    &#125;)</span></span><br><span class="line"></span><br><span class="line"><span class="xml">&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="xml">export default indexForCollection</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="xml">//storage.js</span></span><br><span class="line"><span class="xml">/*</span></span><br><span class="line"><span class="xml"> *  本地存储封装，项目中其他地方不要直接使用localStorage和sessionStorage，统一使用封装。</span></span><br><span class="line"><span class="xml"> *  简化接口，字符串json转换。</span></span><br><span class="line"><span class="xml"> * */</span></span><br><span class="line"></span><br><span class="line"><span class="xml">const SALT = '__yt__admin__'</span></span><br><span class="line"></span><br><span class="line"><span class="xml">export default &#123;</span></span><br><span class="line"><span class="xml">    local: &#123;</span></span><br><span class="line"><span class="xml">        get(key) &#123;</span></span><br><span class="line"><span class="xml">            let strValue = localStorage.getItem(SALT + key)</span></span><br><span class="line"><span class="xml">            return JSON.parse(strValue)</span></span><br><span class="line"><span class="xml">        &#125;,</span></span><br><span class="line"><span class="xml">        set(key, jsonValue) &#123;</span></span><br><span class="line"><span class="xml">            var strValue = JSON.stringify(jsonValue)</span></span><br><span class="line"><span class="xml">            localStorage.setItem(SALT + key, strValue)</span></span><br><span class="line"><span class="xml">        &#125;,</span></span><br><span class="line"><span class="xml">        remove(key) &#123;</span></span><br><span class="line"><span class="xml">            localStorage.removeItem(SALT + key)</span></span><br><span class="line"><span class="xml">        &#125;,</span></span><br><span class="line"><span class="xml">        removeAll() &#123;</span></span><br><span class="line"><span class="xml">            localStorage.clear()</span></span><br><span class="line"><span class="xml">        &#125;</span></span><br><span class="line"><span class="xml">    &#125;,</span></span><br><span class="line"><span class="xml">    session: &#123;</span></span><br><span class="line"><span class="xml">        get(key) &#123;</span></span><br><span class="line"><span class="xml">            let strValue = sessionStorage.getItem(SALT + key)</span></span><br><span class="line"><span class="xml">            return JSON.parse(strValue)</span></span><br><span class="line"><span class="xml">        &#125;,</span></span><br><span class="line"><span class="xml">        set(key, jsonValue) &#123;</span></span><br><span class="line"><span class="xml">            var strValue = JSON.stringify(jsonValue)</span></span><br><span class="line"><span class="xml">            sessionStorage.setItem(SALT + key, strValue)</span></span><br><span class="line"><span class="xml">        &#125;,</span></span><br><span class="line"><span class="xml">        remove(key) &#123;</span></span><br><span class="line"><span class="xml">            sessionStorage.removeItem(SALT + key)</span></span><br><span class="line"><span class="xml">        &#125;,</span></span><br><span class="line"><span class="xml">        removeAll() &#123;</span></span><br><span class="line"><span class="xml">            sessionStorage.clear()</span></span><br><span class="line"><span class="xml">        &#125;</span></span><br><span class="line"><span class="xml">    &#125;</span></span><br><span class="line"></span><br><span class="line"><span class="xml">&#125;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="xml">//getScrollBarWidth.js</span></span><br><span class="line"><span class="xml">function getScrollBarWidth() &#123;</span></span><br><span class="line"><span class="xml">    let scrollDiv = document.createElement('div')</span></span><br><span class="line"><span class="xml">    scrollDiv.style.position = 'absolute'</span></span><br><span class="line"><span class="xml">    scrollDiv.style.top = '-9999px'</span></span><br><span class="line"><span class="xml">    scrollDiv.style.width = '50px'</span></span><br><span class="line"><span class="xml">    scrollDiv.style.height = '50px'</span></span><br><span class="line"><span class="xml">    scrollDiv.style.overflow = 'scroll'</span></span><br><span class="line"><span class="xml">    document.body.appendChild(scrollDiv)</span></span><br><span class="line"><span class="xml">    let scrollbarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth</span></span><br><span class="line"><span class="xml">    document.body.removeChild(scrollDiv)</span></span><br><span class="line"><span class="xml">    return scrollbarWidth</span></span><br><span class="line"><span class="xml">&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="xml">export default getScrollBarWidth</span></span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//router.js</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>  </span><br><span class="line"><span class="keyword">import</span> &#123; render &#125; <span class="keyword">from</span> <span class="string">'react-dom'</span>  </span><br><span class="line"><span class="keyword">import</span> &#123; hashHistory &#125; <span class="keyword">from</span> <span class="string">'react-router'</span>  </span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> RouterPage <span class="keyword">from</span> <span class="string">'./routerPage'</span>  </span><br><span class="line">  </span><br><span class="line">render(  </span><br><span class="line">    &lt;RouterPage history = &#123; hashHistory &#125; /&gt;,  </span><br><span class="line">    <span class="built_in">document</span>.getElementById(<span class="string">'root'</span>)  </span><br><span class="line">)  </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>  </span><br><span class="line"><span class="keyword">import</span> &#123; Router, Route, IndexRoute, browserHistor, Link &#125; <span class="keyword">from</span> <span class="string">'react-router'</span>  </span><br><span class="line"></span><br><span class="line"><span class="comment">// 引入所有基础配置</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">'../config/globalConfig'</span></span><br><span class="line">  </span><br><span class="line"><span class="keyword">import</span> Demo1 <span class="keyword">from</span> <span class="string">'../page'</span> </span><br><span class="line"><span class="keyword">import</span> Tabble <span class="keyword">from</span> <span class="string">'../page/tabble'</span> </span><br><span class="line"><span class="keyword">import</span> Label <span class="keyword">from</span> <span class="string">'../page/label'</span> </span><br><span class="line"><span class="keyword">import</span> Form <span class="keyword">from</span> <span class="string">'../page/form'</span> </span><br><span class="line"><span class="keyword">import</span> Carousel <span class="keyword">from</span> <span class="string">'../page/carousel'</span> </span><br><span class="line"><span class="keyword">import</span> ShopHome <span class="keyword">from</span> <span class="string">'../page/shop/home'</span></span><br><span class="line"><span class="keyword">import</span> HomeDetail <span class="keyword">from</span> <span class="string">'../page/shop/home_detail'</span></span><br><span class="line"><span class="keyword">import</span> Echarts <span class="keyword">from</span> <span class="string">'../page/echarts'</span></span><br><span class="line"><span class="keyword">import</span> WangEditor <span class="keyword">from</span> <span class="string">'../page/wangeditor'</span></span><br><span class="line"><span class="keyword">import</span> Select <span class="keyword">from</span> <span class="string">'../page/select'</span></span><br><span class="line"><span class="keyword">import</span> Redux <span class="keyword">from</span> <span class="string">'../page/redux'</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">RouteMap</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;  </span><br><span class="line">    updateHandle () &#123;  </span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'每次router变化之后都会触发'</span>)  </span><br><span class="line">    &#125;  </span><br><span class="line">    render () &#123;  </span><br><span class="line">        <span class="keyword">return</span> (  </span><br><span class="line">            &lt;Router history=&#123;<span class="keyword">this</span>.props.history&#125;  onUpdate=&#123;<span class="keyword">this</span>.updateHandle.bind(<span class="keyword">this</span>)&#125;&gt;  </span><br><span class="line">                &lt;Route path=<span class="string">'/'</span> component=&#123;Demo1&#125;&gt;</span><br><span class="line">                    &lt;IndexRoute component=&#123;Tabble&#125;/&gt; </span><br><span class="line">                    &lt;Route path=<span class="string">'/tabble'</span> component=&#123;Tabble&#125;&gt;<span class="xml"><span class="tag">&lt;/<span class="name">Route</span>&gt;</span></span></span><br><span class="line">                    &lt;Route path=<span class="string">'/label'</span> component=&#123;Label&#125;&gt;<span class="xml"><span class="tag">&lt;/<span class="name">Route</span>&gt;</span></span></span><br><span class="line">                    &lt;Route path=<span class="string">'/form'</span> component=&#123;Form&#125;&gt;<span class="xml"><span class="tag">&lt;/<span class="name">Route</span>&gt;</span></span></span><br><span class="line">                    &lt;Route path=<span class="string">'/carousel'</span> component=&#123;Carousel&#125;&gt;<span class="xml"><span class="tag">&lt;/<span class="name">Route</span>&gt;</span></span></span><br><span class="line">                    &lt;Route path=<span class="string">'/shop_home'</span> component=&#123;ShopHome&#125;&gt;<span class="xml"><span class="tag">&lt;/<span class="name">Route</span>&gt;</span></span></span><br><span class="line">                    &lt;Route path=<span class="string">'/shop_home_detail'</span> component=&#123;HomeDetail&#125;&gt;<span class="xml"><span class="tag">&lt;/<span class="name">Route</span>&gt;</span></span></span><br><span class="line">                    &lt;Route path=<span class="string">'/echarts'</span> component=&#123;Echarts&#125;&gt;<span class="xml"><span class="tag">&lt;/<span class="name">Route</span>&gt;</span></span></span><br><span class="line">                    &lt;Route path=<span class="string">'/editor'</span> component=&#123;WangEditor&#125;&gt;<span class="xml"><span class="tag">&lt;/<span class="name">Route</span>&gt;</span></span></span><br><span class="line">                    &lt;Route path=<span class="string">'/select'</span> component=&#123;Select&#125;&gt;<span class="xml"><span class="tag">&lt;/<span class="name">Route</span>&gt;</span></span></span><br><span class="line">                    &lt;Route path=<span class="string">'/redux'</span> component=&#123;Redux&#125;&gt;<span class="xml"><span class="tag">&lt;/<span class="name">Route</span>&gt;</span></span></span><br><span class="line">                &lt;<span class="regexp">/Route&gt;  </span></span><br><span class="line"><span class="regexp">            &lt;/</span>Router&gt;  </span><br><span class="line">        )  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a style="word-wrap:break-word;" href="http://yoursite.com/2019/11/27/2.%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80Programming/React/React%E5%AD%A6%E4%B9%A0/" title="React学习" target="_blank" rel="external">http://yoursite.com/2019/11/27/2.%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80Programming/React/React%E5%AD%A6%E4%B9%A0/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/chen08" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/chen08" target="_blank"><span class="text-dark">溟海</span><small class="ml-1x">Web Developer &amp; Designer</small></a></h3>
+        <div>天行健，君子以自强不息，地势坤，君子以厚德载物。 杀不死我的,终将使我强大 没有吃不了的苦,只有享不了的福</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2019/11/27/6.%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93Book/%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95/" title="开发记录"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/11/24/git/" title="git 使用方法"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="Catalogue" role="button">
+        <span>[&nbsp;</span><span>Catalogue</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open alipay app scan this qrcode, buy me a coffee!</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open wechat app scan this qrcode, buy me a coffee!</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> alipay</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> wechat payment</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+
+
+<!-- custom analytics part create by xiamo -->
+<!-- <script defer src="https://cdn1.lncld.net/static/js/av-min-1.2.1.js"></script> -->
+<script defer src="/js/av-min-1.2.1.js"></script>
+<script defer>
+AV.init({
+  appId: 'ngFQzHw7z0HgQfrtn4En4WTN-gzGzoHsz',
+  appKey: 'W9hgBBfVDwRGJKoGp5a6HKpx'
+});
+
+function showTime(Counter) {
+	var query = new AV.Query(Counter);
+		var visitors= $('.leancloud_visitors');
+		query.greaterThanOrEqualTo("time", 0);		
+		query.find({
+			success: function(results) {
+				if (results.length == 0) {				
+					return;
+				}
+				var data = results;
+				visitors.each(function(){
+					var url = $(this).attr('id').trim();					
+					for (var i = 0; i < data.length; i++) {
+						var object = data[i];
+						var content = object.get('time');
+						var _url = object.get('url')
+						if(url == _url){
+							$(this).text(content);
+						}
+					}
+				})
+				
+			},
+			error: function(object, error) {
+				console.log("Error: " + error.code + " " + error.message);
+			}
+		});
+}
+
+function addCount(Counter) {
+	var Counter = AV.Object.extend("Counter");
+	url = $(".leancloud_visitors").attr('id').trim();
+	title = $(".leancloud_visitors").attr('data-flag-title').trim();
+	var query = new AV.Query(Counter);
+	query.equalTo("url", url);
+	query.find({
+		success: function(results) {
+			if (results.length > 0) {
+				var counter = results[0];
+				counter.fetchWhenSave(true);
+				counter.increment("time");
+				counter.save(null, {
+					success: function(counter) {
+						var content = counter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(counter, error) {
+						console.log('Failed to save Visitor num, with error message: ' + error.message);
+					}
+				});
+			} else {
+				var newcounter = new Counter();
+				newcounter.set("title", title);
+				newcounter.set("url", url);
+				newcounter.set("time", 1);
+				newcounter.save(null, {
+					success: function(newcounter) {
+					    console.log("newcounter.get('time')="+newcounter.get('time'));
+						var content = newcounter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(newcounter, error) {
+						console.log('Failed to create');
+					}
+				});
+			}
+		},
+		error: function(error) {
+			console.log('Error:' + error.code + " " + error.message);
+		}
+	});
+}
+$(function() {
+	var Counter = AV.Object.extend("Counter");
+	if ($('.leancloud_visitors').length == 1) {
+		addCount(Counter);
+	} else {
+		showTime(Counter);
+	}
+}); 
+</script>
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>

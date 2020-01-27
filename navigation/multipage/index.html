@@ -1,0 +1,203 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>多页面切换</title>
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"> -->
+<link rel="stylesheet" type="text/css" href="./assets/css/font-awesome.css" />
+<link rel="stylesheet" type="text/css" href="./assets/css/normalize.css" />
+<link rel="stylesheet" type="text/css" href="./assets/css/demo.css">
+<link href="./assets/js/dist/canvi.css" rel="stylesheet" type="text/css">
+
+</head>
+<body>
+<aside class="myCanvasNav canvi-navbar">
+
+	<div class="canvi-user-info">
+		<div class="canvi-user-info__image">
+		<img src="./images/pine-logo.jpg">
+		</div>
+		<div class="canvi-user-info__data">
+			<span class="canvi-user-info__title">Title</span>
+			<a href="#" class="canvi-user-info__meta">View site</a>
+			<div class="canvi-user-info__close" onClick="t.close();"></div>
+		</div>
+	</div>
+	<div class="menu-list" id="jquery-accordion-menu">
+		<ul  class="canvi-navigation dropdown">
+			<li class="nav-item">
+				<a href="#" class="canvi-navigation__item">
+					<span class="canvi-navigation__icon-wrapper">
+						<i class="fa fa-home"></i>
+					</span>
+					<span class="canvi-navigation__text">Laravel</span>
+				</a>
+				<ul style="display: none;">
+					<li>
+						<a href="#">Submenu 1</a>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<a href="#" class="canvi-navigation__item">
+					<span class="canvi-navigation__icon-wrapper">
+						<i class="fa fa-home"></i>
+					</span>
+					<span class="canvi-navigation__text">CSS</span>
+				</a>
+			</li>
+			<li>
+				<a href="#" class="canvi-navigation__item">
+					<span class="canvi-navigation__icon-wrapper" >
+						<i class="fa fa-home"></i>
+					</span>
+					<span class="canvi-navigation__text">HTML</span>
+				</a>
+			</li>
+			<li>
+				<a href="#" class="canvi-navigation__item">
+					<span class="canvi-navigation__icon-wrapper">
+						<i class="fa fa-home"></i>
+					</span>
+					<span class="canvi-navigation__text">JavaScript</span>
+				</a>
+			</li>
+			<li>
+				<a href="#" class="canvi-navigation__item">
+					<span class="canvi-navigation__icon-wrapper">
+						<i class="fa fa-home"></i>
+					</span>
+					<span class="canvi-navigation__text">Vue.js</span>
+				</a>
+			</li>
+		</ul>
+	</div>
+	<!-- <ul class="all">
+		<li class="nav-item">
+				<a href="javascript:;" target="_blank" rel="noopener"><i class="my-icon nav-icon icon_1"></i><span>网站配置</span><i class="my-icon nav-more"></i></a>
+			<ul style="display: none;">
+				<li>二级菜单</li>
+				<li>二级菜单</li>
+				<li>二级菜单</li>
+			</ul>
+		</li>
+		<li>一级菜单
+			<ul>
+				<li>二级菜单</li>
+				<li>二级菜单</li>
+				<li>二级菜单</li>
+			</ul>
+		</li>
+		<li>一级菜单
+			<ul>
+				<li>二级菜单</li>
+				<li>二级菜单</li>
+				<li>二级菜单</li>
+			</ul>
+		</li>
+	</ul> -->
+
+</aside>
+
+<aside class="js-canvi-navbar--right canvi-navbar">
+	<div class="canvi-header">
+		<!-- <img class="canvi-header__image" src="pine-logo.jpg"> -->
+		标题
+	</div>
+	<!-- <ul class="canvi-navigation dropdown">
+		<li>
+			<a href="#introduction" class="js-close-on-click-right-menu canvi-navigation__item">
+				<span class="canvi-navigation__text">Introduction</span>
+			</a>
+			<ul style="display: block;">
+				<li><a href="#">Submenu 1</a></li>
+			</ul>
+		</li>
+
+		<li>
+			<a href="#options" class="js-close-on-click-right-menu canvi-navigation__item">
+				<span class="canvi-navigation__text">Options</span>
+			</a>
+		</li>
+
+		<li>
+			<a href="#methods" class="js-close-on-click-right-menu canvi-navigation__item">
+				<span class="canvi-navigation__text">Methods</span>
+			</a>
+		</li>
+
+		<li>
+			<a href="#events" class="js-close-on-click-right-menu canvi-navigation__item">
+				<span class="canvi-navigation__text">Events</span>
+			</a>
+		</li>
+	</ul> -->
+</aside>
+
+<main class="js-canvi-content canvi-content">
+	<div class="container-app">
+
+	</div>
+	<!-- <div class="container">
+		<div class="demo center" >
+		  <button class="js-canvi-open-button--left btn">打开左侧侧边栏菜单</button>
+		  <button class="js-canvi-open-button--right btn">打开右侧侧边栏菜单</button>
+		</div>
+	</div> -->
+	
+	<!-- <div style="height:400px;"></div> -->
+	
+</main>
+
+
+
+<div class="htmleaf-container">
+	<div class='content'>
+		<div class='menu'>
+		  <div class='menu-wrapper'>
+			<ul class='menu-items'>
+			  <li class='menu-item js-canvi-open-button--left'>
+				<button class='menu-item-button'>
+				  <i class='fa fa-align-left'></i>
+				</button>
+				<div class='menu-item-bounce'></div>
+			  </li>
+			  <li class='menu-item'>
+				<button class='menu-item-button' onclick="backHome()">
+					<!-- <i class='fa fa-inbox'></i> -->
+					<i class="fa fa-tachometer"></i>
+				</button>
+				<div class='menu-item-bounce'></div>
+			  </li>
+			  <li class='menu-item js-canvi-open-button--right'>
+				<button class='menu-item-button'>
+				  <i class='fa fa-align-right'></i>
+				</button>
+				<div class='menu-item-bounce'></div>
+			  </li>
+
+			</ul>
+			<button class='menu-toggle-button'>
+			  <i class='fa fa-plus menu-toggle-icon'></i>
+			</button>
+		  </div>
+		</div>
+	  </div>
+</div>
+
+
+
+<script type="text/javascript" src="./assets/js/jquery.min.js"></script>
+<script type="text/javascript" src="./assets/js/tendina.js"></script>
+<script type="text/javascript" src="./assets/js/TweenMax.min.js"></script>
+<script type="text/javascript" src="./assets/js/nav.js"></script>
+<script type="text/javascript" src="./assets/js/dist/canvi.js"></script>
+<script type="text/javascript" src="./assets/js/app.js"></script>
+<script type="text/javascript" src="./assets/js/page.js"></script>
+
+</div>
+</body>
+</html>

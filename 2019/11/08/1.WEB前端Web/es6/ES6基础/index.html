@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>ES6基础 | Hexo</title>
+  <script src="./js/jQuery.md5.js"></script>
+  <script>
+    
+    (function(){
+      localStorage.setItem('userinfo',hex_md5('123chen'))
+      
+      var localData = localStorage.getItem("userinfo");
+      // var localState = localStorage.getItem("state");
+        if(localStorage.getItem("state") === null){
+          var reason = window.prompt('请输入访问密码');
+          // var promptVal = window.prompt('请输入访问密码');
+          if(reason){
+              //填写内容并“确定”
+              var md5Prompt = hex_md5(reason)
+              //点击的是“确定” 
+              if (localData !== md5Prompt){
+                alert('密码错误！');
+                // history.back();
+                location.replace(location.href); 
+              }else{
+                // alert('0123');
+                localStorage.setItem('state',"1")
+              }
+          }
+          else if(reason === ""){
+              //未填写但“确定”
+              location.replace(location.href); 
+          }
+          else{
+            //“取消”事件
+            location.replace(location.href); 
+          }
+        }
+
+    })();
+  </script>
+ <link rel="alternate" href="/atom.xml" data="123chen" type="application/atom+xml">
+  <meta name="description" content="ES6ES6 简介ECMAScript 6（以下简称ES6）是 JavaScript 语言的下一代标准，已经在 2015 年 6 月正式发布了。它的目标，是使得 JavaScript 语言可以用来编写复杂的大型应用程序，成为企业级开发语言。因为当前版本的ES6是在2015年发布的，所以又称 ECMAScript 2015。 Demos 见这里。写法示例见这里 目录 块作用域变量定义：let 和 常">
+<meta name="keywords" content="JavaScript,ES6">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ES6基础">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;08&#x2F;1.WEB%E5%89%8D%E7%AB%AFWeb&#x2F;es6&#x2F;ES6%E5%9F%BA%E7%A1%80&#x2F;index.html">
+<meta property="og:site_name" content="学习的敌人是自己的满足，要认真学习一点东西，必须从不自满开始。对自己，“学而不厌”，对人家，“诲人不倦”，我们应取这种态度。">
+<meta property="og:description" content="ES6ES6 简介ECMAScript 6（以下简称ES6）是 JavaScript 语言的下一代标准，已经在 2015 年 6 月正式发布了。它的目标，是使得 JavaScript 语言可以用来编写复杂的大型应用程序，成为企业级开发语言。因为当前版本的ES6是在2015年发布的，所以又称 ECMAScript 2015。 Demos 见这里。写法示例见这里 目录 块作用域变量定义：let 和 常">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-11-23T04:24:46.000Z">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://yoursite.com/2019/11/08/1.WEB%E5%89%8D%E7%AB%AFWeb/es6/ES6%E5%9F%BA%E7%A1%80/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="学习的敌人是自己的满足，要认真学习一点东西，必须从不自满开始。对自己，“学而不厌”，对人家，“诲人不倦”，我们应取这种态度。" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/chen08" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">溟海</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer &amp; Designer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Guangzhou, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+          <!-- . -->
+        
+        
+          <li class="menu-item menu-item-home">
+            <a href="/.">
+              
+              <i class="icon icon-home-fill"></i>
+              
+              <span class="menu-title">Home</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- archives -->
+        
+        
+          <li class="menu-item menu-item-archives">
+            <a href="/archives">
+              
+              <i class="icon icon-archives-fill"></i>
+              
+              <span class="menu-title">Archives</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- categories -->
+        
+        
+          <li class="menu-item menu-item-categories">
+            <a href="/categories">
+              
+              <i class="icon icon-folder"></i>
+              
+              <span class="menu-title">Categories</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- tags -->
+        
+        
+          <li class="menu-item menu-item-tags">
+            <a href="/tags">
+              
+              <i class="icon icon-tags"></i>
+              
+              <span class="menu-title">Tags</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- repository -->
+        
+        
+          <li class="menu-item menu-item-repository">
+            <a href="/repository">
+              
+              <i class="icon icon-project"></i>
+              
+              <span class="menu-title">Repository</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- books -->
+        
+        
+          <li class="menu-item menu-item-books">
+            <a href="/books">
+              
+              <i class="icon icon-book-fill"></i>
+              
+              <span class="menu-title">Books</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- links -->
+        
+        
+          <li class="menu-item menu-item-links">
+            <a href="/links">
+              
+              <i class="icon icon-friendship"></i>
+              
+              <span class="menu-title">Links</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- about -->
+        
+        
+          <li class="menu-item menu-item-about">
+            <a href="/about">
+              
+              <i class="icon icon-cup-fill"></i>
+              
+              <span class="menu-title">About</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- navigation/webstack/index.html -->
+        
+        
+          <li class="menu-item menu-item-navigation">
+            <a href="/navigation/webstack/index.html">
+              
+              <i class="icon icon-delicious"></i>
+              
+              <span class="menu-title">Navigation</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- navigation/webstack/word.html -->
+        
+        
+          <li style="display: none;" class="menu-item menu-item-fixed">
+            <a href="/navigation/webstack/word.html">
+              
+              <i class="icon icon-delicious"></i>
+              
+              <span class="menu-title">menu.fixed</span>
+            </a>
+          </li>
+        
+
+
+        
+      </ul>
+
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/1-WEB%E5%89%8D%E7%AB%AF/">1.WEB前端</a><span class="category-list-count">140</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/2-%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">2.编程语言</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/3-%E4%BA%A7%E5%93%81%E8%AE%BE%E8%AE%A1/">3.产品设计</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/4-%E7%AE%A1%E7%90%86%E8%90%A5%E9%94%80/">4.管理营销</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/5-%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87/">5.技能提升</a><span class="category-list-count">155</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/6-%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93/">6.读书总结</a><span class="category-list-count">9</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/" rel="tag">CSS</a><span class="tag-list-count">18</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Dart/" rel="tag">Dart</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES6/" rel="tag">ES6</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES7/" rel="tag">ES7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/English/" rel="tag">English</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flutter/" rel="tag">Flutter</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a><span class="tag-list-count">20</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IMAGE/" rel="tag">IMAGE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JQuery/" rel="tag">JQuery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a><span class="tag-list-count">224</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">JavaScript设计模式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript%E9%AB%98%E7%BA%A7%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" rel="tag">JavaScript高级程序设计</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jquery/" rel="tag">Jquery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mysql/" rel="tag">Mysql</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NETWORK/" rel="tag">NETWORK</a><span class="tag-list-count">13</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node/" rel="tag">Node</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/" rel="tag">PHP</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/" rel="tag">React</a><span class="tag-list-count">31</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJS/" rel="tag">RxJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SVG/" rel="tag">SVG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sass/" rel="tag">Sass</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/" rel="tag">Vue</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%AE%89%E5%85%A8/" rel="tag">WEB安全</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webpack/" rel="tag">Webpack</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/" rel="tag">jQuery</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodeJS/" rel="tag">nodeJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B9%A6%E5%8D%95/" rel="tag">书单</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B9%A6%E7%B1%8D/" rel="tag">书籍</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/" rel="tag">前端安全</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83/" rel="tag">命名规范</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag">小程序</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" rel="tag">性能优化</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8F%92%E4%BB%B6/" rel="tag">插件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A1%86%E6%9E%B6/" rel="tag">框架</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" rel="tag">浏览器</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%84%E4%BB%B6/" rel="tag">组件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%84%E8%8C%83/" rel="tag">规范</a><span class="tag-list-count">67</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6%E5%AD%A6%E4%B9%A0/" rel="tag">软件学习</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a><span class="tag-list-count">153</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/CSS/" style="font-size: 13.71px;">CSS</a> <a href="/tags/Dart/" style="font-size: 13px;">Dart</a> <a href="/tags/ES6/" style="font-size: 13px;">ES6</a> <a href="/tags/ES7/" style="font-size: 13px;">ES7</a> <a href="/tags/English/" style="font-size: 13.18px;">English</a> <a href="/tags/Flutter/" style="font-size: 13px;">Flutter</a> <a href="/tags/Git/" style="font-size: 13.12px;">Git</a> <a href="/tags/HTML/" style="font-size: 13.76px;">HTML</a> <a href="/tags/HTTP/" style="font-size: 13.18px;">HTTP</a> <a href="/tags/IMAGE/" style="font-size: 13px;">IMAGE</a> <a href="/tags/JAVA/" style="font-size: 13.06px;">JAVA</a> <a href="/tags/JQuery/" style="font-size: 13px;">JQuery</a> <a href="/tags/JavaScript/" style="font-size: 14px;">JavaScript</a> <a href="/tags/JavaScript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 13px;">JavaScript设计模式</a> <a href="/tags/JavaScript%E9%AB%98%E7%BA%A7%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 13px;">JavaScript高级程序设计</a> <a href="/tags/Jquery/" style="font-size: 13px;">Jquery</a> <a href="/tags/Mysql/" style="font-size: 13px;">Mysql</a> <a href="/tags/NETWORK/" style="font-size: 13.53px;">NETWORK</a> <a href="/tags/Node/" style="font-size: 13.35px;">Node</a> <a href="/tags/PHP/" style="font-size: 13.24px;">PHP</a> <a href="/tags/React/" style="font-size: 13.82px;">React</a> <a href="/tags/RxJS/" style="font-size: 13px;">RxJS</a> <a href="/tags/SVG/" style="font-size: 13px;">SVG</a> <a href="/tags/Sass/" style="font-size: 13px;">Sass</a> <a href="/tags/TypeScript/" style="font-size: 13.29px;">TypeScript</a> <a href="/tags/Vue/" style="font-size: 13.65px;">Vue</a> <a href="/tags/WEB%E5%AE%89%E5%85%A8/" style="font-size: 13.29px;">WEB安全</a> <a href="/tags/Webpack/" style="font-size: 13.59px;">Webpack</a> <a href="/tags/jQuery/" style="font-size: 13.65px;">jQuery</a> <a href="/tags/nodeJS/" style="font-size: 13px;">nodeJS</a> <a href="/tags/python/" style="font-size: 13px;">python</a> <a href="/tags/%E4%B9%A6%E5%8D%95/" style="font-size: 13px;">书单</a> <a href="/tags/%E4%B9%A6%E7%B1%8D/" style="font-size: 13.06px;">书籍</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 13px;">前端</a> <a href="/tags/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/" style="font-size: 13.06px;">前端安全</a> <a href="/tags/%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83/" style="font-size: 13.41px;">命名规范</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 13px;">小程序</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 13.06px;">工具</a> <a href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" style="font-size: 13.47px;">性能优化</a> <a href="/tags/%E6%8F%92%E4%BB%B6/" style="font-size: 13px;">插件</a> <a href="/tags/%E6%A1%86%E6%9E%B6/" style="font-size: 13px;">框架</a> <a href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" style="font-size: 13px;">浏览器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13.18px;">算法</a> <a href="/tags/%E7%BB%84%E4%BB%B6/" style="font-size: 13px;">组件</a> <a href="/tags/%E8%A7%84%E8%8C%83/" style="font-size: 13.88px;">规范</a> <a href="/tags/%E8%BD%AF%E4%BB%B6%E5%AD%A6%E4%B9%A0/" style="font-size: 13px;">软件学习</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 13.35px;">随笔</a> <a href="/tags/%E9%9D%A2%E8%AF%95/" style="font-size: 13.94px;">面试</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a><span class="archive-list-count">312</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/27/1.WEB%E5%89%8D%E7%AB%AFWeb/React/react-router/" class="title">1.WEB前端Web/React/react-router</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-27T13:24:04.185Z" itemprop="datePublished">2020-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/27/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/sass-guide/" class="title">1.WEB前端Web/Front-End-Standards/sass-guide</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-27T13:24:03.487Z" itemprop="datePublished">2020-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/27/hello-world/" class="title">Hello World</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-27T13:24:03.028Z" itemprop="datePublished">2020-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/6-%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93/">6.读书总结</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/26/6.%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93Book/%E4%BA%BA%E7%94%9F%E9%81%93%E7%90%86/" class="title">人生道理</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-26T01:12:57.000Z" itemprop="datePublished">2020-01-26</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/2-%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">2.编程语言</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/15/2.%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80Programming/English/%E7%94%9F%E6%B4%BB%E8%8B%B1%E8%AF%AD/" class="title">生活英语</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-15T01:12:57.000Z" itemprop="datePublished">2020-01-15</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">Catalogue</h3>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ES6"><span class="toc-number">1.</span> <span class="toc-text">ES6</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ES6-简介"><span class="toc-number">1.1.</span> <span class="toc-text">ES6 简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#目录"><span class="toc-number">1.2.</span> <span class="toc-text">目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文档"><span class="toc-number">1.3.</span> <span class="toc-text">文档</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#箭头函数"><span class="toc-number">2.</span> <span class="toc-text">箭头函数</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#用法"><span class="toc-number">2.1.</span> <span class="toc-text">用法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注意点"><span class="toc-number">2.2.</span> <span class="toc-text">注意点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number">2.3.</span> <span class="toc-text">参考</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#解构"><span class="toc-number">3.</span> <span class="toc-text">解构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#参考-1"><span class="toc-number">3.1.</span> <span class="toc-text">参考</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#for-of"><span class="toc-number">4.</span> <span class="toc-text">for-of</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#generator函数"><span class="toc-number">5.</span> <span class="toc-text">generator函数</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#拓展阅读"><span class="toc-number">5.1.</span> <span class="toc-text">拓展阅读</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#迭代器"><span class="toc-number">6.</span> <span class="toc-text">迭代器</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#参考-2"><span class="toc-number">6.1.</span> <span class="toc-text">参考</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#块作用域变量定义：let-和-常量定义-const"><span class="toc-number">7.</span> <span class="toc-text">块作用域变量定义：let 和 常量定义 const</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#let"><span class="toc-number">7.1.</span> <span class="toc-text">let</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#const"><span class="toc-number">7.2.</span> <span class="toc-text">const</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#模块"><span class="toc-number">8.</span> <span class="toc-text">模块</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#导出"><span class="toc-number">8.1.</span> <span class="toc-text">导出</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#导出默认"><span class="toc-number">8.1.1.</span> <span class="toc-text">导出默认</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#导出带名字的"><span class="toc-number">8.1.2.</span> <span class="toc-text">导出带名字的</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#导入"><span class="toc-number">8.2.</span> <span class="toc-text">导入</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#导入默认的"><span class="toc-number">8.2.1.</span> <span class="toc-text">导入默认的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#导入带名字的"><span class="toc-number">8.2.2.</span> <span class="toc-text">导入带名字的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#导入所有带名字的"><span class="toc-number">8.2.3.</span> <span class="toc-text">导入所有带名字的</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#综合-Demo"><span class="toc-number">8.3.</span> <span class="toc-text">综合 Demo</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考-3"><span class="toc-number">8.4.</span> <span class="toc-text">参考</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ES6-写法示例"><span class="toc-number">9.</span> <span class="toc-text">ES6 写法示例</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#匿名函数调用"><span class="toc-number">9.1.</span> <span class="toc-text">匿名函数调用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#箭头函数-1"><span class="toc-number">9.2.</span> <span class="toc-text">箭头函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#将数组的内容-2"><span class="toc-number">9.2.1.</span> <span class="toc-text">将数组的内容 * 2</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#默认参数"><span class="toc-number">9.3.</span> <span class="toc-text">默认参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#不定参数"><span class="toc-number">9.4.</span> <span class="toc-text">不定参数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数字求和"><span class="toc-number">9.4.1.</span> <span class="toc-text">数字求和</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#展开运算符"><span class="toc-number">9.5.</span> <span class="toc-text">展开运算符</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数组和字符串的展开"><span class="toc-number">9.5.1.</span> <span class="toc-text">数组和字符串的展开</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解构-Destructuring-赋值"><span class="toc-number">9.6.</span> <span class="toc-text">解构(Destructuring)赋值</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#交换两个变量的值"><span class="toc-number">9.6.1.</span> <span class="toc-text">交换两个变量的值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参数赋值"><span class="toc-number">9.6.2.</span> <span class="toc-text">参数赋值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#模板字符串"><span class="toc-number">9.6.3.</span> <span class="toc-text">模板字符串</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#拼多行字符串"><span class="toc-number">9.6.3.1.</span> <span class="toc-text">拼多行字符串</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Proxy"><span class="toc-number">10.</span> <span class="toc-text">Proxy</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#使用方法"><span class="toc-number">10.1.</span> <span class="toc-text">使用方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考-4"><span class="toc-number">10.2.</span> <span class="toc-text">参考</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Reflect"><span class="toc-number">11.</span> <span class="toc-text">Reflect</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#拓展阅读-1"><span class="toc-number">11.1.</span> <span class="toc-text">拓展阅读</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#不定参数和默认参数"><span class="toc-number">12.</span> <span class="toc-text">不定参数和默认参数</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#不定参数-1"><span class="toc-number">12.1.</span> <span class="toc-text">不定参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#默认参数-1"><span class="toc-number">12.2.</span> <span class="toc-text">默认参数</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#模板字符串-1"><span class="toc-number">13.</span> <span class="toc-text">模板字符串</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#参考-5"><span class="toc-number">13.1.</span> <span class="toc-text">参考</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Promise-写法示例"><span class="toc-number">14.</span> <span class="toc-text">Promise 写法示例</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#基本用法"><span class="toc-number">14.1.</span> <span class="toc-text">基本用法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#多个串行操作"><span class="toc-number">14.2.</span> <span class="toc-text">多个串行操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#多个并行操作"><span class="toc-number">14.3.</span> <span class="toc-text">多个并行操作</span></a></li></ol></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-1.WEB前端Web/es6/ES6基础" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      ES6基础
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/11/08/1.WEB%E5%89%8D%E7%AB%AFWeb/es6/ES6%E5%9F%BA%E7%A1%80/" class="article-date">
+	  <time datetime="2019-11-08T01:12:57.000Z" itemprop="datePublished">2019-11-08</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/1-WEB%E5%89%8D%E7%AB%AF/">1.WEB前端</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/ES6/" rel="tag">ES6</a>, <a class="article-tag-link" href="/tags/JavaScript/" rel="tag">JavaScript</a>
+  </span>
+
+
+        
+
+	<span class="article-read hidden-xs">
+    	<i class="icon icon-eye-fill" aria-hidden="true"></i>
+    	<span id="/2019/11/08/1.WEB%E5%89%8D%E7%AB%AFWeb/es6/ES6%E5%9F%BA%E7%A1%80/" class="leancloud_visitors"  data-flag-title="ES6基础">0</span>
+    </span>
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/11/08/1.WEB%E5%89%8D%E7%AB%AFWeb/es6/ES6%E5%9F%BA%E7%A1%80/#comments" class="article-comment-link">Comments</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count: 2.9k(words)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">Read Count: 12(minutes)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="ES6"><a href="#ES6" class="headerlink" title="ES6"></a>ES6</h1><h2 id="ES6-简介"><a href="#ES6-简介" class="headerlink" title="ES6 简介"></a>ES6 简介</h2><p>ECMAScript 6（以下简称ES6）是 JavaScript 语言的下一代标准，已经在 2015 年 6 月正式发布了。它的目标，是使得 JavaScript 语言可以用来编写复杂的大型应用程序，成为企业级开发语言。因为当前版本的ES6是在2015年发布的，所以又称 ECMAScript 2015。</p>
+<p>Demos 见<a href="https://github.com/iamjoel/front-end-demos/tree/master/demos/es6" target="_blank" rel="noopener">这里</a>。写法示例见<a href="overview.md">这里</a></p>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li><a href="let-and-const.md">块作用域变量定义：let 和 常量定义 const</a></li>
+<li><a href="template-string.md">模板字符串</a></li>
+<li><a href="destructing.md">解构（Destructing）</a></li>
+<li><a href="rest-parameters-and-defaults.md">不定参数和默认参数</a></li>
+<li><a href="for-of.md">for-of 循环</a></li>
+<li><a href="iterator.md">迭代器</a></li>
+<li><a href="arrow-function.md">箭头函数</a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Spread_operator" target="_blank" rel="noopener">展开运算符</a></li>
+<li><a href="https://ponyfoo.com/articles/es6-promises-in-depth" target="_blank" rel="noopener">Promise</a></li>
+<li><a href="generator.md">生成器：Generators</a></li>
+<li><a href="https://ponyfoo.com/articles/es6-symbols-in-depth" target="_blank" rel="noopener">Symbols</a></li>
+<li>集合<ul>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Set" target="_blank" rel="noopener">Set</a> <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/WeakSet" target="_blank" rel="noopener">WeakSet</a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Map" target="_blank" rel="noopener">Map</a> <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/WeakMap" target="_blank" rel="noopener">WeakMap</a></li>
+</ul>
+</li>
+<li><a href="https://ponyfoo.com/articles/es6-iterators-in-depth" target="_blank" rel="noopener">迭代器</a></li>
+<li><a href="proxy.md">代理（Proxies）</a></li>
+<li><a href="reflect.md">反射</a></li>
+<li><a href="https://ponyfoo.com/articles/es6-classes-in-depth" target="_blank" rel="noopener">类（Class）与继承</a></li>
+<li><a href="modules.md">模块</a></li>
+</ul>
+<h2 id="文档"><a href="#文档" class="headerlink" title="文档"></a>文档</h2><ul>
+<li><a href="http://es6-features.org/" target="_blank" rel="noopener">ES6 新特性预览以及与 ES5 的比较</a></li>
+<li><a href="https://ponyfoo.com/articles/es6" target="_blank" rel="noopener">ES6 Overview in 350 Bullet Points</a></li>
+<li><a href="https://ponyfoo.com/articles/tagged/es6" target="_blank" rel="noopener">Pony 的 ES6 系列</a></li>
+</ul>
+<h1 id="箭头函数"><a href="#箭头函数" class="headerlink" title="箭头函数"></a>箭头函数</h1><p>箭头函数：用箭头(=&gt;)来定义函数。</p>
+<p>通过使用箭头函数，可以在不影响代码可读性的情况下，少写代码。如:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">(x, y) =&gt; &#123;</span><br><span class="line">	console.log(x, y);</span><br><span class="line">	return x + y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">() =&gt; Math.random();</span><br></pre></td></tr></table></figure>
+
+<p>等效于</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function(x, y)&#123;</span><br><span class="line">	console.log(x, y);</span><br><span class="line">	return x + y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function()&#123;</span><br><span class="line">	return Math.random();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h2><ul>
+<li>() =&gt; … // 函数值内容只要一行，可省略 {}</li>
+<li>() =&gt; { … } // 零个参数用 () 表示；</li>
+<li>x =&gt; { … } // 一个参数可以省略 ()；</li>
+<li>(x, y) =&gt; { … } // 多参数不能省略 ()</li>
+</ul>
+<h2 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h2><ul>
+<li>函数体中, arguments不可用</li>
+<li>箭头函数中的this外侧函数的this</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="http://www.infoq.com/cn/articles/es6-in-depth-arrow-functions" target="_blank" rel="noopener">深入浅出ES6（七）：箭头函数 Arrow Functions</a></li>
+<li><a href="http://www.75team.com/archives/504" target="_blank" rel="noopener">【翻译】解读ECMAScript 6箭头函数</a></li>
+</ul>
+<h1 id="解构"><a href="#解构" class="headerlink" title="解构"></a>解构</h1><p>解构赋值允许你使用类似数组或对象字面量的语法将数组和对象的属性赋给各种变量。这种赋值语法极度简洁，同时还比传统的属性访问方法更为清晰。</p>
+<p>数组和对象都支持解构。</p>
+<h2 id="参考-1"><a href="#参考-1" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="http://www.infoq.com/cn/articles/es6-in-depth-destructuring" target="_blank" rel="noopener">深入浅出ES6（六）：解构 Destructuring</a></li>
+</ul>
+<h1 id="for-of"><a href="#for-of" class="headerlink" title="for-of"></a>for-of</h1><p>可以用 for-of 来循环各种，如 数组，类数组（arguments 之类）字符串, Map，Set等实现了迭代器的对象。</p>
+<h1 id="generator函数"><a href="#generator函数" class="headerlink" title="generator函数"></a>generator函数</h1><p>ECMAScript 6 引入了generator函数，作用就是返回一个内部状态的遍历器，主要特征是函数内部使用了yield语句。</p>
+<p>当调用generator函数的时候，该函数并不执行，而是返回一个遍历器（可以理解成暂停执行）。以后，每次调用这个遍历器的next方法，就从函数体的头部或者上一次停下来的地方开始执行（可以理解成恢复执行），直到遇到下一个yield语句为止，并返回该yield语句的值。</p>
+<p>定义generator函数：在function后面加<code>*</code>,如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function* simple()&#123;</span><br><span class="line">	yield &apos;first time&apos;;</span><br><span class="line">	console.log(&apos;run second time&apos;);</span><br><span class="line">	return &apos;second time&apos;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>调用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var f = simple();</span><br><span class="line">console.log(f.next());// 输出 first time</span><br><span class="line">console.log(f.next());// 输出 run second time 然后 再输出 second time</span><br></pre></td></tr></table></figure>
+
+<p>用<a href="https://github.com/kriskowal/q" target="_blank" rel="noopener">Q</a>(一个Promise库)和generator配合使用很爽的样子，见<a href="https://github.com/kriskowal/q/tree/v1/examples/async-generators" target="_blank" rel="noopener">这里</a>。本质上，当Promsie被resolve时，调用了generator.next,进入下一个异步</p>
+<h2 id="拓展阅读"><a href="#拓展阅读" class="headerlink" title="拓展阅读"></a>拓展阅读</h2><ul>
+<li><a href="http://jlongster.com/A-Study-on-Solving-Callbacks-with-JavaScript-Generators" target="_blank" rel="noopener">A Study on Solving Callbacks with JavaScript Generators</a></li>
+<li><a href="http://modernweb.com/2014/02/10/replacing-callbacks-with-es6-generators/" target="_blank" rel="noopener">Replacing callbacks with ES6 Generators</a></li>
+</ul>
+<h1 id="迭代器"><a href="#迭代器" class="headerlink" title="迭代器"></a>迭代器</h1><p>一个迭代器(对象)会有一个名为 next 的方法, 调用该方法后会返回一个拥有两个属性的对象, 一个是 value 属性, 值可以是任意值, 以及一个 done 属性, 布尔值, 表示该迭代器是否已经被迭代完毕。</p>
+<p>对象上的 [Symbol.iterator] 的值如果是一个迭代器对象，则该对象能被<br>for-of 来循环。如 数组，类数组（arguments 之类）字符串, Map，Set等都有[Symbol.iterator]，该值是迭代器，因此能被 for-of 来循环。</p>
+<h2 id="参考-2"><a href="#参考-2" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Iteration_protocols" target="_blank" rel="noopener">迭代器协议（MDN）</a></li>
+</ul>
+<h1 id="块作用域变量定义：let-和-常量定义-const"><a href="#块作用域变量定义：let-和-常量定义-const" class="headerlink" title="块作用域变量定义：let 和 常量定义 const"></a>块作用域变量定义：let 和 常量定义 const</h1><h2 id="let"><a href="#let" class="headerlink" title="let"></a>let</h2><p>块作用域变量定义：let，即用 let 定义的变量，只在代码块中生效。用 var 定义的变量作用域是所在函数。</p>
+<h2 id="const"><a href="#const" class="headerlink" title="const"></a>const</h2><p>定义常量。当试图改变常量的值时会报错。</p>
+<h1 id="模块"><a href="#模块" class="headerlink" title="模块"></a>模块</h1><h2 id="导出"><a href="#导出" class="headerlink" title="导出"></a>导出</h2><h3 id="导出默认"><a href="#导出默认" class="headerlink" title="导出默认"></a>导出默认</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export default &#123; foo: &apos;bar&apos; &#125;// CommonJS module.exports = &#123; foo: &apos;bar&apos; &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="导出带名字的"><a href="#导出带名字的" class="headerlink" title="导出带名字的"></a>导出带名字的</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export var foo = &apos;bar&apos; // CommonJS module.exports.foo = &apos;bar&apos;</span><br><span class="line">export var baz = &apos;ponyfoo&apos;</span><br></pre></td></tr></table></figure>
+
+<h2 id="导入"><a href="#导入" class="headerlink" title="导入"></a>导入</h2><h3 id="导入默认的"><a href="#导入默认的" class="headerlink" title="导入默认的"></a>导入默认的</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import _ from &apos;lodash&apos;// var _ = require(&apos;lodash&apos;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="导入带名字的"><a href="#导入带名字的" class="headerlink" title="导入带名字的"></a>导入带名字的</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import &#123;map, reduce&#125; from &apos;lodash&apos;</span><br><span class="line">import &#123;map as myMay&#125; from &apos;lodash&apos;</span><br></pre></td></tr></table></figure>
+
+<h3 id="导入所有带名字的"><a href="#导入所有带名字的" class="headerlink" title="导入所有带名字的"></a>导入所有带名字的</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import * as _ from &apos;lodash&apos;</span><br></pre></td></tr></table></figure>
+
+<p>导入所有必须加 <code>as</code> 语句。</p>
+<h2 id="综合-Demo"><a href="#综合-Demo" class="headerlink" title="综合 Demo"></a>综合 Demo</h2><p>demo.js 如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">export default &#123;</span><br><span class="line">  a:1</span><br><span class="line">&#125;</span><br><span class="line">export var other = &#123;</span><br><span class="line">  b:2,</span><br><span class="line">  c:3</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>test.js 如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">import d from &apos;./demo&apos;</span><br><span class="line">console.log(d) // &#123;a: 1&#125;</span><br><span class="line">import &#123;default as d1,other1, other2 as myName, other3&#125; from &apos;./demo&apos;</span><br><span class="line">console.log(d1) // &#123;a: 1&#125;</span><br><span class="line">console.log(other1) // &#123;b: 2, c: 3&#125;</span><br><span class="line">console.log(myName)  // &#123;d: 4&#125;</span><br><span class="line">console.log(other3) // undefined</span><br><span class="line"></span><br><span class="line">import * as all from &apos;./demo&apos;</span><br><span class="line">console.log(all) //  &#123;default: Object, other1: Object, other2: Object, __esModule: true&#125;</span><br><span class="line">console.log(all.default) // &#123;a: 1&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意： <code>import</code> 和 <code>export</code> 只能在顶级用，不能在代码块中用。否则会报 <code>&#39;import&#39; and &#39;export&#39; may only appear at the top level</code>。例如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var isDebugger = true</span><br><span class="line">if(isDebugger) &#123;</span><br><span class="line">  import mock from &apos;./mock&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这种情况，可以考虑用 CommonJS 或 System.import 的写法。</p>
+<h2 id="参考-3"><a href="#参考-3" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://ponyfoo.com/articles/es6-modules-in-depth" target="_blank" rel="noopener">ES6 Modules in Depth</a></li>
+<li><a href="http://www.2ality.com/2014/09/es6-modules-final.html" target="_blank" rel="noopener">ECMAScript 6 modules: the final syntax</a></li>
+</ul>
+<h1 id="ES6-写法示例"><a href="#ES6-写法示例" class="headerlink" title="ES6 写法示例"></a>ES6 写法示例</h1><h2 id="匿名函数调用"><a href="#匿名函数调用" class="headerlink" title="匿名函数调用"></a>匿名函数调用</h2><p>ES5</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(function()&#123;</span><br><span class="line">  //dosth</span><br><span class="line">&#125;)()</span><br></pre></td></tr></table></figure>
+
+<p>ES6</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  //dosth</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="箭头函数-1"><a href="#箭头函数-1" class="headerlink" title="箭头函数"></a><a href="http://www.infoq.com/cn/articles/es6-in-depth-arrow-functions" target="_blank" rel="noopener">箭头函数</a></h2><h3 id="将数组的内容-2"><a href="#将数组的内容-2" class="headerlink" title="将数组的内容 * 2"></a>将数组的内容 * 2</h3><p>ES5</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[1, 2, 3].map(function(each)&#123;</span><br><span class="line">  return each * 2;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>ES6</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[1, 2, 3].map(each=&gt; each * 2);</span><br><span class="line">// 或</span><br><span class="line">[1, 2, 3].map((each)=&gt; each * 2);</span><br><span class="line">// 或</span><br><span class="line">[1, 2, 3].map((each) =&gt; &#123;</span><br><span class="line">    return each * 2;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h2 id="默认参数"><a href="#默认参数" class="headerlink" title="默认参数"></a><a href="http://www.infoq.com/cn/articles/es6-in-depth-rest-parameters-and-defaults" target="_blank" rel="noopener">默认参数</a></h2><p>ES5</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var introSomeBody = fuction(name)&#123;</span><br><span class="line">  name = name || &apos;Jack&apos;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>ES6</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var introSomeBody = (name = &apos;Jack&apos;) =&gt; &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="不定参数"><a href="#不定参数" class="headerlink" title="不定参数"></a><a href="http://www.infoq.com/cn/articles/es6-in-depth-rest-parameters-and-defaults" target="_blank" rel="noopener">不定参数</a></h2><h3 id="数字求和"><a href="#数字求和" class="headerlink" title="数字求和"></a>数字求和</h3><p>ES5</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var sumFn = function()&#123;</span><br><span class="line">  var nums = [].slice.call(arguments);</span><br><span class="line">  var sum = nums.reduce(function(prev, curr)&#123;</span><br><span class="line">    return prev + curr;</span><br><span class="line">  &#125;, 0);</span><br><span class="line">  return sum;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>ES6</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var sumFn = (...nums) =&gt; &#123;</span><br><span class="line">  return nums.reduce((prev, curr)=&gt;&#123;</span><br><span class="line">    return prev + curr;</span><br><span class="line">  &#125;, 0);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="展开运算符"><a href="#展开运算符" class="headerlink" title="展开运算符"></a><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Spread_operator" target="_blank" rel="noopener">展开运算符</a></h2><h3 id="数组和字符串的展开"><a href="#数组和字符串的展开" class="headerlink" title="数组和字符串的展开"></a>数组和字符串的展开</h3><p>ES5</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var a1 = [1, 2]</span><br><span class="line">var a2 = [0].concat(a1).concat(3)</span><br><span class="line">doSth(&apos;abc&apos;.split())</span><br><span class="line">function doSth(x, y, z)&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>ES6</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var a1 = [1, 2]</span><br><span class="line">var a2 = [0, ...a1, 3]</span><br><span class="line">doSth(...&apos;abc&apos;)</span><br><span class="line">function doSth(x, y, z)&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="解构-Destructuring-赋值"><a href="#解构-Destructuring-赋值" class="headerlink" title="解构(Destructuring)赋值"></a><a href="http://www.infoq.com/cn/articles/es6-in-depth-destructuring" target="_blank" rel="noopener">解构(Destructuring)赋值</a></h2><h3 id="交换两个变量的值"><a href="#交换两个变量的值" class="headerlink" title="交换两个变量的值"></a>交换两个变量的值</h3><p>ES5</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var temp = a;</span><br><span class="line">a = b;</span><br><span class="line">b = a;</span><br></pre></td></tr></table></figure>
+
+<p>ES6</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[a, b] = [b, a]</span><br></pre></td></tr></table></figure>
+
+<h3 id="参数赋值"><a href="#参数赋值" class="headerlink" title="参数赋值"></a>参数赋值</h3><p>ES5</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var introSomeBody = fuction(options)&#123;</span><br><span class="line">  var name = options.name || &apos;Jack&apos;;</span><br><span class="line">  var age = options.age || 18;</span><br><span class="line">  console.log(&apos;I am %s, I am %d years old&apos;, name, age);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>ES6</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var introSomeBody = (&#123;name = &quot;Jack&quot;, age = 18&#125;) =&gt; &#123;</span><br><span class="line">  console.log(&apos;I am %s, I am %d years old&apos;, name, age);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="模板字符串"><a href="#模板字符串" class="headerlink" title="模板字符串"></a><a href="http://www.infoq.com/cn/articles/es6-in-depth-template-string" target="_blank" rel="noopener">模板字符串</a></h3><h4 id="拼多行字符串"><a href="#拼多行字符串" class="headerlink" title="拼多行字符串"></a>拼多行字符串</h4><p>ES5</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">var data = &#123;</span><br><span class="line">    name: &apos;新闻&apos;,</span><br><span class="line">    news: &#123;</span><br><span class="line">        name: &apos;Bable升级到6啦&apos;,</span><br><span class="line">        content: &apos;Bable在某年某月升级到6啦，哈哈哈&apos;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">var html = (</span><br><span class="line">&apos;&lt;div class=&quot;box&quot;&gt;&apos; +</span><br><span class="line">  &apos;&lt;h2 class=&quot;box-header&quot;&gt;$&#123;name&#125;&lt;/h2&gt;&apos; +</span><br><span class="line">  &apos;&lt;div class=&quot;box-body&quot;&gt;&apos; +</span><br><span class="line">    &apos;&lt;h3&gt;$&#123;newsName&#125;&lt;h3&gt;&apos; +</span><br><span class="line">    &apos;&lt;div&gt;$&#123;newsContent&#125;&lt;/div&gt;&apos; +</span><br><span class="line">  &apos;&lt;/div&gt;&apos; +</span><br><span class="line">&apos;&lt;/div&gt;&apos;).replace(&apos;$&#123;name&#125;&apos;, data.name)</span><br><span class="line">    .replace(&apos;$&#123;newsName&#125;&apos;, data.news.name)</span><br><span class="line">    .replace(&apos;$&#123;newsContent&#125;&apos;, data.news.content);</span><br></pre></td></tr></table></figure>
+
+<p>ES6</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">var data = &#123;</span><br><span class="line">    name: &apos;新闻&apos;,</span><br><span class="line">    news: &#123;</span><br><span class="line">        name: &apos;Bable升级到6啦&apos;,</span><br><span class="line">        content: &apos;Bable在某年某月升级到6啦，哈哈哈&apos;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">var html = `</span><br><span class="line">&lt;div class=&quot;box&quot;&gt;</span><br><span class="line">  &lt;h2 class=&quot;box-header&quot;&gt;$&#123;data.name&#125;&lt;/h2&gt;</span><br><span class="line">  &lt;div class=&quot;box-body&quot;&gt;</span><br><span class="line">     &lt;h3&gt;$&#123;data.news.name&#125;&lt;h3&gt;</span><br><span class="line">     &lt;div&gt;$&#123;data.news.content&#125;&lt;/div&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">`;</span><br></pre></td></tr></table></figure>
+
+<p>想了解更多 ES6 相关知识，请阅读</p>
+<ul>
+<li><a href="http://es6.ruanyifeng.com/" target="_blank" rel="noopener">ECMAScript 6入门</a> 阮一峰老师写的。</li>
+<li><a href="http://www.infoq.com/cn/es6-in-depth/" target="_blank" rel="noopener">深入浅出 ES6 的中文版</a> <a href="https://hacks.mozilla.org/category/es6-in-depth/" target="_blank" rel="noopener">原文</a>。</li>
+<li><a href="http://es6katas.org/" target="_blank" rel="noopener">ES6 Katas</a> 通过写ES6的代码来学习ES6。修复失败的测试来学习这些知识。</li>
+</ul>
+<h1 id="Proxy"><a href="#Proxy" class="headerlink" title="Proxy"></a>Proxy</h1><p>Proxy(代理) 是 ES6 中新增的一个特性。Proxy 让我们能够以简洁易懂的方式控制外部对对象的访问。其功能非常类似于设计模式中的代理模式。</p>
+<p>使用 Proxy 的好处是：对象只需关注于核心逻辑，一些非核心的逻辑（如：读取或设置对象的某些属性前记录日志；设置对象的某些属性值前，需要验证；某些属性的访问控制等）可以让 Proxy 来做。从而达到关注点分离，降级对象复杂度的目的。</p>
+<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var p = new Proxy(target, handler);</span><br></pre></td></tr></table></figure>
+
+<p>其中，target 为被代理对象。handler 是一个对象，其声明了代理 target 的一些操作。p 是代理后的对象。</p>
+<p>当外界每次对 p 进行操作时，就会执行 handler 对象上的一些方法。handler 能代理的一些常用的方法如下：</p>
+<ul>
+<li>get：读取</li>
+<li>set：修改</li>
+<li>has：判断对象是否有该属性</li>
+<li>construct：构造函数</li>
+<li>…</li>
+</ul>
+<p>看如下的 demo</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">var target = &#123;</span><br><span class="line">   name: &apos;obj&apos;</span><br><span class="line"> &#125;;</span><br><span class="line"> var logHandler = &#123;</span><br><span class="line">   get: function(target, key) &#123;</span><br><span class="line">     console.log(`$&#123;key&#125; 被读取`);</span><br><span class="line">     return target[key];</span><br><span class="line">   &#125;,</span><br><span class="line">   set: function(target, key, value) &#123;</span><br><span class="line">     console.log(`$&#123;key&#125; 被设置为 $&#123;value&#125;`);</span><br><span class="line">     target[key] = value;</span><br><span class="line">   &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> var targetWithLog = new Proxy(target, logHandler);</span><br><span class="line"> targetWithLog.name; // 控制台输出：name 被读取</span><br><span class="line"> targetWithLog.name = &apos;others&apos;; // 控制台输出：name 被设置为 others</span><br><span class="line">console.log(target.name); // 控制台输出: others</span><br></pre></td></tr></table></figure>
+<p>在上面的 demo 中， </p>
+<ul>
+<li>targetWithLog 读取属性的值时，实际上执行的是 logHandler.get ：在控制台输出信息，并且读取被代理对象 target 的属性。</li>
+<li>在 targetWithLog 设置属性值时，实际上执行的是 logHandler.set ：在控制台输出信息，并且设置被代理对象 target 的属性的值。</li>
+</ul>
+<p>更多 Demo 见<a href="demo.html">这里</a>。</p>
+<h2 id="参考-4"><a href="#参考-4" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy" target="_blank" rel="noopener">MDN Proxy</a></li>
+<li><a href="http://pinggod.com/2016/%E5%AE%9E%E4%BE%8B%E8%A7%A3%E6%9E%90-ES6-Proxy-%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF/" target="_blank" rel="noopener">实例解析 ES6 Proxy 使用场景</a></li>
+</ul>
+<h1 id="Reflect"><a href="#Reflect" class="headerlink" title="Reflect"></a>Reflect</h1><p>Reflect对象，ES6新增的内置对象。</p>
+<p>在各种编程语言中，基本都有反射机制，可让用户的代码高度灵活化，主要功能就是让程序不用预先知道需要怎么去做，在执行的过程中去根据条件去执行。虽然 ES6 之前， JavaScript 不直接支持反射，但可以通过各种判断逻辑去支持反射了。如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var fn  = Reflect.has(obj, &apos;methodName&apos;)?Reflect.get(obj, &apos;methodName&apos;):Reflect.get(self, &apos;defaultMethod&apos;);</span><br><span class="line">fn.call();</span><br></pre></td></tr></table></figure>
+
+<p>不用反射也可以实现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var fn = obj.hasOwnProperty(&apos;methodName&apos;) ? obj[&apos;methodName&apos;]:obj[&apos;defaultMethod&apos;];</span><br><span class="line">fn.call();</span><br></pre></td></tr></table></figure>
+
+<h2 id="拓展阅读-1"><a href="#拓展阅读-1" class="headerlink" title="拓展阅读"></a>拓展阅读</h2><ul>
+<li><a href="https://ponyfoo.com/articles/es6-reflection-in-depth" target="_blank" rel="noopener">ES6 Reflection in Depth</a></li>
+</ul>
+<h1 id="不定参数和默认参数"><a href="#不定参数和默认参数" class="headerlink" title="不定参数和默认参数"></a>不定参数和默认参数</h1><h2 id="不定参数-1"><a href="#不定参数-1" class="headerlink" title="不定参数"></a>不定参数</h2><p>不定参数（也叫可变参数）：一个参数里存任意数量的参数。不定参数的位置只能放在最后。</p>
+<p>写法：参数名前加<code>...</code>。如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var addFn = (...vals) =&gt; &#123;</span><br><span class="line">	return vals.reduce((prev, curr)=&gt;&#123;</span><br><span class="line">		return prev + curr;</span><br><span class="line">	&#125;, 0);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="默认参数-1"><a href="#默认参数-1" class="headerlink" title="默认参数"></a>默认参数</h2><p>给函数参数设置默认值，如果不传值的话。写法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var defaultParamFn = (name = &apos;Joel&apos;, greet = &apos;Hello&apos;) =&gt; &#123;</span><br><span class="line">	console.log(&apos;%s, I am %s&apos;, greet, name);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="模板字符串-1"><a href="#模板字符串-1" class="headerlink" title="模板字符串"></a>模板字符串</h1><p>模板字符串支持多行字符串，字符串的里面可以拼接变量的值。</p>
+<p>要注意的是，模板字符串里的变量的值取模板字符串定义时，变量的值，以后变量的值改变，模板字符串的值并不会变。</p>
+<h2 id="参考-5"><a href="#参考-5" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="http://www.infoq.com/cn/articles/es6-in-depth-template-string" target="_blank" rel="noopener">深入浅出ES6（四）：模板字符串</a></li>
+</ul>
+<h1 id="Promise-写法示例"><a href="#Promise-写法示例" class="headerlink" title="Promise 写法示例"></a>Promise 写法示例</h1><h2 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">function doThing()&#123;</span><br><span class="line">  return new Promise(function (resolve, reject) &#123;</span><br><span class="line">    setTimeout(function()&#123;// 模拟异步</span><br><span class="line">      resolve();// 成功用 resovlve；失败用 reject。可以传数据。</span><br><span class="line">    &#125;, 100)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">doThing().then(成功回调，失败回调)</span><br><span class="line">// 或</span><br><span class="line">doThing().then(成功回调).catch(失败回调)</span><br></pre></td></tr></table></figure>
+
+<h2 id="多个串行操作"><a href="#多个串行操作" class="headerlink" title="多个串行操作"></a>多个串行操作</h2><p>以 3 个为例。代码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">doThing1().then(function () &#123;</span><br><span class="line">  return doThing2()</span><br><span class="line">&#125;).then(function () &#123;</span><br><span class="line">  return doThing3()</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>上面代码中，doThing1，doThing2，doThing3 都要返回 Promise 对象。</p>
+<h2 id="多个并行操作"><a href="#多个并行操作" class="headerlink" title="多个并行操作"></a>多个并行操作</h2><p>以 3 个为例。代码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">romise.all([doThing1(), doThing2(), doThing3()]).then(function () &#123;</span><br><span class="line">  // doSth</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面代码中，doThing1，doThing2，doThing3 都要返回 Promise 对象。</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a style="word-wrap:break-word;" href="http://yoursite.com/2019/11/08/1.WEB%E5%89%8D%E7%AB%AFWeb/es6/ES6%E5%9F%BA%E7%A1%80/" title="ES6基础" target="_blank" rel="external">http://yoursite.com/2019/11/08/1.WEB%E5%89%8D%E7%AB%AFWeb/es6/ES6%E5%9F%BA%E7%A1%80/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/chen08" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/chen08" target="_blank"><span class="text-dark">溟海</span><small class="ml-1x">Web Developer &amp; Designer</small></a></h3>
+        <div>天行健，君子以自强不息，地势坤，君子以厚德载物。 杀不死我的,终将使我强大 没有吃不了的苦,只有享不了的福</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2019/11/08/1.WEB%E5%89%8D%E7%AB%AFWeb/all-blog/%E9%9D%A2%E8%AF%95%E8%B5%84%E6%BA%90/" title="JavaScript学习资源(面试资源)"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/11/08/1.WEB%E5%89%8D%E7%AB%AFWeb/git/git%20%E5%9F%BA%E7%A1%80/" title="Git 基础"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="Catalogue" role="button">
+        <span>[&nbsp;</span><span>Catalogue</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open alipay app scan this qrcode, buy me a coffee!</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open wechat app scan this qrcode, buy me a coffee!</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> alipay</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> wechat payment</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+
+
+<!-- custom analytics part create by xiamo -->
+<!-- <script defer src="https://cdn1.lncld.net/static/js/av-min-1.2.1.js"></script> -->
+<script defer src="/js/av-min-1.2.1.js"></script>
+<script defer>
+AV.init({
+  appId: 'ngFQzHw7z0HgQfrtn4En4WTN-gzGzoHsz',
+  appKey: 'W9hgBBfVDwRGJKoGp5a6HKpx'
+});
+
+function showTime(Counter) {
+	var query = new AV.Query(Counter);
+		var visitors= $('.leancloud_visitors');
+		query.greaterThanOrEqualTo("time", 0);		
+		query.find({
+			success: function(results) {
+				if (results.length == 0) {				
+					return;
+				}
+				var data = results;
+				visitors.each(function(){
+					var url = $(this).attr('id').trim();					
+					for (var i = 0; i < data.length; i++) {
+						var object = data[i];
+						var content = object.get('time');
+						var _url = object.get('url')
+						if(url == _url){
+							$(this).text(content);
+						}
+					}
+				})
+				
+			},
+			error: function(object, error) {
+				console.log("Error: " + error.code + " " + error.message);
+			}
+		});
+}
+
+function addCount(Counter) {
+	var Counter = AV.Object.extend("Counter");
+	url = $(".leancloud_visitors").attr('id').trim();
+	title = $(".leancloud_visitors").attr('data-flag-title').trim();
+	var query = new AV.Query(Counter);
+	query.equalTo("url", url);
+	query.find({
+		success: function(results) {
+			if (results.length > 0) {
+				var counter = results[0];
+				counter.fetchWhenSave(true);
+				counter.increment("time");
+				counter.save(null, {
+					success: function(counter) {
+						var content = counter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(counter, error) {
+						console.log('Failed to save Visitor num, with error message: ' + error.message);
+					}
+				});
+			} else {
+				var newcounter = new Counter();
+				newcounter.set("title", title);
+				newcounter.set("url", url);
+				newcounter.set("time", 1);
+				newcounter.save(null, {
+					success: function(newcounter) {
+					    console.log("newcounter.get('time')="+newcounter.get('time'));
+						var content = newcounter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(newcounter, error) {
+						console.log('Failed to create');
+					}
+				});
+			}
+		},
+		error: function(error) {
+			console.log('Error:' + error.code + " " + error.message);
+		}
+	});
+}
+$(function() {
+	var Counter = AV.Object.extend("Counter");
+	if ($('.leancloud_visitors').length == 1) {
+		addCount(Counter);
+	} else {
+		showTime(Counter);
+	}
+}); 
+</script>
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>

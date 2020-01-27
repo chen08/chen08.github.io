@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>redux原理全解 | Hexo</title>
+  <script src="./js/jQuery.md5.js"></script>
+  <script>
+    
+    (function(){
+      localStorage.setItem('userinfo',hex_md5('123chen'))
+      
+      var localData = localStorage.getItem("userinfo");
+      // var localState = localStorage.getItem("state");
+        if(localStorage.getItem("state") === null){
+          var reason = window.prompt('请输入访问密码');
+          // var promptVal = window.prompt('请输入访问密码');
+          if(reason){
+              //填写内容并“确定”
+              var md5Prompt = hex_md5(reason)
+              //点击的是“确定” 
+              if (localData !== md5Prompt){
+                alert('密码错误！');
+                // history.back();
+                location.replace(location.href); 
+              }else{
+                // alert('0123');
+                localStorage.setItem('state',"1")
+              }
+          }
+          else if(reason === ""){
+              //未填写但“确定”
+              location.replace(location.href); 
+          }
+          else{
+            //“取消”事件
+            location.replace(location.href); 
+          }
+        }
+
+    })();
+  </script>
+ <link rel="alternate" href="/atom.xml" data="123chen" type="application/atom+xml">
+  <meta name="description" content="redux原理全解点击关注本公众号获取文档最新更新,并可以领取配套于本指南的 《前端面试手册》 以及最标准的简历模板. 本文主体来源于美团点评技术团队的博客Redux从设计到源码,对其中的源码解读相关的内容进行了删减和拓展,redux实现部分来源于完全理解 redux  本文主要讲述三方面内容：  Redux 背后的设计思想 最佳实践 简单实现redux  在讲设计思想前，先简单讲下Redux是什">
+<meta name="keywords" content="JavaScript,面试">
+<meta property="og:type" content="article">
+<meta property="og:title" content="redux原理全解">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;08&#x2F;5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill&#x2F;Vue&#x2F;redux%E5%8E%9F%E7%90%86%E5%85%A8%E8%A7%A3&#x2F;index.html">
+<meta property="og:site_name" content="学习的敌人是自己的满足，要认真学习一点东西，必须从不自满开始。对自己，“学而不厌”，对人家，“诲人不倦”，我们应取这种态度。">
+<meta property="og:description" content="redux原理全解点击关注本公众号获取文档最新更新,并可以领取配套于本指南的 《前端面试手册》 以及最标准的简历模板. 本文主体来源于美团点评技术团队的博客Redux从设计到源码,对其中的源码解读相关的内容进行了删减和拓展,redux实现部分来源于完全理解 redux  本文主要讲述三方面内容：  Redux 背后的设计思想 最佳实践 简单实现redux  在讲设计思想前，先简单讲下Redux是什">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https:&#x2F;&#x2F;cdn.nlark.com&#x2F;yuque&#x2F;0&#x2F;2019&#x2F;png&#x2F;128853&#x2F;1564726221958-da2b3e06-9209-4e46-84cf-9c535b944d0c.png#align=left&amp;display=inline&amp;height=946&amp;originHeight=946&amp;originWidth=1790&amp;size=0&amp;status=done&amp;width=1790">
+<meta property="og:image" content="https:&#x2F;&#x2F;cdn.nlark.com&#x2F;yuque&#x2F;0&#x2F;2019&#x2F;png&#x2F;128853&#x2F;1564726222170-3d5e6e37-6a88-4911-ab2b-7af9114948b7.png#align=left&amp;display=inline&amp;height=379&amp;originHeight=379&amp;originWidth=844&amp;size=0&amp;status=done&amp;width=844">
+<meta property="og:image" content="https:&#x2F;&#x2F;cdn.nlark.com&#x2F;yuque&#x2F;0&#x2F;2019&#x2F;png&#x2F;128853&#x2F;1564726222268-b9f100d8-6ce6-4472-a6a9-b6bc4d5b29cc.png#align=left&amp;display=inline&amp;height=373&amp;originHeight=373&amp;originWidth=524&amp;size=0&amp;status=done&amp;width=524">
+<meta property="og:image" content="https:&#x2F;&#x2F;cdn.nlark.com&#x2F;yuque&#x2F;0&#x2F;2019&#x2F;png&#x2F;128853&#x2F;1564726222231-e3d8354a-a16c-4ab0-a947-b4dafe1b8356.png#align=left&amp;display=inline&amp;height=440&amp;originHeight=440&amp;originWidth=453&amp;size=0&amp;status=done&amp;width=453">
+<meta property="og:image" content="https:&#x2F;&#x2F;cdn.nlark.com&#x2F;yuque&#x2F;0&#x2F;2019&#x2F;png&#x2F;128853&#x2F;1564726222273-c9c11d6e-feb4-4d06-bd54-a5f52be36725.png#align=left&amp;display=inline&amp;height=746&amp;originHeight=746&amp;originWidth=932&amp;size=0&amp;status=done&amp;width=932">
+<meta property="og:image" content="https:&#x2F;&#x2F;awps-assets.meituan.net&#x2F;mit-x&#x2F;blog-images-bundle-2017&#x2F;9e655d12.png#align=left&amp;display=inline&amp;height=826&amp;originHeight=826&amp;originWidth=1422&amp;status=uploading&amp;width=1422">
+<meta property="og:image" content="https:&#x2F;&#x2F;cdn.nlark.com&#x2F;yuque&#x2F;0&#x2F;2019&#x2F;png&#x2F;128853&#x2F;1564726222235-17ea72ca-46e4-4fd6-8e16-41c1965cdc49.png#align=left&amp;display=inline&amp;height=286&amp;originHeight=286&amp;originWidth=766&amp;size=0&amp;status=done&amp;width=766">
+<meta property="og:image" content="https:&#x2F;&#x2F;cdn.nlark.com&#x2F;yuque&#x2F;0&#x2F;2019&#x2F;png&#x2F;128853&#x2F;1564726222286-6a1c0251-9235-4855-b7ae-3760673fdadd.png#align=left&amp;display=inline&amp;height=1076&amp;originHeight=1076&amp;originWidth=1910&amp;size=0&amp;status=done&amp;width=1910">
+<meta property="og:image" content="https:&#x2F;&#x2F;cdn.nlark.com&#x2F;yuque&#x2F;0&#x2F;2019&#x2F;webp&#x2F;128853&#x2F;1564750024043-bb461692-4aff-483a-a21d-657701930260.webp#align=left&amp;display=inline&amp;height=671&amp;originHeight=671&amp;originWidth=1240&amp;size=0&amp;status=done&amp;width=1240">
+<meta property="og:image" content="https:&#x2F;&#x2F;xiaomuzhu-image.oss-cn-beijing.aliyuncs.com&#x2F;d846f65d5025c4b6c4619662a0669503.png">
+<meta property="og:updated_time" content="2019-11-08T09:47:28.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;cdn.nlark.com&#x2F;yuque&#x2F;0&#x2F;2019&#x2F;png&#x2F;128853&#x2F;1564726221958-da2b3e06-9209-4e46-84cf-9c535b944d0c.png#align=left&amp;display=inline&amp;height=946&amp;originHeight=946&amp;originWidth=1790&amp;size=0&amp;status=done&amp;width=1790">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://yoursite.com/2019/11/08/5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill/Vue/redux%E5%8E%9F%E7%90%86%E5%85%A8%E8%A7%A3/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="学习的敌人是自己的满足，要认真学习一点东西，必须从不自满开始。对自己，“学而不厌”，对人家，“诲人不倦”，我们应取这种态度。" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/chen08" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">溟海</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer &amp; Designer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Guangzhou, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+          <!-- . -->
+        
+        
+          <li class="menu-item menu-item-home">
+            <a href="/.">
+              
+              <i class="icon icon-home-fill"></i>
+              
+              <span class="menu-title">Home</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- archives -->
+        
+        
+          <li class="menu-item menu-item-archives">
+            <a href="/archives">
+              
+              <i class="icon icon-archives-fill"></i>
+              
+              <span class="menu-title">Archives</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- categories -->
+        
+        
+          <li class="menu-item menu-item-categories">
+            <a href="/categories">
+              
+              <i class="icon icon-folder"></i>
+              
+              <span class="menu-title">Categories</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- tags -->
+        
+        
+          <li class="menu-item menu-item-tags">
+            <a href="/tags">
+              
+              <i class="icon icon-tags"></i>
+              
+              <span class="menu-title">Tags</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- repository -->
+        
+        
+          <li class="menu-item menu-item-repository">
+            <a href="/repository">
+              
+              <i class="icon icon-project"></i>
+              
+              <span class="menu-title">Repository</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- books -->
+        
+        
+          <li class="menu-item menu-item-books">
+            <a href="/books">
+              
+              <i class="icon icon-book-fill"></i>
+              
+              <span class="menu-title">Books</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- links -->
+        
+        
+          <li class="menu-item menu-item-links">
+            <a href="/links">
+              
+              <i class="icon icon-friendship"></i>
+              
+              <span class="menu-title">Links</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- about -->
+        
+        
+          <li class="menu-item menu-item-about">
+            <a href="/about">
+              
+              <i class="icon icon-cup-fill"></i>
+              
+              <span class="menu-title">About</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- navigation/webstack/index.html -->
+        
+        
+          <li class="menu-item menu-item-navigation">
+            <a href="/navigation/webstack/index.html">
+              
+              <i class="icon icon-delicious"></i>
+              
+              <span class="menu-title">Navigation</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- navigation/webstack/word.html -->
+        
+        
+          <li style="display: none;" class="menu-item menu-item-fixed">
+            <a href="/navigation/webstack/word.html">
+              
+              <i class="icon icon-delicious"></i>
+              
+              <span class="menu-title">menu.fixed</span>
+            </a>
+          </li>
+        
+
+
+        
+      </ul>
+
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/1-WEB%E5%89%8D%E7%AB%AF/">1.WEB前端</a><span class="category-list-count">140</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/2-%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">2.编程语言</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/3-%E4%BA%A7%E5%93%81%E8%AE%BE%E8%AE%A1/">3.产品设计</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/4-%E7%AE%A1%E7%90%86%E8%90%A5%E9%94%80/">4.管理营销</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/5-%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87/">5.技能提升</a><span class="category-list-count">155</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/6-%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93/">6.读书总结</a><span class="category-list-count">9</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/" rel="tag">CSS</a><span class="tag-list-count">18</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Dart/" rel="tag">Dart</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES6/" rel="tag">ES6</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES7/" rel="tag">ES7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/English/" rel="tag">English</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flutter/" rel="tag">Flutter</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a><span class="tag-list-count">20</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IMAGE/" rel="tag">IMAGE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JQuery/" rel="tag">JQuery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a><span class="tag-list-count">224</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">JavaScript设计模式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript%E9%AB%98%E7%BA%A7%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" rel="tag">JavaScript高级程序设计</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jquery/" rel="tag">Jquery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mysql/" rel="tag">Mysql</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NETWORK/" rel="tag">NETWORK</a><span class="tag-list-count">13</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node/" rel="tag">Node</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/" rel="tag">PHP</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/" rel="tag">React</a><span class="tag-list-count">31</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJS/" rel="tag">RxJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SVG/" rel="tag">SVG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sass/" rel="tag">Sass</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/" rel="tag">Vue</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%AE%89%E5%85%A8/" rel="tag">WEB安全</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webpack/" rel="tag">Webpack</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/" rel="tag">jQuery</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodeJS/" rel="tag">nodeJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B9%A6%E5%8D%95/" rel="tag">书单</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B9%A6%E7%B1%8D/" rel="tag">书籍</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/" rel="tag">前端安全</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83/" rel="tag">命名规范</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag">小程序</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" rel="tag">性能优化</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8F%92%E4%BB%B6/" rel="tag">插件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A1%86%E6%9E%B6/" rel="tag">框架</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" rel="tag">浏览器</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%84%E4%BB%B6/" rel="tag">组件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%84%E8%8C%83/" rel="tag">规范</a><span class="tag-list-count">67</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6%E5%AD%A6%E4%B9%A0/" rel="tag">软件学习</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a><span class="tag-list-count">153</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/CSS/" style="font-size: 13.71px;">CSS</a> <a href="/tags/Dart/" style="font-size: 13px;">Dart</a> <a href="/tags/ES6/" style="font-size: 13px;">ES6</a> <a href="/tags/ES7/" style="font-size: 13px;">ES7</a> <a href="/tags/English/" style="font-size: 13.18px;">English</a> <a href="/tags/Flutter/" style="font-size: 13px;">Flutter</a> <a href="/tags/Git/" style="font-size: 13.12px;">Git</a> <a href="/tags/HTML/" style="font-size: 13.76px;">HTML</a> <a href="/tags/HTTP/" style="font-size: 13.18px;">HTTP</a> <a href="/tags/IMAGE/" style="font-size: 13px;">IMAGE</a> <a href="/tags/JAVA/" style="font-size: 13.06px;">JAVA</a> <a href="/tags/JQuery/" style="font-size: 13px;">JQuery</a> <a href="/tags/JavaScript/" style="font-size: 14px;">JavaScript</a> <a href="/tags/JavaScript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 13px;">JavaScript设计模式</a> <a href="/tags/JavaScript%E9%AB%98%E7%BA%A7%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 13px;">JavaScript高级程序设计</a> <a href="/tags/Jquery/" style="font-size: 13px;">Jquery</a> <a href="/tags/Mysql/" style="font-size: 13px;">Mysql</a> <a href="/tags/NETWORK/" style="font-size: 13.53px;">NETWORK</a> <a href="/tags/Node/" style="font-size: 13.35px;">Node</a> <a href="/tags/PHP/" style="font-size: 13.24px;">PHP</a> <a href="/tags/React/" style="font-size: 13.82px;">React</a> <a href="/tags/RxJS/" style="font-size: 13px;">RxJS</a> <a href="/tags/SVG/" style="font-size: 13px;">SVG</a> <a href="/tags/Sass/" style="font-size: 13px;">Sass</a> <a href="/tags/TypeScript/" style="font-size: 13.29px;">TypeScript</a> <a href="/tags/Vue/" style="font-size: 13.65px;">Vue</a> <a href="/tags/WEB%E5%AE%89%E5%85%A8/" style="font-size: 13.29px;">WEB安全</a> <a href="/tags/Webpack/" style="font-size: 13.59px;">Webpack</a> <a href="/tags/jQuery/" style="font-size: 13.65px;">jQuery</a> <a href="/tags/nodeJS/" style="font-size: 13px;">nodeJS</a> <a href="/tags/python/" style="font-size: 13px;">python</a> <a href="/tags/%E4%B9%A6%E5%8D%95/" style="font-size: 13px;">书单</a> <a href="/tags/%E4%B9%A6%E7%B1%8D/" style="font-size: 13.06px;">书籍</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 13px;">前端</a> <a href="/tags/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/" style="font-size: 13.06px;">前端安全</a> <a href="/tags/%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83/" style="font-size: 13.41px;">命名规范</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 13px;">小程序</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 13.06px;">工具</a> <a href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" style="font-size: 13.47px;">性能优化</a> <a href="/tags/%E6%8F%92%E4%BB%B6/" style="font-size: 13px;">插件</a> <a href="/tags/%E6%A1%86%E6%9E%B6/" style="font-size: 13px;">框架</a> <a href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" style="font-size: 13px;">浏览器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13.18px;">算法</a> <a href="/tags/%E7%BB%84%E4%BB%B6/" style="font-size: 13px;">组件</a> <a href="/tags/%E8%A7%84%E8%8C%83/" style="font-size: 13.88px;">规范</a> <a href="/tags/%E8%BD%AF%E4%BB%B6%E5%AD%A6%E4%B9%A0/" style="font-size: 13px;">软件学习</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 13.35px;">随笔</a> <a href="/tags/%E9%9D%A2%E8%AF%95/" style="font-size: 13.94px;">面试</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a><span class="archive-list-count">312</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/27/1.WEB%E5%89%8D%E7%AB%AFWeb/React/react-router/" class="title">1.WEB前端Web/React/react-router</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-27T13:24:04.185Z" itemprop="datePublished">2020-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/27/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/sass-guide/" class="title">1.WEB前端Web/Front-End-Standards/sass-guide</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-27T13:24:03.487Z" itemprop="datePublished">2020-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/27/hello-world/" class="title">Hello World</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-27T13:24:03.028Z" itemprop="datePublished">2020-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/6-%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93/">6.读书总结</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/26/6.%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93Book/%E4%BA%BA%E7%94%9F%E9%81%93%E7%90%86/" class="title">人生道理</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-26T01:12:57.000Z" itemprop="datePublished">2020-01-26</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/2-%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">2.编程语言</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/15/2.%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80Programming/English/%E7%94%9F%E6%B4%BB%E8%8B%B1%E8%AF%AD/" class="title">生活英语</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-15T01:12:57.000Z" itemprop="datePublished">2020-01-15</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">Catalogue</h3>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#redux原理全解"><span class="toc-number">1.</span> <span class="toc-text">redux原理全解</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Redux是什么？"><span class="toc-number">1.1.</span> <span class="toc-text">Redux是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么要用Redux？"><span class="toc-number">1.2.</span> <span class="toc-text">为什么要用Redux？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Redux思想追溯"><span class="toc-number">1.3.</span> <span class="toc-text">Redux思想追溯</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是ES？"><span class="toc-number">1.3.1.</span> <span class="toc-text">什么是ES？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CQRS（Command-Query-Responsibility-Segregation）是什么？"><span class="toc-number">1.3.2.</span> <span class="toc-text">CQRS（Command Query Responsibility Segregation）是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Flux是什么？"><span class="toc-number">1.3.3.</span> <span class="toc-text">Flux是什么？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#CQRS与Flux"><span class="toc-number">1.3.3.1.</span> <span class="toc-text">CQRS与Flux</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Redux与Flux"><span class="toc-number">1.3.3.2.</span> <span class="toc-text">Redux与Flux</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Redux的最佳实践"><span class="toc-number">1.4.</span> <span class="toc-text">Redux的最佳实践</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#简单实现Redux"><span class="toc-number">1.5.</span> <span class="toc-text">简单实现Redux</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#前言"><span class="toc-number">1.5.1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#状态管理器"><span class="toc-number">1.5.2.</span> <span class="toc-text">状态管理器</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#简单的状态管理器"><span class="toc-number">1.5.2.1.</span> <span class="toc-text">简单的状态管理器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#有计划的状态管理器"><span class="toc-number">1.5.2.2.</span> <span class="toc-text">有计划的状态管理器</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#多文件协作"><span class="toc-number">1.5.3.</span> <span class="toc-text">多文件协作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#reducer-的拆分和合并"><span class="toc-number">1.5.3.1.</span> <span class="toc-text">reducer 的拆分和合并</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#state-的拆分和合并"><span class="toc-number">1.5.3.2.</span> <span class="toc-text">state 的拆分和合并</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#中间件-middleware"><span class="toc-number">1.5.4.</span> <span class="toc-text">中间件 middleware</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#记录日志"><span class="toc-number">1.5.4.1.</span> <span class="toc-text">记录日志</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#记录异常"><span class="toc-number">1.5.4.2.</span> <span class="toc-text">记录异常</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#多中间件的合作"><span class="toc-number">1.5.4.3.</span> <span class="toc-text">多中间件的合作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#中间件使用方式优化"><span class="toc-number">1.5.4.4.</span> <span class="toc-text">中间件使用方式优化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#让用户体验美好"><span class="toc-number">1.5.4.5.</span> <span class="toc-text">让用户体验美好</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#完整的-redux"><span class="toc-number">1.5.5.</span> <span class="toc-text">完整的 redux</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#退订"><span class="toc-number">1.5.5.1.</span> <span class="toc-text">退订</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#中间件拿到的store"><span class="toc-number">1.5.5.2.</span> <span class="toc-text">中间件拿到的store</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#compose"><span class="toc-number">1.5.5.3.</span> <span class="toc-text">compose</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#省略initState"><span class="toc-number">1.5.5.4.</span> <span class="toc-text">省略initState</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-行代码的-replaceReducer"><span class="toc-number">1.5.5.5.</span> <span class="toc-text">2 行代码的 replaceReducer</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#bindActionCreators"><span class="toc-number">1.5.5.6.</span> <span class="toc-text">bindActionCreators</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#大功告成"><span class="toc-number">1.5.5.7.</span> <span class="toc-text">大功告成</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#最佳实践"><span class="toc-number">1.5.6.</span> <span class="toc-text">最佳实践</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#纯函数"><span class="toc-number">1.5.6.1.</span> <span class="toc-text">纯函数</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-number">1.5.7.</span> <span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#公众号"><span class="toc-number">1.6.</span> <span class="toc-text">公众号</span></a></li></ol></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-5.技能提升Skill/Vue/redux原理全解" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      redux原理全解
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/11/08/5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill/Vue/redux%E5%8E%9F%E7%90%86%E5%85%A8%E8%A7%A3/" class="article-date">
+	  <time datetime="2019-11-08T01:12:57.000Z" itemprop="datePublished">2019-11-08</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/5-%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87/">5.技能提升</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/JavaScript/" rel="tag">JavaScript</a>, <a class="article-tag-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a>
+  </span>
+
+
+        
+
+	<span class="article-read hidden-xs">
+    	<i class="icon icon-eye-fill" aria-hidden="true"></i>
+    	<span id="/2019/11/08/5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill/Vue/redux%E5%8E%9F%E7%90%86%E5%85%A8%E8%A7%A3/" class="leancloud_visitors"  data-flag-title="redux原理全解">0</span>
+    </span>
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/11/08/5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill/Vue/redux%E5%8E%9F%E7%90%86%E5%85%A8%E8%A7%A3/#comments" class="article-comment-link">Comments</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count: 8.3k(words)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">Read Count: 34(minutes)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="redux原理全解"><a href="#redux原理全解" class="headerlink" title="redux原理全解"></a>redux原理全解</h1><p>点击关注本<a href="#公众号">公众号</a>获取文档最新更新,并可以领取配套于本指南的 <strong>《前端面试手册》</strong> 以及<strong>最标准的简历模板</strong>.</p>
+<p>本文主体来源于美团点评技术团队的博客<a href="https://tech.meituan.com/2017/07/14/redux-design-code.html" target="_blank" rel="noopener">Redux从设计到源码</a>,对其中的源码解读相关的内容进行了删减和拓展,redux实现部分来源于<a href="https://github.com/brickspert/blog/issues/22#state" target="_blank" rel="noopener">完全理解 redux</a></p>
+<hr>
+<p>本文主要讲述三方面内容：</p>
+<ul>
+<li>Redux 背后的设计思想</li>
+<li>最佳实践</li>
+<li>简单实现redux</li>
+</ul>
+<p>在讲设计思想前，先简单讲下Redux是什么？我们为什么要用Redux？</p>
+<h2 id="Redux是什么？"><a href="#Redux是什么？" class="headerlink" title="Redux是什么？"></a>Redux是什么？</h2><p>Redux是JavaScript状态容器，能提供可预测化的状态管理。</p>
+<p>它认为：</p>
+<ul>
+<li>Web应用是一个状态机，视图与状态是一一对应的。</li>
+<li>所有的状态，保存在一个对象里面。</li>
+</ul>
+<p>我们先来看看“状态容器”、“视图与状态一一对应”以及“一个对象”这三个概念的具体体现。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/128853/1564726221958-da2b3e06-9209-4e46-84cf-9c535b944d0c.png#align=left&display=inline&height=946&originHeight=946&originWidth=1790&size=0&status=done&width=1790" alt=""></p>
+<p>如上图，Store是Redux中的状态容器，它里面存储着所有的状态数据，每个状态都跟一个视图一一对应。</p>
+<p>Redux也规定，一个State对应一个View。只要State相同，View就相同，知道了State，就知道View是什么样，反之亦然。</p>
+<p>比如，当前页面分三种状态：loading（加载中）、success（加载成功）或者error（加载失败），那么这三个就分别唯一对应着一种视图。</p>
+<p>现在我们对“状态容器”以及“视图与状态一一对应”有所了解了，那么Redux是怎么实现可预测化的呢？我们再来看下Redux的工作流程。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/128853/1564726222170-3d5e6e37-6a88-4911-ab2b-7af9114948b7.png#align=left&display=inline&height=379&originHeight=379&originWidth=844&size=0&status=done&width=844" alt=""></p>
+<p>首先，我们看下几个核心概念：</p>
+<ul>
+<li>Store：保存数据的地方，你可以把它看成一个容器，整个应用只能有一个Store。</li>
+<li>State：Store对象包含所有数据，如果想得到某个时点的数据，就要对Store生成快照，这种时点的数据集合，就叫做State。</li>
+<li>Action：State的变化，会导致View的变化。但是，用户接触不到State，只能接触到View。所以，State的变化必须是View导致的。Action就是View发出的通知，表示State应该要发生变化了。</li>
+<li>Action Creator：View要发送多少种消息，就会有多少种Action。如果都手写，会很麻烦，所以我们定义一个函数来生成Action，这个函数就叫Action Creator。</li>
+<li>Reducer：Store收到Action以后，必须给出一个新的State，这样View才会发生变化。这种State的计算过程就叫做Reducer。Reducer是一个函数，它接受Action和当前State作为参数，返回一个新的State。</li>
+<li>dispatch：是View发出Action的唯一方法。</li>
+</ul>
+<p>然后我们过下整个工作流程：</p>
+<ol>
+<li>首先，用户（通过View）发出Action，发出方式就用到了dispatch方法。</li>
+<li>然后，Store自动调用Reducer，并且传入两个参数：当前State和收到的Action，Reducer会返回新的State</li>
+<li>State一旦有变化，Store就会调用监听函数，来更新View。</li>
+</ol>
+<p>到这儿为止，一次用户交互流程结束。可以看到，在整个流程中数据都是单向流动的，这种方式保证了流程的清晰。</p>
+<h2 id="为什么要用Redux？"><a href="#为什么要用Redux？" class="headerlink" title="为什么要用Redux？"></a>为什么要用Redux？</h2><p>前端复杂性的根本原因是大量无规律的交互和异步操作。</p>
+<p>变化和异步操作的相同作用都是改变了当前View的状态，但是它们的无规律性导致了前端的复杂，而且随着代码量越来越大，我们要维护的状态也越来越多。</p>
+<p>我们很容易就对这些状态何时发生、为什么发生以及怎么发生的失去控制。那么怎样才能让这些状态变化能被我们预先掌握，可以复制追踪呢？</p>
+<p>这就是Redux设计的动机所在。</p>
+<p>Redux试图让每个State变化都是可预测的，将应用中所有的动作与状态都统一管理，让一切有据可循。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/128853/1564726222268-b9f100d8-6ce6-4472-a6a9-b6bc4d5b29cc.png#align=left&display=inline&height=373&originHeight=373&originWidth=524&size=0&status=done&width=524" alt=""></p>
+<p>如上图所示，如果我们的页面比较复杂，又没有用任何数据层框架的话，就是图片上这个样子：交互上存在父子、子父、兄弟组件间通信，数据也存在跨层、反向的数据流。</p>
+<p>这样的话，我们维护起来就会特别困难，那么我们理想的应用状态是什么样呢？看下图：</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/128853/1564726222231-e3d8354a-a16c-4ab0-a947-b4dafe1b8356.png#align=left&display=inline&height=440&originHeight=440&originWidth=453&size=0&status=done&width=453" alt=""></p>
+<p>架构层面上讲，我们希望UI跟数据和逻辑分离，UI只负责渲染，业务和逻辑交由其它部分处理，从数据流向方面来说, 单向数据流确保了整个流程清晰。</p>
+<p>我们之前的操作可以复制、追踪出来，这也是Redux的主要设计思想。</p>
+<p>综上，Redux可以做到：</p>
+<ul>
+<li>每个State变化可预测。</li>
+<li>动作与状态统一管理。</li>
+</ul>
+<h2 id="Redux思想追溯"><a href="#Redux思想追溯" class="headerlink" title="Redux思想追溯"></a>Redux思想追溯</h2><p>Redux作者在Redux.js官方文档Motivation一章的最后一段明确提到：</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>Following in the steps of Flux, CQRS, and Event Sourcing , Redux attempts to make state mutations predictable by imposing certain restrictions on how and when updates can happen.</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>我们就先了解下Flux、CQRS、ES（Event Sourcing 事件溯源）这几个概念。</p>
+<h3 id="什么是ES？"><a href="#什么是ES？" class="headerlink" title="什么是ES？"></a>什么是ES？</h3><ul>
+<li>不是保存对象的最新状态，而是保存对象产生的事件。</li>
+<li>通过事件追溯得到对象最新状态。</li>
+</ul>
+<p>举个例子：我们平常记账有两种方式，直接记录每次账单的结果或者记录每次的收入/支出，那么我们自己计算的话也可以得到结果，ES就是后者。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/128853/1564726222273-c9c11d6e-feb4-4d06-bd54-a5f52be36725.png#align=left&display=inline&height=746&originHeight=746&originWidth=932&size=0&status=done&width=932" alt=""></p>
+<p>与传统增删改查关系式存储的区别：</p>
+<ul>
+<li>传统的增删是以结果为导向的数据存储，ES是以过程为导向存储。</li>
+<li>CRUD是直接对库进行操作。</li>
+<li>ES是在库里存了一系列事件的集合，不直接对库里记录进行更改。</li>
+</ul>
+<p>优点：</p>
+<ul>
+<li>高性能：事件是不可更改的，存储的时候并且只做插入操作，也可以设计成独立、简单的对象。所以存储事件的成本较低且效率较高，扩展起来也非常方便。</li>
+<li>简化存储：事件用于描述系统内发生的事情，我们可以考虑用事件存储代替复杂的关系存储。</li>
+<li>溯源：正因为事件是不可更改的，并且记录了所有系统内发生的事情，我们能用它来跟踪问题、重现错误，甚至做备份和还原。</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>事件丢失：因为ES存储都是基于事件的，所以一旦事件丢失就很难保证数据的完整性。</li>
+<li>修改时必须兼容老结构：指的是因为老的事件不可变，所以当业务变动的时候新的事件必须兼容老结构。</li>
+</ul>
+<h3 id="CQRS（Command-Query-Responsibility-Segregation）是什么？"><a href="#CQRS（Command-Query-Responsibility-Segregation）是什么？" class="headerlink" title="CQRS（Command Query Responsibility Segregation）是什么？"></a>CQRS（Command Query Responsibility Segregation）是什么？</h3><p>顾名思义，“命令与查询职责分离”–&gt;”读写分离”。</p>
+<p><img src="https://awps-assets.meituan.net/mit-x/blog-images-bundle-2017/9e655d12.png#align=left&display=inline&height=826&originHeight=826&originWidth=1422&status=uploading&width=1422" alt=""></p>
+<p>整体的思想是把Query操作和Command操作分成两块独立的库来维护，当事件库有更新时，再来同步读取数据库。</p>
+<p>看下Query端，只是对数据库的简单读操作。然后Command端，是对事件进行简单的存储，同时通知Query端进行数据更新，这个地方就用到了ES。</p>
+<p>优点：</p>
+<ul>
+<li>CQ两端分离，各自独立。</li>
+<li>技术代码和业务代码完全分离。</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>强依赖高性能可靠的分布式消息队列。</li>
+</ul>
+<h3 id="Flux是什么？"><a href="#Flux是什么？" class="headerlink" title="Flux是什么？"></a>Flux是什么？</h3><p>Flux是一种架构思想，下面过程中，数据总是“单向流动”，任何相邻的部分都不会发生数据的“双向流动”，这保证了流程的清晰。Flux的最大特点，就是数据的“单向流动”。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/128853/1564726222235-17ea72ca-46e4-4fd6-8e16-41c1965cdc49.png#align=left&display=inline&height=286&originHeight=286&originWidth=766&size=0&status=done&width=766" alt=""></p>
+<ol>
+<li>用户访问View。</li>
+<li>View发出用户的Action。</li>
+<li>Dispatcher收到Action，要求Store进行相应的更新。</li>
+<li>Store更新后，发出一个“change”事件。</li>
+</ol>
+<p>介绍完以上之后，我们来整体做一下对比。</p>
+<h4 id="CQRS与Flux"><a href="#CQRS与Flux" class="headerlink" title="CQRS与Flux"></a>CQRS与Flux</h4><p>相同：当数据在write side发生更改时，一个更新事件会被推送到read side，通过绑定事件的回调，read side得知数据已更新，可以选择是否重新读取数据。</p>
+<p>差异：在CQRS中，write side和read side分属于两个不同的领域模式，各自的逻辑封装和隔离在各自的Model中，而在Flux里，业务逻辑都统一封装在Store中。</p>
+<h4 id="Redux与Flux"><a href="#Redux与Flux" class="headerlink" title="Redux与Flux"></a>Redux与Flux</h4><p>Redux是Flux思想的一种实现，同时又在其基础上做了改进。Redux还是秉承了Flux单向数据流、Store是唯一的数据源的思想。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/128853/1564726222286-6a1c0251-9235-4855-b7ae-3760673fdadd.png#align=left&display=inline&height=1076&originHeight=1076&originWidth=1910&size=0&status=done&width=1910" alt=""></p>
+<p>最大的区别：</p>
+<ol>
+<li>Redux只有一个Store。</li>
+</ol>
+<p>Flux中允许有多个Store，但是Redux中只允许有一个，相较于Flux，一个Store更加清晰，容易管理。Flux里面会有多个Store存储应用数据，并在Store里面执行更新逻辑，当Store变化的时候再通知controller-view更新自己的数据；Redux将各个Store整合成一个完整的Store，并且可以根据这个Store推导出应用完整的State。</p>
+<p>同时Redux中更新的逻辑也不在Store中执行而是放在Reducer中。单一Store带来的好处是，所有数据结果集中化，操作时的便利，只要把它传给最外层组件，那么内层组件就不需要维持State，全部经父级由props往下传即可。子组件变得异常简单。</p>
+<ol start="2">
+<li>Redux中没有Dispatcher的概念。</li>
+</ol>
+<p>Redux去除了这个Dispatcher，使用Store的Store.dispatch()方法来把action传给Store，由于所有的action处理都会经过这个Store.dispatch()方法，Redux聪明地利用这一点，实现了与Koa、RubyRack类似的Middleware机制。Middleware可以让你在dispatch action后，到达Store前这一段拦截并插入代码，可以任意操作action和Store。很容易实现灵活的日志打印、错误收集、API请求、路由等操作。</p>
+<p>除了以上，Redux相对Flux而言还有以下特性和优点：</p>
+<ol>
+<li>文档清晰，编码统一。</li>
+<li>逆天的DevTools，可以让应用像录像机一样反复录制和重放。</li>
+</ol>
+<h2 id="Redux的最佳实践"><a href="#Redux的最佳实践" class="headerlink" title="Redux的最佳实践"></a>Redux的最佳实践</h2><p><a href="http://cn.redux.js.org/index.html" target="_blank" rel="noopener">官网</a>中对最佳实践总结的很到位，我们重点总结下以下几个:</p>
+<ul>
+<li>用对象展开符增加代码可读性。</li>
+<li>区分smart component（know the State）和dump component（完全不需要关心State）。</li>
+<li>component里不要出现任何async calls，交给action creator来做。</li>
+<li>Reducer尽量简单，复杂的交给action creator。</li>
+<li>Reducer里return state的时候，不要改动之前State，请返回新的。</li>
+<li>immutable.js配合效果很好（但同时也会带来强侵入性，可以结合实际项目考虑）。</li>
+<li>action creator里，用promise/async/await以及Redux-thunk（redux-saga）来帮助你完成想要的功能。</li>
+<li>action creators和Reducer请用pure函数。</li>
+<li>请慎重选择组件树的哪一层使用connected component(连接到Store)，通常是比较高层的组件用来和Store沟通，最低层组件使用这防止太长的prop chain。</li>
+<li>请慎用自定义的Redux-middleware，错误的配置可能会影响到其他middleware.</li>
+<li>有些时候有些项目你并不需要Redux（毕竟引入Redux会增加一些额外的工作量）</li>
+</ul>
+<h2 id="简单实现Redux"><a href="#简单实现Redux" class="headerlink" title="简单实现Redux"></a>简单实现Redux</h2><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>记得开始接触 react 技术栈的时候，最难理解的地方就是 redux。全是新名词：reducer、store、dispatch、middleware 等等，我就理解 state 一个名词。<br />网上找的 redux 文章，要不有一本书的厚度，要不很玄乎，晦涩难懂，越看越觉得难，越看越怕，信心都没有了！<br />花了很长时间熟悉 redux，慢慢的发现它其实真的很简单。本章不会把 redux 的各种概念，名词解释一遍，这样和其他教程没有任何区别，没有太大意义。我会带大家从零实现一个完整的 redux，让大家知其然，知其所以然。<br />开始前，你必须知道一些事情：</p>
+<ul>
+<li>redux 和 react 没有关系，redux 可以用在任何框架中，忘掉 react。</li>
+<li>connect 不属于 redux，它其实属于 react-redux，请先忘掉它，下一章节，我们会介绍它。</li>
+<li>请一定先忘记 reducer、store、dispatch、middleware 等等这些名词。</li>
+<li>redux 是一个状态管理器。</li>
+</ul>
+<p>Let’s Go！</p>
+<h3 id="状态管理器"><a href="#状态管理器" class="headerlink" title="状态管理器"></a>状态管理器</h3><h4 id="简单的状态管理器"><a href="#简单的状态管理器" class="headerlink" title="简单的状态管理器"></a>简单的状态管理器</h4><p>redux 是一个状态管理器，那什么是状态呢？状态就是数据，比如计数器中的 count。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> state = &#123;</span><br><span class="line">  count: <span class="number">1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们来使用下状态</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(state.count);</span><br></pre></td></tr></table></figure>
+
+<p>我们来修改下状态</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">state.count = <span class="number">2</span>;</span><br></pre></td></tr></table></figure>
+
+<p>好了，现在我们实现了状态（计数）的修改和使用了。</p>
+<blockquote>
+<p>读者：你当我傻吗？你说的这个谁不知道？捶你👊！<br>笔者：哎哎哎，别打我！有话好好说！redux 核心就是这个呀！我们一步一步扩展开来嘛！</p>
+</blockquote>
+<p>当然上面的有一个很明显的问题：修改 count 之后，使用 count 的地方不能收到通知。我们可以使用发布-订阅模式来解决这个问题。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*------count 的发布订阅者实践------*/</span></span><br><span class="line"><span class="keyword">let</span> state = &#123;</span><br><span class="line">  count: <span class="number">1</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">let</span> listeners = [];</span><br><span class="line"><span class="comment">/*订阅*/</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">subscribe</span>(<span class="params">listener</span>) </span>&#123;</span><br><span class="line">  listeners.push(listener);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">changeCount</span>(<span class="params">count</span>) </span>&#123;</span><br><span class="line">  state.count = count;</span><br><span class="line">  <span class="comment">/*当 count 改变的时候，我们要去通知所有的订阅者*/</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; listeners.length; i++) &#123;</span><br><span class="line">    <span class="keyword">const</span> listener = listeners[i];</span><br><span class="line">    listener();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们来尝试使用下这个简单的计数状态管理器。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*来订阅一下，当 count 改变的时候，我要实时输出新的值*/</span></span><br><span class="line">subscribe(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(state.count);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">/*我们来修改下 state，当然我们不能直接去改 state 了，我们要通过 changeCount 来修改*/</span></span><br><span class="line">changeCount(<span class="number">2</span>);</span><br><span class="line">changeCount(<span class="number">3</span>);</span><br><span class="line">changeCount(<span class="number">4</span>);</span><br></pre></td></tr></table></figure>
+
+<p>现在我们可以看到，我们修改 count 的时候，会输出相应的 count 值。</p>
+<p>现在有两个新的问题摆在我们面前</p>
+<ul>
+<li>这个状态管理器只能管理 count，不通用</li>
+<li>公共的代码要封装起来</li>
+</ul>
+<p>我们尝试来解决这个问题，把公共的代码封装起来</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> createStore = <span class="function"><span class="keyword">function</span> (<span class="params">initState</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> state = initState;</span><br><span class="line">  <span class="keyword">let</span> listeners = [];</span><br><span class="line">  <span class="comment">/*订阅*/</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">subscribe</span>(<span class="params">listener</span>) </span>&#123;</span><br><span class="line">    listeners.push(listener);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">changeState</span>(<span class="params">newState</span>) </span>&#123;</span><br><span class="line">    state = newState;</span><br><span class="line">    <span class="comment">/*通知*/</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; listeners.length; i++) &#123;</span><br><span class="line">      <span class="keyword">const</span> listener = listeners[i];</span><br><span class="line">      listener();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">getState</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> state;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    subscribe,</span><br><span class="line">    changeState,</span><br><span class="line">    getState</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们来使用这个状态管理器管理多个状态 counter 和 info 试试</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> initState = &#123;</span><br><span class="line">  counter: &#123;</span><br><span class="line">    count: <span class="number">0</span></span><br><span class="line">  &#125;,</span><br><span class="line">  info: &#123;</span><br><span class="line">    name: <span class="string">''</span>,</span><br><span class="line">    description: <span class="string">''</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> store = createStore(initState);</span><br><span class="line">store.subscribe(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">let</span> state = store.getState();</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">`<span class="subst">$&#123;state.info.name&#125;</span>：<span class="subst">$&#123;state.info.description&#125;</span>`</span>);</span><br><span class="line">&#125;);</span><br><span class="line">store.subscribe(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">let</span> state = store.getState();</span><br><span class="line">  <span class="built_in">console</span>.log(state.counter.count);</span><br><span class="line">&#125;);</span><br><span class="line">store.changeState(&#123;</span><br><span class="line">  ...store.getState(),</span><br><span class="line">  info: &#123;</span><br><span class="line">    name: <span class="string">'前端九部'</span>,</span><br><span class="line">    description: <span class="string">'我们都是前端爱好者！'</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line">store.changeState(&#123;</span><br><span class="line">  ...store.getState(),</span><br><span class="line">  counter: &#123;</span><br><span class="line">    count: <span class="number">1</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>到这里我们完成了一个简单的状态管理器。<br />这里需要理解的是 <code>createStore</code>，提供了 <code>changeState</code>，<code>getState</code>，<code>subscribe</code> 三个能力。<br />本小节完整源码见 <a href="https://github.com/frontend9/redux-demo/tree/master/demo-1" target="_blank" rel="noopener">demo-1</a></p>
+<h4 id="有计划的状态管理器"><a href="#有计划的状态管理器" class="headerlink" title="有计划的状态管理器"></a>有计划的状态管理器</h4><p>我们用上面的状态管理器来实现一个自增，自减的计数器。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> initState = &#123;</span><br><span class="line">  count: <span class="number">0</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> store = createStore(initState);</span><br><span class="line">store.subscribe(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">let</span> state = store.getState();</span><br><span class="line">  <span class="built_in">console</span>.log(state.count);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">/*自增*/</span></span><br><span class="line">store.changeState(&#123;</span><br><span class="line">  count: store.getState().count + <span class="number">1</span></span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">/*自减*/</span></span><br><span class="line">store.changeState(&#123;</span><br><span class="line">  count: store.getState().count - <span class="number">1</span></span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">/*我想随便改*/</span></span><br><span class="line">store.changeState(&#123;</span><br><span class="line">  count: <span class="string">'abc'</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>你一定发现了问题，count 被改成了字符串 <code>abc</code>，因为我们对 count 的修改没有任何约束，任何地方，任何人都可以修改。<br />我们需要约束，不允许计划外的 count 修改，我们只允许 count 自增和自减两种改变方式！<br />那我们分两步来解决这个问题</p>
+<ol>
+<li>制定一个 state 修改计划，告诉 store，我的修改计划是什么。</li>
+<li>修改 store.changeState 方法，告诉它修改 state 的时候，按照我们的计划修改。</li>
+</ol>
+<p>我们来设置一个 plan 函数，接收现在的 state，和一个 action，返回经过改变后的新的 state。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*注意：action = &#123;type:'',other:''&#125;, action 必须有一个 type 属性*/</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">plan</span>(<span class="params">state, action</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">switch</span> (action.type) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">'INCREMENT'</span>:</span><br><span class="line">      <span class="keyword">return</span> &#123;</span><br><span class="line">        ...state,</span><br><span class="line">        count: state.count + <span class="number">1</span></span><br><span class="line">      &#125;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">'DECREMENT'</span>:</span><br><span class="line">      <span class="keyword">return</span> &#123;</span><br><span class="line">        ...state,</span><br><span class="line">        count: state.count - <span class="number">1</span></span><br><span class="line">      &#125;</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">      <span class="keyword">return</span> state;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们把这个计划告诉 store，store.changeState 以后改变 state 要按照我的计划来改。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*增加一个参数 plan*/</span></span><br><span class="line"><span class="keyword">const</span> createStore = <span class="function"><span class="keyword">function</span> (<span class="params">plan, initState</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> state = initState;</span><br><span class="line">  <span class="keyword">let</span> listeners = [];</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">subscribe</span>(<span class="params">listener</span>) </span>&#123;</span><br><span class="line">    listeners.push(listener);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">changeState</span>(<span class="params">action</span>) </span>&#123;</span><br><span class="line">    <span class="comment">/*请按照我的计划修改 state*/</span>  </span><br><span class="line">    state = plan(state, action);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; listeners.length; i++) &#123;</span><br><span class="line">      <span class="keyword">const</span> listener = listeners[i];</span><br><span class="line">      listener();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">getState</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> state;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    subscribe,</span><br><span class="line">    changeState,</span><br><span class="line">    getState</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们来尝试使用下新的 createStore 来实现自增和自减</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> initState = &#123;</span><br><span class="line">  count: <span class="number">0</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*把plan函数*/</span></span><br><span class="line"><span class="keyword">let</span> store = createStore(plan, initState);</span><br><span class="line">store.subscribe(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">let</span> state = store.getState();</span><br><span class="line">  <span class="built_in">console</span>.log(state.count);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">/*自增*/</span></span><br><span class="line">store.changeState(&#123;</span><br><span class="line">  type: <span class="string">'INCREMENT'</span></span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">/*自减*/</span></span><br><span class="line">store.changeState(&#123;</span><br><span class="line">  type: <span class="string">'DECREMENT'</span></span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">/*我想随便改 计划外的修改是无效的！*/</span></span><br><span class="line">store.changeState(&#123;</span><br><span class="line">  count: <span class="string">'abc'</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>到这里为止，我们已经实现了一个有计划的状态管理器！<br />我们商量一下吧？我们给 plan 和 changeState 改下名字好不好？<strong>plan 改成 reducer，changeState 改成 dispatch！</strong>不管你同不同意，我都要换，因为新名字比较厉害（其实因为 redux 是这么叫的）!<br />本小节完整源码见 <a href="https://link.juejin.im?target=https%3A%2F%2Fgithub.com%2Ffrontend9%2Fredux-demo%2Ftree%2Fmaster%2Fdemo-2">demo-2</a></p>
+<h3 id="多文件协作"><a href="#多文件协作" class="headerlink" title="多文件协作"></a>多文件协作</h3><h4 id="reducer-的拆分和合并"><a href="#reducer-的拆分和合并" class="headerlink" title="reducer 的拆分和合并"></a>reducer 的拆分和合并</h4><p>这一小节我们来处理下 reducer 的问题。啥问题？<br />我们知道 reducer 是一个计划函数，接收老的 state，按计划返回新的 state。那我们项目中，有大量的 state，每个 state 都需要计划函数，如果全部写在一起会是啥样子呢？<br />所有的计划写在一个 reducer 函数里面，会导致 reducer 函数及其庞大复杂。按经验来说，我们肯定会按组件维度来拆分出很多个 reducer 函数，然后通过一个函数来把他们合并起来。<br />我们来管理两个 state，一个 counter，一个 info。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> state = &#123;</span><br><span class="line">  counter: &#123;</span><br><span class="line">    count: <span class="number">0</span></span><br><span class="line">  &#125;,</span><br><span class="line">  info: &#123;</span><br><span class="line">    name: <span class="string">'前端九部'</span>,</span><br><span class="line">    description: <span class="string">'我们都是前端爱好者！'</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>他们各自的 reducer</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*counterReducer, 一个子reducer*/</span></span><br><span class="line"><span class="comment">/*注意：counterReducer 接收的 state 是 state.counter*/</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">counterReducer</span>(<span class="params">state, action</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">switch</span> (action.type) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">'INCREMENT'</span>:</span><br><span class="line">      <span class="keyword">return</span> &#123;</span><br><span class="line">        ...state,</span><br><span class="line">        count: state.count + <span class="number">1</span></span><br><span class="line">      &#125;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">'DECREMENT'</span>:</span><br><span class="line">      <span class="keyword">return</span> &#123;</span><br><span class="line">        ...state,</span><br><span class="line">        count: state.count - <span class="number">1</span></span><br><span class="line">      &#125;</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">      <span class="keyword">return</span> state;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*InfoReducer，一个子reducer*/</span></span><br><span class="line"><span class="comment">/*注意：countReducer 接收的 state 是 state.info*/</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">InfoReducer</span>(<span class="params">state, action</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">switch</span> (action.type) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">'SET_NAME'</span>:</span><br><span class="line">      <span class="keyword">return</span> &#123;</span><br><span class="line">        ...state,</span><br><span class="line">        name: action.name</span><br><span class="line">      &#125;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">'SET_DESCRIPTION'</span>:</span><br><span class="line">      <span class="keyword">return</span> &#123;</span><br><span class="line">        ...state,</span><br><span class="line">        description: action.description</span><br><span class="line">      &#125;</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">      <span class="keyword">return</span> state;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>那我们用 combineReducers 函数来把多个 reducer 函数合并成一个 reducer 函数。大概这样用</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> reducer = combineReducers(&#123;</span><br><span class="line">    counter: counterReducer,</span><br><span class="line">    info: InfoReducer</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>我们尝试实现下 combineReducers 函数</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">combineReducers</span>(<span class="params">reducers</span>) </span>&#123;</span><br><span class="line">  <span class="comment">/* reducerKeys = ['counter', 'info']*/</span></span><br><span class="line">  <span class="keyword">const</span> reducerKeys = <span class="built_in">Object</span>.keys(reducers)</span><br><span class="line">  <span class="comment">/*返回合并后的新的reducer函数*/</span></span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">combination</span>(<span class="params">state = &#123;&#125;, action</span>) </span>&#123;</span><br><span class="line">    <span class="comment">/*生成的新的state*/</span></span><br><span class="line">    <span class="keyword">const</span> nextState = &#123;&#125;</span><br><span class="line">    <span class="comment">/*遍历执行所有的reducers，整合成为一个新的state*/</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; reducerKeys.length; i++) &#123;</span><br><span class="line">      <span class="keyword">const</span> key = reducerKeys[i]</span><br><span class="line">      <span class="keyword">const</span> reducer = reducers[key]</span><br><span class="line">      <span class="comment">/*之前的 key 的 state*/</span></span><br><span class="line">      <span class="keyword">const</span> previousStateForKey = state[key]</span><br><span class="line">      <span class="comment">/*执行 分 reducer，获得新的state*/</span></span><br><span class="line">      <span class="keyword">const</span> nextStateForKey = reducer(previousStateForKey, action)</span><br><span class="line">      nextState[key] = nextStateForKey</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> nextState;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们来尝试下 combineReducers 的威力吧</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> reducer = combineReducers(&#123;</span><br><span class="line">  counter: counterReducer,</span><br><span class="line">  info: InfoReducer</span><br><span class="line">&#125;);</span><br><span class="line"><span class="keyword">let</span> initState = &#123;</span><br><span class="line">  counter: &#123;</span><br><span class="line">    count: <span class="number">0</span></span><br><span class="line">  &#125;,</span><br><span class="line">  info: &#123;</span><br><span class="line">    name: <span class="string">'前端九部'</span>,</span><br><span class="line">    description: <span class="string">'我们都是前端爱好者！'</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> store = createStore(reducer, initState);</span><br><span class="line">store.subscribe(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">let</span> state = store.getState();</span><br><span class="line">  <span class="built_in">console</span>.log(state.counter.count, state.info.name, state.info.description);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">/*自增*/</span></span><br><span class="line">store.dispatch(&#123;</span><br><span class="line">  type: <span class="string">'INCREMENT'</span></span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">/*修改 name*/</span></span><br><span class="line">store.dispatch(&#123;</span><br><span class="line">  type: <span class="string">'SET_NAME'</span>,</span><br><span class="line">  name: <span class="string">'前端九部2号'</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>本小节完整源码见 <a href="https://link.juejin.im?target=https%3A%2F%2Fgithub.com%2Ffrontend9%2Fredux-demo%2Ftree%2Fmaster%2Fdemo-3">demo-3</a></p>
+<h4 id="state-的拆分和合并"><a href="#state-的拆分和合并" class="headerlink" title="state 的拆分和合并"></a>state 的拆分和合并</h4><p>上一小节，我们把 reducer 按组件维度拆分了，通过 combineReducers 合并了起来。但是还有个问题， state 我们还是写在一起的，这样会造成 state 树很庞大，不直观，很难维护。我们需要拆分，一个 state，一个 reducer 写一块。<br />这一小节比较简单，我就不卖关子了，用法大概是这样（注意注释）</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* counter 自己的 state 和 reducer 写在一起*/</span></span><br><span class="line"><span class="keyword">let</span> initState = &#123;</span><br><span class="line">  count: <span class="number">0</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">counterReducer</span>(<span class="params">state, action</span>) </span>&#123;</span><br><span class="line">  <span class="comment">/*注意：如果 state 没有初始值，那就给他初始值！！*/</span>  </span><br><span class="line">  <span class="keyword">if</span> (!state) &#123;</span><br><span class="line">      state = initState;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">switch</span> (action.type) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">'INCREMENT'</span>:</span><br><span class="line">      <span class="keyword">return</span> &#123;</span><br><span class="line">        ...state,</span><br><span class="line">        count: state.count + <span class="number">1</span></span><br><span class="line">      &#125;</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">      <span class="keyword">return</span> state;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们修改下 createStore 函数，增加一行 <code>dispatch({ type: Symbol() })</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> createStore = <span class="function"><span class="keyword">function</span> (<span class="params">reducer, initState</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> state = initState;</span><br><span class="line">  <span class="keyword">let</span> listeners = [];</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">subscribe</span>(<span class="params">listener</span>) </span>&#123;</span><br><span class="line">    listeners.push(listener);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">dispatch</span>(<span class="params">action</span>) </span>&#123;</span><br><span class="line">    state = reducer(state, action);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; listeners.length; i++) &#123;</span><br><span class="line">      <span class="keyword">const</span> listener = listeners[i];</span><br><span class="line">      listener();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">getState</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> state;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">/* 注意！！！只修改了这里，用一个不匹配任何计划的 type，来获取初始值 */</span></span><br><span class="line">  dispatch(&#123; <span class="attr">type</span>: <span class="built_in">Symbol</span>() &#125;)</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    subscribe,</span><br><span class="line">    dispatch,</span><br><span class="line">    getState</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们思考下这行可以带来什么效果？</p>
+<ol>
+<li>createStore 的时候，用一个不匹配任何 type 的 action，来触发 <code>state = reducer(state, action)</code></li>
+<li>因为 action.type 不匹配，每个子 reducer 都会进到 default 项，返回自己初始化的 state，这样就获得了初始化的 state 树了。</li>
+</ol>
+<p>你可以试试</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*这里没有传 initState 哦 */</span></span><br><span class="line"><span class="keyword">const</span> store = createStore(reducer);</span><br><span class="line"><span class="comment">/*这里看看初始化的 state 是什么*/</span></span><br><span class="line"><span class="built_in">console</span>.dir(store.getState());</span><br></pre></td></tr></table></figure>
+
+<p>本小节完整源码见 <a href="https://github.com/frontend9/redux-demo/tree/master/demo-4" target="_blank" rel="noopener">demo-4</a></p>
+<p>到这里为止，我们已经实现了一个七七八八的 redux 啦！</p>
+<h3 id="中间件-middleware"><a href="#中间件-middleware" class="headerlink" title="中间件 middleware"></a>中间件 middleware</h3><p>中间件 middleware 是 redux 中最难理解的地方。但是我挑战一下用最通俗的语言来讲明白它。如果你看完这一小节，还没明白中间件是什么，不知道如何写一个中间件，那就是我的锅了！</p>
+<p>中间件是对 dispatch 的扩展，或者说重写，增强 dispatch 的功能！</p>
+<h4 id="记录日志"><a href="#记录日志" class="headerlink" title="记录日志"></a>记录日志</h4><p>我现在有一个需求，在每次修改 state 的时候，记录下来 修改前的 state ，为什么修改了，以及修改后的 state。我们可以通过重写 store.dispatch 来实现，直接看代码</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> store = createStore(reducer);</span><br><span class="line"><span class="keyword">const</span> next = store.dispatch;</span><br><span class="line"><span class="comment">/*重写了store.dispatch*/</span></span><br><span class="line">store.dispatch = <span class="function">(<span class="params">action</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'this state'</span>, store.getState());</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'action'</span>, action);</span><br><span class="line">  next(action);</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'next state'</span>, store.getState());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们来使用下</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">store.dispatch(&#123;</span><br><span class="line">  type: <span class="string">'INCREMENT'</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>日志输出为</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">this</span> state &#123; <span class="attr">counter</span>: &#123; <span class="attr">count</span>: <span class="number">0</span> &#125; &#125;</span><br><span class="line">action &#123; <span class="attr">type</span>: <span class="string">'INCREMENT'</span> &#125;</span><br><span class="line"><span class="number">1</span></span><br><span class="line">next state &#123; <span class="attr">counter</span>: &#123; <span class="attr">count</span>: <span class="number">1</span> &#125; &#125;</span><br></pre></td></tr></table></figure>
+
+<p>现在我们已经实现了一个完美的记录 state 修改日志的功能！</p>
+<h4 id="记录异常"><a href="#记录异常" class="headerlink" title="记录异常"></a>记录异常</h4><p>我又有一个需求，需要记录每次数据出错的原因，我们扩展下 dispatch</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> store = createStore(reducer);</span><br><span class="line"><span class="keyword">const</span> next = store.dispatch;</span><br><span class="line">store.dispatch = <span class="function">(<span class="params">action</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    next(action);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">    <span class="built_in">console</span>.error(<span class="string">'错误报告: '</span>, err)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样每次 dispatch 出异常的时候，我们都会记录下来。</p>
+<h4 id="多中间件的合作"><a href="#多中间件的合作" class="headerlink" title="多中间件的合作"></a>多中间件的合作</h4><p>我现在既需要记录日志，又需要记录异常，怎么办？当然很简单了，两个函数合起来呗！</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">store.dispatch = <span class="function">(<span class="params">action</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'this state'</span>, store.getState());</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'action'</span>, action);</span><br><span class="line">    next(action);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'next state'</span>, store.getState());</span><br><span class="line">  &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">    <span class="built_in">console</span>.error(<span class="string">'错误报告: '</span>, err)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果又来一个需求怎么办？接着改 dispatch 函数？那再来10个需求呢？到时候 dispatch 函数肯定庞大混乱到无法维护了！这个方式不可取呀！<br />我们需要考虑如何实现扩展性很强的多中间件合作模式。</p>
+<ol>
+<li>我们把 loggerMiddleware 提取出来</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> store = createStore(reducer);</span><br><span class="line"><span class="keyword">const</span> next = store.dispatch;</span><br><span class="line"><span class="keyword">const</span> loggerMiddleware = <span class="function">(<span class="params">action</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'this state'</span>, store.getState());</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'action'</span>, action);</span><br><span class="line">  next(action);</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'next state'</span>, store.getState());</span><br><span class="line">&#125;</span><br><span class="line">store.dispatch = <span class="function">(<span class="params">action</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    loggerMiddleware(action);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">    <span class="built_in">console</span>.error(<span class="string">'错误报告: '</span>, err)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>我们把 exceptionMiddleware 提取出来</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> exceptionMiddleware = <span class="function">(<span class="params">action</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="comment">/*next(action)*/</span></span><br><span class="line">    loggerMiddleware(action);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">    <span class="built_in">console</span>.error(<span class="string">'错误报告: '</span>, err)</span><br><span class="line">  &#125; </span><br><span class="line">&#125;</span><br><span class="line">store.dispatch = exceptionMiddleware;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li><p>现在的代码有一个很严重的问题，就是 exceptionMiddleware 里面写死了 loggerMiddleware，我们需要让 <code>next(action)</code>变成动态的，随便哪个中间件都可以</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> exceptionMiddleware = <span class="function">(<span class="params">next</span>) =&gt;</span> <span class="function">(<span class="params">action</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="comment">/*loggerMiddleware(action);*/</span></span><br><span class="line">    next(action);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">    <span class="built_in">console</span>.error(<span class="string">'错误报告: '</span>, err)</span><br><span class="line">  &#125; </span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*loggerMiddleware 变成参数传进去*/</span></span><br><span class="line">store.dispatch = exceptionMiddleware(loggerMiddleware);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>同样的道理，loggerMiddleware 里面的 next 现在恒等于 store.dispatch，导致 loggerMiddleware 里面无法扩展别的中间件了！我们也把 next 写成动态的</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> loggerMiddleware = <span class="function">(<span class="params">next</span>) =&gt;</span> <span class="function">(<span class="params">action</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'this state'</span>, store.getState());</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'action'</span>, action);</span><br><span class="line">  next(action);</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'next state'</span>, store.getState());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>到这里为止，我们已经探索出了一个扩展性很高的中间件合作模式！</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> store = createStore(reducer);</span><br><span class="line"><span class="keyword">const</span> next = store.dispatch;</span><br><span class="line"><span class="keyword">const</span> loggerMiddleware = <span class="function">(<span class="params">next</span>) =&gt;</span> <span class="function">(<span class="params">action</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'this state'</span>, store.getState());</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'action'</span>, action);</span><br><span class="line">  next(action);</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'next state'</span>, store.getState());</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> exceptionMiddleware = <span class="function">(<span class="params">next</span>) =&gt;</span> <span class="function">(<span class="params">action</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    next(action);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">    <span class="built_in">console</span>.error(<span class="string">'错误报告: '</span>, err)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">store.dispatch = exceptionMiddleware(loggerMiddleware(next));</span><br></pre></td></tr></table></figure>
+<p>这时候我们开开心心的新建了一个 <code>loggerMiddleware.js</code>，一个<code>exceptionMiddleware.js</code>文件，想把两个中间件独立到单独的文件中去。会碰到什么问题吗？<br />loggerMiddleware 中包含了外部变量 store，导致我们无法把中间件独立出去。那我们把 store 也作为一个参数传进去好了~</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> store = createStore(reducer);</span><br><span class="line"><span class="keyword">const</span> next  = store.dispatch;</span><br><span class="line"><span class="keyword">const</span> loggerMiddleware = <span class="function">(<span class="params">store</span>) =&gt;</span> <span class="function">(<span class="params">next</span>) =&gt;</span> <span class="function">(<span class="params">action</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'this state'</span>, store.getState());</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'action'</span>, action);</span><br><span class="line">  next(action);</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'next state'</span>, store.getState());</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> exceptionMiddleware = <span class="function">(<span class="params">store</span>) =&gt;</span> <span class="function">(<span class="params">next</span>) =&gt;</span> <span class="function">(<span class="params">action</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    next(action);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">    <span class="built_in">console</span>.error(<span class="string">'错误报告: '</span>, err)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> logger = loggerMiddleware(store);</span><br><span class="line"><span class="keyword">const</span> exception = exceptionMiddleware(store);</span><br><span class="line">store.dispatch = exception(logger(next));</span><br></pre></td></tr></table></figure>
+<p>到这里为止，我们真正的实现了两个可以独立的中间件啦！<br />现在我有一个需求，在打印日志之前输出当前的时间戳。用中间件来实现！</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> timeMiddleware = <span class="function">(<span class="params">store</span>) =&gt;</span> <span class="function">(<span class="params">next</span>) =&gt;</span> <span class="function">(<span class="params">action</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'time'</span>, <span class="keyword">new</span> <span class="built_in">Date</span>().getTime());</span><br><span class="line">  next(action);</span><br><span class="line">&#125;</span><br><span class="line">...</span><br><span class="line"><span class="keyword">const</span> time = timeMiddleware(store);</span><br><span class="line">store.dispatch = exception(time(logger(next)));</span><br></pre></td></tr></table></figure>
+<p>本小节完整源码见 <a href="https://github.com/frontend9/redux-demo/tree/master/demo-6" target="_blank" rel="noopener">demo-6</a></p>
+</li>
+</ol>
+<h4 id="中间件使用方式优化"><a href="#中间件使用方式优化" class="headerlink" title="中间件使用方式优化"></a>中间件使用方式优化</h4><p>上一节我们已经完全实现了正确的中间件！但是中间件的使用方式不是很友好</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> loggerMiddleware <span class="keyword">from</span> <span class="string">'./middlewares/loggerMiddleware'</span>;</span><br><span class="line"><span class="keyword">import</span> exceptionMiddleware <span class="keyword">from</span> <span class="string">'./middlewares/exceptionMiddleware'</span>;</span><br><span class="line"><span class="keyword">import</span> timeMiddleware <span class="keyword">from</span> <span class="string">'./middlewares/timeMiddleware'</span>;</span><br><span class="line">...</span><br><span class="line"><span class="keyword">const</span> store = createStore(reducer);</span><br><span class="line"><span class="keyword">const</span> next = store.dispatch;</span><br><span class="line"><span class="keyword">const</span> logger = loggerMiddleware(store);</span><br><span class="line"><span class="keyword">const</span> exception = exceptionMiddleware(store);</span><br><span class="line"><span class="keyword">const</span> time = timeMiddleware(store);</span><br><span class="line">store.dispatch = exception(time(logger(next)));</span><br></pre></td></tr></table></figure>
+<p>其实我们只需要知道三个中间件，剩下的细节都可以封装起来！我们通过扩展 createStore 来实现！<br />先来看看期望的用法</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*接收旧的 createStore，返回新的 createStore*/</span></span><br><span class="line"><span class="keyword">const</span> newCreateStore = applyMiddleware(exceptionMiddleware, timeMiddleware, loggerMiddleware)(createStore);</span><br><span class="line"><span class="comment">/*返回了一个 dispatch 被重写过的 store*/</span></span><br><span class="line"><span class="keyword">const</span> store = newCreateStore(reducer);</span><br></pre></td></tr></table></figure>
+<p>实现 applyMiddleware</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> applyMiddleware = <span class="function"><span class="keyword">function</span> (<span class="params">...middlewares</span>) </span>&#123;</span><br><span class="line">  <span class="comment">/*返回一个重写createStore的方法*/</span></span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">rewriteCreateStoreFunc</span>(<span class="params">oldCreateStore</span>) </span>&#123;</span><br><span class="line">     <span class="comment">/*返回重写后新的 createStore*/</span></span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">newCreateStore</span>(<span class="params">reducer, initState</span>) </span>&#123;</span><br><span class="line">      <span class="comment">/*1\. 生成store*/</span></span><br><span class="line">      <span class="keyword">const</span> store = oldCreateStore(reducer, initState);</span><br><span class="line">      <span class="comment">/*给每个 middleware 传下store，相当于 const logger = loggerMiddleware(store);*/</span></span><br><span class="line">      <span class="comment">/* const chain = [exception, time, logger]*/</span></span><br><span class="line">      <span class="keyword">const</span> chain = middlewares.map(<span class="function"><span class="params">middleware</span> =&gt;</span> middleware(store));</span><br><span class="line">      <span class="keyword">let</span> dispatch = store.dispatch;</span><br><span class="line">      <span class="comment">/* 实现 exception(time((logger(dispatch))))*/</span></span><br><span class="line">      chain.reverse().map(<span class="function"><span class="params">middleware</span> =&gt;</span> &#123;</span><br><span class="line">        dispatch = middleware(dispatch);</span><br><span class="line">      &#125;);</span><br><span class="line">      <span class="comment">/*2\. 重写 dispatch*/</span></span><br><span class="line">      store.dispatch = dispatch;</span><br><span class="line">      <span class="keyword">return</span> store;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="让用户体验美好"><a href="#让用户体验美好" class="headerlink" title="让用户体验美好"></a>让用户体验美好</h4><p>现在还有个小问题，我们有两种 createStore 了</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*没有中间件的 createStore*/</span></span><br><span class="line"><span class="keyword">import</span> &#123; createStore &#125; <span class="keyword">from</span> <span class="string">'./redux'</span>;</span><br><span class="line"><span class="keyword">const</span> store = createStore(reducer, initState);</span><br><span class="line"><span class="comment">/*有中间件的 createStore*/</span></span><br><span class="line"><span class="keyword">const</span> rewriteCreateStoreFunc = applyMiddleware(exceptionMiddleware, timeMiddleware, loggerMiddleware);</span><br><span class="line"><span class="keyword">const</span> newCreateStore = rewriteCreateStoreFunc(createStore);</span><br><span class="line"><span class="keyword">const</span> store = newCreateStore(reducer, initState);</span><br></pre></td></tr></table></figure>
+
+<p>为了让用户用起来统一一些，我们可以很简单的使他们的使用方式一致，我们修改下 createStore 方法</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> createStore = <span class="function">(<span class="params">reducer, initState, rewriteCreateStoreFunc</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">/*如果有 rewriteCreateStoreFunc，那就采用新的 createStore */</span></span><br><span class="line">    <span class="keyword">if</span>(rewriteCreateStoreFunc)&#123;</span><br><span class="line">       <span class="keyword">const</span> newCreateStore =  rewriteCreateStoreFunc(createStore);</span><br><span class="line">       <span class="keyword">return</span> newCreateStore(reducer, initState);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/*否则按照正常的流程走*/</span></span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最终的用法</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> rewriteCreateStoreFunc = applyMiddleware(exceptionMiddleware, timeMiddleware, loggerMiddleware);</span><br><span class="line"><span class="keyword">const</span> store = createStore(reducer, initState, rewriteCreateStoreFunc);</span><br></pre></td></tr></table></figure>
+
+<p>本小节完整源码见 <a href="https://github.com/frontend9/redux-demo/tree/master/demo-7" target="_blank" rel="noopener">demo-7</a></p>
+<h3 id="完整的-redux"><a href="#完整的-redux" class="headerlink" title="完整的 redux"></a>完整的 redux</h3><h4 id="退订"><a href="#退订" class="headerlink" title="退订"></a>退订</h4><p>不能退订的订阅都是耍流浪！我们修改下 store.subscribe 方法，增加退订功能</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">subscribe</span>(<span class="params">listener</span>) </span>&#123;</span><br><span class="line">    listeners.push(listener);</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">unsubscribe</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="keyword">const</span> index = listeners.indexOf(listener)</span><br><span class="line">      listeners.splice(index, <span class="number">1</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>使用</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> unsubscribe = store.subscribe(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">let</span> state = store.getState();</span><br><span class="line">  <span class="built_in">console</span>.log(state.counter.count);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">/*退订*/</span></span><br><span class="line">unsubscribe();</span><br></pre></td></tr></table></figure>
+
+<h4 id="中间件拿到的store"><a href="#中间件拿到的store" class="headerlink" title="中间件拿到的store"></a>中间件拿到的store</h4><p>现在的中间件拿到了完整的 store，他甚至可以修改我们的 subscribe 方法，按照最小开放策略，我们只用把 getState 给中间件就可以了！因为我们只允许你用 getState 方法！<br />修改下 applyMiddleware 中给中间件传的 store</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*const chain = middlewares.map(middleware =&gt; middleware(store));*/</span></span><br><span class="line"><span class="keyword">const</span> simpleStore = &#123; <span class="attr">getState</span>: store.getState &#125;;</span><br><span class="line"><span class="keyword">const</span> chain = middlewares.map(<span class="function"><span class="params">middleware</span> =&gt;</span> middleware(simpleStore));</span><br></pre></td></tr></table></figure>
+
+<h4 id="compose"><a href="#compose" class="headerlink" title="compose"></a>compose</h4><p>我们的 applyMiddleware 中，把 [A, B, C] 转换成 A(B(C(next)))，是这样实现的</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> chain = [A, B, C];</span><br><span class="line"><span class="keyword">let</span> dispatch = store.dispatch;</span><br><span class="line">chain.reverse().map(<span class="function"><span class="params">middleware</span> =&gt;</span> &#123;</span><br><span class="line">   dispatch = middleware(dispatch);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>redux 提供了一个 compose 方式，可以帮我们做这个事情</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> chain = [A, B, C];</span><br><span class="line">dispatch = compose(...chain)(store.dispatch)</span><br></pre></td></tr></table></figure>
+<p>看下他是如何实现的</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">compose</span>(<span class="params">...funcs</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (funcs.length === <span class="number">1</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> funcs[<span class="number">0</span>]</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> funcs.reduce(<span class="function">(<span class="params">a, b</span>) =&gt;</span> <span class="function">(<span class="params">...args</span>) =&gt;</span> a(b(...args)))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当然 compose 函数对于新人来说可能比较难理解，你只需要他是做什么的就行啦！</p>
+<h4 id="省略initState"><a href="#省略initState" class="headerlink" title="省略initState"></a>省略initState</h4><p>有时候我们创建 store 的时候不传 initState，我们怎么用？</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> store = createStore(reducer, &#123;&#125;, rewriteCreateStoreFunc);</span><br></pre></td></tr></table></figure>
+<p>redux 允许我们这样写</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> store = createStore(reducer, rewriteCreateStoreFunc);</span><br></pre></td></tr></table></figure>
+<p>我们仅需要改下 createStore 函数，如果第二个参数是一个object，我们认为他是 initState，如果是 function，我们就认为他是 rewriteCreateStoreFunc。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">craeteStore</span>(<span class="params">reducer, initState, rewriteCreateStoreFunc</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> initState === <span class="string">'function'</span>)&#123;</span><br><span class="line">    rewriteCreateStoreFunc = initState;</span><br><span class="line">    initState = <span class="literal">undefined</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-行代码的-replaceReducer"><a href="#2-行代码的-replaceReducer" class="headerlink" title="2 行代码的 replaceReducer"></a>2 行代码的 replaceReducer</h4><p>reducer 拆分后，和组件是一一对应的。我们就希望在做按需加载的时候，reducer也可以跟着组件在必要的时候再加载，然后用新的 reducer 替换老的 reducer。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> createStore = <span class="function"><span class="keyword">function</span> (<span class="params">reducer, initState</span>) </span>&#123;</span><br><span class="line">  ...</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">replaceReducer</span>(<span class="params">nextReducer</span>) </span>&#123;</span><br><span class="line">    reducer = nextReducer</span><br><span class="line">    <span class="comment">/*刷新一遍 state 的值，新来的 reducer 把自己的默认状态放到 state 树上去*/</span></span><br><span class="line">    dispatch(&#123; <span class="attr">type</span>: <span class="built_in">Symbol</span>() &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">  ...</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    ...</span><br><span class="line">    replaceReducer</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们来尝试使用下</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> reducer = combineReducers(&#123;</span><br><span class="line">  counter: counterReducer</span><br><span class="line">&#125;);</span><br><span class="line"><span class="keyword">const</span> store = createStore(reducer);</span><br><span class="line"><span class="comment">/*生成新的reducer*/</span></span><br><span class="line"><span class="keyword">const</span> nextReducer = combineReducers(&#123;</span><br><span class="line">  counter: counterReducer,</span><br><span class="line">  info: infoReducer</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">/*replaceReducer*/</span></span><br><span class="line">store.replaceReducer(nextReducer);</span><br></pre></td></tr></table></figure>
+<p>replaceReducer 示例源码见 <a href="https://github.com/frontend9/redux-demo/tree/master/demo-5" target="_blank" rel="noopener">demo-5</a></p>
+<h4 id="bindActionCreators"><a href="#bindActionCreators" class="headerlink" title="bindActionCreators"></a>bindActionCreators</h4><p>bindActionCreators 我们很少很少用到，一般只有在 react-redux 的 connect 实现中用到。<br />他是做什么的？他通过闭包，把 dispatch 和 actionCreator 隐藏起来，让其他地方感知不到 redux 的存在。<br />我们通过普通的方式来 隐藏 dispatch 和 actionCreator 试试，注意最后两行代码</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> reducer = combineReducers(&#123;</span><br><span class="line">  counter: counterReducer,</span><br><span class="line">  info: infoReducer</span><br><span class="line">&#125;);</span><br><span class="line"><span class="keyword">const</span> store = createStore(reducer);</span><br><span class="line"><span class="comment">/*返回 action 的函数就叫 actionCreator*/</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">increment</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    type: <span class="string">'INCREMENT'</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">setName</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    type: <span class="string">'SET_NAME'</span>,</span><br><span class="line">    name: name</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> actions = &#123;</span><br><span class="line">  increment: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> store.dispatch(increment.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>))</span><br><span class="line">  &#125;,</span><br><span class="line">  setName: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> store.dispatch(setName.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>))</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*注意：我们可以把 actions 传到任何地方去*/</span></span><br><span class="line"><span class="comment">/*其他地方在实现自增的时候，根本不知道 dispatch，actionCreator等细节*/</span></span><br><span class="line">actions.increment(); <span class="comment">/*自增*/</span></span><br><span class="line">actions.setName(<span class="string">'九部威武'</span>); <span class="comment">/*修改 info.name*/</span></span><br></pre></td></tr></table></figure>
+<p>我眼睛一看，这个 actions 生成的时候，好多公共代码，提取一下</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> actions = bindActionCreators(&#123; increment, setName &#125;, store.dispatch);</span><br></pre></td></tr></table></figure>
+<p>来看一下 bindActionCreators 的源码，超级简单（就是生成了刚才的 actions）</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*核心的代码在这里，通过闭包隐藏了 actionCreator 和 dispatch*/</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bindActionCreator</span>(<span class="params">actionCreator, dispatch</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> dispatch(actionCreator.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>))</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* actionCreators 必须是 function 或者 object */</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">bindActionCreators</span>(<span class="params">actionCreators, dispatch</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> actionCreators === <span class="string">'function'</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> bindActionCreator(actionCreators, dispatch)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> actionCreators !== <span class="string">'object'</span> || actionCreators === <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>()</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> keys = <span class="built_in">Object</span>.keys(actionCreators)</span><br><span class="line">  <span class="keyword">const</span> boundActionCreators = &#123;&#125;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; keys.length; i++) &#123;</span><br><span class="line">    <span class="keyword">const</span> key = keys[i]</span><br><span class="line">    <span class="keyword">const</span> actionCreator = actionCreators[key]</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> actionCreator === <span class="string">'function'</span>) &#123;</span><br><span class="line">      boundActionCreators[key] = bindActionCreator(actionCreator, dispatch)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> boundActionCreators</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>bindActionCreators 示例源码见 <a href="https://github.com/frontend9/redux-demo/tree/master/demo-8" target="_blank" rel="noopener">demo-8</a></p>
+<h4 id="大功告成"><a href="#大功告成" class="headerlink" title="大功告成"></a>大功告成</h4><p>完整的示例源码见 <a href="https://github.com/frontend9/redux-demo/tree/master/demo-9" target="_blank" rel="noopener">demo-9</a>，你可以和 <a href="https://github.com/reduxjs/redux/issues" target="_blank" rel="noopener">redux</a> 源码做一下对比，你会发现，我们已经实现了 redux 所有的功能了。<br />当然，为了保证代码的理解性，我们少了一些参数验证。比如 <code>createStore(reducer)</code>的参数 reducer 必须是 function 等等。</p>
+<h3 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a>最佳实践</h3><h4 id="纯函数"><a href="#纯函数" class="headerlink" title="纯函数"></a>纯函数</h4><p>什么是纯函数？<br />纯函数是这样一种函数，即相同的输入，永远会得到相同的输出，而且没有任何可观察的副作用。<br />通俗来讲，就两个要素</p>
+<ol>
+<li>相同的输入，一定会得到相同的输出</li>
+<li>不会有 “触发事件”，更改输入参数，依赖外部参数，打印 log 等等副作用</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*不是纯函数，因为同样的输入，输出结果不一致*/</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params"> count </span>)</span>&#123;</span><br><span class="line">   <span class="keyword">return</span> count + <span class="built_in">Math</span>.random();</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*不是纯函数，因为外部的 arr 被修改了*/</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">b</span>(<span class="params"> arr </span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> arr.push(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line">b(arr);</span><br><span class="line"><span class="built_in">console</span>.log(arr); <span class="comment">//[1, 2, 3, 1]</span></span><br><span class="line"><span class="comment">/*不是纯函数，以为依赖了外部的 x*/</span></span><br><span class="line"><span class="keyword">let</span> x = <span class="number">1</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">c</span>(<span class="params"> count </span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> count + x;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们的 reducer 计划函数，就必须是一个纯函数！<br /><strong>只要传入参数相同，返回计算得到的下一个 state 就一定相同。没有特殊情况、没有副作用，没有 API 请求、没有变量修改，单纯执行计算。</strong></p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>到了最后，我想把 redux 中关键的名词列出来，你每个都知道是干啥的吗？</p>
+<ul>
+<li>createStore<br>创建 store 对象，包含 getState, dispatch, subscribe, replaceReducer</li>
+<li>reducer<br>reducer 是一个计划函数，接收旧的 state 和 action，生成新的 state</li>
+<li>action<br>action 是一个对象，必须包含 type 字段</li>
+<li>dispatch<br><code>dispatch( action )</code> 触发 action，生成新的 state</li>
+<li>subscribe<br>实现订阅功能，每次触发 dispatch 的时候，会执行订阅函数</li>
+<li>combineReducers<br>多 reducer 合并成一个 reducer</li>
+<li>replaceReducer<br>替换 reducer 函数</li>
+<li>middleware<br>扩展 dispatch 函数！</li>
+</ul>
+<p>你再看 redux 流程图，是不是大彻大悟了？<br /><a href="https://link.juejin.im?target=https%3A%2F%2Fuser-images.githubusercontent.com%2F12526493%2F48312444-8ff2e100-e5e9-11e8-844a-48ffd9933265.png"></a><br /><a href="https://link.juejin.im?target=https%3A%2F%2Fuser-images.githubusercontent.com%2F12526493%2F48312444-8ff2e100-e5e9-11e8-844a-48ffd9933265.png"><img src="https://cdn.nlark.com/yuque/0/2019/webp/128853/1564750024043-bb461692-4aff-483a-a21d-657701930260.webp#align=left&display=inline&height=671&originHeight=671&originWidth=1240&size=0&status=done&width=1240" alt=""></a><br /></p>
+<hr>
+<h2 id="公众号"><a href="#公众号" class="headerlink" title="公众号"></a>公众号</h2><p>想要实时关注笔者最新的文章和最新的文档更新请关注公众号<strong>程序员面试官</strong>,后续的文章会优先在公众号更新.</p>
+<p><strong>简历模板:</strong> 关注公众号回复「模板」获取</p>
+<p><strong>《前端面试手册》:</strong> 配套于本指南的突击手册,关注公众号回复「fed」获取</p>
+<p><img src="https://xiaomuzhu-image.oss-cn-beijing.aliyuncs.com/d846f65d5025c4b6c4619662a0669503.png" alt="2019-08-12-03-18-41"></p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a style="word-wrap:break-word;" href="http://yoursite.com/2019/11/08/5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill/Vue/redux%E5%8E%9F%E7%90%86%E5%85%A8%E8%A7%A3/" title="redux原理全解" target="_blank" rel="external">http://yoursite.com/2019/11/08/5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill/Vue/redux%E5%8E%9F%E7%90%86%E5%85%A8%E8%A7%A3/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/chen08" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/chen08" target="_blank"><span class="text-dark">溟海</span><small class="ml-1x">Web Developer &amp; Designer</small></a></h3>
+        <div>天行健，君子以自强不息，地势坤，君子以厚德载物。 杀不死我的,终将使我强大 没有吃不了的苦,只有享不了的福</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2019/11/08/5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill/Vue/Vue%E9%9D%A2%E8%AF%95%E9%A2%98/" title="Vue面试题"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/11/08/5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill/Web/TCP%E9%9D%A2%E8%AF%95%E9%A2%98/" title="TCP面试题"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="Catalogue" role="button">
+        <span>[&nbsp;</span><span>Catalogue</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open alipay app scan this qrcode, buy me a coffee!</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open wechat app scan this qrcode, buy me a coffee!</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> alipay</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> wechat payment</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+
+
+<!-- custom analytics part create by xiamo -->
+<!-- <script defer src="https://cdn1.lncld.net/static/js/av-min-1.2.1.js"></script> -->
+<script defer src="/js/av-min-1.2.1.js"></script>
+<script defer>
+AV.init({
+  appId: 'ngFQzHw7z0HgQfrtn4En4WTN-gzGzoHsz',
+  appKey: 'W9hgBBfVDwRGJKoGp5a6HKpx'
+});
+
+function showTime(Counter) {
+	var query = new AV.Query(Counter);
+		var visitors= $('.leancloud_visitors');
+		query.greaterThanOrEqualTo("time", 0);		
+		query.find({
+			success: function(results) {
+				if (results.length == 0) {				
+					return;
+				}
+				var data = results;
+				visitors.each(function(){
+					var url = $(this).attr('id').trim();					
+					for (var i = 0; i < data.length; i++) {
+						var object = data[i];
+						var content = object.get('time');
+						var _url = object.get('url')
+						if(url == _url){
+							$(this).text(content);
+						}
+					}
+				})
+				
+			},
+			error: function(object, error) {
+				console.log("Error: " + error.code + " " + error.message);
+			}
+		});
+}
+
+function addCount(Counter) {
+	var Counter = AV.Object.extend("Counter");
+	url = $(".leancloud_visitors").attr('id').trim();
+	title = $(".leancloud_visitors").attr('data-flag-title').trim();
+	var query = new AV.Query(Counter);
+	query.equalTo("url", url);
+	query.find({
+		success: function(results) {
+			if (results.length > 0) {
+				var counter = results[0];
+				counter.fetchWhenSave(true);
+				counter.increment("time");
+				counter.save(null, {
+					success: function(counter) {
+						var content = counter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(counter, error) {
+						console.log('Failed to save Visitor num, with error message: ' + error.message);
+					}
+				});
+			} else {
+				var newcounter = new Counter();
+				newcounter.set("title", title);
+				newcounter.set("url", url);
+				newcounter.set("time", 1);
+				newcounter.save(null, {
+					success: function(newcounter) {
+					    console.log("newcounter.get('time')="+newcounter.get('time'));
+						var content = newcounter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(newcounter, error) {
+						console.log('Failed to create');
+					}
+				});
+			}
+		},
+		error: function(error) {
+			console.log('Error:' + error.code + " " + error.message);
+		}
+	});
+}
+$(function() {
+	var Counter = AV.Object.extend("Counter");
+	if ($('.leancloud_visitors').length == 1) {
+		addCount(Counter);
+	} else {
+		showTime(Counter);
+	}
+}); 
+</script>
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>

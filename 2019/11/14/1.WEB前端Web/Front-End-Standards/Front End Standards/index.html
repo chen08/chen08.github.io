@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Front End Standards | Hexo</title>
+  <script src="./js/jQuery.md5.js"></script>
+  <script>
+    
+    (function(){
+      localStorage.setItem('userinfo',hex_md5('123chen'))
+      
+      var localData = localStorage.getItem("userinfo");
+      // var localState = localStorage.getItem("state");
+        if(localStorage.getItem("state") === null){
+          var reason = window.prompt('请输入访问密码');
+          // var promptVal = window.prompt('请输入访问密码');
+          if(reason){
+              //填写内容并“确定”
+              var md5Prompt = hex_md5(reason)
+              //点击的是“确定” 
+              if (localData !== md5Prompt){
+                alert('密码错误！');
+                // history.back();
+                location.replace(location.href); 
+              }else{
+                // alert('0123');
+                localStorage.setItem('state',"1")
+              }
+          }
+          else if(reason === ""){
+              //未填写但“确定”
+              location.replace(location.href); 
+          }
+          else{
+            //“取消”事件
+            location.replace(location.href); 
+          }
+        }
+
+    })();
+  </script>
+ <link rel="alternate" href="/atom.xml" data="123chen" type="application/atom+xml">
+  <meta name="description" content="1. 规范说明此为前端开发团队遵循和约定的代码书写规范，意在提高代码的规范性和可维护性。此规范为参考规范，不全是硬性要求，部分硬性约定见下一条书写规范，统一团队编码规范和风格。让所有代码都是有规可循的，并且能够得到沉淀，减少重复劳动。   1.1 结构说明– 项目结构—-|—- CSS文件结构—-|—- JS文件结构   2. 书写规范2.1 样式与内容分离2.1.1 项目结构---   |---">
+<meta name="keywords" content="JavaScript,命名规范">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Front End Standards">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;14&#x2F;1.WEB%E5%89%8D%E7%AB%AFWeb&#x2F;Front-End-Standards&#x2F;Front%20End%20Standards&#x2F;index.html">
+<meta property="og:site_name" content="学习的敌人是自己的满足，要认真学习一点东西，必须从不自满开始。对自己，“学而不厌”，对人家，“诲人不倦”，我们应取这种态度。">
+<meta property="og:description" content="1. 规范说明此为前端开发团队遵循和约定的代码书写规范，意在提高代码的规范性和可维护性。此规范为参考规范，不全是硬性要求，部分硬性约定见下一条书写规范，统一团队编码规范和风格。让所有代码都是有规可循的，并且能够得到沉淀，减少重复劳动。   1.1 结构说明– 项目结构—-|—- CSS文件结构—-|—- JS文件结构   2. 书写规范2.1 样式与内容分离2.1.1 项目结构---   |---">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-11-15T03:39:38.000Z">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://yoursite.com/2019/11/14/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/Front%20End%20Standards/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="学习的敌人是自己的满足，要认真学习一点东西，必须从不自满开始。对自己，“学而不厌”，对人家，“诲人不倦”，我们应取这种态度。" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/chen08" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">溟海</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer &amp; Designer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Guangzhou, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+          <!-- . -->
+        
+        
+          <li class="menu-item menu-item-home">
+            <a href="/.">
+              
+              <i class="icon icon-home-fill"></i>
+              
+              <span class="menu-title">Home</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- archives -->
+        
+        
+          <li class="menu-item menu-item-archives">
+            <a href="/archives">
+              
+              <i class="icon icon-archives-fill"></i>
+              
+              <span class="menu-title">Archives</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- categories -->
+        
+        
+          <li class="menu-item menu-item-categories">
+            <a href="/categories">
+              
+              <i class="icon icon-folder"></i>
+              
+              <span class="menu-title">Categories</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- tags -->
+        
+        
+          <li class="menu-item menu-item-tags">
+            <a href="/tags">
+              
+              <i class="icon icon-tags"></i>
+              
+              <span class="menu-title">Tags</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- repository -->
+        
+        
+          <li class="menu-item menu-item-repository">
+            <a href="/repository">
+              
+              <i class="icon icon-project"></i>
+              
+              <span class="menu-title">Repository</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- books -->
+        
+        
+          <li class="menu-item menu-item-books">
+            <a href="/books">
+              
+              <i class="icon icon-book-fill"></i>
+              
+              <span class="menu-title">Books</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- links -->
+        
+        
+          <li class="menu-item menu-item-links">
+            <a href="/links">
+              
+              <i class="icon icon-friendship"></i>
+              
+              <span class="menu-title">Links</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- about -->
+        
+        
+          <li class="menu-item menu-item-about">
+            <a href="/about">
+              
+              <i class="icon icon-cup-fill"></i>
+              
+              <span class="menu-title">About</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- navigation/webstack/index.html -->
+        
+        
+          <li class="menu-item menu-item-navigation">
+            <a href="/navigation/webstack/index.html">
+              
+              <i class="icon icon-delicious"></i>
+              
+              <span class="menu-title">Navigation</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- navigation/webstack/word.html -->
+        
+        
+          <li style="display: none;" class="menu-item menu-item-fixed">
+            <a href="/navigation/webstack/word.html">
+              
+              <i class="icon icon-delicious"></i>
+              
+              <span class="menu-title">menu.fixed</span>
+            </a>
+          </li>
+        
+
+
+        
+      </ul>
+
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/1-WEB%E5%89%8D%E7%AB%AF/">1.WEB前端</a><span class="category-list-count">140</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/2-%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">2.编程语言</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/3-%E4%BA%A7%E5%93%81%E8%AE%BE%E8%AE%A1/">3.产品设计</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/4-%E7%AE%A1%E7%90%86%E8%90%A5%E9%94%80/">4.管理营销</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/5-%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87/">5.技能提升</a><span class="category-list-count">155</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/6-%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93/">6.读书总结</a><span class="category-list-count">9</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/" rel="tag">CSS</a><span class="tag-list-count">18</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Dart/" rel="tag">Dart</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES6/" rel="tag">ES6</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES7/" rel="tag">ES7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/English/" rel="tag">English</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flutter/" rel="tag">Flutter</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a><span class="tag-list-count">20</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IMAGE/" rel="tag">IMAGE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JQuery/" rel="tag">JQuery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a><span class="tag-list-count">224</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">JavaScript设计模式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript%E9%AB%98%E7%BA%A7%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" rel="tag">JavaScript高级程序设计</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jquery/" rel="tag">Jquery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mysql/" rel="tag">Mysql</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NETWORK/" rel="tag">NETWORK</a><span class="tag-list-count">13</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node/" rel="tag">Node</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/" rel="tag">PHP</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/" rel="tag">React</a><span class="tag-list-count">31</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJS/" rel="tag">RxJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SVG/" rel="tag">SVG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sass/" rel="tag">Sass</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/" rel="tag">Vue</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%AE%89%E5%85%A8/" rel="tag">WEB安全</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webpack/" rel="tag">Webpack</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/" rel="tag">jQuery</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodeJS/" rel="tag">nodeJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B9%A6%E5%8D%95/" rel="tag">书单</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B9%A6%E7%B1%8D/" rel="tag">书籍</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/" rel="tag">前端安全</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83/" rel="tag">命名规范</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag">小程序</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" rel="tag">性能优化</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8F%92%E4%BB%B6/" rel="tag">插件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A1%86%E6%9E%B6/" rel="tag">框架</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" rel="tag">浏览器</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%84%E4%BB%B6/" rel="tag">组件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%84%E8%8C%83/" rel="tag">规范</a><span class="tag-list-count">67</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6%E5%AD%A6%E4%B9%A0/" rel="tag">软件学习</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a><span class="tag-list-count">153</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/CSS/" style="font-size: 13.71px;">CSS</a> <a href="/tags/Dart/" style="font-size: 13px;">Dart</a> <a href="/tags/ES6/" style="font-size: 13px;">ES6</a> <a href="/tags/ES7/" style="font-size: 13px;">ES7</a> <a href="/tags/English/" style="font-size: 13.18px;">English</a> <a href="/tags/Flutter/" style="font-size: 13px;">Flutter</a> <a href="/tags/Git/" style="font-size: 13.12px;">Git</a> <a href="/tags/HTML/" style="font-size: 13.76px;">HTML</a> <a href="/tags/HTTP/" style="font-size: 13.18px;">HTTP</a> <a href="/tags/IMAGE/" style="font-size: 13px;">IMAGE</a> <a href="/tags/JAVA/" style="font-size: 13.06px;">JAVA</a> <a href="/tags/JQuery/" style="font-size: 13px;">JQuery</a> <a href="/tags/JavaScript/" style="font-size: 14px;">JavaScript</a> <a href="/tags/JavaScript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 13px;">JavaScript设计模式</a> <a href="/tags/JavaScript%E9%AB%98%E7%BA%A7%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 13px;">JavaScript高级程序设计</a> <a href="/tags/Jquery/" style="font-size: 13px;">Jquery</a> <a href="/tags/Mysql/" style="font-size: 13px;">Mysql</a> <a href="/tags/NETWORK/" style="font-size: 13.53px;">NETWORK</a> <a href="/tags/Node/" style="font-size: 13.35px;">Node</a> <a href="/tags/PHP/" style="font-size: 13.24px;">PHP</a> <a href="/tags/React/" style="font-size: 13.82px;">React</a> <a href="/tags/RxJS/" style="font-size: 13px;">RxJS</a> <a href="/tags/SVG/" style="font-size: 13px;">SVG</a> <a href="/tags/Sass/" style="font-size: 13px;">Sass</a> <a href="/tags/TypeScript/" style="font-size: 13.29px;">TypeScript</a> <a href="/tags/Vue/" style="font-size: 13.65px;">Vue</a> <a href="/tags/WEB%E5%AE%89%E5%85%A8/" style="font-size: 13.29px;">WEB安全</a> <a href="/tags/Webpack/" style="font-size: 13.59px;">Webpack</a> <a href="/tags/jQuery/" style="font-size: 13.65px;">jQuery</a> <a href="/tags/nodeJS/" style="font-size: 13px;">nodeJS</a> <a href="/tags/python/" style="font-size: 13px;">python</a> <a href="/tags/%E4%B9%A6%E5%8D%95/" style="font-size: 13px;">书单</a> <a href="/tags/%E4%B9%A6%E7%B1%8D/" style="font-size: 13.06px;">书籍</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 13px;">前端</a> <a href="/tags/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/" style="font-size: 13.06px;">前端安全</a> <a href="/tags/%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83/" style="font-size: 13.41px;">命名规范</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 13px;">小程序</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 13.06px;">工具</a> <a href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" style="font-size: 13.47px;">性能优化</a> <a href="/tags/%E6%8F%92%E4%BB%B6/" style="font-size: 13px;">插件</a> <a href="/tags/%E6%A1%86%E6%9E%B6/" style="font-size: 13px;">框架</a> <a href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" style="font-size: 13px;">浏览器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13.18px;">算法</a> <a href="/tags/%E7%BB%84%E4%BB%B6/" style="font-size: 13px;">组件</a> <a href="/tags/%E8%A7%84%E8%8C%83/" style="font-size: 13.88px;">规范</a> <a href="/tags/%E8%BD%AF%E4%BB%B6%E5%AD%A6%E4%B9%A0/" style="font-size: 13px;">软件学习</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 13.35px;">随笔</a> <a href="/tags/%E9%9D%A2%E8%AF%95/" style="font-size: 13.94px;">面试</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a><span class="archive-list-count">312</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/27/1.WEB%E5%89%8D%E7%AB%AFWeb/React/react-router/" class="title">1.WEB前端Web/React/react-router</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-27T13:24:04.185Z" itemprop="datePublished">2020-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/27/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/sass-guide/" class="title">1.WEB前端Web/Front-End-Standards/sass-guide</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-27T13:24:03.487Z" itemprop="datePublished">2020-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/27/hello-world/" class="title">Hello World</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-27T13:24:03.028Z" itemprop="datePublished">2020-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/6-%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93/">6.读书总结</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/26/6.%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93Book/%E4%BA%BA%E7%94%9F%E9%81%93%E7%90%86/" class="title">人生道理</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-26T01:12:57.000Z" itemprop="datePublished">2020-01-26</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/2-%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">2.编程语言</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/15/2.%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80Programming/English/%E7%94%9F%E6%B4%BB%E8%8B%B1%E8%AF%AD/" class="title">生活英语</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-15T01:12:57.000Z" itemprop="datePublished">2020-01-15</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">Catalogue</h3>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-规范说明"><span class="toc-number">1.</span> <span class="toc-text">1. 规范说明</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-结构说明"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 结构说明</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-书写规范"><span class="toc-number">2.</span> <span class="toc-text">2. 书写规范</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-样式与内容分离"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 样式与内容分离</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-1-项目结构"><span class="toc-number">2.1.1.</span> <span class="toc-text">2.1.1 项目结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-2-重构步骤约定"><span class="toc-number">2.1.2.</span> <span class="toc-text">2.1.2 重构步骤约定</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-3-命名规范"><span class="toc-number">2.1.3.</span> <span class="toc-text">2.1.3 命名规范</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-4-格式-amp-编码"><span class="toc-number">2.1.4.</span> <span class="toc-text">2.1.4 格式&amp;编码</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-CSS-细化规范"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 CSS 细化规范</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-1-CSS-文件结构"><span class="toc-number">2.2.1.</span> <span class="toc-text">2.2.1 CSS 文件结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-2-CSS-含Less-文件结构"><span class="toc-number">2.2.2.</span> <span class="toc-text">2.2.2 CSS(含Less) 文件结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-3-使用Less"><span class="toc-number">2.2.3.</span> <span class="toc-text">2.2.3 使用Less</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-4-CSS-reset"><span class="toc-number">2.2.4.</span> <span class="toc-text">2.2.4 CSS reset</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-5-CSS-注释格式约定"><span class="toc-number">2.2.5.</span> <span class="toc-text">2.2.5 CSS 注释格式约定</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-6-CSS各属性的排列顺序：不做硬性要求"><span class="toc-number">2.2.6.</span> <span class="toc-text">2.2.6 CSS各属性的排列顺序：不做硬性要求</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-7-CSS嵌套规则"><span class="toc-number">2.2.7.</span> <span class="toc-text">2.2.7 CSS嵌套规则</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-8-CSS格式化"><span class="toc-number">2.2.8.</span> <span class="toc-text">2.2.8 CSS格式化</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-XHTML-细化规范"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 XHTML 细化规范</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-1-HTML-注释格式约定"><span class="toc-number">2.3.1.</span> <span class="toc-text">2.3.1 HTML 注释格式约定</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-2-HTML嵌套规则"><span class="toc-number">2.3.2.</span> <span class="toc-text">2.3.2 HTML嵌套规则</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-4-第一行统一使用HTML5标准："><span class="toc-number">2.3.3.</span> <span class="toc-text">2.3.4 * 第一行统一使用HTML5标准：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-5-Meta-的使用：（需要根据具体需求按需选择）可参看：cool-head"><span class="toc-number">2.3.4.</span> <span class="toc-text">2.3.5 Meta 的使用：（需要根据具体需求按需选择）可参看：cool-head</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-JS-细化规范"><span class="toc-number">2.4.</span> <span class="toc-text">2.4 JS 细化规范</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-4-1-JS-文件结构"><span class="toc-number">2.4.1.</span> <span class="toc-text">2.4.1 JS 文件结构</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#2-4-2-jQuery-Call"><span class="toc-number">2.4.1.1.</span> <span class="toc-text">2.4.2 jQuery Call</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-4-3-jQuery-Plugin"><span class="toc-number">2.4.1.2.</span> <span class="toc-text">2.4.3 jQuery Plugin</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-4-4-JSON格式规范"><span class="toc-number">2.4.1.3.</span> <span class="toc-text">2.4.4 JSON格式规范</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTML-细化规范"><span class="toc-number">2.5.</span> <span class="toc-text">HTML 细化规范</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5-Responsive-Web-规范"><span class="toc-number">2.6.</span> <span class="toc-text">2.5 Responsive Web 规范</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-1-响应式实现途径"><span class="toc-number">2.6.1.</span> <span class="toc-text">2.5.1 响应式实现途径</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-2-响应式解决方案"><span class="toc-number">2.6.2.</span> <span class="toc-text">2.5.2 响应式解决方案</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-Newletter-制作规范"><span class="toc-number">2.7.</span> <span class="toc-text">2.6 Newletter 制作规范</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-7-生产力工具推荐"><span class="toc-number">2.8.</span> <span class="toc-text">2.7 生产力工具推荐</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-7-1-for-Mac-OS"><span class="toc-number">2.8.1.</span> <span class="toc-text">2.7.1 for Mac OS</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#2-7-1-1-前端相关工具-Mac"><span class="toc-number">2.8.1.1.</span> <span class="toc-text">2.7.1.1 前端相关工具(Mac)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-7-1-2-其他效率工具"><span class="toc-number">2.8.1.2.</span> <span class="toc-text">2.7.1.2 其他效率工具</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-7-2-1-前端相关工具-Windows"><span class="toc-number">2.8.1.3.</span> <span class="toc-text">2.7.2.1 前端相关工具(Windows)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-7-2-2-其他效率工具-Windows"><span class="toc-number">2.8.1.4.</span> <span class="toc-text">2.7.2.2 其他效率工具(Windows)</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-7-3-其他收集"><span class="toc-number">2.8.2.</span> <span class="toc-text">2.7.3 其他收集</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-8-相关技巧"><span class="toc-number">2.9.</span> <span class="toc-text">2.8 相关技巧</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-9-参考数据"><span class="toc-number">2.10.</span> <span class="toc-text">2.9 参考数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用团队"><span class="toc-number">2.11.</span> <span class="toc-text">使用团队</span></a></li></ol></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-1.WEB前端Web/Front-End-Standards/Front End Standards" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Front End Standards
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/11/14/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/Front%20End%20Standards/" class="article-date">
+	  <time datetime="2019-11-14T01:12:57.000Z" itemprop="datePublished">2019-11-14</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/1-WEB%E5%89%8D%E7%AB%AF/">1.WEB前端</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/JavaScript/" rel="tag">JavaScript</a>, <a class="article-tag-link" href="/tags/%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83/" rel="tag">命名规范</a>
+  </span>
+
+
+        
+
+	<span class="article-read hidden-xs">
+    	<i class="icon icon-eye-fill" aria-hidden="true"></i>
+    	<span id="/2019/11/14/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/Front%20End%20Standards/" class="leancloud_visitors"  data-flag-title="Front End Standards">0</span>
+    </span>
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/11/14/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/Front%20End%20Standards/#comments" class="article-comment-link">Comments</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count: 3.5k(words)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">Read Count: 16(minutes)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h2 id="1-规范说明"><a href="#1-规范说明" class="headerlink" title="1. 规范说明"></a>1. 规范说明</h2><p>此为前端开发团队遵循和约定的代码书写规范，意在提高代码的规范性和可维护性。<br>此规范为参考规范，不全是硬性要求，部分硬性约定见下一条<a href="#2">书写规范</a>，统一团队编码规范和风格。让所有代码都是有规可循的，并且能够得到沉淀，减少重复劳动。  </p>
+<h3 id="1-1-结构说明"><a href="#1-1-结构说明" class="headerlink" title="1.1 结构说明"></a>1.1 结构说明</h3><p>– <a href="#项目结构">项目结构</a><br>—-|—- <a href="#css-文件结构">CSS文件结构</a><br>—-|—- <a href="#js-文件结构">JS文件结构</a>  </p>
+<h2 id="2-书写规范"><a href="#2-书写规范" class="headerlink" title="2. 书写规范"></a>2. 书写规范</h2><h3 id="2-1-样式与内容分离"><a href="#2-1-样式与内容分离" class="headerlink" title="2.1 样式与内容分离"></a>2.1 样式与内容分离</h3><h4 id="2-1-1-项目结构"><a href="#2-1-1-项目结构" class="headerlink" title="2.1.1 项目结构"></a>2.1.1 项目结构</h4><pre><code>--- 
+ |---- index.html             入口页    
+ |---- js/                    JS //具体见JS细化结构                 
+ |---- css/                   CSS //具体见CSS细化结构</code></pre><h4 id="2-1-2-重构步骤约定"><a href="#2-1-2-重构步骤约定" class="headerlink" title="2.1.2 重构步骤约定"></a>2.1.2 重构步骤约定</h4><ol>
+<li><code>index.html</code> 全部样式附着于 <code>class=&quot;xxx&quot;</code> <strong>注：</strong> <em>此时文件中不包含任何一个 id=”xxx”</em></li>
+<li>为上一步书写 CSS style  </li>
+</ol>
+<p><strong>[至此重构完成]</strong><br>3. 开始书写<code>js</code>交互文件，使用 <code>ID</code> 和 <code>Class</code> 定位被操作句柄<br>4. 向 <code>index.html</code> 中需要的地方添加 <code>id=&quot;xxx&quot;</code> 及 <code>data-xxx=&quot;xxx&quot;</code><br><strong>[至此交互效果完成]</strong></p>
+<h4 id="2-1-3-命名规范"><a href="#2-1-3-命名规范" class="headerlink" title="2.1.3 命名规范"></a>2.1.3 命名规范</h4><ul>
+<li>文件及文件夹: 全部英文小写字母+数字或连接符”<code>-</code> , <code>_</code> “，不可出现其他字符<br>如：<code>../css/style.css, jquery.1.x.x.js</code> </li>
+<li>文件：调用 <code>/libs</code> 文件需包含版本号，压缩文件需包含<code>min</code>关键词，其他插件则可不包含<br>如：<code>/libs/jquery.1.9.1.js</code> <code>/libs/modernizr-1.7.min.js</code> <code>fileuploader.js</code> <code>plugins.js</code></li>
+<li>ID: <a href="http://zh.wikipedia.org/wiki/%E5%8C%88%E7%89%99%E5%88%A9%E5%91%BD%E5%90%8D%E6%B3%95" target="_blank" rel="noopener" title="Wiki:匈牙利命名法">匈牙利命名法</a> &amp; <a href="http://zh.wikipedia.org/wiki/%E9%A7%9D%E5%B3%B0%E5%BC%8F%E5%A4%A7%E5%B0%8F%E5%AF%AB" target="_blank" rel="noopener" title="小駝峰式命名法">小駝峰式命名法</a><br>如：<code>firstName</code> <code>topBoxList</code> <code>footerCopyright</code></li>
+<li>Class: [减号连接符]<br>如：<code>top-item</code> <code>main-box</code> <code>box-list-item-1</code></li>
+<li>尽量使用语义明确的单词命名，避免 <code>left</code> <code>bottom</code> 等方位性的词语</li>
+</ul>
+<h4 id="2-1-4-格式-amp-编码"><a href="#2-1-4-格式-amp-编码" class="headerlink" title="2.1.4 格式&amp;编码"></a>2.1.4 格式&amp;编码</h4><ul>
+<li>文本文件： <code>.xxx</code> UTF-8_(无BOM)_ 编码</li>
+<li>图片文件： <code>.png</code> <em>(PNG-24)</em> <code>.jpg</code> <em>(压缩率8-12)</em></li>
+<li>动态图片： <code>.gif</code></li>
+<li>压缩文件： <code>.tar.gz</code> <code>.zip</code></li>
+</ul>
+<h3 id="2-2-CSS-细化规范"><a href="#2-2-CSS-细化规范" class="headerlink" title="2.2 CSS 细化规范"></a>2.2 CSS 细化规范</h3><h4 id="2-2-1-CSS-文件结构"><a href="#2-2-1-CSS-文件结构" class="headerlink" title="2.2.1 CSS 文件结构"></a>2.2.1 CSS 文件结构</h4><pre><code>--- ../css/
+ |---- css/libs/reset.css                  CSS reset文件
+ |---- … … 
+ |---- css/images/                         主 CSS-sprite 图片     
+ |---- css/style.css                       主 CSS 样式表
+ |---- … … 
+ |---- css/images/xxx/sprite.png           xxx 的 CSS-sprite 图片
+ |---- css/xxx-style.css                   xxx 的 样式表</code></pre><h4 id="2-2-2-CSS-含Less-文件结构"><a href="#2-2-2-CSS-含Less-文件结构" class="headerlink" title="2.2.2 CSS(含Less) 文件结构"></a>2.2.2 CSS(含Less) 文件结构</h4><pre><code>--- ../css/
+ |---- css/libs/reset.less            CSS reset文件
+ |---- css/libs/elements.less         Less 函数复用文件
+ |---- … … 
+ |---- css/images/                         主 CSS-sprite 图片     
+ |---- css/style.less                      主样式Less
+ |---- css/style.css                       less -&gt; css 自动生成
+ |---- … … 
+ |---- css/images/xxx/sprite.png           xxx 的 CSS-sprite 图片
+ |---- css/xxx-style.less                  xxx 的 Less
+ |---- css/xxx-style.css                   less -&gt; css 自动生成</code></pre><h4 id="2-2-3-使用Less"><a href="#2-2-3-使用Less" class="headerlink" title="2.2.3 使用Less"></a>2.2.3 使用Less</h4><p>在 <code>.less</code>文件头部引入 <a href="https://github.com/hzlzh/cool-head/blob/master/Template/css/libs/reset.less" target="_blank" rel="noopener" title="reset.less from HTML5 Boilerplate">reset.less</a> &amp; <a href="https://github.com/hzlzh/cool-head/blob/master/Template/css/libs/elements.less" target="_blank" rel="noopener" title="elements.less from lesselements">elements.less</a>，之后调用如下属性传参即可，具体使用说明见 -&gt; <a href="http://lesselements.com/" target="_blank" rel="noopener">Lesselements</a> 官方文档   </p>
+<pre><code>@import &quot;libs/reset.less&quot;;  
+@import &quot;libs/elements.less&quot;;
+
+.gradient
+.bw-gradient
+.bordered
+.drop-shadow
+.rounded
+.border-radius
+.opacity
+.transition-duration
+.rotation
+.scale
+.transition
+.inner-shadow
+.box-shadow
+.columns
+.translate</code></pre><h4 id="2-2-4-CSS-reset"><a href="#2-2-4-CSS-reset" class="headerlink" title="2.2.4 CSS reset"></a>2.2.4 CSS reset</h4><p>CSS reset 文件使用：<a href="https://github.com/hzlzh/cool-head/blob/master/Template/css/libs/reset.css" target="_blank" rel="noopener" title="CSS reset 文件">reset.css</a> 或 <a href="https://github.com/hzlzh/cool-head/blob/master/Template/css/libs/reset.less" target="_blank" rel="noopener" title="reset.less from HTML5 Boilerplate">reset.less</a>   </p>
+<ul>
+<li>reset文件用于重设各个浏览器的默认样式方案，解决其引起的耦合问题。  </li>
+<li>也可使用 <code>.clearfix</code> 清除浮动</li>
+</ul>
+<h4 id="2-2-5-CSS-注释格式约定"><a href="#2-2-5-CSS-注释格式约定" class="headerlink" title="2.2.5 CSS 注释格式约定"></a>2.2.5 CSS 注释格式约定</h4><pre><code>/*
+@name: Drop Down Menu
+@description: Style of top bar drop down menu.
+@require: reset.css
+@author: Andy Huang(andyahung@geekpark.net)
+*/</code></pre><p><em>其中，@require为可选项</em> </p>
+<ul>
+<li>CSS换行制表：使用 2 <del>或4</del> 个空格，而非[Tab]</li>
+<li>书写格式：<ul>
+<li>CSS名称+冒号+属性<br>如：<code>.box1 {float:left;}</code></li>
+<li>建议保留<code>{</code>左侧空格，字体名用<code>\</code>包含<br>如：<code>.box1,.box2,.box3 {font-family:Courier,&#39;Courier New&#39;;}</code></li>
+<li>避免中文，或使用转义，推荐前者<br>如：<code>font-family: &quot;Microsoft YaHei&quot;;</code> <code>font-family:\5fae\8f6f\96c5\9ed1;</code></li>
+</ul>
+</li>
+</ul>
+<h4 id="2-2-6-CSS各属性的排列顺序：不做硬性要求"><a href="#2-2-6-CSS各属性的排列顺序：不做硬性要求" class="headerlink" title="2.2.6 CSS各属性的排列顺序：不做硬性要求"></a>2.2.6 CSS各属性的排列顺序：不做硬性要求</h4><p><em>如：以下2种顺序均可</em></p>
+<pre><code>.box {
+  /* 顺序1 */
+  background: none repeat scroll 0 0 transparent;
+  bottom: 11px;
+  position: relative;
+  width: 22px;
+  z-index: 33;
+}
+.box {
+  /* 顺序2 */
+  z-index: 33;
+  width: 22px;
+  bottom: 11px;
+  background: transparent none repeat scroll 0 0 ;
+  position: relative;
+}</code></pre><h4 id="2-2-7-CSS嵌套规则"><a href="#2-2-7-CSS嵌套规则" class="headerlink" title="2.2.7 CSS嵌套规则"></a>2.2.7 CSS嵌套规则</h4><pre><code>/* 推荐嵌套层级 */
+.ui-icon-rarr{}
+.ui-icon-larr{}
+.ui-title{}
+.ui-nav .ui-list{}
+.ui-table .ui-list{}
+
+/* 不推荐 */
+.ui-icon-rarr{}
+.ui-icon-larr{}
+.ui-title{}
+.ui-list{}
+.ui-nav{}</code></pre><h4 id="2-2-8-CSS格式化"><a href="#2-2-8-CSS格式化" class="headerlink" title="2.2.8 CSS格式化"></a>2.2.8 CSS格式化</h4><p>勿格式化，保留下面这种格式，增加可读性和可维护性，后期后台程序(如：PHP/Python)会将CSS压缩成 <strong>一行</strong> 输出：</p>
+<pre><code>.box{
+  /* 勿格式化，增加可读性 */
+  background: none repeat scroll 0 0 transparent;
+  bottom: 11px;
+  position: relative;
+  width: 22px;
+  z-index: 33;
+}</code></pre><h3 id="2-3-XHTML-细化规范"><a href="#2-3-XHTML-细化规范" class="headerlink" title="2.3 XHTML 细化规范"></a>2.3 XHTML 细化规范</h3><h4 id="2-3-1-HTML-注释格式约定"><a href="#2-3-1-HTML-注释格式约定" class="headerlink" title="2.3.1 HTML 注释格式约定"></a>2.3.1 HTML 注释格式约定</h4><pre><code>&lt;!--
+@name: Drop Down Menu
+@description: Style of top bar drop down menu.
+@author: Andy Huang(andyahung@geekpark.net)
+--&gt;
+
+&lt;div id=&quot;header&quot;&gt;
+    &lt;div class=&quot;xxx&quot;&gt;
+        &lt;span&gt;HTML行内注释格式&lt;/span&gt;
+    &lt;/div&gt;
+&lt;/div&gt;&lt;!-- #header end--&gt;</code></pre><ul>
+<li>HTML换行缩进：<strong>采用 2 空格</strong></li>
+</ul>
+<h4 id="2-3-2-HTML嵌套规则"><a href="#2-3-2-HTML嵌套规则" class="headerlink" title="2.3.2 HTML嵌套规则"></a>2.3.2 HTML嵌套规则</h4><pre><code>/* 推荐嵌套层级 */
+  &lt;ul class=&quot;ui-nav&quot;&gt;
+    &lt;li class=&quot;ui-nav-item&quot;&gt; some text
+      &lt;ul class=&quot;ui-nav-item-child&quot;&gt;
+        &lt;li&gt; some text
+          &lt;ul class=&quot;ui-list&quot;&gt;
+            &lt;li class=&quot;ui-list-item&quot;&gt; some text&lt;/li&gt;
+          &lt;/ul
+        ...
+       &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li
+    ...
+  &lt;/ul&gt;</code></pre><h4 id="2-3-4-第一行统一使用HTML5标准："><a href="#2-3-4-第一行统一使用HTML5标准：" class="headerlink" title="2.3.4 * 第一行统一使用HTML5标准："></a>2.3.4 * 第一行统一使用HTML5标准：<!DOCTYPE html></h4><pre><code>&lt;!DOCTYPE html&gt;
+&lt;html dir=&quot;ltr&quot; lang=&quot;zh-CN&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot; /&gt;
+  &lt;title&gt;极客公园 | 创新者社区&lt;/title&gt;
+  &lt;meta name=&quot;keywords&quot; content=&quot;xxxx, xxx, xxxxx&quot; /&gt;
+  &lt;meta name=&quot;description&quot; content=&quot;xxxxxxxxxxxxxxxxxxxx&quot; /&gt;</code></pre><h4 id="2-3-5-Meta-的使用：（需要根据具体需求按需选择）可参看：cool-head"><a href="#2-3-5-Meta-的使用：（需要根据具体需求按需选择）可参看：cool-head" class="headerlink" title="2.3.5 Meta 的使用：（需要根据具体需求按需选择）可参看：cool-head"></a>2.3.5 Meta 的使用：（需要根据具体需求按需选择）可参看：<a href="https://github.com/hzlzh/cool-head" target="_blank" rel="noopener">cool-head</a></h4><pre><code>&lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge,chrome=1&quot;&gt;
+&lt;meta http-equiv=&quot;Cache-Control&quot; content=&quot;max-age=7200&quot; /&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+&lt;link rel=&quot;alternate&quot; type=&quot;application/rss+xml&quot; title=&quot;RSS 2.0&quot; href=&quot;http://feeds.geekpark.net/&quot; /&gt;
+&lt;link rel=&quot;shortcut icon&quot; href=&quot;favicon.ico&quot;&gt;
+&lt;link rel=&quot;apple-touch-icon&quot; href=&quot;/apple-touch-icon.png&quot;&gt;
+
+&lt;script type=&quot;text/javascript&quot; src=&quot;/js/xxx.js&quot;&gt;&lt;/script&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;/css/xxx.css&quot;&gt;
+
+&lt;script type=&quot;text/javascript&quot;&gt;
+    //Google 统计代码 的位置在离&lt;/head&gt;最近的位置
+&lt;/script&gt;</code></pre>  </head>
+
+<ul>
+<li><code>&lt;img&gt;</code>标签默认缺省格式：<code>&lt;img src=&quot;xxx.png&quot; alt=&quot;缺省时文字&quot; /&gt;</code> 避免出现[src=”” 问题]</li>
+<li><code>&lt;a&gt;</code>标签缺省格式：<code>&lt;a href=&quot;###&quot; title=&quot;链接名称&quot;&gt;xxx&lt;/&gt;</code> 注：<code>target=&quot;_blank&quot;</code> 根据需求决定  </li>
+<li><code>&lt;a&gt;</code>标签预留链接占位符使用<code>###</code>，参见：[a标签占位符问题]</li>
+<li>所有标签需要符合XHTML标准闭合</li>
+<li>一律统一标签结尾斜杠的书写形式：<code>&lt;br /&gt;</code> <code>&lt;hr /&gt;</code> 注意之间空格</li>
+<li>避免使用已过时标签，如：<code>&lt;b&gt;</code> <code>&lt;u&gt;</code> <code>&lt;i&gt;</code> 而用 <code>&lt;strong&gt;</code> <code>&lt;em&gt;</code>等代替</li>
+<li>使用<code>data-xxx</code>来添加自定义数据，如：<code>&lt;input data-xxx=&quot;yyy&quot;/&gt;</code></li>
+<li>避免使用<code>style=&quot;xxx:xxx;&quot;</code>的内联样式表</li>
+<li>特殊符号使用参考<a href="http://www.w3school.com.cn/html/html_entities.asp" target="_blank" rel="noopener">HTML 符号实体</a></li>
+</ul>
+<h3 id="2-4-JS-细化规范"><a href="#2-4-JS-细化规范" class="headerlink" title="2.4 JS 细化规范"></a>2.4 JS 细化规范</h3><h4 id="2-4-1-JS-文件结构"><a href="#2-4-1-JS-文件结构" class="headerlink" title="2.4.1 JS 文件结构"></a>2.4.1 JS 文件结构</h4><pre><code>---/js/
+|---- /libs/plugin-1/       使用到的js插件1  
+|---- /libs/plugin-2/       使用到的js插件2  
+|---- /libs/plugin-3/       使用到的js插件3  
+|---- script.js             单独书写的js  
+|---- plugins.js            调用的plugins汇总  
+|---- jquery-1.9.x.min.js   调用jq库文件  </code></pre><ul>
+<li>JS 换行缩进：采用 4 空格</li>
+<li>结束行需添加分号<code>;</code></li>
+<li>jQuery变量要求首字符为 <code>$</code>, 私有变量:首字符为<code>_</code>; 尽量避免全局变量.</li>
+<li>避免使用 eval()，setTimeOut使用调用函数，考虑重绘，回流 操作对页面影响  参看：<a href="http://www.zhangxinxu.com/wordpress/2010/01/%E5%9B%9E%E6%B5%81%E4%B8%8E%E9%87%8D%E7%BB%98%EF%BC%9Acss%E6%80%A7%E8%83%BD%E8%AE%A9javascript%E5%8F%98%E6%85%A2%EF%BC%9F/" target="_blank" rel="noopener" title="重绘,回流参考">reflows，repaints</a></li>
+<li>JS调试使用<code>console.log()</code>及<code>console.dir()</code>进行，避免使用弹出框，线上版需要注释所有调试代码</li>
+<li>JS压缩混淆工具: <a href="http://javascriptcompressor.com/" target="_blank" rel="noopener" title="JS 压缩和混淆">JS Compressor</a>  如果使用了压缩，需要留 <code>name-src.js</code>在同路径供今后修改使用</li>
+</ul>
+<h5 id="2-4-2-jQuery-Call"><a href="#2-4-2-jQuery-Call" class="headerlink" title="2.4.2 jQuery Call"></a>2.4.2 jQuery Call</h5><pre><code>&lt;!-- Grab Google CDN jQuery. fall back to local if necessary --&gt;  
+&lt;script src=&quot;http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js&quot;&gt;&lt;/script&gt;  
+&lt;script&gt;!window.jQuery &amp;&amp; document.write(&apos;&lt;script src=&quot;js/jquery-1.7.2.min.js&quot;&gt;&lt;\/script&gt;&apos;)&lt;/script&gt;            </code></pre><h5 id="2-4-3-jQuery-Plugin"><a href="#2-4-3-jQuery-Plugin" class="headerlink" title="2.4.3 jQuery Plugin"></a>2.4.3 jQuery Plugin</h5><ul>
+<li>IE对HTML5标签支持，以及浏览器特性检测：<a href="http://modernizr.com/download/" target="_blank" rel="noopener">Modernizr</a> &amp; <a href="https://github.com/aFarkas/html5shiv" target="_blank" rel="noopener">html5shiv</a></li>
+<li><del>IE6 PNG 图片支持：<a href="http://www.dillerdesign.com/experiment/DD_belatedPNG/" target="_blank" rel="noopener">DD_belatedPNG</a></del></li>
+<li>定制&amp;统一 浏览器的滚动条样式：<a href="https://github.com/thomd/jquery-scroll/" target="_blank" rel="noopener">jquery-scroll</a> &amp; <a href="https://github.com/Charuru/lionbars" target="_blank" rel="noopener">Lionbars</a></li>
+<li>hover提示效果文字：<a href="http://twitter.github.com/bootstrap/javascript.html#tooltips" target="_blank" rel="noopener">bootstrap-tooltips</a> &amp; <a href="https://github.com/jaz303/tipsy" target="_blank" rel="noopener">tipsy</a></li>
+<li>滚动条跟随nav效果：<a href="http://twitter.github.com/bootstrap/javascript.html#scrollspy" target="_blank" rel="noopener">bootstrap-scrollspy</a></li>
+<li>提示冒泡文字：<a href="https://github.com/jamescryer/grumble.js" target="_blank" rel="noopener">grumble.js</a></li>
+<li>导航栏过渡效果：<a href="http://www.gmarwaha.com/blog/2007/08/23/lavalamp-for-jquery-lovers/" target="_blank" rel="noopener">lavalamp</a></li>
+<li>移动设备的滚动效果：<a href="https://github.com/cubiq/iscroll" target="_blank" rel="noopener">iscroll 4</a></li>
+<li>Mac OS Lion 风格的滚动条：<a href="https://github.com/Charuru/lionbars" target="_blank" rel="noopener">Lionbars</a></li>
+<li>弹性SlideShow：<a href="https://github.com/Mottie/Kwicks" target="_blank" rel="noopener">kwicks for jQuery</a></li>
+<li>瀑布流：<a href="https://github.com/desandro/isotope" target="_blank" rel="noopener">isotope</a></li>
+<li>抖动效果：<a href="https://gist.github.com/3270711" target="_blank" rel="noopener">jQ shake</a></li>
+<li>LightBox：<a href="https://github.com/fancyapps/fancyBox" target="_blank" rel="noopener">fancyBox</a></li>
+<li>KenDo UI：<a href="http://www.kendoui.com/purchase.aspx" target="_blank" rel="noopener">KenDo UI</a></li>
+<li>textarea自适应高度：<a href="http://unwrongest.com/projects/elastic/" target="_blank" rel="noopener">elastic</a></li>
+<li>提示区域 &amp; 提示层：<a href="https://github.com/needim/noty" target="_blank" rel="noopener">noty</a></li>
+<li>浮动话题泡：<a href="https://github.com/jamescryer/grumble.js" target="_blank" rel="noopener">jQuery grumble</a></li>
+<li>旋转进度：<a href="https://github.com/aterrien/jQuery-Knob" target="_blank" rel="noopener">jQuery Knob</a></li>
+</ul>
+<h5 id="2-4-4-JSON格式规范"><a href="#2-4-4-JSON格式规范" class="headerlink" title="2.4.4 JSON格式规范"></a>2.4.4 JSON格式规范</h5><p>参考<a href="https://github.com/darcyliu/google-styleguide/blob/master/JSONStyleGuide.md" target="_blank" rel="noopener">JSON Style Guide翻译</a>，原版：<a href="http://google-styleguide.googlecode.com/svn/trunk/jsoncstyleguide.xml" target="_blank" rel="noopener">Google JSON Style Guide</a></p>
+<h3 id="HTML-细化规范"><a href="#HTML-细化规范" class="headerlink" title="HTML 细化规范"></a>HTML 细化规范</h3><ul>
+<li>HTML <code>head</code>部分的结构参看：<a href="https://github.com/hzlzh/cool-head" target="_blank" rel="noopener">cool-head</a> (摘取必要内容即可)</li>
+<li><code>css</code> 文件置于都 <strong>头部</strong></li>
+<li><code>jQuery</code> 及 <code>Google Analytics</code>引用置于 <strong>头部</strong></li>
+<li>其他效果<code>js</code>及<code>统计代码</code> 文件置于 <strong>尾部</strong></li>
+<li>HTML 代码尽量过一遍<a href="http://html5.validator.nu/" target="_blank" rel="noopener">HTML5 验证</a></li>
+<li>HTML 占位图片使用 <a href="http://temp.im/" target="_blank" rel="noopener" title="Placehold image">temp.im</a> &amp; <a href="http://placehold.us/" target="_blank" rel="noopener">placehold.us</a> 图片服务</li>
+</ul>
+<h3 id="2-5-Responsive-Web-规范"><a href="#2-5-Responsive-Web-规范" class="headerlink" title="2.5 Responsive Web 规范"></a>2.5 Responsive Web 规范</h3><p>从设计之处就坚持”<a href="http://www.lukew.com/ff/entry.asp?933" target="_blank" rel="noopener" title="Mobile First">Mobile First</a>“的理念，在重构页面的时候要灵活采取响应式的解决方案。</p>
+<h4 id="2-5-1-响应式实现途径"><a href="#2-5-1-响应式实现途径" class="headerlink" title="2.5.1 响应式实现途径"></a>2.5.1 响应式实现途径</h4><p>* 设置 <a href="https://developer.mozilla.org/en-US/docs/Mobile/Viewport_meta_tag" target="_blank" rel="noopener" title="&lt;meta&gt; ViewPort">meta viewport</a> 属性</p>
+<pre><code>&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot; /&gt;</code></pre><p>* 引入不同尺寸设备的样式表</p>
+<pre><code>&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;style.css&quot; media=&quot;screen, handheld&quot; /&gt;
+&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;enhanced.css&quot; media=&quot;screen  and (min-width: 40.5em)&quot; /&gt;
+&lt;!--[if (lt IE 9)&amp;(!IEMobile)]&gt;
+&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;enhanced.css&quot; /&gt;
+&lt;![endif]--&gt;</code></pre><p>* 使用 <a href="http://css-tricks.com/css-media-queries/" target="_blank" rel="noopener">CSS Media Queries</a> 方法</p>
+<pre><code>@media screen and (max-width: 40.5em) {
+  .product-img {
+    width: auto;
+    float: none;
+  }
+}
+@media screen and (max-width: 480px) {
+}</code></pre><p>* JS控制导航栏在 <a href="http://api.jquery.com/resize/" target="_blank" rel="noopener">resize 事件</a> 触发后的可见性，如：</p>
+<pre><code>$(w).resize(function(){ //Update dimensions on resize
+  sw = document.documentElement.clientWidth;
+  sh = document.documentElement.clientHeight;
+  checkMobile();
+});
+//Check if Mobile
+function checkMobile() {
+  mobile = (sw &gt; breakpoint) ? false : true;
+  if (!mobile) { //If Not Mobile
+    $(&apos;[role=&quot;tabpanel&quot;],#nav,#search&apos;).show(); //Show full navigation and search
+  } else { //Hide 
+    if(!$(&apos;#nav-anchors a&apos;).hasClass(&apos;active&apos;)) {
+      $(&apos;#nav,#search&apos;).hide(); //Hide full navigation and search
+    }
+  }
+}</code></pre><h4 id="2-5-2-响应式解决方案"><a href="#2-5-2-响应式解决方案" class="headerlink" title="2.5.2 响应式解决方案"></a>2.5.2 响应式解决方案</h4><p>* 弹性图片</p>
+<pre><code>img {
+  max-width: 100%;
+  height: auto;
+  width: auto\9; /* ie8 */
+}</code></pre><p>* 自适应嵌入媒体</p>
+<pre><code>.video embed, .video object, .video iframe {
+  width: 100%;
+  height: auto;
+}</code></pre><p>* 禁用iPhone字体自适应功能：</p>
+<pre><code>html {
+  -webkit-text-size-adjust: none;
+}</code></pre><p>* 让 IE 9 以下的IE版本支持响应式：</p>
+<pre><code>&lt;!--[if lt IE 9]&gt;
+  &lt;script src=&quot;http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js&quot;&gt;&lt;/script&gt;
+&lt;![endif]--&gt;</code></pre><h3 id="2-6-Newletter-制作规范"><a href="#2-6-Newletter-制作规范" class="headerlink" title="2.6 Newletter 制作规范"></a>2.6 Newletter 制作规范</h3><ul>
+<li><code>CSS</code>只可使用 <strong>内联样式表</strong> ，如：<code>style=&quot;margin:0;&quot;</code></li>
+<li>设计之初遵循： <strong>图上无文本，文本后无底纹</strong> 的规则</li>
+<li>使用 <code>MailChimp HTML Email CSS Fix</code> 参看下文链接</li>
+<li>引入 <code>CSS Reset for HTML Email</code> 参看下文链接</li>
+<li>使用<code>Table</code>布局而非<code>DIV</code></li>
+<li>所有图片使用<code>IMG</code>标签，如：<code>&lt;img style=&quot;style=&quot;display:block&quot; &quot;src=&quot;&quot; /&gt;</code></li>
+<li>可以适当使用占位符<code>spacer.gif</code></li>
+<li>多用<code>&lt;br /&gt;</code>换行而非<code>&lt;p&gt;</code></li>
+<li>整体最佳宽度为：<code>550-600px</code></li>
+<li>不使用<code>Javascript</code></li>
+<li>正式发送给用户之前，多次测试</li>
+</ul>
+<p>更多细节参考下面链接：<br><a href="http://www.queness.com/post/8784/12-killer-tips-and-tricks-for-building-html-email" target="_blank" rel="noopener">12 Killer Tips and Tricks for Building HTML Email</a><br><a href="http://www.web-ed.com.au/2011/05/coding-html-newsletters-edms-quick-guide/" target="_blank" rel="noopener">Coding HTML Newsletters (EDM)</a></p>
+<h3 id="2-7-生产力工具推荐"><a href="#2-7-生产力工具推荐" class="headerlink" title="2.7 生产力工具推荐"></a>2.7 生产力工具推荐</h3><h4 id="2-7-1-for-Mac-OS"><a href="#2-7-1-for-Mac-OS" class="headerlink" title="2.7.1 for Mac OS"></a>2.7.1 for Mac OS</h4><p><em>for more app detial check -&gt; <a href="http://osx.iusethis.com/user/hzlzh" target="_blank" rel="noopener" title="App pack">IUSETHIS</a></em>  </p>
+<h5 id="2-7-1-1-前端相关工具-Mac"><a href="#2-7-1-1-前端相关工具-Mac" class="headerlink" title="2.7.1.1 前端相关工具(Mac)"></a>2.7.1.1 前端相关工具(Mac)</h5><ul>
+<li>编辑器：<a href="http://www.sublimetext.com/2" target="_blank" rel="noopener">Sublime Text 2</a> / <a href="https://github.com/textmate/textmate" target="_blank" rel="noopener">TextMate 2</a> / <a href="http://macvim.org/" target="_blank" rel="noopener">Vim</a> / <a href="http://www.jetbrains.com/idea/" target="_blank" rel="noopener">Intellij IDEA</a></li>
+<li>命令行：<a href="http://www.iterm2.com/" target="_blank" rel="noopener">iTerm2</a></li>
+<li>浏览器调试环境：<a href="http://www.google.com/chrome" target="_blank" rel="noopener">Chrome</a> / <a href="http://www.mozilla.org/" target="_blank" rel="noopener">Firefox</a> + <a href="http://getfirebug.com/" target="_blank" rel="noopener">Firebug</a></li>
+<li>移动设备调试环境：<a href="http://www.mozilla.org/projects/fennec" target="_blank" rel="noopener">Mozilla Fennec</a></li>
+<li>兼容性测试：<a href="https://www.virtualbox.org/" target="_blank" rel="noopener">VirtualBox</a> + Win XP（IE 8）</li>
+<li>版本控制工具：<a href="http://mac.github.com/" target="_blank" rel="noopener">GitHub for Mac</a> / <a href="http://versionsapp.com/" target="_blank" rel="noopener">Versions</a> / <a href="http://www.sourcetreeapp.com/" target="_blank" rel="noopener">SourceTree</a></li>
+<li>FTP工具：<a href="http://filezilla-project.org/" target="_blank" rel="noopener">Filezilla</a> / <a href="http://itunes.apple.com/us/app/forklift/id412448059?mt=12" target="_blank" rel="noopener">ForkLift</a></li>
+<li>HTTP抓包及Post/Get模拟：<a href="http://www.charlesproxy.com/" target="_blank" rel="noopener">Charles</a></li>
+<li>PHP集成环境：<a href="http://www.apachefriends.org/en/xampp-macosx.html" target="_blank" rel="noopener">XAMPP for Mac</a> / <a href="http://http://mamp.info/" target="_blank" rel="noopener">MAMP</a></li>
+<li>SQL数据库管理：<a href="http://www.sequelpro.com/" target="_blank" rel="noopener">Sequel Pro</a></li>
+<li>标注工具：<a href="http://www.getmarkman.com/" target="_blank" rel="noopener">Mark Man</a> / <a href="http://itunes.apple.com/us/app/xscope/id447661441?mt=12" target="_blank" rel="noopener">xScope</a></li>
+<li>取色拾色器： <a href="http://www.jumpzero.com/frank/" target="_blank" rel="noopener">Frank DeLoupe</a> / <a href="http://itunes.apple.com/app/sip/id507257563?mt=12" target="_blank" rel="noopener">Sip</a> / <a href="http://itunes.apple.com/us/app/snip/id512505421?mt=12" target="_blank" rel="noopener">Snip</a> / <a href="http://itunes.apple.com/us/app/xscope/id447661441?mt=12" target="_blank" rel="noopener">xScope</a></li>
+<li>MarkDown编辑器：<a href="http://mouapp.com/" target="_blank" rel="noopener">Mou</a></li>
+<li>浏览器免刷新开发环境：<a href="http://http://livereload.com/" target="_blank" rel="noopener">LiveReLoad</a> / <a href="http://incident57.com/codekit/" target="_blank" rel="noopener">CodeKit</a></li>
+<li>CSS Sprite切图工具：<a href="http://itunes.apple.com/us/app/spriteright/id488584662?mt=12" target="_blank" rel="noopener">SpriteRight</a></li>
+<li>Less -&gt; CSS 编译：<a href="http://incident57.com/codekit/" target="_blank" rel="noopener">CodeKit</a> / <a href="http://http://livereload.com/" target="_blank" rel="noopener">LiveReLoad</a> / <a href="http://incident57.com/less/" target="_blank" rel="noopener">Less</a></li>
+<li>配色方案工具：<a href="http://itunes.apple.com/us/app/colorschemer-studio/id417896628?mt=12" target="_blank" rel="noopener">ColorSchemer Studio</a></li>
+<li>多浏览器Cookie管理：<a href="http://itunes.apple.com/us/app/cookie/id415585910?mt=12" target="_blank" rel="noopener">Cookie</a></li>
+<li>图片素材收集：<a href="http://seesparkbox.com/" target="_blank" rel="noopener">Sparkbox</a> / <a href="http://www.pixa-app.com/" target="_blank" rel="noopener">Pixa</a></li>
+</ul>
+<h5 id="2-7-1-2-其他效率工具"><a href="#2-7-1-2-其他效率工具" class="headerlink" title="2.7.1.2 其他效率工具"></a>2.7.1.2 其他效率工具</h5><ul>
+<li>快速启动及切换app：<a href="http://www.alfredapp.com/" target="_blank" rel="noopener">Alfred</a></li>
+<li>剪切板历史记录：<a href="http://www.alfredapp.com/" target="_blank" rel="noopener">Alfred</a><em>(Fretures -&gt; Clipboard)</em></li>
+<li>笔记：<a href="http://www.evernote.com/" target="_blank" rel="noopener">Evernote</a></li>
+<li>轻量级GTD：<a href="http://itunes.apple.com/cn/app/breaktime/id427475982?mt=12" target="_blank" rel="noopener">Clear</a></li>
+<li>压缩解压：<a href="https://itunes.apple.com/hk/app/the-unarchiver/id425424353?mt=12" target="_blank" rel="noopener">The Unarchiver</a> / <a href="https://itunes.apple.com/us/app/keka/id470158793?mt=12" target="_blank" rel="noopener">Keka</a> / <a href="https://itunes.apple.com/us/app/ipack/id433386677?mt=12" target="_blank" rel="noopener">iPack</a></li>
+<li>语言文档和快捷词扩展：<a href="http://kapeli.com/" target="_blank" rel="noopener">Dash</a></li>
+<li>时间中断提醒：<a href="http://itunes.apple.com/cn/app/breaktime/id427475982?mt=12" target="_blank" rel="noopener">BreakTime</a></li>
+</ul>
+<h5 id="2-7-2-1-前端相关工具-Windows"><a href="#2-7-2-1-前端相关工具-Windows" class="headerlink" title="2.7.2.1 前端相关工具(Windows)"></a>2.7.2.1 前端相关工具(Windows)</h5><ul>
+<li>编辑器：<a href="http://www.sublimetext.com/2" target="_blank" rel="noopener">Sublime Text 2</a> / <a href="http://macvim.org/" target="_blank" rel="noopener">Vim</a> / <a href="http://www.jetbrains.com/idea/" target="_blank" rel="noopener">Intellij IDEA</a></li>
+<li>命令行：<a href="http://www.putty.org/" target="_blank" rel="noopener">Putty</a></li>
+<li>浏览器调试环境：<a href="http://www.google.com/chrome" target="_blank" rel="noopener">Chrome</a> / <a href="http://www.mozilla.org/" target="_blank" rel="noopener">Firefox</a></li>
+<li>移动设备调试环境：<a href="https://developers.google.com/chrome/mobile/docs/debugging" target="_blank" rel="noopener">Chrome Remote USB Debugging</a></li>
+<li>版本控制：<a href="http://subversion.apache.org/" target="_blank" rel="noopener">Subversion</a> / <a href="http://windows.github.com/" target="_blank" rel="noopener">Github for Windows</a></li>
+<li>FTP工具：<a href="http://filezilla-project.org/" target="_blank" rel="noopener">Filezilla</a></li>
+<li>抓包工具：<a href="http://www.fiddler2.com/fiddler2/" target="_blank" rel="noopener">Fiddler2</a></li>
+<li>MarkDown：<a href="http://markdownpad.com/" target="_blank" rel="noopener">MarkdownPad</a></li>
+<li>浏览器免刷新开发环境：<a href="http://http://livereload.com/" target="_blank" rel="noopener">LiveReLoad</a> / <a href="http://www.getf5.com/" target="_blank" rel="noopener">F5</a></li>
+<li>Less -&gt; CSS编译：<a href="http://lesscss.org/" target="_blank" rel="noopener">less.org</a><em>(nodejs环境下编译)</em></li>
+<li>Haml -&gt; Html编译：<a href="http://haml.info/" target="_blank" rel="noopener">haml.info</a><em>(Gem下编译)</em></li>
+<li>响应式设计查看工具：<a href="https://developer.mozilla.org/en-US/docs/Tools/Responsive_Design_View/" target="_blank" rel="noopener">Firefox Responsive Design View</a></li>
+</ul>
+<h5 id="2-7-2-2-其他效率工具-Windows"><a href="#2-7-2-2-其他效率工具-Windows" class="headerlink" title="2.7.2.2 其他效率工具(Windows)"></a>2.7.2.2 其他效率工具(Windows)</h5><ul>
+<li>笔记：<a href="http://www.evernote.com/" target="_blank" rel="noopener">Evernote</a></li>
+<li>压缩解压：<a href="http://www.7-zip.org/" target="_blank" rel="noopener">7z</a></li>
+</ul>
+<h4 id="2-7-3-其他收集"><a href="#2-7-3-其他收集" class="headerlink" title="2.7.3 其他收集"></a>2.7.3 其他收集</h4><ul>
+<li>Firefox 扩展收藏集 -&gt; <a href="https://addons.mozilla.org/en-US/firefox/collections/hzlzh/hzlzh/" target="_blank" rel="noopener">Firefox Add-ons collections</a></li>
+<li>Chrome 扩展 -&gt; 待添加</li>
+<li>Sublime Text 2 技巧  -&gt; <a href="http://www.douban.com/group/topic/28027863/" target="_blank" rel="noopener">ST2 资源技巧汇总</a></li>
+</ul>
+<h3 id="2-8-相关技巧"><a href="#2-8-相关技巧" class="headerlink" title="2.8 相关技巧"></a>2.8 相关技巧</h3><p><a href="https://github.com/GeekPark/Doc/wiki/_pages" target="_blank" rel="noopener">Wiki page index</a></p>
+<ul>
+<li><a href="https://github.com/GeekPark/Doc/wiki/%5B%E5%A6%82%E4%BD%95%E9%81%BF%E5%85%8D%E7%BC%93%E5%AD%98%5D%E5%90%84%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B5%8B%E8%AF%95%E7%BD%91%E9%A1%B5%E6%97%B6%E6%B8%85%E9%99%A4%E7%BC%93%E5%AD%98%E7%9A%84%E6%96%B9%E6%B3%95" target="_blank" rel="noopener">各浏览器的缓存清除方法</a>  </li>
+<li><a href="https://github.com/GeekPark/Doc/wiki/%5B%E6%B5%8B%E8%AF%95%E6%8A%80%E5%B7%A7%5DGmail-%E6%B7%BB%E5%8A%A0%E8%AF%8D%E7%BC%80(.--)%E8%8E%B7%E5%BE%97%E5%A4%9A%E4%B8%AA%E9%82%AE%E4%BB%B6%E7%9A%84%E6%96%B9%E6%B3%95" target="_blank" rel="noopener">测试技巧Gmail 添加词缀 .+ 获得多个邮件的方法</a>  </li>
+<li><a href="https://github.com/GeekPark/Doc/wiki/%E5%85%B3%E4%BA%8E%5BMac%5D-%5BWin%5D-%5BLinux%5D%E8%B7%A8%E7%B3%BB%E7%BB%9F%E4%BC%A0%E6%96%87%E4%BB%B6%EF%BC%8C%E6%96%87%E4%BB%B6%E5%90%8D%E4%B9%B1%E7%A0%81%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88" target="_blank" rel="noopener">关于Mac Win Linux跨系统传文件，文件名乱码的解决方案</a>  </li>
+<li><a href="https://github.com/GeekPark/Doc/wiki/%E6%8A%80%E6%9C%AF%E5%9B%A2%E9%98%9F%5B%E8%B7%AF%E7%94%B1%E4%BB%A3%E7%90%86%5D%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E5%92%8C%E4%BD%BF%E7%94%A8%E9%A1%BB%E7%9F%A5" target="_blank" rel="noopener">技术团队”路由代理”解决方案和使用须知</a></li>
+</ul>
+<h3 id="2-9-参考数据"><a href="#2-9-参考数据" class="headerlink" title="2.9 参考数据"></a>2.9 参考数据</h3><p>涉及到 <code>设计</code>-&gt;<code>重构</code>-&gt;<code>兼容性</code>-&gt;<code>测试</code> 时可参考各浏览器的占用情况<br><em>– updated: <code>2013/02 - 2013/04</code></em>  via <code>Google Analytics of GeekPark</code>  </p>
+<table>
+<tbody valign="top"><tr>
+<th align="center">总浏览器分布</th>
+<th align="center">IE版本分布</th>
+<th align="center">移动设备分布</th>
+<th align="center">屏幕解决方案</th>
+</tr>
+<tr>
+<td align="left">
+
+<table>
+<tbody><tr>
+<th align="left">类别</th>
+<th align="right">占有率</th>
+</tr>
+<tr>
+<td align="left">Chrome</td>
+<td align="right">40.39%</td>
+</tr>
+<tr>
+<td align="left">Internet Explorer</td>
+<td align="right">24.86%</td>
+</tr>
+<tr>
+<td align="left">Safari & Safari (in-app)</td>
+<td align="right">16.05%</td>
+</tr>
+<tr>
+<td align="left">Android Browser</td>
+<td align="right">10.57%</td>
+</tr>
+<tr>
+<td align="left">Firefox</td>
+<td align="right">5.99%</td>
+</tr>
+<tr>
+<td align="left">Opera</td>
+<td align="right">0.69%</td>
+</tr>
+<tr>
+<td align="left">Opera Mini</td>
+<td align="right">0.37%</td>
+</tr>
+<tr>
+<td align="left">Mozilla Compatible Agent</td>
+<td align="right">0.14%</td>
+</tr>
+<tr>
+<td align="left">Maxthon</td>
+<td align="right">0.13%</td>
+</tr>
+</tbody></table>
+</td>
+<td align="right">  
+
+<table>
+<tbody><tr>
+<th align="left">版本号</th>
+<th align="right">占有率</th>
+</tr>
+<tr>
+<td align="left">IE 8</td>
+<td align="right">60.97%</td>
+</tr>
+<tr>
+<td align="left">IE 9</td>
+<td align="right">17.11%</td>
+</tr>
+<tr>
+<td align="left"><em>IE 7</em></td>
+<td align="right">8.39%</td>
+</tr>
+<tr>
+<td align="left"><em>IE 6</em></td>
+<td align="right">7.63%</td>
+</tr>
+<tr>
+<td align="left">IE 10</td>
+<td align="right">5.87%</td>
+</tr>
+<tr>
+<td align="left">IE 4</td>
+<td align="right">0.02%</td>
+</tr>
+
+</tbody></table>
+</td>
+<td align="right">
+
+<table>
+<tbody><tr>
+<th align="left">移动平台</th>
+<th align="right">占有率</th>
+</tr>
+<tr>
+<td align="left">iOS</td>
+<td align="right">50.39%</td>
+</tr>
+<tr>
+<td align="left">Android</td>
+<td align="right">48.05%</td>
+</tr>
+<tr>
+<td align="left">Windows Phone</td>
+<td align="right">0.96%</td>
+</tr>
+<tr>
+<td align="left">Nokia</td>
+<td align="right">0.33%</td>
+</tr>
+</tbody></table>
+</td>
+<td align="right">
+<table>
+<tbody><tr>
+<th align="left">PC & Mac屏幕分辨率</th>
+<th align="right">占有率</th>
+</tr>
+<tr>
+<td align="left">1366x768</td>
+<td align="right">21.55%</td>
+</tr>
+<tr>
+<td align="left">1440x900</td>
+<td align="right">12.70%</td>
+</tr>
+<tr>
+<td align="left">1280x800</td>
+<td align="right">9.60%</td>
+</tr>
+<tr>
+<td align="left">1280x1024</td>
+<td align="right">6.68%</td>
+</tr>
+<tr>
+<td align="left">320x480</td>
+<td align="right">6.38%</td>
+</tr>
+<tr>
+<td align="left">1920x1080</td>
+<td align="right">6.27%</td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+</tbody></table>
+
+
+<h3 id="使用团队"><a href="#使用团队" class="headerlink" title="使用团队"></a>使用团队</h3><p>此规范基于 <a href="http://en.wikipedia.org/wiki/MIT_License" target="_blank" rel="noopener">MIT License</a> 开源，持续更新维护中，可 <code>Star</code> 或 <code>Fork</code> 本项来形成你的规范，请以 <a href="https://github.com/hzlzh/GeekPark-FrontEnd-Standard/issues/new" target="_blank" rel="noopener">创建[issues]</a> 的方式反馈，或发起<code>Pull Request</code> </p>
+<p>[src=”” 问题]: <a href="http://js8.in/555.html" target="_blank" rel="noopener">http://js8.in/555.html</a> “src=”” 问题”<br>[a标签占位符问题]: <a href="http://www.v2ex.com/t/48511/" target="_blank" rel="noopener">http://www.v2ex.com/t/48511/</a> “a标签占位符问题”</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a style="word-wrap:break-word;" href="http://yoursite.com/2019/11/14/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/Front%20End%20Standards/" title="Front End Standards" target="_blank" rel="external">http://yoursite.com/2019/11/14/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/Front%20End%20Standards/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/chen08" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/chen08" target="_blank"><span class="text-dark">溟海</span><small class="ml-1x">Web Developer &amp; Designer</small></a></h3>
+        <div>天行健，君子以自强不息，地势坤，君子以厚德载物。 杀不死我的,终将使我强大 没有吃不了的苦,只有享不了的福</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2019/11/15/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/front-end-develop-standard/code/react/README/" title="小团队前端开发代码规范-react"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/11/14/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/HTML%E8%A7%84%E8%8C%83/" title="HTML规范"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="Catalogue" role="button">
+        <span>[&nbsp;</span><span>Catalogue</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open alipay app scan this qrcode, buy me a coffee!</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open wechat app scan this qrcode, buy me a coffee!</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> alipay</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> wechat payment</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+
+
+<!-- custom analytics part create by xiamo -->
+<!-- <script defer src="https://cdn1.lncld.net/static/js/av-min-1.2.1.js"></script> -->
+<script defer src="/js/av-min-1.2.1.js"></script>
+<script defer>
+AV.init({
+  appId: 'ngFQzHw7z0HgQfrtn4En4WTN-gzGzoHsz',
+  appKey: 'W9hgBBfVDwRGJKoGp5a6HKpx'
+});
+
+function showTime(Counter) {
+	var query = new AV.Query(Counter);
+		var visitors= $('.leancloud_visitors');
+		query.greaterThanOrEqualTo("time", 0);		
+		query.find({
+			success: function(results) {
+				if (results.length == 0) {				
+					return;
+				}
+				var data = results;
+				visitors.each(function(){
+					var url = $(this).attr('id').trim();					
+					for (var i = 0; i < data.length; i++) {
+						var object = data[i];
+						var content = object.get('time');
+						var _url = object.get('url')
+						if(url == _url){
+							$(this).text(content);
+						}
+					}
+				})
+				
+			},
+			error: function(object, error) {
+				console.log("Error: " + error.code + " " + error.message);
+			}
+		});
+}
+
+function addCount(Counter) {
+	var Counter = AV.Object.extend("Counter");
+	url = $(".leancloud_visitors").attr('id').trim();
+	title = $(".leancloud_visitors").attr('data-flag-title').trim();
+	var query = new AV.Query(Counter);
+	query.equalTo("url", url);
+	query.find({
+		success: function(results) {
+			if (results.length > 0) {
+				var counter = results[0];
+				counter.fetchWhenSave(true);
+				counter.increment("time");
+				counter.save(null, {
+					success: function(counter) {
+						var content = counter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(counter, error) {
+						console.log('Failed to save Visitor num, with error message: ' + error.message);
+					}
+				});
+			} else {
+				var newcounter = new Counter();
+				newcounter.set("title", title);
+				newcounter.set("url", url);
+				newcounter.set("time", 1);
+				newcounter.save(null, {
+					success: function(newcounter) {
+					    console.log("newcounter.get('time')="+newcounter.get('time'));
+						var content = newcounter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(newcounter, error) {
+						console.log('Failed to create');
+					}
+				});
+			}
+		},
+		error: function(error) {
+			console.log('Error:' + error.code + " " + error.message);
+		}
+	});
+}
+$(function() {
+	var Counter = AV.Object.extend("Counter");
+	if ($('.leancloud_visitors').length == 1) {
+		addCount(Counter);
+	} else {
+		showTime(Counter);
+	}
+}); 
+</script>
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>

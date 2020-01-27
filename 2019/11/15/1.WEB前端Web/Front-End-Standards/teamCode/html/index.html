@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>团队代码规范-HTML规范 | Hexo</title>
+  <script src="./js/jQuery.md5.js"></script>
+  <script>
+    
+    (function(){
+      localStorage.setItem('userinfo',hex_md5('123chen'))
+      
+      var localData = localStorage.getItem("userinfo");
+      // var localState = localStorage.getItem("state");
+        if(localStorage.getItem("state") === null){
+          var reason = window.prompt('请输入访问密码');
+          // var promptVal = window.prompt('请输入访问密码');
+          if(reason){
+              //填写内容并“确定”
+              var md5Prompt = hex_md5(reason)
+              //点击的是“确定” 
+              if (localData !== md5Prompt){
+                alert('密码错误！');
+                // history.back();
+                location.replace(location.href); 
+              }else{
+                // alert('0123');
+                localStorage.setItem('state',"1")
+              }
+          }
+          else if(reason === ""){
+              //未填写但“确定”
+              location.replace(location.href); 
+          }
+          else{
+            //“取消”事件
+            location.replace(location.href); 
+          }
+        }
+
+    })();
+  </script>
+ <link rel="alternate" href="/atom.xml" data="123chen" type="application/atom+xml">
+  <meta name="description" content="[TOC] 1 前言 2 代码风格 　　2.1 文件 　　2.2 结构 　　　　2.2.1 缩进 　　　　2.2.2 空格 　　　　2.2.3 换行 　　2.3 命名 　　2.4 注释 3 语言特性 　　3.1 DOCTYPE 　　3.2 元素 　　3.3 属性 4 常见元素 　　4.1 html 　　4.2 head 　　4.3 title 　　4.4 meta 　　4.5 link 　　4.6">
+<meta name="keywords" content="JavaScript,HTML,规范">
+<meta property="og:type" content="article">
+<meta property="og:title" content="团队代码规范-HTML规范">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;15&#x2F;1.WEB%E5%89%8D%E7%AB%AFWeb&#x2F;Front-End-Standards&#x2F;teamCode&#x2F;html&#x2F;index.html">
+<meta property="og:site_name" content="学习的敌人是自己的满足，要认真学习一点东西，必须从不自满开始。对自己，“学而不厌”，对人家，“诲人不倦”，我们应取这种态度。">
+<meta property="og:description" content="[TOC] 1 前言 2 代码风格 　　2.1 文件 　　2.2 结构 　　　　2.2.1 缩进 　　　　2.2.2 空格 　　　　2.2.3 换行 　　2.3 命名 　　2.4 注释 3 语言特性 　　3.1 DOCTYPE 　　3.2 元素 　　3.3 属性 4 常见元素 　　4.1 html 　　4.2 head 　　4.3 title 　　4.4 meta 　　4.5 link 　　4.6">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-11-15T03:53:02.000Z">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://yoursite.com/2019/11/15/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/teamCode/html/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="学习的敌人是自己的满足，要认真学习一点东西，必须从不自满开始。对自己，“学而不厌”，对人家，“诲人不倦”，我们应取这种态度。" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/chen08" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">溟海</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer &amp; Designer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Guangzhou, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+          <!-- . -->
+        
+        
+          <li class="menu-item menu-item-home">
+            <a href="/.">
+              
+              <i class="icon icon-home-fill"></i>
+              
+              <span class="menu-title">Home</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- archives -->
+        
+        
+          <li class="menu-item menu-item-archives">
+            <a href="/archives">
+              
+              <i class="icon icon-archives-fill"></i>
+              
+              <span class="menu-title">Archives</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- categories -->
+        
+        
+          <li class="menu-item menu-item-categories">
+            <a href="/categories">
+              
+              <i class="icon icon-folder"></i>
+              
+              <span class="menu-title">Categories</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- tags -->
+        
+        
+          <li class="menu-item menu-item-tags">
+            <a href="/tags">
+              
+              <i class="icon icon-tags"></i>
+              
+              <span class="menu-title">Tags</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- repository -->
+        
+        
+          <li class="menu-item menu-item-repository">
+            <a href="/repository">
+              
+              <i class="icon icon-project"></i>
+              
+              <span class="menu-title">Repository</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- books -->
+        
+        
+          <li class="menu-item menu-item-books">
+            <a href="/books">
+              
+              <i class="icon icon-book-fill"></i>
+              
+              <span class="menu-title">Books</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- links -->
+        
+        
+          <li class="menu-item menu-item-links">
+            <a href="/links">
+              
+              <i class="icon icon-friendship"></i>
+              
+              <span class="menu-title">Links</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- about -->
+        
+        
+          <li class="menu-item menu-item-about">
+            <a href="/about">
+              
+              <i class="icon icon-cup-fill"></i>
+              
+              <span class="menu-title">About</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- navigation/webstack/index.html -->
+        
+        
+          <li class="menu-item menu-item-navigation">
+            <a href="/navigation/webstack/index.html">
+              
+              <i class="icon icon-delicious"></i>
+              
+              <span class="menu-title">Navigation</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- navigation/webstack/word.html -->
+        
+        
+          <li style="display: none;" class="menu-item menu-item-fixed">
+            <a href="/navigation/webstack/word.html">
+              
+              <i class="icon icon-delicious"></i>
+              
+              <span class="menu-title">menu.fixed</span>
+            </a>
+          </li>
+        
+
+
+        
+      </ul>
+
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/1-WEB%E5%89%8D%E7%AB%AF/">1.WEB前端</a><span class="category-list-count">140</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/2-%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">2.编程语言</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/3-%E4%BA%A7%E5%93%81%E8%AE%BE%E8%AE%A1/">3.产品设计</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/4-%E7%AE%A1%E7%90%86%E8%90%A5%E9%94%80/">4.管理营销</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/5-%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87/">5.技能提升</a><span class="category-list-count">155</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/6-%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93/">6.读书总结</a><span class="category-list-count">9</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/" rel="tag">CSS</a><span class="tag-list-count">18</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Dart/" rel="tag">Dart</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES6/" rel="tag">ES6</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES7/" rel="tag">ES7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/English/" rel="tag">English</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flutter/" rel="tag">Flutter</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a><span class="tag-list-count">20</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IMAGE/" rel="tag">IMAGE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JQuery/" rel="tag">JQuery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a><span class="tag-list-count">224</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">JavaScript设计模式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript%E9%AB%98%E7%BA%A7%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" rel="tag">JavaScript高级程序设计</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jquery/" rel="tag">Jquery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mysql/" rel="tag">Mysql</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NETWORK/" rel="tag">NETWORK</a><span class="tag-list-count">13</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node/" rel="tag">Node</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/" rel="tag">PHP</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/" rel="tag">React</a><span class="tag-list-count">31</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJS/" rel="tag">RxJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SVG/" rel="tag">SVG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sass/" rel="tag">Sass</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/" rel="tag">Vue</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%AE%89%E5%85%A8/" rel="tag">WEB安全</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webpack/" rel="tag">Webpack</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/" rel="tag">jQuery</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodeJS/" rel="tag">nodeJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B9%A6%E5%8D%95/" rel="tag">书单</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B9%A6%E7%B1%8D/" rel="tag">书籍</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/" rel="tag">前端安全</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83/" rel="tag">命名规范</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag">小程序</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" rel="tag">性能优化</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8F%92%E4%BB%B6/" rel="tag">插件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A1%86%E6%9E%B6/" rel="tag">框架</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" rel="tag">浏览器</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%84%E4%BB%B6/" rel="tag">组件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%84%E8%8C%83/" rel="tag">规范</a><span class="tag-list-count">67</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6%E5%AD%A6%E4%B9%A0/" rel="tag">软件学习</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a><span class="tag-list-count">153</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/CSS/" style="font-size: 13.71px;">CSS</a> <a href="/tags/Dart/" style="font-size: 13px;">Dart</a> <a href="/tags/ES6/" style="font-size: 13px;">ES6</a> <a href="/tags/ES7/" style="font-size: 13px;">ES7</a> <a href="/tags/English/" style="font-size: 13.18px;">English</a> <a href="/tags/Flutter/" style="font-size: 13px;">Flutter</a> <a href="/tags/Git/" style="font-size: 13.12px;">Git</a> <a href="/tags/HTML/" style="font-size: 13.76px;">HTML</a> <a href="/tags/HTTP/" style="font-size: 13.18px;">HTTP</a> <a href="/tags/IMAGE/" style="font-size: 13px;">IMAGE</a> <a href="/tags/JAVA/" style="font-size: 13.06px;">JAVA</a> <a href="/tags/JQuery/" style="font-size: 13px;">JQuery</a> <a href="/tags/JavaScript/" style="font-size: 14px;">JavaScript</a> <a href="/tags/JavaScript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 13px;">JavaScript设计模式</a> <a href="/tags/JavaScript%E9%AB%98%E7%BA%A7%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 13px;">JavaScript高级程序设计</a> <a href="/tags/Jquery/" style="font-size: 13px;">Jquery</a> <a href="/tags/Mysql/" style="font-size: 13px;">Mysql</a> <a href="/tags/NETWORK/" style="font-size: 13.53px;">NETWORK</a> <a href="/tags/Node/" style="font-size: 13.35px;">Node</a> <a href="/tags/PHP/" style="font-size: 13.24px;">PHP</a> <a href="/tags/React/" style="font-size: 13.82px;">React</a> <a href="/tags/RxJS/" style="font-size: 13px;">RxJS</a> <a href="/tags/SVG/" style="font-size: 13px;">SVG</a> <a href="/tags/Sass/" style="font-size: 13px;">Sass</a> <a href="/tags/TypeScript/" style="font-size: 13.29px;">TypeScript</a> <a href="/tags/Vue/" style="font-size: 13.65px;">Vue</a> <a href="/tags/WEB%E5%AE%89%E5%85%A8/" style="font-size: 13.29px;">WEB安全</a> <a href="/tags/Webpack/" style="font-size: 13.59px;">Webpack</a> <a href="/tags/jQuery/" style="font-size: 13.65px;">jQuery</a> <a href="/tags/nodeJS/" style="font-size: 13px;">nodeJS</a> <a href="/tags/python/" style="font-size: 13px;">python</a> <a href="/tags/%E4%B9%A6%E5%8D%95/" style="font-size: 13px;">书单</a> <a href="/tags/%E4%B9%A6%E7%B1%8D/" style="font-size: 13.06px;">书籍</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 13px;">前端</a> <a href="/tags/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/" style="font-size: 13.06px;">前端安全</a> <a href="/tags/%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83/" style="font-size: 13.41px;">命名规范</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 13px;">小程序</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 13.06px;">工具</a> <a href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" style="font-size: 13.47px;">性能优化</a> <a href="/tags/%E6%8F%92%E4%BB%B6/" style="font-size: 13px;">插件</a> <a href="/tags/%E6%A1%86%E6%9E%B6/" style="font-size: 13px;">框架</a> <a href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" style="font-size: 13px;">浏览器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13.18px;">算法</a> <a href="/tags/%E7%BB%84%E4%BB%B6/" style="font-size: 13px;">组件</a> <a href="/tags/%E8%A7%84%E8%8C%83/" style="font-size: 13.88px;">规范</a> <a href="/tags/%E8%BD%AF%E4%BB%B6%E5%AD%A6%E4%B9%A0/" style="font-size: 13px;">软件学习</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 13.35px;">随笔</a> <a href="/tags/%E9%9D%A2%E8%AF%95/" style="font-size: 13.94px;">面试</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a><span class="archive-list-count">312</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/27/1.WEB%E5%89%8D%E7%AB%AFWeb/React/react-router/" class="title">1.WEB前端Web/React/react-router</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-27T13:24:04.185Z" itemprop="datePublished">2020-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/27/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/sass-guide/" class="title">1.WEB前端Web/Front-End-Standards/sass-guide</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-27T13:24:03.487Z" itemprop="datePublished">2020-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/27/hello-world/" class="title">Hello World</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-27T13:24:03.028Z" itemprop="datePublished">2020-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/6-%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93/">6.读书总结</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/26/6.%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93Book/%E4%BA%BA%E7%94%9F%E9%81%93%E7%90%86/" class="title">人生道理</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-26T01:12:57.000Z" itemprop="datePublished">2020-01-26</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/2-%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">2.编程语言</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/15/2.%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80Programming/English/%E7%94%9F%E6%B4%BB%E8%8B%B1%E8%AF%AD/" class="title">生活英语</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-15T01:12:57.000Z" itemprop="datePublished">2020-01-15</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">Catalogue</h3>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#HTML编程规范"><span class="toc-number">1.</span> <span class="toc-text">HTML编程规范</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-前言"><span class="toc-number">1.1.</span> <span class="toc-text">1 前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-代码风格"><span class="toc-number">1.2.</span> <span class="toc-text">2 代码风格</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-文件"><span class="toc-number">1.2.1.</span> <span class="toc-text">2.1 文件</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#建议-用不带-BOM-头的-UTF-8-编码"><span class="toc-number">1.2.1.0.1.</span> <span class="toc-text">[建议] 用不带 BOM 头的 UTF-8 编码</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-结构"><span class="toc-number">1.2.2.</span> <span class="toc-text">2.2 结构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-1-缩进"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">2.2.1 缩进</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#强制-每次缩进-4-个空格，不允许使用-2-个空格过-tab-字符"><span class="toc-number">1.2.2.1.1.</span> <span class="toc-text">[强制] 每次缩进 4 个空格，不允许使用 2 个空格过 tab 字符</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#强制-每个块元素、列表元素或表格元素都独占一行，每个子元素都相对于父元素进行缩进"><span class="toc-number">1.2.2.1.2.</span> <span class="toc-text">[强制] 每个块元素、列表元素或表格元素都独占一行，每个子元素都相对于父元素进行缩进</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#强制-html、head、body-以及-head-和-body-的直接子元素不缩进"><span class="toc-number">1.2.2.1.3.</span> <span class="toc-text">[强制] html、head、body 以及 head 和 body 的直接子元素不缩进</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-2-空格"><span class="toc-number">1.2.2.2.</span> <span class="toc-text">2.2.2 空格</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#强制-元素属性中的-左右不能出现空格"><span class="toc-number">1.2.2.2.1.</span> <span class="toc-text">[强制] 元素属性中的 = 左右不能出现空格</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-3-换行"><span class="toc-number">1.2.2.3.</span> <span class="toc-text">2.2.3 换行</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#建议-每行代码不超过-120-个字符"><span class="toc-number">1.2.2.3.1.</span> <span class="toc-text">[建议] 每行代码不超过 120 个字符</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-注释"><span class="toc-number">1.2.3.</span> <span class="toc-text">2.3  注释</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#建议-在模块的开始和结束位置添加模块开始-结束注释"><span class="toc-number">1.2.3.0.1.</span> <span class="toc-text">[建议] 在模块的开始和结束位置添加模块开始/结束注释</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-语言特性"><span class="toc-number">1.3.</span> <span class="toc-text">3 语言特性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-DOCTYPE"><span class="toc-number">1.3.1.</span> <span class="toc-text">3.1 DOCTYPE</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#强制-使用HTML5标准，且DOCTYPE大写"><span class="toc-number">1.3.1.0.1.</span> <span class="toc-text">[强制] 使用HTML5标准，且DOCTYPE大写</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-元素"><span class="toc-number">1.3.2.</span> <span class="toc-text">3.2 元素</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#强制-元素名必须小写"><span class="toc-number">1.3.2.0.1.</span> <span class="toc-text">[强制] 元素名必须小写</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#强制-不要省略可选的结束标签（closing-tag）"><span class="toc-number">1.3.2.0.2.</span> <span class="toc-text">[强制] 不要省略可选的结束标签（closing tag）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#强制-不要在自闭合元素（Void-elements）尾部添加斜线"><span class="toc-number">1.3.2.0.3.</span> <span class="toc-text">[强制] 不要在自闭合元素（Void elements）尾部添加斜线</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#强制-标签必须合理地嵌套"><span class="toc-number">1.3.2.0.4.</span> <span class="toc-text">[强制] 标签必须合理地嵌套</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#建议-合理使用语义化标签"><span class="toc-number">1.3.2.0.5.</span> <span class="toc-text">[建议] 合理使用语义化标签</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#建议-不使用样式有关的元素"><span class="toc-number">1.3.2.0.6.</span> <span class="toc-text">[建议] 不使用样式有关的元素</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#建议-减少不必要的嵌套"><span class="toc-number">1.3.2.0.7.</span> <span class="toc-text">[建议] 减少不必要的嵌套</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-属性"><span class="toc-number">1.3.3.</span> <span class="toc-text">3.3 属性</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#强制-属性必须小写"><span class="toc-number">1.3.3.0.1.</span> <span class="toc-text">[强制] 属性必须小写</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#建议-自定义属性以-data-开头"><span class="toc-number">1.3.3.0.2.</span> <span class="toc-text">[建议] 自定义属性以 data- 开头</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#强制-属性值必须用双引号包围"><span class="toc-number">1.3.3.0.3.</span> <span class="toc-text">[强制] 属性值必须用双引号包围</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#建议-属性值必须小写（除了文本和-CDATA-）"><span class="toc-number">1.3.3.0.4.</span> <span class="toc-text">[建议] 属性值必须小写（除了文本和 CDATA ）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#建议-布尔类型的属性不添加属性值"><span class="toc-number">1.3.3.0.5.</span> <span class="toc-text">[建议] 布尔类型的属性不添加属性值</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#建议-属性应当按照以下给出的顺序依次排列"><span class="toc-number">1.3.3.0.6.</span> <span class="toc-text">[建议] 属性应当按照以下给出的顺序依次排列</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-常见元素"><span class="toc-number">1.4.</span> <span class="toc-text">4 常见元素</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-html"><span class="toc-number">1.4.1.</span> <span class="toc-text">4.1 html</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#建议-为-html-元素添加-lang-属性"><span class="toc-number">1.4.1.0.1.</span> <span class="toc-text">[建议] 为 html 元素添加 lang 属性</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-head"><span class="toc-number">1.4.2.</span> <span class="toc-text">4.2 head</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#建议-head-元素各子元素按顺序编写"><span class="toc-number">1.4.2.0.1.</span> <span class="toc-text">[建议] head 元素各子元素按顺序编写</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-title"><span class="toc-number">1.4.3.</span> <span class="toc-text">4.3 title</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#强制-title-元素必不可少"><span class="toc-number">1.4.3.0.1.</span> <span class="toc-text">[强制] title 元素必不可少</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-meta"><span class="toc-number">1.4.4.</span> <span class="toc-text">4.4 meta</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#强制-使用-lt-meta-charset-quot-quot-gt-来定义页面编码"><span class="toc-number">1.4.4.0.1.</span> <span class="toc-text">[强制] 使用 &lt;meta charset=&quot;&quot;&gt; 来定义页面编码</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#建议-启用-IE-兼容模式"><span class="toc-number">1.4.4.0.2.</span> <span class="toc-text">[建议] 启用 IE 兼容模式</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-5-link"><span class="toc-number">1.4.5.</span> <span class="toc-text">4.5 link</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#强制-使用-link-引用外部-css-文件时，必须加-rel-quot-stylesheet-quot"><span class="toc-number">1.4.5.0.1.</span> <span class="toc-text">[强制] 使用 link 引用外部 css 文件时，必须加 rel=&quot;stylesheet&quot;</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#强制-使用-link-引用外部-css-文件时，不允许加-type-quot-text-css-quot"><span class="toc-number">1.4.5.0.2.</span> <span class="toc-text">[强制] 使用 link 引用外部 css 文件时，不允许加 type=&quot;text/css&quot;</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#建议-使用-link-引用外部-css-文件时，rel-quot-stylesheet-quot-写在-href-属性前面"><span class="toc-number">1.4.5.0.3.</span> <span class="toc-text">[建议] 使用 link 引用外部 css 文件时，rel=&quot;stylesheet&quot; 写在 href 属性前面</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-6-script"><span class="toc-number">1.4.6.</span> <span class="toc-text">4.6 script</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#强制-使用script元素引用外部-javascript-文件时，不允许加-type-quot-text-javascript-quot"><span class="toc-number">1.4.6.0.1.</span> <span class="toc-text">[强制] 使用script元素引用外部 javascript 文件时，不允许加 type=&quot;text/javascript&quot;</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-7-img"><span class="toc-number">1.4.7.</span> <span class="toc-text">4.7 img</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-8-table"><span class="toc-number">1.4.8.</span> <span class="toc-text">4.8 table</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#强制-除非必要，否则不要使用-table-元素来布局"><span class="toc-number">1.4.8.0.1.</span> <span class="toc-text">[强制] 除非必要，否则不要使用 table 元素来布局</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#强制-table-元素必须包含-thead-和-tbody-元素"><span class="toc-number">1.4.8.0.2.</span> <span class="toc-text">[强制] table 元素必须包含 thead 和 tbody 元素</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#语义化元素"><span class="toc-number">1.4.9.</span> <span class="toc-text">语义化元素</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#header"><span class="toc-number">1.4.9.1.</span> <span class="toc-text">header</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#footer"><span class="toc-number">1.4.9.2.</span> <span class="toc-text">footer</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#nav"><span class="toc-number">1.4.9.3.</span> <span class="toc-text">nav</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-其他"><span class="toc-number">1.5.</span> <span class="toc-text">5 其他</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-代码有效性"><span class="toc-number">1.5.1.</span> <span class="toc-text">5.1 代码有效性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTML代码有效性"><span class="toc-number">1.5.2.</span> <span class="toc-text">HTML代码有效性</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#建议-尽量使用有效的HTML代码"><span class="toc-number">1.5.2.0.1.</span> <span class="toc-text">[建议] 尽量使用有效的HTML代码</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#兼容性"><span class="toc-number">1.5.3.</span> <span class="toc-text">兼容性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TODO"><span class="toc-number">1.5.4.</span> <span class="toc-text">TODO</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#建议-用-TODO-标记代办事项和正活动的条目"><span class="toc-number">1.5.4.0.1.</span> <span class="toc-text">[建议] 用 TODO 标记代办事项和正活动的条目</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#多媒体后备方案"><span class="toc-number">1.5.5.</span> <span class="toc-text">多媒体后备方案</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#建议-为多媒体提供备选内容"><span class="toc-number">1.5.5.0.1.</span> <span class="toc-text">[建议] 为多媒体提供备选内容</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#关注点分离"><span class="toc-number">1.5.6.</span> <span class="toc-text">关注点分离</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#建议-尽可能保持结构（html）、表现（css）和行为（Javascript）分离。"><span class="toc-number">1.5.6.0.1.</span> <span class="toc-text">[建议] 尽可能保持结构（html）、表现（css）和行为（Javascript）分离。</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#建议-尽量避免写在-HTML-标签中写-style-属性"><span class="toc-number">1.5.6.0.2.</span> <span class="toc-text">[建议] 尽量避免写在 HTML 标签中写 style 属性</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#建议-尽量避免-JavaScript-生成标签"><span class="toc-number">1.5.6.0.3.</span> <span class="toc-text">[建议] 尽量避免 JavaScript 生成标签</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#建议-避免内联到-HTML-的-Javascript-代码"><span class="toc-number">1.5.6.0.4.</span> <span class="toc-text">[建议] 避免内联到 HTML 的 Javascript 代码</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#协议"><span class="toc-number">1.5.7.</span> <span class="toc-text">协议</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#建议-嵌入式资源书写省略协议头"><span class="toc-number">1.5.7.0.1.</span> <span class="toc-text">[建议] 嵌入式资源书写省略协议头</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实体引用"><span class="toc-number">1.5.8.</span> <span class="toc-text">实体引用</span></a></li></ol></li></ol></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-1.WEB前端Web/Front-End-Standards/teamCode/html" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      团队代码规范-HTML规范
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/11/15/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/teamCode/html/" class="article-date">
+	  <time datetime="2019-11-15T01:12:57.000Z" itemprop="datePublished">2019-11-15</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/1-WEB%E5%89%8D%E7%AB%AF/">1.WEB前端</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/HTML/" rel="tag">HTML</a>, <a class="article-tag-link" href="/tags/JavaScript/" rel="tag">JavaScript</a>, <a class="article-tag-link" href="/tags/%E8%A7%84%E8%8C%83/" rel="tag">规范</a>
+  </span>
+
+
+        
+
+	<span class="article-read hidden-xs">
+    	<i class="icon icon-eye-fill" aria-hidden="true"></i>
+    	<span id="/2019/11/15/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/teamCode/html/" class="leancloud_visitors"  data-flag-title="团队代码规范-HTML规范">0</span>
+    </span>
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/11/15/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/teamCode/html/#comments" class="article-comment-link">Comments</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count: 3.2k(words)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">Read Count: 14(minutes)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p>[TOC]</p>
+<p><a href="#user-content-1-前言">1 前言</a></p>
+<p><a href="#user-content-2-代码风格">2 代码风格</a></p>
+<p>　　<a href="#user-content-21-文件">2.1 文件</a></p>
+<p>　　<a href="#user-content-22-结构">2.2 结构</a></p>
+<p>　　　　<a href="#user-content-221-缩进">2.2.1 缩进</a></p>
+<p>　　　　<a href="#user-content-222-空格">2.2.2 空格</a></p>
+<p>　　　　<a href="#user-content-223-换行">2.2.3 换行</a></p>
+<p>　　<a href="#user-content-23-命名">2.3 命名</a></p>
+<p>　　<a href="#user-content-24-注释">2.4 注释</a></p>
+<p><a href="#user-content-3-语言特性">3 语言特性</a></p>
+<p>　　<a href="#user-content-31-DOCTYPE">3.1 DOCTYPE</a></p>
+<p>　　<a href="#user-content-32-元素">3.2 元素</a></p>
+<p>　　<a href="#user-content-33-属性">3.3 属性</a></p>
+<p><a href="#user-content-4-常见元素">4 常见元素</a></p>
+<p>　　<a href="#user-content-41-html">4.1 html</a></p>
+<p>　　<a href="#user-content-42-head">4.2 head</a></p>
+<p>　　<a href="#user-content-43-title">4.3 title</a></p>
+<p>　　<a href="#user-content-44-meta">4.4 meta</a></p>
+<p>　　<a href="#user-content-45-link">4.5 link</a></p>
+<p>　　<a href="#user-content-46-script">4.6 script</a></p>
+<p>　　<a href="#user-content-47-img">4.7 img</a></p>
+<p>　　<a href="#user-content-48-table">4.8 table</a></p>
+<p><a href="#user-content-5-其他">5 其他</a></p>
+<p>　　<a href="#user-content-51-代码有效性">5.1 代码有效性</a></p>
+<h1 id="HTML编程规范"><a href="#HTML编程规范" class="headerlink" title="HTML编程规范"></a>HTML编程规范</h1><h2 id="1-前言"><a href="#1-前言" class="headerlink" title="1 前言"></a>1 前言</h2><p>无</p>
+<h2 id="2-代码风格"><a href="#2-代码风格" class="headerlink" title="2 代码风格"></a>2 代码风格</h2><h3 id="2-1-文件"><a href="#2-1-文件" class="headerlink" title="2.1 文件"></a>2.1 文件</h3><h5 id="建议-用不带-BOM-头的-UTF-8-编码"><a href="#建议-用不带-BOM-头的-UTF-8-编码" class="headerlink" title="[建议] 用不带 BOM 头的 UTF-8 编码"></a>[建议] 用不带 BOM 头的 UTF-8 编码</h5><p>用没有字节顺序标记的UTF-8编码格式进行编写。</p>
+<p>在HTML模板和文件中指定编码 <code>&lt;meta charset=&quot;utf-8&quot;&gt;</code>. 不需要制定样式表的编码，它默认为UTF-8.</p>
+<h3 id="2-2-结构"><a href="#2-2-结构" class="headerlink" title="2.2 结构"></a>2.2 结构</h3><h4 id="2-2-1-缩进"><a href="#2-2-1-缩进" class="headerlink" title="2.2.1 缩进"></a>2.2.1 缩进</h4><h5 id="强制-每次缩进-4-个空格，不允许使用-2-个空格过-tab-字符"><a href="#强制-每次缩进-4-个空格，不允许使用-2-个空格过-tab-字符" class="headerlink" title="[强制] 每次缩进 4 个空格，不允许使用 2 个空格过 tab 字符"></a>[强制] 每次缩进 4 个空格，不允许使用 2 个空格过 tab 字符</h5><h5 id="强制-每个块元素、列表元素或表格元素都独占一行，每个子元素都相对于父元素进行缩进"><a href="#强制-每个块元素、列表元素或表格元素都独占一行，每个子元素都相对于父元素进行缩进" class="headerlink" title="[强制] 每个块元素、列表元素或表格元素都独占一行，每个子元素都相对于父元素进行缩进"></a>[强制] 每个块元素、列表元素或表格元素都独占一行，每个子元素都相对于父元素进行缩进</h5><p>将块元素、列表元素或表格元素都放在新行。</p>
+<p>另外，需要缩进块元素、列表元素或表格元素的子元素。</p>
+<p>（如果出现了列表项左右空文本节点问题，可以试着将所有的 li 元素都放在一行。 )</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">blockquote</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">p</span>&gt;</span><span class="tag">&lt;<span class="name">em</span>&gt;</span>Space<span class="tag">&lt;/<span class="name">em</span>&gt;</span>, the final frontier.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">blockquote</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">li</span>&gt;</span>一<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">li</span>&gt;</span>二<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">li</span>&gt;</span>三<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">table</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">thead</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">th</span>&gt;</span>姓名<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">th</span>&gt;</span>年龄<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">thead</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">tbody</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">td</span>&gt;</span>张三<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">td</span>&gt;</span>16<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">tbody</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="强制-html、head、body-以及-head-和-body-的直接子元素不缩进"><a href="#强制-html、head、body-以及-head-和-body-的直接子元素不缩进" class="headerlink" title="[强制] html、head、body 以及 head 和 body 的直接子元素不缩进"></a>[强制] html、head、body 以及 head 和 body 的直接子元素不缩进</h5><h4 id="2-2-2-空格"><a href="#2-2-2-空格" class="headerlink" title="2.2.2 空格"></a>2.2.2 空格</h4><h5 id="强制-元素属性中的-左右不能出现空格"><a href="#强制-元素属性中的-左右不能出现空格" class="headerlink" title="[强制] 元素属性中的 = 左右不能出现空格"></a>[强制] 元素属性中的 <code>=</code> 左右不能出现空格</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- good --&gt;</span><br><span class="line">&lt;p class=&quot;foo&quot;&gt;...&lt;/p&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- bad --&gt;</span><br><span class="line">&lt;p class =&quot;foo&quot;&gt;...&lt;/p&gt;</span><br><span class="line">&lt;p class= &quot;foo&quot;&gt;...&lt;/p&gt;</span><br><span class="line">&lt;p class = &quot;foo&quot;&gt;...&lt;/p&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-2-3-换行"><a href="#2-2-3-换行" class="headerlink" title="2.2.3 换行"></a>2.2.3 换行</h4><h5 id="建议-每行代码不超过-120-个字符"><a href="#建议-每行代码不超过-120-个字符" class="headerlink" title="[建议] 每行代码不超过 120 个字符"></a>[建议] 每行代码不超过 120 个字符</h5><p>考虑到 html 的特殊性，不作强制要求。</p>
+<h3 id="2-3-注释"><a href="#2-3-注释" class="headerlink" title="2.3  注释"></a>2.3  注释</h3><h5 id="建议-在模块的开始和结束位置添加模块开始-结束注释"><a href="#建议-在模块的开始和结束位置添加模块开始-结束注释" class="headerlink" title="[建议] 在模块的开始和结束位置添加模块开始/结束注释"></a>[建议] 在模块的开始和结束位置添加模块开始/结束注释</h5><p>这样做是很有必要的，可以使代码结构更加清晰，便于维护，尤其是模块代码很多行的时候。</p>
+<ul>
+<li>开始注释：<code>&lt;!-- 模块名 --&gt;</code>。</li>
+<li>结束注释：<code>&lt;!-- /模块名 --&gt;</code>。</li>
+<li>模块代码比较少的时候允许只有开始注释！</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 头部 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"header"</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- logo --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h1</span> <span class="attr">class</span>=<span class="string">"logo"</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#"</span>&gt;</span>logo<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- /logo --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 导航 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"menu"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#"</span>&gt;</span>nav1<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#"</span>&gt;</span>nav2<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- /导航 --&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- /头部 --&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="3-语言特性"><a href="#3-语言特性" class="headerlink" title="3 语言特性"></a>3 语言特性</h2><h3 id="3-1-DOCTYPE"><a href="#3-1-DOCTYPE" class="headerlink" title="3.1 DOCTYPE"></a>3.1 DOCTYPE</h3><h5 id="强制-使用HTML5标准，且DOCTYPE大写"><a href="#强制-使用HTML5标准，且DOCTYPE大写" class="headerlink" title="[强制] 使用HTML5标准，且DOCTYPE大写"></a>[强制] 使用HTML5标准，且DOCTYPE大写</h5><p>DOCTYPE 不可省略。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-2-元素"><a href="#3-2-元素" class="headerlink" title="3.2 元素"></a>3.2 元素</h3><h5 id="强制-元素名必须小写"><a href="#强制-元素名必须小写" class="headerlink" title="[强制] 元素名必须小写"></a>[强制] 元素名必须小写</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- good --&gt;</span><br><span class="line">&lt;div&gt;&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- bad --&gt;</span><br><span class="line">&lt;DIV&gt;&lt;/DIV&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="强制-不要省略可选的结束标签（closing-tag）"><a href="#强制-不要省略可选的结束标签（closing-tag）" class="headerlink" title="[强制] 不要省略可选的结束标签（closing tag）"></a>[强制] 不要省略可选的结束标签（closing tag）</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- good --&gt;</span><br><span class="line">&lt;p&gt;这是一段文本&lt;/p&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- bad --&gt;</span><br><span class="line">&lt;p&gt;这是一段文本</span><br></pre></td></tr></table></figure>
+
+<h5 id="强制-不要在自闭合元素（Void-elements）尾部添加斜线"><a href="#强制-不要在自闭合元素（Void-elements）尾部添加斜线" class="headerlink" title="[强制] 不要在自闭合元素（Void elements）尾部添加斜线"></a>[强制] 不要在自闭合元素（Void elements）尾部添加斜线</h5><p>常见的自闭合元素：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;br&gt; &lt;hr&gt; &lt;img&gt; &lt;input&gt; &lt;link&gt; &lt;meta&gt;</span><br></pre></td></tr></table></figure>
+<p>不太常见的无内容元素：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;area&gt; &lt;base&gt; &lt;col&gt; &lt;command&gt; &lt;embed&gt; &lt;keygen&gt;</span><br><span class="line">&lt;param&gt; &lt;source&gt; &lt;track&gt; &lt;wbr&gt;</span><br></pre></td></tr></table></figure>
+
+<p>示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- good --&gt;</span><br><span class="line">&lt;img src=&quot;xxx.jpg&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- bad --&gt;</span><br><span class="line">&lt;img src=&quot;xxx.jpg&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="强制-标签必须合理地嵌套"><a href="#强制-标签必须合理地嵌套" class="headerlink" title="[强制] 标签必须合理地嵌套"></a>[强制] 标签必须合理地嵌套</h5><ul>
+<li>块元素可以包含内联元素或块元素。</li>
+<li>内联元素不能包含块元素。</li>
+<li>几个特殊的块元素只能包含内联元素，不能包含块元素：h1-h6、p、dt、caption、hr。</li>
+<li>其他规则，如 tbody 必须置于 table 中。</li>
+</ul>
+<h5 id="建议-合理使用语义化标签"><a href="#建议-合理使用语义化标签" class="headerlink" title="[建议] 合理使用语义化标签"></a>[建议] 合理使用语义化标签</h5><p>合理使用，不滥用。</p>
+<p>原因：SEO优化。</p>
+<h5 id="建议-不使用样式有关的元素"><a href="#建议-不使用样式有关的元素" class="headerlink" title="[建议] 不使用样式有关的元素"></a>[建议] 不使用样式有关的元素</h5><p>如center、u 等等。</p>
+<h5 id="建议-减少不必要的嵌套"><a href="#建议-减少不必要的嵌套" class="headerlink" title="[建议] 减少不必要的嵌套"></a>[建议] 减少不必要的嵌套</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- good --&gt;</span><br><span class="line">&lt;img class=&quot;foo&quot; src=&quot;xxx.jpg&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- bad --&gt;</span><br><span class="line">&lt;div class=&quot;foo&quot;&gt;</span><br><span class="line">    &lt;img src=&quot;xxx.jpg&quot;&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-3-属性"><a href="#3-3-属性" class="headerlink" title="3.3 属性"></a>3.3 属性</h3><h5 id="强制-属性必须小写"><a href="#强制-属性必须小写" class="headerlink" title="[强制] 属性必须小写"></a>[强制] 属性必须小写</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- good --&gt;</span><br><span class="line">&lt;img src=&quot;xxx.jpg&quot;&gt;</span><br><span class="line">&lt;div onclick=&quot;foo()&quot;&gt;&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- bad --&gt;</span><br><span class="line">&lt;img SRC=&quot;xxx.jpg&quot;&gt;</span><br><span class="line">&lt;div onClick=&quot;foo()&quot;&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="建议-自定义属性以-data-开头"><a href="#建议-自定义属性以-data-开头" class="headerlink" title="[建议] 自定义属性以 data- 开头"></a>[建议] 自定义属性以 <code>data-</code> 开头</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- good --&gt;</span><br><span class="line">&lt;img class=&quot;post-image&quot; src=&quot;default.jpg&quot; data-original=&quot;foo.png&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- bad --&gt;</span><br><span class="line">&lt;img class=&quot;post-image&quot; src=&quot;default.jpg&quot; original-image=&quot;foo.png&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="强制-属性值必须用双引号包围"><a href="#强制-属性值必须用双引号包围" class="headerlink" title="[强制] 属性值必须用双引号包围"></a>[强制] 属性值必须用双引号包围</h5><p>不允许使用单引号，不允许不加引号。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- good --&gt;</span><br><span class="line">&lt;img src=&quot;xxx.jpg&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- bad --&gt;</span><br><span class="line">&lt;img src=&apos;xxx.jpg&apos;&gt;</span><br><span class="line">&lt;img src=&apos;xxx.jpg&gt;</span><br></pre></td></tr></table></figure>
+
+
+<h5 id="建议-属性值必须小写（除了文本和-CDATA-）"><a href="#建议-属性值必须小写（除了文本和-CDATA-）" class="headerlink" title="[建议] 属性值必须小写（除了文本和 CDATA ）"></a>[建议] 属性值必须小写（除了文本和 CDATA ）</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- good --&gt;</span><br><span class="line">&lt;a href=&quot;&quot; target=&quot;_blank&quot;&gt;百度一下&lt;/a&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- bad --&gt;</span><br><span class="line">&lt;a href=&quot;&quot; target=&quot;_BLANK&quot;&gt;百度一下&lt;/a&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="建议-布尔类型的属性不添加属性值"><a href="#建议-布尔类型的属性不添加属性值" class="headerlink" title="[建议] 布尔类型的属性不添加属性值"></a>[建议] 布尔类型的属性不添加属性值</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- good --&gt;</span><br><span class="line">&lt;input type=&quot;text&quot; disabled&gt;</span><br><span class="line"> </span><br><span class="line">&lt;input type=&quot;checkbox&quot; checked&gt;</span><br><span class="line"> </span><br><span class="line">&lt;select&gt;</span><br><span class="line">	&lt;option selected&gt;1&lt;/option&gt;</span><br><span class="line">&lt;/select&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- bad --&gt;</span><br><span class="line">&lt;input type=&quot;text&quot; disabled=&quot;true&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="建议-属性应当按照以下给出的顺序依次排列"><a href="#建议-属性应当按照以下给出的顺序依次排列" class="headerlink" title="[建议] 属性应当按照以下给出的顺序依次排列"></a>[建议] 属性应当按照以下给出的顺序依次排列</h5><ol>
+<li>class</li>
+<li>id, name</li>
+<li>data-*</li>
+<li>src, for, type, href</li>
+<li>title, alt</li>
+<li>aria-*, role</li>
+</ol>
+<p>依据属性的重要程度来书写。<br>必须属性写在非必须属性前面。</p>
+<p>class 用于标识组件，相当于一个元素的名称，因此应该排在首位。</p>
+<p>id 用于标识具体组件，排在第二位。</p>
+<h2 id="4-常见元素"><a href="#4-常见元素" class="headerlink" title="4 常见元素"></a>4 常见元素</h2><h3 id="4-1-html"><a href="#4-1-html" class="headerlink" title="4.1 html"></a>4.1 html</h3><h5 id="建议-为-html-元素添加-lang-属性"><a href="#建议-为-html-元素添加-lang-属性" class="headerlink" title="[建议] 为 html 元素添加 lang 属性"></a>[建议] 为 html 元素添加 lang 属性</h5><p>为文档设置正确的语言。</p>
+<p>这将有助于语音合成工具确定其所应该采用的发音，有助于翻译工具自动翻译等等。</p>
+<p>如果是中文，lang 属性值为 <code>zh-CN</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;html lang=&quot;zh-CN&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-2-head"><a href="#4-2-head" class="headerlink" title="4.2 head"></a>4.2 head</h3><h5 id="建议-head-元素各子元素按顺序编写"><a href="#建议-head-元素各子元素按顺序编写" class="headerlink" title="[建议] head 元素各子元素按顺序编写"></a>[建议] head 元素各子元素按顺序编写</h5><ol>
+<li>meta</li>
+<li>title</li>
+<li>link</li>
+<li>script</li>
+<li>style</li>
+</ol>
+<h3 id="4-3-title"><a href="#4-3-title" class="headerlink" title="4.3 title"></a>4.3 title</h3><h5 id="强制-title-元素必不可少"><a href="#强制-title-元素必不可少" class="headerlink" title="[强制] title 元素必不可少"></a>[强制] title 元素必不可少</h5><p>标题不可为空。</p>
+<h3 id="4-4-meta"><a href="#4-4-meta" class="headerlink" title="4.4 meta"></a>4.4 meta</h3><h5 id="强制-使用-lt-meta-charset-quot-quot-gt-来定义页面编码"><a href="#强制-使用-lt-meta-charset-quot-quot-gt-来定义页面编码" class="headerlink" title="[强制] 使用 &lt;meta charset=&quot;&quot;&gt; 来定义页面编码"></a>[强制] 使用 <code>&lt;meta charset=&quot;&quot;&gt;</code> 来定义页面编码</h5><p>页面必须指定编码。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta charset=&quot;utf-8&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="建议-启用-IE-兼容模式"><a href="#建议-启用-IE-兼容模式" class="headerlink" title="[建议] 启用 IE 兼容模式"></a>[建议] 启用 IE 兼容模式</h5><p>IE 支持通过特定的 <meta> 标签来确定绘制当前页面所应该采用的 IE 版本。除非有强烈的特殊需求，否则最好是设置为 edge mode，从而通知 IE 采用其所支持的最新的模式。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=Edge&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-5-link"><a href="#4-5-link" class="headerlink" title="4.5 link"></a>4.5 link</h3><h5 id="强制-使用-link-引用外部-css-文件时，必须加-rel-quot-stylesheet-quot"><a href="#强制-使用-link-引用外部-css-文件时，必须加-rel-quot-stylesheet-quot" class="headerlink" title="[强制] 使用 link 引用外部 css 文件时，必须加 rel=&quot;stylesheet&quot;"></a>[强制] 使用 link 引用外部 css 文件时，必须加 <code>rel=&quot;stylesheet&quot;</code></h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- good --&gt;</span><br><span class="line">&lt;link rel=&quot;stylesheet&quot; href=&quot;foo.css&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- bad --&gt;</span><br><span class="line">&lt;link rel=&quot;stylesheet&quot; href=&quot;foo.css&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="强制-使用-link-引用外部-css-文件时，不允许加-type-quot-text-css-quot"><a href="#强制-使用-link-引用外部-css-文件时，不允许加-type-quot-text-css-quot" class="headerlink" title="[强制] 使用 link 引用外部 css 文件时，不允许加 type=&quot;text/css&quot;"></a>[强制] 使用 link 引用外部 css 文件时，不允许加 <code>type=&quot;text/css&quot;</code></h5><p>HTML5 默认 type 为 <code>text/css</code>，所以没必要指定。即便是老浏览器也是支持的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- good --&gt;</span><br><span class="line">&lt;link rel=&quot;stylesheet&quot; href=&quot;foo.css&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- bad --&gt;</span><br><span class="line">&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;foo.css&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="建议-使用-link-引用外部-css-文件时，rel-quot-stylesheet-quot-写在-href-属性前面"><a href="#建议-使用-link-引用外部-css-文件时，rel-quot-stylesheet-quot-写在-href-属性前面" class="headerlink" title="[建议] 使用 link 引用外部 css 文件时，rel=&quot;stylesheet&quot; 写在 href 属性前面"></a>[建议] 使用 link 引用外部 css 文件时，<code>rel=&quot;stylesheet&quot;</code> 写在 href 属性前面</h5><p>仅仅是为了对齐，看起来美观而已。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- good --&gt;</span><br><span class="line">&lt;link rel=&quot;stylesheet&quot; href=&quot;foo.css&quot;&gt;</span><br><span class="line">&lt;link rel=&quot;stylesheet&quot; href=&quot;long-path/foo.css&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- bad --&gt;</span><br><span class="line">&lt;link href=&quot;foo.css&quot; rel=&quot;stylesheet&quot;&gt;</span><br><span class="line">&lt;link href=&quot;long-path/foo.css&quot; rel=&quot;stylesheet&quot; &gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-6-script"><a href="#4-6-script" class="headerlink" title="4.6 script"></a>4.6 script</h3><h5 id="强制-使用script元素引用外部-javascript-文件时，不允许加-type-quot-text-javascript-quot"><a href="#强制-使用script元素引用外部-javascript-文件时，不允许加-type-quot-text-javascript-quot" class="headerlink" title="[强制] 使用script元素引用外部 javascript 文件时，不允许加 type=&quot;text/javascript&quot;"></a>[强制] 使用script元素引用外部 javascript 文件时，不允许加 <code>type=&quot;text/javascript&quot;</code></h5><p>HTML5默认 script 元素的 type 为 <code>text/javascript</code> 类型，所以没必要指定。即便是老浏览器也是支持的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- good --&gt;</span><br><span class="line">&lt;script src=&quot;foo.js&quot;&gt;&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- bad --&gt;</span><br><span class="line">&lt;script type=&quot;text/javascript&quot; src=&quot;foo.js&quot;&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-7-img"><a href="#4-7-img" class="headerlink" title="4.7 img"></a>4.7 img</h3><h3 id="4-8-table"><a href="#4-8-table" class="headerlink" title="4.8 table"></a>4.8 table</h3><h5 id="强制-除非必要，否则不要使用-table-元素来布局"><a href="#强制-除非必要，否则不要使用-table-元素来布局" class="headerlink" title="[强制] 除非必要，否则不要使用 table 元素来布局"></a>[强制] 除非必要，否则不要使用 <code>table</code> 元素来布局</h5><p>除了显示表格数据外，尽可能避免使用表格来布局。</p>
+<h5 id="强制-table-元素必须包含-thead-和-tbody-元素"><a href="#强制-table-元素必须包含-thead-和-tbody-元素" class="headerlink" title="[强制] table 元素必须包含 thead 和 tbody 元素"></a>[强制] table 元素必须包含 thead 和 tbody 元素</h5><p>如果不需要标题，thead 可以不写。</p>
+<h3 id="语义化元素"><a href="#语义化元素" class="headerlink" title="语义化元素"></a>语义化元素</h3><h4 id="header"><a href="#header" class="headerlink" title="header"></a>header</h4><p>“网页”或“section”的页眉。也就是说header的直接父元素不是body就是section。通常显示网站标题，副标题，logo等信息。</p>
+<h4 id="footer"><a href="#footer" class="headerlink" title="footer"></a>footer</h4><p>“网页”或“section”的页脚。也就是说header的直接父元素不是body就是section。显示版权等信息。</p>
+<h4 id="nav"><a href="#nav" class="headerlink" title="nav"></a>nav</h4><p>导航栏，网站的导航</p>
+<h2 id="5-其他"><a href="#5-其他" class="headerlink" title="5 其他"></a>5 其他</h2><h3 id="5-1-代码有效性"><a href="#5-1-代码有效性" class="headerlink" title="5.1 代码有效性"></a>5.1 代码有效性</h3><h3 id="HTML代码有效性"><a href="#HTML代码有效性" class="headerlink" title="HTML代码有效性"></a>HTML代码有效性</h3><h5 id="建议-尽量使用有效的HTML代码"><a href="#建议-尽量使用有效的HTML代码" class="headerlink" title="[建议] 尽量使用有效的HTML代码"></a>[建议] 尽量使用有效的HTML代码</h5><p>比如元素的闭合、必要的元素等等。</p>
+<p>编写有效的HTML代码，否则很难达到性能上的提升。</p>
+<p>用类似 <a href="http://validator.w3.org/" target="_blank" rel="noopener">W3C HTML validator</a>  这样的工具来进行测试。</p>
+<p>HTML代码有效性是重要的质量衡量标准，并可确保HTML代码可以正确使用。</p>
+<h3 id="兼容性"><a href="#兼容性" class="headerlink" title="兼容性"></a>兼容性</h3><p>大胆地使用 html5 语义标签，兼容性问题用 <a href="https://github.com/aFarkas/html5shiv" target="_blank" rel="noopener">html5shiv</a> 解决</p>
+<h3 id="TODO"><a href="#TODO" class="headerlink" title="TODO"></a>TODO</h3><h5 id="建议-用-TODO-标记代办事项和正活动的条目"><a href="#建议-用-TODO-标记代办事项和正活动的条目" class="headerlink" title="[建议] 用 TODO 标记代办事项和正活动的条目"></a>[建议] 用 TODO 标记代办事项和正活动的条目</h5><p>说明：<br>只用 TODO 来强调代办事项， 不要用其他的常见格式，例如 @@ 。</p>
+<p>附加联系人（用户名或电子邮件列表），用括号括起来，例如 TODO(contact) 。</p>
+<p>可在冒号之后附加活动条目说明等，例如 TODO: 活动条目说明 。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;# TODO(cha.jn): 重新置中 #&#125;</span><br><span class="line"><span class="tag">&lt;<span class="name">center</span>&gt;</span>Test<span class="tag">&lt;/<span class="name">center</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- <span class="doctag">TODO:</span> 删除可选元素 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>Apples<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>Oranges<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="多媒体后备方案"><a href="#多媒体后备方案" class="headerlink" title="多媒体后备方案"></a>多媒体后备方案</h3><h5 id="建议-为多媒体提供备选内容"><a href="#建议-为多媒体提供备选内容" class="headerlink" title="[建议] 为多媒体提供备选内容"></a>[建议] 为多媒体提供备选内容</h5><p>对于多媒体，如图像，视频，通过 canvas 读取的动画元素，确保提供备选方案。 对于图像使用有意义的备选文案（ alt ） 对于视频和音频使用有效的副本和文案说明。</p>
+<p>提供备选内容是很重要的，原因：给盲人用户以一些提示性的文字，用 @alt 告诉他这图像是关于什么的，给可能没理解视频或音频的内容的用户以提示。</p>
+<p>（图像的 alt 属性会产生冗余，如果使用图像只是为了不能立即用CSS而装饰的 ，就不需要用备选文案了，可以写 alt=”” 。）</p>
+<h3 id="关注点分离"><a href="#关注点分离" class="headerlink" title="关注点分离"></a>关注点分离</h3><h5 id="建议-尽可能保持结构（html）、表现（css）和行为（Javascript）分离。"><a href="#建议-尽可能保持结构（html）、表现（css）和行为（Javascript）分离。" class="headerlink" title="[建议] 尽可能保持结构（html）、表现（css）和行为（Javascript）分离。"></a>[建议] 尽可能保持结构（html）、表现（css）和行为（Javascript）分离。</h5><p>确保文档和模板只包含HTML结构， 把所有表现都放到样式表里，把所有行为都放到脚本里。</p>
+<p>此外，尽量使脚本和样式表在文档与模板中有最小接触面积，即减少外链。</p>
+<p>具体见后面几条规范。</p>
+<h5 id="建议-尽量避免写在-HTML-标签中写-style-属性"><a href="#建议-尽量避免写在-HTML-标签中写-style-属性" class="headerlink" title="[建议] 尽量避免写在 HTML 标签中写 style 属性"></a>[建议] 尽量避免写在 HTML 标签中写 style 属性</h5><h5 id="建议-尽量避免-JavaScript-生成标签"><a href="#建议-尽量避免-JavaScript-生成标签" class="headerlink" title="[建议] 尽量避免 JavaScript 生成标签"></a>[建议] 尽量避免 JavaScript 生成标签</h5><p>通过 JavaScript 生成的标签让内容变得不易查找、编辑，并且降低性能。</p>
+<h5 id="建议-避免内联到-HTML-的-Javascript-代码"><a href="#建议-避免内联到-HTML-的-Javascript-代码" class="headerlink" title="[建议] 避免内联到 HTML 的 Javascript 代码"></a>[建议] 避免内联到 HTML 的 Javascript 代码</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- good --&gt;</span><br><span class="line">&lt;a id=&quot;myId&quot; href=&quot;javascript:;&quot;&gt;foo&lt;/a&gt;</span><br><span class="line"></span><br><span class="line">$(&quot;#myId&quot;).on(&quot;click&quot;, handler);</span><br><span class="line"></span><br><span class="line">&lt;!-- bad --&gt;</span><br><span class="line">&lt;a href=&quot;javascript:;&quot; onclick=&quot;handler();&quot;&gt;foo&lt;/a&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="协议"><a href="#协议" class="headerlink" title="协议"></a>协议</h3><h5 id="建议-嵌入式资源书写省略协议头"><a href="#建议-嵌入式资源书写省略协议头" class="headerlink" title="[建议] 嵌入式资源书写省略协议头"></a>[建议] 嵌入式资源书写省略协议头</h5><p>省略图像、媒体文件、样式表和脚本等URL协议头部声明 ( http: , https: )。如果不是这两个声明的URL则不省略。</p>
+<p>省略协议声明，使URL成相对地址，防止内容混淆问题和导致小文件重复下载。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 不推荐 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"http://www.google.com/js/gweb/analytics/autotrack.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 推荐 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"//www.google.com/js/gweb/analytics/autotrack.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line">/* 不推荐 */</span><br><span class="line">.example &#123;</span><br><span class="line">  background: url(http://www.google.com/images/example);</span><br><span class="line">&#125;</span><br><span class="line">/* 推荐 */</span><br><span class="line">.example &#123;</span><br><span class="line">  background: url(//www.google.com/images/example);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="实体引用"><a href="#实体引用" class="headerlink" title="实体引用"></a>实体引用</h3><p>不要用实体引用。<br>不需要使用类似 &mdash; 、 &rdquo; 和 &#x263a; 等的实体引用, 假定团队之间所用的文件和编辑器是同一编码（UTF-8）。</p>
+<p>在HTML文档中具有特殊含义的字符（例如 &lt; 和 &amp; )为例外， 噢对了，还有 “不可见” 字符 （例如no-break空格）。</p>
+<!-- 不推荐 -->
+<p>欧元货币符号是 <code>&amp;ldquo;&amp;eur;&amp;rdquo;</code>。</p>
+<!-- 推荐 -->
+<p>欧元货币符号是 “€”。</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a style="word-wrap:break-word;" href="http://yoursite.com/2019/11/15/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/teamCode/html/" title="团队代码规范-HTML规范" target="_blank" rel="external">http://yoursite.com/2019/11/15/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/teamCode/html/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/chen08" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/chen08" target="_blank"><span class="text-dark">溟海</span><small class="ml-1x">Web Developer &amp; Designer</small></a></h3>
+        <div>天行健，君子以自强不息，地势坤，君子以厚德载物。 杀不死我的,终将使我强大 没有吃不了的苦,只有享不了的福</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2019/11/15/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/teamCode/git/" title="团队代码规范-Git规范"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/11/15/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/teamCode/java/" title="团队代码规范-JAVA规范(1)"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="Catalogue" role="button">
+        <span>[&nbsp;</span><span>Catalogue</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open alipay app scan this qrcode, buy me a coffee!</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open wechat app scan this qrcode, buy me a coffee!</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> alipay</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> wechat payment</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+
+
+<!-- custom analytics part create by xiamo -->
+<!-- <script defer src="https://cdn1.lncld.net/static/js/av-min-1.2.1.js"></script> -->
+<script defer src="/js/av-min-1.2.1.js"></script>
+<script defer>
+AV.init({
+  appId: 'ngFQzHw7z0HgQfrtn4En4WTN-gzGzoHsz',
+  appKey: 'W9hgBBfVDwRGJKoGp5a6HKpx'
+});
+
+function showTime(Counter) {
+	var query = new AV.Query(Counter);
+		var visitors= $('.leancloud_visitors');
+		query.greaterThanOrEqualTo("time", 0);		
+		query.find({
+			success: function(results) {
+				if (results.length == 0) {				
+					return;
+				}
+				var data = results;
+				visitors.each(function(){
+					var url = $(this).attr('id').trim();					
+					for (var i = 0; i < data.length; i++) {
+						var object = data[i];
+						var content = object.get('time');
+						var _url = object.get('url')
+						if(url == _url){
+							$(this).text(content);
+						}
+					}
+				})
+				
+			},
+			error: function(object, error) {
+				console.log("Error: " + error.code + " " + error.message);
+			}
+		});
+}
+
+function addCount(Counter) {
+	var Counter = AV.Object.extend("Counter");
+	url = $(".leancloud_visitors").attr('id').trim();
+	title = $(".leancloud_visitors").attr('data-flag-title').trim();
+	var query = new AV.Query(Counter);
+	query.equalTo("url", url);
+	query.find({
+		success: function(results) {
+			if (results.length > 0) {
+				var counter = results[0];
+				counter.fetchWhenSave(true);
+				counter.increment("time");
+				counter.save(null, {
+					success: function(counter) {
+						var content = counter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(counter, error) {
+						console.log('Failed to save Visitor num, with error message: ' + error.message);
+					}
+				});
+			} else {
+				var newcounter = new Counter();
+				newcounter.set("title", title);
+				newcounter.set("url", url);
+				newcounter.set("time", 1);
+				newcounter.save(null, {
+					success: function(newcounter) {
+					    console.log("newcounter.get('time')="+newcounter.get('time'));
+						var content = newcounter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(newcounter, error) {
+						console.log('Failed to create');
+					}
+				});
+			}
+		},
+		error: function(error) {
+			console.log('Error:' + error.code + " " + error.message);
+		}
+	});
+}
+$(function() {
+	var Counter = AV.Object.extend("Counter");
+	if ($('.leancloud_visitors').length == 1) {
+		addCount(Counter);
+	} else {
+		showTime(Counter);
+	}
+}); 
+</script>
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>

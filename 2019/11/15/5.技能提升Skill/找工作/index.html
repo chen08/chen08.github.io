@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>找工作 | Hexo</title>
+  <script src="./js/jQuery.md5.js"></script>
+  <script>
+    
+    (function(){
+      localStorage.setItem('userinfo',hex_md5('123chen'))
+      
+      var localData = localStorage.getItem("userinfo");
+      // var localState = localStorage.getItem("state");
+        if(localStorage.getItem("state") === null){
+          var reason = window.prompt('请输入访问密码');
+          // var promptVal = window.prompt('请输入访问密码');
+          if(reason){
+              //填写内容并“确定”
+              var md5Prompt = hex_md5(reason)
+              //点击的是“确定” 
+              if (localData !== md5Prompt){
+                alert('密码错误！');
+                // history.back();
+                location.replace(location.href); 
+              }else{
+                // alert('0123');
+                localStorage.setItem('state',"1")
+              }
+          }
+          else if(reason === ""){
+              //未填写但“确定”
+              location.replace(location.href); 
+          }
+          else{
+            //“取消”事件
+            location.replace(location.href); 
+          }
+        }
+
+    })();
+  </script>
+ <link rel="alternate" href="/atom.xml" data="123chen" type="application/atom+xml">
+  <meta name="description" content="找工作面试的时候，要保持自信。问题想清楚之后再回答。 目录 评估自己的技术 面试问题 vue 面试问题 Web前端程序员简历模板 前端工作招聘网站列表 个人推荐用拉钩。 向面试官提问 当面试官问「你有什么要问我的吗」时，应该问什么？ 知乎 Questions to ask your interviewer    其他如何成为靠谱的前端工程师？小胡子哥这么说：  你需要扎实的基础，JS 中的每个知识">
+<meta name="keywords" content="面试">
+<meta property="og:type" content="article">
+<meta property="og:title" content="找工作">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;15&#x2F;5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill&#x2F;%E6%89%BE%E5%B7%A5%E4%BD%9C&#x2F;index.html">
+<meta property="og:site_name" content="学习的敌人是自己的满足，要认真学习一点东西，必须从不自满开始。对自己，“学而不厌”，对人家，“诲人不倦”，我们应取这种态度。">
+<meta property="og:description" content="找工作面试的时候，要保持自信。问题想清楚之后再回答。 目录 评估自己的技术 面试问题 vue 面试问题 Web前端程序员简历模板 前端工作招聘网站列表 个人推荐用拉钩。 向面试官提问 当面试官问「你有什么要问我的吗」时，应该问什么？ 知乎 Questions to ask your interviewer    其他如何成为靠谱的前端工程师？小胡子哥这么说：  你需要扎实的基础，JS 中的每个知识">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-11-15T08:56:08.000Z">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://yoursite.com/2019/11/15/5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill/%E6%89%BE%E5%B7%A5%E4%BD%9C/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="学习的敌人是自己的满足，要认真学习一点东西，必须从不自满开始。对自己，“学而不厌”，对人家，“诲人不倦”，我们应取这种态度。" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/chen08" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">溟海</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer &amp; Designer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Guangzhou, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+          <!-- . -->
+        
+        
+          <li class="menu-item menu-item-home">
+            <a href="/.">
+              
+              <i class="icon icon-home-fill"></i>
+              
+              <span class="menu-title">Home</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- archives -->
+        
+        
+          <li class="menu-item menu-item-archives">
+            <a href="/archives">
+              
+              <i class="icon icon-archives-fill"></i>
+              
+              <span class="menu-title">Archives</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- categories -->
+        
+        
+          <li class="menu-item menu-item-categories">
+            <a href="/categories">
+              
+              <i class="icon icon-folder"></i>
+              
+              <span class="menu-title">Categories</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- tags -->
+        
+        
+          <li class="menu-item menu-item-tags">
+            <a href="/tags">
+              
+              <i class="icon icon-tags"></i>
+              
+              <span class="menu-title">Tags</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- repository -->
+        
+        
+          <li class="menu-item menu-item-repository">
+            <a href="/repository">
+              
+              <i class="icon icon-project"></i>
+              
+              <span class="menu-title">Repository</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- books -->
+        
+        
+          <li class="menu-item menu-item-books">
+            <a href="/books">
+              
+              <i class="icon icon-book-fill"></i>
+              
+              <span class="menu-title">Books</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- links -->
+        
+        
+          <li class="menu-item menu-item-links">
+            <a href="/links">
+              
+              <i class="icon icon-friendship"></i>
+              
+              <span class="menu-title">Links</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- about -->
+        
+        
+          <li class="menu-item menu-item-about">
+            <a href="/about">
+              
+              <i class="icon icon-cup-fill"></i>
+              
+              <span class="menu-title">About</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- navigation/webstack/index.html -->
+        
+        
+          <li class="menu-item menu-item-navigation">
+            <a href="/navigation/webstack/index.html">
+              
+              <i class="icon icon-delicious"></i>
+              
+              <span class="menu-title">Navigation</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- navigation/webstack/word.html -->
+        
+        
+          <li style="display: none;" class="menu-item menu-item-fixed">
+            <a href="/navigation/webstack/word.html">
+              
+              <i class="icon icon-delicious"></i>
+              
+              <span class="menu-title">menu.fixed</span>
+            </a>
+          </li>
+        
+
+
+        
+      </ul>
+
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/1-WEB%E5%89%8D%E7%AB%AF/">1.WEB前端</a><span class="category-list-count">140</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/2-%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">2.编程语言</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/3-%E4%BA%A7%E5%93%81%E8%AE%BE%E8%AE%A1/">3.产品设计</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/4-%E7%AE%A1%E7%90%86%E8%90%A5%E9%94%80/">4.管理营销</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/5-%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87/">5.技能提升</a><span class="category-list-count">155</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/6-%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93/">6.读书总结</a><span class="category-list-count">9</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/" rel="tag">CSS</a><span class="tag-list-count">18</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Dart/" rel="tag">Dart</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES6/" rel="tag">ES6</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES7/" rel="tag">ES7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/English/" rel="tag">English</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flutter/" rel="tag">Flutter</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a><span class="tag-list-count">20</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IMAGE/" rel="tag">IMAGE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JQuery/" rel="tag">JQuery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a><span class="tag-list-count">224</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">JavaScript设计模式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript%E9%AB%98%E7%BA%A7%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" rel="tag">JavaScript高级程序设计</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jquery/" rel="tag">Jquery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mysql/" rel="tag">Mysql</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NETWORK/" rel="tag">NETWORK</a><span class="tag-list-count">13</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node/" rel="tag">Node</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/" rel="tag">PHP</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/" rel="tag">React</a><span class="tag-list-count">31</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJS/" rel="tag">RxJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SVG/" rel="tag">SVG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sass/" rel="tag">Sass</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/" rel="tag">Vue</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%AE%89%E5%85%A8/" rel="tag">WEB安全</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webpack/" rel="tag">Webpack</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/" rel="tag">jQuery</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodeJS/" rel="tag">nodeJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B9%A6%E5%8D%95/" rel="tag">书单</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B9%A6%E7%B1%8D/" rel="tag">书籍</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/" rel="tag">前端安全</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83/" rel="tag">命名规范</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag">小程序</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" rel="tag">性能优化</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8F%92%E4%BB%B6/" rel="tag">插件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A1%86%E6%9E%B6/" rel="tag">框架</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" rel="tag">浏览器</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%84%E4%BB%B6/" rel="tag">组件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%84%E8%8C%83/" rel="tag">规范</a><span class="tag-list-count">67</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6%E5%AD%A6%E4%B9%A0/" rel="tag">软件学习</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a><span class="tag-list-count">153</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/CSS/" style="font-size: 13.71px;">CSS</a> <a href="/tags/Dart/" style="font-size: 13px;">Dart</a> <a href="/tags/ES6/" style="font-size: 13px;">ES6</a> <a href="/tags/ES7/" style="font-size: 13px;">ES7</a> <a href="/tags/English/" style="font-size: 13.18px;">English</a> <a href="/tags/Flutter/" style="font-size: 13px;">Flutter</a> <a href="/tags/Git/" style="font-size: 13.12px;">Git</a> <a href="/tags/HTML/" style="font-size: 13.76px;">HTML</a> <a href="/tags/HTTP/" style="font-size: 13.18px;">HTTP</a> <a href="/tags/IMAGE/" style="font-size: 13px;">IMAGE</a> <a href="/tags/JAVA/" style="font-size: 13.06px;">JAVA</a> <a href="/tags/JQuery/" style="font-size: 13px;">JQuery</a> <a href="/tags/JavaScript/" style="font-size: 14px;">JavaScript</a> <a href="/tags/JavaScript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 13px;">JavaScript设计模式</a> <a href="/tags/JavaScript%E9%AB%98%E7%BA%A7%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 13px;">JavaScript高级程序设计</a> <a href="/tags/Jquery/" style="font-size: 13px;">Jquery</a> <a href="/tags/Mysql/" style="font-size: 13px;">Mysql</a> <a href="/tags/NETWORK/" style="font-size: 13.53px;">NETWORK</a> <a href="/tags/Node/" style="font-size: 13.35px;">Node</a> <a href="/tags/PHP/" style="font-size: 13.24px;">PHP</a> <a href="/tags/React/" style="font-size: 13.82px;">React</a> <a href="/tags/RxJS/" style="font-size: 13px;">RxJS</a> <a href="/tags/SVG/" style="font-size: 13px;">SVG</a> <a href="/tags/Sass/" style="font-size: 13px;">Sass</a> <a href="/tags/TypeScript/" style="font-size: 13.29px;">TypeScript</a> <a href="/tags/Vue/" style="font-size: 13.65px;">Vue</a> <a href="/tags/WEB%E5%AE%89%E5%85%A8/" style="font-size: 13.29px;">WEB安全</a> <a href="/tags/Webpack/" style="font-size: 13.59px;">Webpack</a> <a href="/tags/jQuery/" style="font-size: 13.65px;">jQuery</a> <a href="/tags/nodeJS/" style="font-size: 13px;">nodeJS</a> <a href="/tags/python/" style="font-size: 13px;">python</a> <a href="/tags/%E4%B9%A6%E5%8D%95/" style="font-size: 13px;">书单</a> <a href="/tags/%E4%B9%A6%E7%B1%8D/" style="font-size: 13.06px;">书籍</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 13px;">前端</a> <a href="/tags/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/" style="font-size: 13.06px;">前端安全</a> <a href="/tags/%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83/" style="font-size: 13.41px;">命名规范</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 13px;">小程序</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 13.06px;">工具</a> <a href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" style="font-size: 13.47px;">性能优化</a> <a href="/tags/%E6%8F%92%E4%BB%B6/" style="font-size: 13px;">插件</a> <a href="/tags/%E6%A1%86%E6%9E%B6/" style="font-size: 13px;">框架</a> <a href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" style="font-size: 13px;">浏览器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13.18px;">算法</a> <a href="/tags/%E7%BB%84%E4%BB%B6/" style="font-size: 13px;">组件</a> <a href="/tags/%E8%A7%84%E8%8C%83/" style="font-size: 13.88px;">规范</a> <a href="/tags/%E8%BD%AF%E4%BB%B6%E5%AD%A6%E4%B9%A0/" style="font-size: 13px;">软件学习</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 13.35px;">随笔</a> <a href="/tags/%E9%9D%A2%E8%AF%95/" style="font-size: 13.94px;">面试</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a><span class="archive-list-count">312</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/27/1.WEB%E5%89%8D%E7%AB%AFWeb/React/react-router/" class="title">1.WEB前端Web/React/react-router</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-27T13:24:04.185Z" itemprop="datePublished">2020-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/27/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/sass-guide/" class="title">1.WEB前端Web/Front-End-Standards/sass-guide</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-27T13:24:03.487Z" itemprop="datePublished">2020-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/27/hello-world/" class="title">Hello World</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-27T13:24:03.028Z" itemprop="datePublished">2020-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/6-%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93/">6.读书总结</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/26/6.%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93Book/%E4%BA%BA%E7%94%9F%E9%81%93%E7%90%86/" class="title">人生道理</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-26T01:12:57.000Z" itemprop="datePublished">2020-01-26</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/2-%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">2.编程语言</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/15/2.%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80Programming/English/%E7%94%9F%E6%B4%BB%E8%8B%B1%E8%AF%AD/" class="title">生活英语</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-15T01:12:57.000Z" itemprop="datePublished">2020-01-15</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">Catalogue</h3>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#找工作"><span class="toc-number">1.</span> <span class="toc-text">找工作</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#目录"><span class="toc-number">1.1.</span> <span class="toc-text">目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他"><span class="toc-number">1.2.</span> <span class="toc-text">其他</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#评估自己的技术"><span class="toc-number">1.3.</span> <span class="toc-text">评估自己的技术</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#面试题之答案"><span class="toc-number">1.4.</span> <span class="toc-text">面试题之答案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#doctype（文档类型）的作用是什么？"><span class="toc-number">1.5.</span> <span class="toc-text">doctype（文档类型）的作用是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#浏览器标准模式和怪异模式之间的区别是什么？"><span class="toc-number">1.6.</span> <span class="toc-text">浏览器标准模式和怪异模式之间的区别是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用-XHTML-的局限有哪些？"><span class="toc-number">1.7.</span> <span class="toc-text">使用 XHTML 的局限有哪些？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如果页面使用-‘application-xhtml-xml’-会有什么问题吗？"><span class="toc-number">1.8.</span> <span class="toc-text">如果页面使用 ‘application/xhtml+xml’ 会有什么问题吗？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如果网页内容需要支持多语言，你会怎么做？"><span class="toc-number">1.9.</span> <span class="toc-text">如果网页内容需要支持多语言，你会怎么做？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在设计和开发多语言网站时，有哪些问题你必须要考虑？"><span class="toc-number">1.10.</span> <span class="toc-text">在设计和开发多语言网站时，有哪些问题你必须要考虑？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#data-属性的作用是什么？"><span class="toc-number">1.11.</span> <span class="toc-text">data-属性的作用是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如果把-HTML5-看作做一个开放平台，那它的构建模块有哪些？"><span class="toc-number">1.12.</span> <span class="toc-text">如果把 HTML5 看作做一个开放平台，那它的构建模块有哪些？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#请描述一下-cookies，sessionStorage-和-localStorage-的区别？"><span class="toc-number">1.13.</span> <span class="toc-text">请描述一下 cookies，sessionStorage 和 localStorage 的区别？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#请描述一下-GET-和-POST-的区别"><span class="toc-number">1.14.</span> <span class="toc-text">请描述一下 GET 和 POST 的区别?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#推荐其他人的答案"><span class="toc-number">1.15.</span> <span class="toc-text">推荐其他人的答案</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#面试技巧-amp-问题"><span class="toc-number">2.</span> <span class="toc-text">面试技巧&amp;问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#技巧"><span class="toc-number">2.1.</span> <span class="toc-text">技巧</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#前端问题汇总"><span class="toc-number">2.2.</span> <span class="toc-text">前端问题汇总</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常见问题"><span class="toc-number">2.3.</span> <span class="toc-text">常见问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#具体技术"><span class="toc-number">2.4.</span> <span class="toc-text">具体技术</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#算法相关"><span class="toc-number">2.5.</span> <span class="toc-text">算法相关</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Vue-面试问题"><span class="toc-number">3.</span> <span class="toc-text">Vue 面试问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#初级前端简历"><span class="toc-number">4.</span> <span class="toc-text">初级前端简历</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#基本信息"><span class="toc-number">4.1.</span> <span class="toc-text">基本信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#技能"><span class="toc-number">4.2.</span> <span class="toc-text">技能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#项目"><span class="toc-number">4.3.</span> <span class="toc-text">项目</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#静态页面"><span class="toc-number">4.3.1.</span> <span class="toc-text">静态页面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#待办事宜应用-Todo-List"><span class="toc-number">4.3.2.</span> <span class="toc-text">待办事宜应用(Todo List)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CRM-项目"><span class="toc-number">4.3.3.</span> <span class="toc-text">CRM 项目</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#初级前端实战问题"><span class="toc-number">5.</span> <span class="toc-text">初级前端实战问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#CSS-问题"><span class="toc-number">5.1.</span> <span class="toc-text">CSS 问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#布局"><span class="toc-number">5.1.1.</span> <span class="toc-text">布局</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#规则"><span class="toc-number">5.1.2.</span> <span class="toc-text">规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#兼容性"><span class="toc-number">5.1.3.</span> <span class="toc-text">兼容性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JS"><span class="toc-number">5.2.</span> <span class="toc-text">JS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#事件"><span class="toc-number">5.2.1.</span> <span class="toc-text">事件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP"><span class="toc-number">5.2.2.</span> <span class="toc-text">HTTP</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#框架"><span class="toc-number">5.3.</span> <span class="toc-text">框架</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#开放性问题"><span class="toc-number">5.4.</span> <span class="toc-text">开放性问题</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Web前端程序员简历模板"><span class="toc-number">6.</span> <span class="toc-text">Web前端程序员简历模板</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#先讲讲怎样才是一份好的技术简历"><span class="toc-number">6.1.</span> <span class="toc-text">先讲讲怎样才是一份好的技术简历</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#联系方式"><span class="toc-number">7.</span> <span class="toc-text">联系方式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#个人信息"><span class="toc-number">8.</span> <span class="toc-text">个人信息</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#工作经历"><span class="toc-number">9.</span> <span class="toc-text">工作经历</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ABC公司-（-2012年9月-2014年9月-）"><span class="toc-number">9.1.</span> <span class="toc-text">ABC公司 （ 2012年9月 ~ 2014年9月 ）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#DEF项目"><span class="toc-number">9.1.1.</span> <span class="toc-text">DEF项目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GHI项目"><span class="toc-number">9.1.2.</span> <span class="toc-text">GHI项目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他项目"><span class="toc-number">9.1.3.</span> <span class="toc-text">其他项目</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JKL公司-（-2010年3月-2012年8月-）"><span class="toc-number">9.2.</span> <span class="toc-text">JKL公司 （ 2010年3月 ~ 2012年8月 ）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#MNO项目"><span class="toc-number">9.2.1.</span> <span class="toc-text">MNO项目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PQR项目"><span class="toc-number">9.2.2.</span> <span class="toc-text">PQR项目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他项目-1"><span class="toc-number">9.2.3.</span> <span class="toc-text">其他项目</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#开源项目和作品"><span class="toc-number">10.</span> <span class="toc-text">开源项目和作品</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#开源项目"><span class="toc-number">10.1.</span> <span class="toc-text">开源项目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#技术文章"><span class="toc-number">10.2.</span> <span class="toc-text">技术文章</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#演讲和讲义"><span class="toc-number">10.3.</span> <span class="toc-text">演讲和讲义</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#技能清单"><span class="toc-number">11.</span> <span class="toc-text">技能清单</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#参考技能关键字"><span class="toc-number">11.1.</span> <span class="toc-text">参考技能关键字</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#致谢"><span class="toc-number">12.</span> <span class="toc-text">致谢</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#职责"><span class="toc-number">12.1.</span> <span class="toc-text">职责</span></a></li></ol></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-5.技能提升Skill/找工作" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      找工作
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/11/15/5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill/%E6%89%BE%E5%B7%A5%E4%BD%9C/" class="article-date">
+	  <time datetime="2019-11-15T01:12:57.000Z" itemprop="datePublished">2019-11-15</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/5-%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87/">5.技能提升</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a>
+  </span>
+
+
+        
+
+	<span class="article-read hidden-xs">
+    	<i class="icon icon-eye-fill" aria-hidden="true"></i>
+    	<span id="/2019/11/15/5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill/%E6%89%BE%E5%B7%A5%E4%BD%9C/" class="leancloud_visitors"  data-flag-title="找工作">0</span>
+    </span>
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/11/15/5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill/%E6%89%BE%E5%B7%A5%E4%BD%9C/#comments" class="article-comment-link">Comments</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count: 5.1k(words)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">Read Count: 18(minutes)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="找工作"><a href="#找工作" class="headerlink" title="找工作"></a>找工作</h1><p>面试的时候，要保持自信。问题想清楚之后再回答。</p>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li><a href="assessment">评估自己的技术</a></li>
+<li><a href="question">面试问题</a> <a href="question/vue.md">vue 面试问题</a></li>
+<li><a href="resume.md">Web前端程序员简历模板</a></li>
+<li><a href="https://dwqs.gitbooks.io/frontenddevhandbook/content/practice/front-end-jobs.html" target="_blank" rel="noopener">前端工作招聘网站列表</a> 个人推荐用拉钩。</li>
+<li>向面试官提问<ul>
+<li><a href="https://www.zhihu.com/question/28058827" target="_blank" rel="noopener">当面试官问「你有什么要问我的吗」时，应该问什么？ 知乎</a></li>
+<li><a href="https://rkoutnik.com/articles/Questions-to-ask-your-interviewer.html" target="_blank" rel="noopener">Questions to ask your interviewer</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>如何成为靠谱的前端工程师？小胡子哥这么说：</p>
+<ul>
+<li><p>你需要扎实的基础，JS 中的每个知识点你都能答上，NodeJS 的 API 你都会用，设计模式基本都了解，懂点算法，写过几个大型的项目/程序。这一方面可以确保你的编程能力 OK；</p>
+</li>
+<li><p>做过大流量/高并发/高日活等比较有特色的网站，对项目中的技术问题有思考，并且出过方案，同时有相关的技术细节总结；或者在 github 上开源了不少的项目，同时项目的 fork 和 star 数量都超过一两百；这方面可以确保你的项目经验 OK；</p>
+</li>
+<li><p>带领并主导过三五个一起完成项目，Owner 过一部分的产品规划，或者具备很强的 PM 意识；培养了几个不错的新人，在各方面的成长都很不错；这方面可以保证你的组织能力和领导能力 OK；</p>
+</li>
+</ul>
+<p>当然，以上的三点要求是递增的，做到这三点的人，到阿里差不多有 P7 的水平了。以上可以从表面上看出你是一名靠谱的工程师，实际的能力还需要从平时的沟通中了解，你的性格、你的价值取向是否符合团队气质，你的工作是否让客户、合作伙伴满意，靠谱的人总是让人省心。</p>
+<h2 id="评估自己的技术"><a href="#评估自己的技术" class="headerlink" title="评估自己的技术"></a>评估自己的技术</h2><ul>
+<li><a href="https://www.nowcoder.com/ta/js-assessment" target="_blank" rel="noopener">JS能力评测经典题</a></li>
+<li><a href="https://github.com/rmurphey/js-assessment" target="_blank" rel="noopener">测试驱动的方式评估自己的 JavaScript 水平</a></li>
+</ul>
+<h2 id="面试题之答案"><a href="#面试题之答案" class="headerlink" title="面试题之答案"></a>面试题之答案</h2><p>问题选自<a href="https://github.com/h5bp/Front-end-Developer-Interview-Questions/tree/master/Translations/Chinese#html" target="_blank" rel="noopener">这里</a></p>
+<h2 id="doctype（文档类型）的作用是什么？"><a href="#doctype（文档类型）的作用是什么？" class="headerlink" title="doctype（文档类型）的作用是什么？"></a>doctype（文档类型）的作用是什么？</h2><p>告诉浏览器用何种渲染模式来渲染页面。</p>
+<p>在浏览器中有三种渲染模式: 怪癖模式（quirks mode），准标准模式（almost standards mode）和标准模式（standards mode）。</p>
+<h2 id="浏览器标准模式和怪异模式之间的区别是什么？"><a href="#浏览器标准模式和怪异模式之间的区别是什么？" class="headerlink" title="浏览器标准模式和怪异模式之间的区别是什么？"></a>浏览器标准模式和怪异模式之间的区别是什么？</h2><p>在怪癖模式下，浏览器会模拟Navigator 4和IE5的方式来渲染页面。<br>在标准模式下，浏览器会用HTML和CSS规范定义的方式来渲染页面。</p>
+<p>怪癖模式带来的影响主要是CSS布局。主要包括：</p>
+<ul>
+<li>CSS 盒模型。在某些浏览器(如IE)的怪癖模式下，盒模型（box model）变成<a href="http://css.kentucka.com/?box_model" target="_blank" rel="noopener">IE5.5的盒模型</a>（IE5.5的盒模型的宽和高包括padding和border,即 border-box）。而标准模式的盒模型的宽高是不包括padding和border的</li>
+<li>某些行内 (inline) 元素的垂直对齐的处理。很多早期的浏览器对齐图片至包含它们的盒子的下边框，虽然 CSS 的规范要求它们被对齐至盒内文本的基线。标准模式下，基于 Gecko 的浏览器将会对齐至基线，而在 怪癖模式下它们会对齐至底部。</li>
+<li>表格样式是否继承。</li>
+</ul>
+<h2 id="使用-XHTML-的局限有哪些？"><a href="#使用-XHTML-的局限有哪些？" class="headerlink" title="使用 XHTML 的局限有哪些？"></a>使用 XHTML 的局限有哪些？</h2><p>XHTML要求严格。元素必须被正确地嵌套，元素必须被关闭，空标签也必须被关闭，标签名和属性对大小写敏感，属性名称必须小写，属性值必须加引号等。一旦遇到错误，立刻停止解析，并显示错误信息。</p>
+<h2 id="如果页面使用-‘application-xhtml-xml’-会有什么问题吗？"><a href="#如果页面使用-‘application-xhtml-xml’-会有什么问题吗？" class="headerlink" title="如果页面使用 ‘application/xhtml+xml’ 会有什么问题吗？"></a>如果页面使用 ‘application/xhtml+xml’ 会有什么问题吗？</h2><p>IE6，7，8不支持，IE6，7，8支持text/html。</p>
+<h2 id="如果网页内容需要支持多语言，你会怎么做？"><a href="#如果网页内容需要支持多语言，你会怎么做？" class="headerlink" title="如果网页内容需要支持多语言，你会怎么做？"></a>如果网页内容需要支持多语言，你会怎么做？</h2><p>编码使用UTF-8，空间域名需要支持多浏览地址，准备多套模板。(对多语言这方面不熟悉)</p>
+<h2 id="在设计和开发多语言网站时，有哪些问题你必须要考虑？"><a href="#在设计和开发多语言网站时，有哪些问题你必须要考虑？" class="headerlink" title="在设计和开发多语言网站时，有哪些问题你必须要考虑？"></a>在设计和开发多语言网站时，有哪些问题你必须要考虑？</h2><p>见 <a href="http://www.nomensa.com/blog/2010/7-tips-and-techniques-for-multi-lingual-website-accessibility" target="_blank" rel="noopener">7 Tips and Techniques For Multi-lingual Website Accessibility</a></p>
+<h2 id="data-属性的作用是什么？"><a href="#data-属性的作用是什么？" class="headerlink" title="data-属性的作用是什么？"></a>data-属性的作用是什么？</h2><p>在元素上存放数据。</p>
+<h2 id="如果把-HTML5-看作做一个开放平台，那它的构建模块有哪些？"><a href="#如果把-HTML5-看作做一个开放平台，那它的构建模块有哪些？" class="headerlink" title="如果把 HTML5 看作做一个开放平台，那它的构建模块有哪些？"></a>如果把 HTML5 看作做一个开放平台，那它的构建模块有哪些？</h2><ul>
+<li>标签及属性</li>
+<li>地理位置</li>
+<li>画布</li>
+<li>视频</li>
+<li>音频</li>
+<li>拖放</li>
+<li>微数据</li>
+<li>应用缓存</li>
+<li>Web存储</li>
+<li>web workers</li>
+<li>服务器发送事件</li>
+</ul>
+<h2 id="请描述一下-cookies，sessionStorage-和-localStorage-的区别？"><a href="#请描述一下-cookies，sessionStorage-和-localStorage-的区别？" class="headerlink" title="请描述一下 cookies，sessionStorage 和 localStorage 的区别？"></a>请描述一下 cookies，sessionStorage 和 localStorage 的区别？</h2><p>cookies 和 Storage 的区别：</p>
+<ul>
+<li>cookies会在服务器端和客户端间传递的；sessionStorage 和 localStorage存放在客户端的，不会发送至服务器端</li>
+<li>cookies的兼容主流浏览器,包括IE6+;IE6，IE7不支持sessionStorage 和 localStorage</li>
+<li>sessionStorage 和 localStorage中能存的数据比cookie大</li>
+</ul>
+<p>sessionStorage 和 localStorage的区别：<br>sessionStorage存的数据在每次关闭浏览器后被删除，localStorage不会。</p>
+<h2 id="请描述一下-GET-和-POST-的区别"><a href="#请描述一下-GET-和-POST-的区别" class="headerlink" title="请描述一下 GET 和 POST 的区别?"></a>请描述一下 GET 和 POST 的区别?</h2><ul>
+<li>GET是获取资源,POST是新建资源</li>
+<li>GET 请求可被缓存,POST不能</li>
+<li>GET 请求保留在浏览器历史记录中,POST不能</li>
+<li>GET 请求有长度限制,POST没有</li>
+</ul>
+<h2 id="推荐其他人的答案"><a href="#推荐其他人的答案" class="headerlink" title="推荐其他人的答案"></a>推荐其他人的答案</h2><ul>
+<li><a href="http://witcher42.github.io/2014/06/04/front-end-developer-interview-questions/" target="_blank" rel="noopener">witcher42</a></li>
+<li><a href="https://github.com/voidove/jug-jug/labels/interview" target="_blank" rel="noopener">voidove</a></li>
+</ul>
+<h1 id="面试技巧-amp-问题"><a href="#面试技巧-amp-问题" class="headerlink" title="面试技巧&amp;问题"></a>面试技巧&amp;问题</h1><h2 id="技巧"><a href="#技巧" class="headerlink" title="技巧"></a>技巧</h2><ul>
+<li>合适的着装。</li>
+<li>准备好自我介绍。要有亮点，不要罗嗦。不要吹嘘，要务实。以概要，解释这种方式。比如： <code>我是一个经验丰富的前端工程师(概要)。我有近十年的前端开发经验，期间参与了近 20 个产品的开发，其中有 5 个项目的前端框架都是我设计的。Vue，React，Angular，jQuery 等框架，我也能熟练使用，并知道各个框架的有缺点和适用范围(解释)。</code></li>
+<li>沟通技巧<ul>
+<li>当对方的问题中带有一些主观的词，或者问题太大时。需要回问对方几个问题来确定对方真正的意图是什么。 比如： 对方问：你觉得你能胜任我们的工作吗？ 你需要反问：你觉得怎样要胜任你们的工作要具备哪些条件？ </li>
+<li>回答问题前，理清楚回答的思路。避免临时想到什么，就回答什么，导致回答的杂乱无章。</li>
+<li>控制好自己的情绪。让情绪为你所用，而不是受对方影响。</li>
+<li>不要让对方觉得不爽。比如，不要露出鄙视，不屑的，敌对的情绪。要让对方你很重视他。</li>
+</ul>
+</li>
+</ul>
+<h2 id="前端问题汇总"><a href="#前端问题汇总" class="headerlink" title="前端问题汇总"></a>前端问题汇总</h2><ul>
+<li><a href="https://github.com/paddingme/Front-end-Web-Development-Interview-Question" target="_blank" rel="noopener">前端开发面试题大收集</a> 中文</li>
+<li><a href="https://github.com/h5bp/Front-end-Developer-Interview-Questions" target="_blank" rel="noopener">Front-end Job Interview Questions</a> 英文。</li>
+</ul>
+<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><ul>
+<li>自我介绍</li>
+<li>做过的项目介绍</li>
+<li>项目中遇到过什么技术挑战？你是如何解决的？</li>
+<li>你们前端工作流程是怎样的？你觉得有可以改进的地方吗？</li>
+<li>编写代码的哪些方面能够使你兴奋或感兴趣</li>
+<li>谈谈你喜欢的开发环境</li>
+</ul>
+<h2 id="具体技术"><a href="#具体技术" class="headerlink" title="具体技术"></a>具体技术</h2><ul>
+<li><a href="https://github.com/creeperyang/blog/issues/2" target="_blank" rel="noopener">JavaScript问题集锦</a></li>
+<li><a href="vue.md">Vue 问题</a></li>
+</ul>
+<h2 id="算法相关"><a href="#算法相关" class="headerlink" title="算法相关"></a>算法相关</h2><ul>
+<li><p><a href="https://leetcode.com/" target="_blank" rel="noopener">leetcode</a> 算法题的难度还是满大的。</p>
+</li>
+<li><p><a href="https://github.com/h5bp/Front-end-Developer-Interview-Questions/tree/master/Translations/Chinese" target="_blank" rel="noopener">更多</a></p>
+</li>
+</ul>
+<h1 id="Vue-面试问题"><a href="#Vue-面试问题" class="headerlink" title="Vue 面试问题"></a>Vue 面试问题</h1><ul>
+<li>数据发生变化，但对应view没有发生变化，可能的原因，及解决方法</li>
+<li>在数据变化后，如何在对应的view也变化后，做一些操作</li>
+<li>父组件和子组件如何通信，子组件如何改变父组件的属性</li>
+<li>兄弟组件间如何通信</li>
+<li>对单向数据流的理解，解决什么问题，什么时候用</li>
+</ul>
+<h1 id="初级前端简历"><a href="#初级前端简历" class="headerlink" title="初级前端简历"></a>初级前端简历</h1><h2 id="基本信息"><a href="#基本信息" class="headerlink" title="基本信息"></a>基本信息</h2><h2 id="技能"><a href="#技能" class="headerlink" title="技能"></a>技能</h2><ul>
+<li>能做出与设计稿一致的电脑和移动端页面，并兼容主流浏览器。</li>
+<li>理解并掌握Javascript语言核心技术DOM、BOM、Ajax等。</li>
+<li>了解 ES6。</li>
+<li>能熟练使用 Bootstrap。</li>
+<li>能熟练使用 jQuery。</li>
+<li>能熟练使用 Vue。</li>
+<li>会用 Git，Postman 等常用前端工具。</li>
+</ul>
+<h2 id="项目"><a href="#项目" class="headerlink" title="项目"></a>项目</h2><h3 id="静态页面"><a href="#静态页面" class="headerlink" title="静态页面"></a>静态页面</h3><p>在学习前端的过程中，做了如下页面:</p>
+<ul>
+<li>电脑版百度首页。</li>
+<li>CSS 禅意花园的一个版本。</li>
+<li>手机版商城的首页和详情页。</li>
+<li>后端管理的一个列表页。基于 Bootstrap 做的。同时支持电脑和移动端。</li>
+</ul>
+<p>这些代码见[这里](GitHub 地址)。</p>
+<p>通过做上面的做这些页面，能熟练的使用 定位，inline-block 和 Flex 布局技术。能熟练的用 Bootstrap 的栅格， media queries，和 rem 来实现响应式布局。</p>
+<p>不足点是，不太擅长命名。</p>
+<h3 id="待办事宜应用-Todo-List"><a href="#待办事宜应用-Todo-List" class="headerlink" title="待办事宜应用(Todo List)"></a>待办事宜应用(Todo List)</h3><p>用 jQuery 和 Vue 分别实现了待办事宜。用 localStroge 来保存数据，用 hash 值来记录应用的状态。</p>
+<p>通过用 jQuery 来实现待办事宜，熟悉了 jQuery 写页面的流程：选择元素，在元素上做一些操作：如绑事件，拿元素的属性，HTML等。感觉 jQuery 很优雅，用 jQuery，比用原生的DOM方法方便太多。</p>
+<p>通过用 Vue 来实现代办事宜。熟悉了 Vue 写页面的流程：声名数据和UI 的关系，改变数据，框架自动去更新数据对应的UI。相比 jQuery，用 Vue 来写，开始有些不适应，习惯了后，觉得比用 jQuery 方便得多。</p>
+<h3 id="CRM-项目"><a href="#CRM-项目" class="headerlink" title="CRM 项目"></a>CRM 项目</h3><p>在一个<a href="https://github.com/iamjoel/admin-template" target="_blank" rel="noopener">后台管理系统</a>模板的基础上，开发的一个简单的CRM（客户）的单页应用(SAP)。目前的主要功能是，联系人，计划，帐号的增删改查，以及登录页。 主要用的技术是 Vue2，vue-router，Element UI, axios，Webpack。 数据接口是用 Mock.js 来模拟的。</p>
+<p>通过这个项目，了解了现代前端项目做的一个流程。觉得要学的东西有很多。</p>
+<h1 id="初级前端实战问题"><a href="#初级前端实战问题" class="headerlink" title="初级前端实战问题"></a>初级前端实战问题</h1><h2 id="CSS-问题"><a href="#CSS-问题" class="headerlink" title="CSS 问题"></a>CSS 问题</h2><ul>
+<li>列举下你知道的 CSS 选择器和选择器的权重。</li>
+<li>选择器 <code>:nth-child</code> 和 <code>:nth-of-type()</code> 的区别？</li>
+<li>哪些 CSS 的属性会继承。</li>
+</ul>
+<h3 id="布局"><a href="#布局" class="headerlink" title="布局"></a>布局</h3><ul>
+<li>你知道哪些布局技术？</li>
+<li>清楚浮动怎么写(clearfix)？</li>
+<li>boxsizing 的常用值怎么写？</li>
+<li>用 inline-block 和 Flex 实现两端对齐，怎么写？</li>
+<li>position 有哪些值？绝对定位的定位规则是怎样的？</li>
+<li>响应式样布局技术有哪些？</li>
+<li>你用过栅格系统吗？</li>
+<li>rem 与 px的单位是如何换算的？</li>
+</ul>
+<h3 id="规则"><a href="#规则" class="headerlink" title="规则"></a>规则</h3><ul>
+<li>在宽高为 <code>200 * 200</code> 的div 设置背景图，背景图设置在右下角，大小设置为 <code>100 * 100</code>。背景原图大小是 <code>500 * 500</code>。 怎么写？</li>
+<li>transform 属性有哪些属性？</li>
+<li>用 CSS 来做动画，有哪些方式？</li>
+</ul>
+<h3 id="兼容性"><a href="#兼容性" class="headerlink" title="兼容性"></a>兼容性</h3><ul>
+<li>聊聊你知道的浏览器bug？</li>
+<li>你知道浏览器的差异？</li>
+</ul>
+<h2 id="JS"><a href="#JS" class="headerlink" title="JS"></a>JS</h2><ul>
+<li>== 和 === 有什么区别？</li>
+<li>聊聊你对 cookie，localStroge 的异同的理解？</li>
+<li>写个函数，实现数组内容去重。</li>
+</ul>
+<h3 id="事件"><a href="#事件" class="headerlink" title="事件"></a>事件</h3><ul>
+<li>请描述事件冒泡机制？</li>
+</ul>
+<h3 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h3><ul>
+<li>HTTP 的 get 和 post 方法有什么区别？</li>
+<li>聊聊同源策略？如何跨域？</li>
+</ul>
+<h2 id="框架"><a href="#框架" class="headerlink" title="框架"></a>框架</h2><ul>
+<li>你用过哪些前端框架？最喜欢哪个</li>
+</ul>
+<h2 id="开放性问题"><a href="#开放性问题" class="headerlink" title="开放性问题"></a>开放性问题</h2><ul>
+<li>你工作中常用的前端工具有哪些？</li>
+<li>你常逛的程序员网站有哪些？</li>
+<li>你最近在读什么书？</li>
+<li>你的职业规划是怎样的？</li>
+</ul>
+<h1 id="Web前端程序员简历模板"><a href="#Web前端程序员简历模板" class="headerlink" title="Web前端程序员简历模板"></a>Web前端程序员简历模板</h1><p>原文 见<a href="https://github.com/geekcompany/ResumeSample/blob/master/web.md" target="_blank" rel="noopener">这里</a>。本文在原文基础上做了点小修改。</p>
+<p>本简历模板由国内首家互联网人才拍卖网站「 <a href="http://www.jobdeer.com" target="_blank" rel="noopener">JobDeer.com</a> 」提供。</p>
+<p>（括号里的是我们的顾问编写的说明，建议在简历书写完成后统一删除）</p>
+<h2 id="先讲讲怎样才是一份好的技术简历"><a href="#先讲讲怎样才是一份好的技术简历" class="headerlink" title="先讲讲怎样才是一份好的技术简历"></a>先讲讲怎样才是一份好的技术简历</h2><p>首先，一份好的简历不光说明事实，更通过FAB模式来增强其说服力。</p>
+<ul>
+<li>Feature：是什么</li>
+<li>Advantage：比别人好在哪些地方</li>
+<li>Benefit：如果雇佣你，招聘方会得到什么好处 </li>
+</ul>
+<p>其次，写简历和写议论文不同，过分的论证会显得自夸，反而容易引起反感，所以要点到为止。这里的技巧是，提供论据，把论点留给阅读简历的人自己去得出。放论据要具体，最基本的是要数字化，好的论据要让人印象深刻。</p>
+<p>举个例子，下边内容是虚构的：</p>
+<p>2006年，我参与了手机XX网发布系统WAPCMS的开发（<code>这部分是大家都会写的</code>）。作为核心程序员，我不但完成了网站界面、调度队列的开发工作，更提出了高效的组件级缓存系统，通过碎片化缓冲有效的提升了系统的渲染效率。（<code>这部分是很多同学忘掉的，要写出你在这个项目中具体负责的部分，以及你贡献出来的价值。</code>）在该系统上线后，Web前端性能从10QPS提升到200QPS，服务器由10台减少到3台（<code>通过量化的数字来增强可信度</code>）。2008年我升任WAPCMS项目负责人，带领一个3人小组支持着每天超过2亿的PV（<code>这就是Benefit。你能带给前雇主的价值，也就是你能带给新雇主的价值。</code>）。</p>
+<p>有同学问，如果我在项目里边没有那么显赫的成绩可以说怎么办？讲不出成绩时，就讲你的成长。因为学习能力也是每家公司都看中的东西。你可以写你在这个项目里边遇到了一个什么样的问题，别人怎么解决的，你怎么解决的，你的方案好在什么地方，最终这个方案的效果如何。</p>
+<p>具体、量化、有说服力，是技术简历特别需要注重的地方。</p>
+<p>（以上内容在写完简历后，对每一段进行评估，完成后再删除）</p>
+<hr>
+<h1 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h1><p>（HR会打印你的简历，用于在面试的时候联系，所以联系方式放到最上边会比较方便）</p>
+<ul>
+<li>手机：135<strong>****</strong> （<code>如果是外地手机，可注明。如经常关机，要写上最优联系时间</code>）</li>
+<li>Email：<a href="mailto:goodman@gmail.com" target="_blank" rel="noopener">goodman@gmail.com</a> （<code>虽然我觉得QQ邮箱无所谓，不过有些技术人员比较反感，建议用G</code>）</li>
+<li>QQ/微信号：6<strong>***</strong>（<code>提供一个通过网络可以联系到你的方式</code>）</li>
+</ul>
+<hr>
+<h1 id="个人信息"><a href="#个人信息" class="headerlink" title="个人信息"></a>个人信息</h1><ul>
+<li><p>胶布帝/男/1990 </p>
+</li>
+<li><p>本科/萌鹿大学计算机系 </p>
+</li>
+<li><p>工作年限：3年</p>
+</li>
+<li><p>微博：<a href="http://weibo.com/jobdeer" target="_blank" rel="noopener">@JobDeer</a> （<code>如果没有技术相关内容，也可以不放</code>）</p>
+</li>
+<li><p>技术博客：<a href="http://blog.github.io" target="_blank" rel="noopener">http://blog.github.io</a> ( <code>使用GitHub Host的Big较高</code>  )</p>
+</li>
+<li><p>Github：<a href="http://github.com/geekcompany" target="_blank" rel="noopener">http://github.com/geekcompany</a> ( <code>有原创repo的Github帐号会极大的提升你的个人品牌</code>  )</p>
+</li>
+<li><p>期望职位：Web前端高级程序员，应用架构师</p>
+</li>
+<li><p>期望薪资：税前月薪15k~20k，特别喜欢的公司可例外</p>
+</li>
+<li><p>期望城市：北京</p>
+</li>
+</ul>
+<hr>
+<h1 id="工作经历"><a href="#工作经历" class="headerlink" title="工作经历"></a>工作经历</h1><p>（工作经历按逆序排列，最新的在最前边，按公司做一级分组，公司内按二级分组）</p>
+<p>在公司中的工作举例：</p>
+<ul>
+<li>将设计稿还原成符合 W3C 规范的页面</li>
+<li>解决不同移动设备、不同浏览器及不同版本的兼容性问题</li>
+<li>与后端工程师配合完成数据接口对接</li>
+<li>上线前对资源文件进行压缩合并等优化工作</li>
+</ul>
+<p>项目经历一定要有以下内容：  </p>
+<ol>
+<li>在项目中，是什么角色。Team Leader 或是负责了哪些模块。</li>
+<li>项目用的技术栈。</li>
+<li>遇到什么问题，怎么解决的。</li>
+<li>取得的成绩。如做了那些优化之类。</li>
+</ol>
+<h2 id="ABC公司-（-2012年9月-2014年9月-）"><a href="#ABC公司-（-2012年9月-2014年9月-）" class="headerlink" title="ABC公司 （ 2012年9月 ~ 2014年9月 ）"></a>ABC公司 （ 2012年9月 ~ 2014年9月 ）</h2><h3 id="DEF项目"><a href="#DEF项目" class="headerlink" title="DEF项目"></a>DEF项目</h3><p>我在此项目负责了哪些工作，分别在哪些地方做得出色/和别人不一样/成长快，这个项目中，我最困难的问题是什么，我采取了什么措施，最后结果如何。这个项目中，我最自豪的技术细节是什么，为什么，实施前和实施后的数据对比如何，同事和领导对此的反应如何。</p>
+<h3 id="GHI项目"><a href="#GHI项目" class="headerlink" title="GHI项目"></a>GHI项目</h3><p>我在此项目负责了哪些工作，分别在哪些地方做得出色/和别人不一样/成长快，这个项目中，我最困难的问题是什么，我采取了什么措施，最后结果如何。这个项目中，我最自豪的技术细节是什么，为什么，实施前和实施后的数据对比如何，同事和领导对此的反应如何。</p>
+<h3 id="其他项目"><a href="#其他项目" class="headerlink" title="其他项目"></a>其他项目</h3><p>（每个公司写2~3个核心项目就好了，如果你有非常大量的项目，那么按分类进行合并，每一类选一个典型写出来。其他的一笔带过即可。）</p>
+<h2 id="JKL公司-（-2010年3月-2012年8月-）"><a href="#JKL公司-（-2010年3月-2012年8月-）" class="headerlink" title="JKL公司 （ 2010年3月 ~ 2012年8月 ）"></a>JKL公司 （ 2010年3月 ~ 2012年8月 ）</h2><h3 id="MNO项目"><a href="#MNO项目" class="headerlink" title="MNO项目"></a>MNO项目</h3><p>我在此项目负责了哪些工作，分别在哪些地方做得出色/和别人不一样/成长快，这个项目中，我最困难的问题是什么，我采取了什么措施，最后结果如何。这个项目中，我最自豪的技术细节是什么，为什么，实施前和实施后的数据对比如何，同事和领导对此的反应如何。</p>
+<h3 id="PQR项目"><a href="#PQR项目" class="headerlink" title="PQR项目"></a>PQR项目</h3><p>我在此项目负责了哪些工作，分别在哪些地方做得出色/和别人不一样/成长快，这个项目中，我最困难的问题是什么，我采取了什么措施，最后结果如何。这个项目中，我最自豪的技术细节是什么，为什么，实施前和实施后的数据对比如何，同事和领导对此的反应如何。</p>
+<h3 id="其他项目-1"><a href="#其他项目-1" class="headerlink" title="其他项目"></a>其他项目</h3><p>（每个公司写2~3个核心项目就好了，如果你有非常大量的项目，那么按分类进行合并，每一类选一个典型写出来。其他的一笔带过即可。）</p>
+<hr>
+<h1 id="开源项目和作品"><a href="#开源项目和作品" class="headerlink" title="开源项目和作品"></a>开源项目和作品</h1><p>（这一段用于放置工作以外的、可证明你的能力的材料）</p>
+<h2 id="开源项目"><a href="#开源项目" class="headerlink" title="开源项目"></a>开源项目</h2><p>（对于程序员来讲，没有什么比Show me the code能有说服力了）</p>
+<ul>
+<li><a href="http://github.com/yourname/projectname" target="_blank" rel="noopener">STU</a>：项目的简要说明，Star和Fork数多的可以注明</li>
+<li><a href="http://github.com/yourname/projectname" target="_blank" rel="noopener">WXYZ</a>：项目的简要说明，Star和Fork数多的可以注明</li>
+</ul>
+<h2 id="技术文章"><a href="#技术文章" class="headerlink" title="技术文章"></a>技术文章</h2><p>（挑选你写作或翻译的技术文章，好的文章可以从侧面证实你的表达和沟通能力，也帮助招聘方更了解你）</p>
+<ul>
+<li><a href="http://get.jobdeer.com/706.get" target="_blank" rel="noopener">一个产品经理眼中的云计算：前生今世和未来</a></li>
+<li><a href="http://get.jobdeer.com/343.get" target="_blank" rel="noopener">来自HeroKu的HTTP API 设计指南(翻译文章)</a> （ <code>好的翻译文章可以侧证你对英文技术文档的阅读能力</code>）</li>
+</ul>
+<h2 id="演讲和讲义"><a href="#演讲和讲义" class="headerlink" title="演讲和讲义"></a>演讲和讲义</h2><p>（放置你代表公司在一些技术会议上做过的演讲，以及你在公司分享时制作的讲义）</p>
+<ul>
+<li>2014架构师大会演讲：<a href="http://jobdeer.com" target="_blank" rel="noopener">如何通过Docker优化内部开发</a><ul>
+<li>9月公司内部分享：<a href="http://jobdeer.com" target="_blank" rel="noopener">云计算的前生今世</a></li>
+</ul>
+</li>
+</ul>
+<h1 id="技能清单"><a href="#技能清单" class="headerlink" title="技能清单"></a>技能清单</h1><p>（我一般主张将技能清单写入到工作经历里边去。不过很难完整，所以有这么一段也不错）</p>
+<p>以下均为我熟练使用的技能</p>
+<ul>
+<li>Web开发：PHP/Hack/Node</li>
+<li>Web框架：ThinkPHP/Yaf/Yii/Lavaral/LazyPHP</li>
+<li>前端框架：Bootstrap/AngularJS/EmberJS/HTML5/Cocos2dJS/ionic</li>
+<li>前端工具：Bower/Gulp/SaSS/LeSS/PhoneGap</li>
+<li>数据库相关：MySQL/PgSQL/PDO/SQLite</li>
+<li>版本管理、文档和自动化部署工具：Svn/Git/PHPDoc/Phing/Composer</li>
+<li>单元测试：PHPUnit/SimpleTest/Qunit</li>
+<li>云和开放平台：SAE/BAE/AWS/微博开放平台/微信应用开发</li>
+</ul>
+<h2 id="参考技能关键字"><a href="#参考技能关键字" class="headerlink" title="参考技能关键字"></a>参考技能关键字</h2><p>本技能关键字列表是从最近招聘Web前端的数百份JD中统计出来的，括号中是出现的词频。如果你的简历要投递给有机器（简历分选系统）和不如机器（不懂技术的HR）筛选简历环节的地方，请一定从下边高频关键词中选择5～10个适合你自己的。</p>
+<ul>
+<li>web(889)</li>
+<li>javascript(596)</li>
+<li>css(555)</li>
+<li>html(430)</li>
+<li>jquery(323)</li>
+<li>html5(312)</li>
+<li>js(311)</li>
+<li>ajax(196)</li>
+<li>css3(176)</li>
+<li>w3c(168)</li>
+<li>div(156)</li>
+<li>php(134)</li>
+<li>xhtml(106)</li>
+<li>java(92)</li>
+<li>ui(78)</li>
+<li>photoshop(75)</li>
+<li>dom(63)</li>
+<li>xml(56)</li>
+<li>json(54)</li>
+<li>yui(51)</li>
+<li>flash(45)</li>
+<li>bootstrap(43)</li>
+<li>python(43)</li>
+<li>http(38)</li>
+<li>dreamweaver(38)</li>
+<li>ext(33)</li>
+<li>linux(33)</li>
+<li>seo(32)</li>
+<li>prototype(29)</li>
+<li>chrome(28)</li>
+<li>pc(28)</li>
+<li>nodejs(28)</li>
+<li>firefox(26)</li>
+<li>ps(25)</li>
+<li>angularjs(25)</li>
+<li>fireworks(24)</li>
+<li>extjs(23)</li>
+<li>safari(22)</li>
+<li>www(22)</li>
+<li>mobile(22)</li>
+<li>jsp(22)</li>
+<li>mvc(22)</li>
+<li>backbone(21)</li>
+<li>node(21)</li>
+<li>ruby(20)</li>
+<li>github(19)</li>
+<li>ios(18)</li>
+<li>ie6(18)</li>
+<li>android(18)</li>
+<li>asp(18)</li>
+<li>sass(17)</li>
+<li>wap(16)</li>
+<li>mootools(16)</li>
+<li>ie(16)</li>
+<li>mysql(15)</li>
+<li>flex(14)</li>
+<li>firebug(13)</li>
+<li>bom(13)</li>
+<li>webapp(12)</li>
+<li>less(12)</li>
+<li>web2(11)</li>
+<li>angular(10)</li>
+<li>git(10)</li>
+<li>dw(10)</li>
+<li>as(10)</li>
+<li>mac(10)</li>
+<li>psd(8)</li>
+<li>o2o(7)</li>
+<li>dojo(7)</li>
+<li>actionscript3(6)</li>
+<li>grunt(5)</li>
+<li>ue(5)</li>
+<li>zepto(5)</li>
+<li>actionscript(5)</li>
+<li>ie8(5)</li>
+<li>coffeescript(5)</li>
+<li>django(4)</li>
+</ul>
+<hr>
+<h1 id="致谢"><a href="#致谢" class="headerlink" title="致谢"></a>致谢</h1><p>感谢您花时间阅读我的简历，期待能有机会和您共事。</p>
+<h2 id="职责"><a href="#职责" class="headerlink" title="职责"></a>职责</h2><p>负责网站的 PC 页面和移动端页面的制作和维护。具体包括</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a style="word-wrap:break-word;" href="http://yoursite.com/2019/11/15/5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill/%E6%89%BE%E5%B7%A5%E4%BD%9C/" title="找工作" target="_blank" rel="external">http://yoursite.com/2019/11/15/5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill/%E6%89%BE%E5%B7%A5%E4%BD%9C/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/chen08" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/chen08" target="_blank"><span class="text-dark">溟海</span><small class="ml-1x">Web Developer &amp; Designer</small></a></h3>
+        <div>天行健，君子以自强不息，地势坤，君子以厚德载物。 杀不死我的,终将使我强大 没有吃不了的苦,只有享不了的福</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2019/11/15/1.WEB%E5%89%8D%E7%AB%AFWeb/javaScript-standard-style/" title="JavaScript 样式"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/11/15/1.WEB%E5%89%8D%E7%AB%AFWeb/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/" title="前端笔记"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="Catalogue" role="button">
+        <span>[&nbsp;</span><span>Catalogue</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open alipay app scan this qrcode, buy me a coffee!</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open wechat app scan this qrcode, buy me a coffee!</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> alipay</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> wechat payment</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+
+
+<!-- custom analytics part create by xiamo -->
+<!-- <script defer src="https://cdn1.lncld.net/static/js/av-min-1.2.1.js"></script> -->
+<script defer src="/js/av-min-1.2.1.js"></script>
+<script defer>
+AV.init({
+  appId: 'ngFQzHw7z0HgQfrtn4En4WTN-gzGzoHsz',
+  appKey: 'W9hgBBfVDwRGJKoGp5a6HKpx'
+});
+
+function showTime(Counter) {
+	var query = new AV.Query(Counter);
+		var visitors= $('.leancloud_visitors');
+		query.greaterThanOrEqualTo("time", 0);		
+		query.find({
+			success: function(results) {
+				if (results.length == 0) {				
+					return;
+				}
+				var data = results;
+				visitors.each(function(){
+					var url = $(this).attr('id').trim();					
+					for (var i = 0; i < data.length; i++) {
+						var object = data[i];
+						var content = object.get('time');
+						var _url = object.get('url')
+						if(url == _url){
+							$(this).text(content);
+						}
+					}
+				})
+				
+			},
+			error: function(object, error) {
+				console.log("Error: " + error.code + " " + error.message);
+			}
+		});
+}
+
+function addCount(Counter) {
+	var Counter = AV.Object.extend("Counter");
+	url = $(".leancloud_visitors").attr('id').trim();
+	title = $(".leancloud_visitors").attr('data-flag-title').trim();
+	var query = new AV.Query(Counter);
+	query.equalTo("url", url);
+	query.find({
+		success: function(results) {
+			if (results.length > 0) {
+				var counter = results[0];
+				counter.fetchWhenSave(true);
+				counter.increment("time");
+				counter.save(null, {
+					success: function(counter) {
+						var content = counter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(counter, error) {
+						console.log('Failed to save Visitor num, with error message: ' + error.message);
+					}
+				});
+			} else {
+				var newcounter = new Counter();
+				newcounter.set("title", title);
+				newcounter.set("url", url);
+				newcounter.set("time", 1);
+				newcounter.save(null, {
+					success: function(newcounter) {
+					    console.log("newcounter.get('time')="+newcounter.get('time'));
+						var content = newcounter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(newcounter, error) {
+						console.log('Failed to create');
+					}
+				});
+			}
+		},
+		error: function(error) {
+			console.log('Error:' + error.code + " " + error.message);
+		}
+	});
+}
+$(function() {
+	var Counter = AV.Object.extend("Counter");
+	if ($('.leancloud_visitors').length == 1) {
+		addCount(Counter);
+	} else {
+		showTime(Counter);
+	}
+}); 
+</script>
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,248 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>极客导航-最全的导航站</title>
+    <link rel="shortcut icon" href="favcion.ico" />
+    <!-- <link rel="stylesheet" href=" assets/css/iconfont.css"> -->
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"> -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/font.css">
+    <link rel="stylesheet" href="assets/css/iconfont.css">
+    <style>
+    .nav-cont{width: 100%; height: 60px;line-height: 60px; background: #fff; }
+    .container .left-bar{
+        width: 200px;
+        padding: 0;
+    }
+    .nav .comment{
+        width: 182px;
+        display: none;
+    }
+    .left-bar{
+        overflow-y: scroll;
+    }
+    .left-bar .nav-item li .nav-btn{
+        height: 50px;
+        line-height: 50px;
+        position: relative;
+        white-space: nowrap;
+        list-style: none;
+        padding:0 20px;
+        font-size: 14px;
+        cursor: pointer;
+
+    }
+    .left-bar .nav-item li .nav-btn span{
+        vertical-align: middle;
+        color: #6b7386;
+        cursor: pointer;
+        vertical-align: middle;
+    }
+    .icon{
+        position: absolute;
+        vertical-align: middle;
+        top: 50%;
+        right: 20px;
+        margin-top: -7px;
+        -webkit-transition: -webkit-transform .3s;
+        transition: -webkit-transform .3s;
+        transition: transform .3s;
+        transition: transform .3s,-webkit-transform .3s;
+        font-size: 12px;
+    }
+
+    .container .main{
+        margin-left: 200px;
+    }
+    .nav-btn i{
+        color: #909399;
+        margin-right: 5px;
+    }
+    .nav-btn:hover{
+        background-color: rgb(38, 41, 48);
+    }
+    .menu-ul{
+        display: none;
+    }
+    .menu-item{
+        height: 48px;
+        line-height: 48px;
+        font-size: 14px;
+        cursor: pointer;
+        white-space: nowrap;
+        padding-left: 40px;
+        
+    }
+    .menu-item *{
+        vertical-align: middle;
+    }
+    .menu-item:hover{
+        color: rgb(107, 115, 134);
+        background-color: rgb(38, 41, 48);
+    }
+    .menu-item>a{
+        color: #6b7386;
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+    .menu-item i{
+        color: #909399;
+        font-size: 14px;
+    }
+    .menu-item-span{
+        vertical-align: middle;
+        color: #6b7386;
+        line-height: 50px;
+        width: 100%;
+        height: 100%;
+    }
+    .nav-cont-l{
+        padding-left: 40px;
+        font-size: 20px;
+    }
+    .nav-reorder{
+        width: 20px;
+        cursor: pointer;
+    }
+    </style>
+</head>
+<body>
+    <div class="container" id="container">
+        <aside class="left-bar" id="leftBar">
+            <div class="title">
+                <p>网站 导航</p>
+            </div>
+            <nav class="nav">
+                    <!-- <i class="fa fa-code" aria-hidden="true"></i> -->
+                <!-- <div class="item active">
+                    <a href=""><i class="iconfont icon-daohang2"></i>极客导航</a>
+                    <i class="line"></i>
+                </div> -->
+                <ul class="nav-item" id="navItem">
+                    <li>
+                        <div class="nav-btn">
+                            <!-- <i data-v-41f17702="" class="csz czs-camber"></i> -->
+                            <i class="fa fa-database" aria-hidden="true"></i>
+                            <span>前端</span>
+                            <i class="icon fa fa-angle-down" aria-hidden="true"></i>
+                        </div>
+                        <ul class="menu-ul">
+                            <li class="menu-item">
+                                <a href="#bbs">
+                                    <i class="fa fa-eercast" aria-hidden="true"></i>
+                                    <i class="fa fa-code" aria-hidden="true"></i>
+                                    <span class="menu-item-span" >［前端］热门推荐</span>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </li>
+                    <li>
+                        <div class="nav-btn">
+                            <!-- <i data-v-41f17702="" class="csz czs-camber"></i> -->
+                            <i class="fa fa-database" aria-hidden="true"></i>
+                            <span>前端</span>
+                            <i class="icon fa fa-angle-down" aria-hidden="true"></i>
+                        </div>
+                        <ul class="menu-ul">
+                            <li class="menu-item">
+                                <a href="#bbs">
+                                    <i class="fa fa-eercast" aria-hidden="true"></i>
+                                    <i class="fa fa-code" aria-hidden="true"></i>
+                                    <span class="menu-item-span" >［前端］热门推荐</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    
+                </ul>
+                <div class="item comment"><a target="_blank" href="http://www.zcbboke.com/liuyan.html"><i class="iconfont icon-liuyan"></i>留言</a></div>
+            </nav>
+        </aside>
+        <section class="main">
+            <div class="nav-cont">
+                <div class="nav-cont-l">
+                    <div class="nav-reorder active" >
+                        <!-- <i class="czs-choose-list-l" aria-hidden="true"></i> -->
+                        <i class="czs-category-l" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </div>
+            <div id="mainContent">
+             
+            </div>
+                <footer class="footer">
+                    <div class="copyright">
+                        <div>
+                            Copyright © 2018- 2050
+                            <a href="https://github.com/chen08" target="_blank" rel="noopener">导航 钟储兵博客</a>
+                        </div>
+                    </div>
+                </footer>
+                <div id="fixedBar">
+                    <svg class="Zi Zi--BackToTop" title="回到顶部" fill="currentColor" viewBox="0 0 24 24" width="24" height="24"><path d="M16.036 19.59a1 1 0 0 1-.997.995H9.032a.996.996 0 0 1-.997-.996v-7.005H5.03c-1.1 0-1.36-.633-.578-1.416L11.33 4.29a1.003 1.003 0 0 1 1.412 0l6.878 6.88c.782.78.523 1.415-.58 1.415h-3.004v7.005z"></path></svg>
+                </div>
+        </section>
+        <script src="./assets/js/jquery.min.js"></script>
+        <script src="assets/js/app.js"></script>
+        <script>
+        // var oMenu = document.getElementById('menu');
+        var oLeftBar = document.getElementById('leftBar');
+        var menuFrom = document.getElementById('menu-form');
+
+        // oMenu.onclick = function() {
+        //     if (oLeftBar.offsetLeft == 0) {
+        //         oLeftBar.style.left = -249 + 'px';
+        //     }
+        //     else {
+        //         oLeftBar.style.left = 0;
+        //     }
+        // }
+        // 监听页面宽度变化
+        window.onresize = function() {
+            judgeWidth();
+            // console.log(document.documentElement.clientWidth);
+        };
+        // 判断页面宽度
+        function judgeWidth() {
+            if (document.documentElement.clientWidth > 481) {
+                oLeftBar.style.left = 0;
+            } else {
+                oLeftBar.style.left = -249 + 'px';
+            }
+        }
+        var oNavItem = document.getElementById('navItem');
+        var aA = oNavItem.getElementsByTagName('a');
+        for (var i = 0; i < aA.length; i++) {
+            aA[i].onclick = function() {
+                for (var j = 0; j < aA.length; j++) {
+                    aA[j].className = '';
+                }
+                this.className = 'active';
+                if (oLeftBar.offsetLeft == 0) {
+                    if (document.documentElement.clientWidth <= 481) {
+                        oLeftBar.style.left = -249 + 'px';
+                        menuFrom.checked = false;
+
+                    }
+                }
+            }
+        }
+        $(window).scroll(function() {
+            if($(window).scrollTop() >= 200){
+                $('#fixedBar').fadeIn(300);
+            }else{
+                $('#fixedBar').fadeOut(300);
+            }
+        });
+        $('#fixedBar').click(function() {
+            $('html,body').animate({scrollTop:'0px'},800);
+        })
+        </script>
+</body>
+
+</html>

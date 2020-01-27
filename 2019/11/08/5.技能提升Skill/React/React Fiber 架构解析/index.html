@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>React Fiber 架构解析 | Hexo</title>
+  <script src="./js/jQuery.md5.js"></script>
+  <script>
+    
+    (function(){
+      localStorage.setItem('userinfo',hex_md5('123chen'))
+      
+      var localData = localStorage.getItem("userinfo");
+      // var localState = localStorage.getItem("state");
+        if(localStorage.getItem("state") === null){
+          var reason = window.prompt('请输入访问密码');
+          // var promptVal = window.prompt('请输入访问密码');
+          if(reason){
+              //填写内容并“确定”
+              var md5Prompt = hex_md5(reason)
+              //点击的是“确定” 
+              if (localData !== md5Prompt){
+                alert('密码错误！');
+                // history.back();
+                location.replace(location.href); 
+              }else{
+                // alert('0123');
+                localStorage.setItem('state',"1")
+              }
+          }
+          else if(reason === ""){
+              //未填写但“确定”
+              location.replace(location.href); 
+          }
+          else{
+            //“取消”事件
+            location.replace(location.href); 
+          }
+        }
+
+    })();
+  </script>
+ <link rel="alternate" href="/atom.xml" data="123chen" type="application/atom+xml">
+  <meta name="description" content="React Fiber 架构解析点击关注本公众号获取文档最新更新,并可以领取配套于本指南的 《前端面试手册》 以及最标准的简历模板.  本文来源于Max Koretskyi aka Wizard的Inside Fiber: in-depth overview of the new reconciliation algorithm in React  向更深入理解React的全貌,建议阅读此仓库,它">
+<meta name="keywords" content="JavaScript,面试,React">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React Fiber 架构解析">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;08&#x2F;5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill&#x2F;React&#x2F;React%20Fiber%20%E6%9E%B6%E6%9E%84%E8%A7%A3%E6%9E%90&#x2F;index.html">
+<meta property="og:site_name" content="学习的敌人是自己的满足，要认真学习一点东西，必须从不自满开始。对自己，“学而不厌”，对人家，“诲人不倦”，我们应取这种态度。">
+<meta property="og:description" content="React Fiber 架构解析点击关注本公众号获取文档最新更新,并可以领取配套于本指南的 《前端面试手册》 以及最标准的简历模板.  本文来源于Max Koretskyi aka Wizard的Inside Fiber: in-depth overview of the new reconciliation algorithm in React  向更深入理解React的全貌,建议阅读此仓库,它">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https:&#x2F;&#x2F;cdn.nlark.com&#x2F;yuque&#x2F;0&#x2F;2019&#x2F;gif&#x2F;128853&#x2F;1564754956577-e0ebe7ee-af11-4e2e-8712-2d5eb1b986bb.gif#align=left&amp;display=inline&amp;height=68&amp;originHeight=68&amp;originWidth=210&amp;size=0&amp;status=done&amp;width=210">
+<meta property="og:image" content="https:&#x2F;&#x2F;cdn.nlark.com&#x2F;yuque&#x2F;0&#x2F;2019&#x2F;webp&#x2F;128853&#x2F;1564754956660-11f55b6e-a1fb-4199-8462-0be70e8f1be4.webp#align=left&amp;display=inline&amp;height=242&amp;originHeight=242&amp;originWidth=555&amp;size=0&amp;status=done&amp;width=555">
+<meta property="og:image" content="https:&#x2F;&#x2F;cdn.nlark.com&#x2F;yuque&#x2F;0&#x2F;2019&#x2F;webp&#x2F;128853&#x2F;1564754956620-8176f526-da4f-4099-b339-07e22b914820.webp#align=left&amp;display=inline&amp;height=357&amp;originHeight=357&amp;originWidth=475&amp;size=0&amp;status=done&amp;width=475">
+<meta property="og:image" content="https:&#x2F;&#x2F;cdn.nlark.com&#x2F;yuque&#x2F;0&#x2F;2019&#x2F;webp&#x2F;128853&#x2F;1564754956572-87cc0b5c-77cb-4be0-915f-628f38e3f1c8.webp#align=left&amp;display=inline&amp;height=103&amp;originHeight=103&amp;originWidth=712&amp;size=0&amp;status=done&amp;width=712">
+<meta property="og:image" content="https:&#x2F;&#x2F;user-gold-cdn.xitu.io&#x2F;2018&#x2F;12&#x2F;3&#x2F;1677442376e53cda?imageslim#align=left&amp;display=inline&amp;height=420&amp;originHeight=420&amp;originWidth=780&amp;status=uploading&amp;width=780">
+<meta property="og:image" content="https:&#x2F;&#x2F;xiaomuzhu-image.oss-cn-beijing.aliyuncs.com&#x2F;d846f65d5025c4b6c4619662a0669503.png">
+<meta property="og:updated_time" content="2019-11-08T09:44:28.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;cdn.nlark.com&#x2F;yuque&#x2F;0&#x2F;2019&#x2F;gif&#x2F;128853&#x2F;1564754956577-e0ebe7ee-af11-4e2e-8712-2d5eb1b986bb.gif#align=left&amp;display=inline&amp;height=68&amp;originHeight=68&amp;originWidth=210&amp;size=0&amp;status=done&amp;width=210">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://yoursite.com/2019/11/08/5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill/React/React%20Fiber%20%E6%9E%B6%E6%9E%84%E8%A7%A3%E6%9E%90/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="学习的敌人是自己的满足，要认真学习一点东西，必须从不自满开始。对自己，“学而不厌”，对人家，“诲人不倦”，我们应取这种态度。" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/chen08" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">溟海</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer &amp; Designer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Guangzhou, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+          <!-- . -->
+        
+        
+          <li class="menu-item menu-item-home">
+            <a href="/.">
+              
+              <i class="icon icon-home-fill"></i>
+              
+              <span class="menu-title">Home</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- archives -->
+        
+        
+          <li class="menu-item menu-item-archives">
+            <a href="/archives">
+              
+              <i class="icon icon-archives-fill"></i>
+              
+              <span class="menu-title">Archives</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- categories -->
+        
+        
+          <li class="menu-item menu-item-categories">
+            <a href="/categories">
+              
+              <i class="icon icon-folder"></i>
+              
+              <span class="menu-title">Categories</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- tags -->
+        
+        
+          <li class="menu-item menu-item-tags">
+            <a href="/tags">
+              
+              <i class="icon icon-tags"></i>
+              
+              <span class="menu-title">Tags</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- repository -->
+        
+        
+          <li class="menu-item menu-item-repository">
+            <a href="/repository">
+              
+              <i class="icon icon-project"></i>
+              
+              <span class="menu-title">Repository</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- books -->
+        
+        
+          <li class="menu-item menu-item-books">
+            <a href="/books">
+              
+              <i class="icon icon-book-fill"></i>
+              
+              <span class="menu-title">Books</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- links -->
+        
+        
+          <li class="menu-item menu-item-links">
+            <a href="/links">
+              
+              <i class="icon icon-friendship"></i>
+              
+              <span class="menu-title">Links</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- about -->
+        
+        
+          <li class="menu-item menu-item-about">
+            <a href="/about">
+              
+              <i class="icon icon-cup-fill"></i>
+              
+              <span class="menu-title">About</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- navigation/webstack/index.html -->
+        
+        
+          <li class="menu-item menu-item-navigation">
+            <a href="/navigation/webstack/index.html">
+              
+              <i class="icon icon-delicious"></i>
+              
+              <span class="menu-title">Navigation</span>
+            </a>
+          </li>
+        
+
+
+        
+          <!-- navigation/webstack/word.html -->
+        
+        
+          <li style="display: none;" class="menu-item menu-item-fixed">
+            <a href="/navigation/webstack/word.html">
+              
+              <i class="icon icon-delicious"></i>
+              
+              <span class="menu-title">menu.fixed</span>
+            </a>
+          </li>
+        
+
+
+        
+      </ul>
+
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/1-WEB%E5%89%8D%E7%AB%AF/">1.WEB前端</a><span class="category-list-count">140</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/2-%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">2.编程语言</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/3-%E4%BA%A7%E5%93%81%E8%AE%BE%E8%AE%A1/">3.产品设计</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/4-%E7%AE%A1%E7%90%86%E8%90%A5%E9%94%80/">4.管理营销</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/5-%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87/">5.技能提升</a><span class="category-list-count">155</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/6-%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93/">6.读书总结</a><span class="category-list-count">9</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/" rel="tag">CSS</a><span class="tag-list-count">18</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Dart/" rel="tag">Dart</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES6/" rel="tag">ES6</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES7/" rel="tag">ES7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/English/" rel="tag">English</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flutter/" rel="tag">Flutter</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a><span class="tag-list-count">20</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IMAGE/" rel="tag">IMAGE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JQuery/" rel="tag">JQuery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a><span class="tag-list-count">224</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">JavaScript设计模式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript%E9%AB%98%E7%BA%A7%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" rel="tag">JavaScript高级程序设计</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jquery/" rel="tag">Jquery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mysql/" rel="tag">Mysql</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NETWORK/" rel="tag">NETWORK</a><span class="tag-list-count">13</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node/" rel="tag">Node</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/" rel="tag">PHP</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/" rel="tag">React</a><span class="tag-list-count">31</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJS/" rel="tag">RxJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SVG/" rel="tag">SVG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sass/" rel="tag">Sass</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/" rel="tag">Vue</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%AE%89%E5%85%A8/" rel="tag">WEB安全</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webpack/" rel="tag">Webpack</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/" rel="tag">jQuery</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodeJS/" rel="tag">nodeJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B9%A6%E5%8D%95/" rel="tag">书单</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B9%A6%E7%B1%8D/" rel="tag">书籍</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/" rel="tag">前端安全</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83/" rel="tag">命名规范</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag">小程序</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" rel="tag">性能优化</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8F%92%E4%BB%B6/" rel="tag">插件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A1%86%E6%9E%B6/" rel="tag">框架</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" rel="tag">浏览器</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%84%E4%BB%B6/" rel="tag">组件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%84%E8%8C%83/" rel="tag">规范</a><span class="tag-list-count">67</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6%E5%AD%A6%E4%B9%A0/" rel="tag">软件学习</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a><span class="tag-list-count">153</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/CSS/" style="font-size: 13.71px;">CSS</a> <a href="/tags/Dart/" style="font-size: 13px;">Dart</a> <a href="/tags/ES6/" style="font-size: 13px;">ES6</a> <a href="/tags/ES7/" style="font-size: 13px;">ES7</a> <a href="/tags/English/" style="font-size: 13.18px;">English</a> <a href="/tags/Flutter/" style="font-size: 13px;">Flutter</a> <a href="/tags/Git/" style="font-size: 13.12px;">Git</a> <a href="/tags/HTML/" style="font-size: 13.76px;">HTML</a> <a href="/tags/HTTP/" style="font-size: 13.18px;">HTTP</a> <a href="/tags/IMAGE/" style="font-size: 13px;">IMAGE</a> <a href="/tags/JAVA/" style="font-size: 13.06px;">JAVA</a> <a href="/tags/JQuery/" style="font-size: 13px;">JQuery</a> <a href="/tags/JavaScript/" style="font-size: 14px;">JavaScript</a> <a href="/tags/JavaScript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 13px;">JavaScript设计模式</a> <a href="/tags/JavaScript%E9%AB%98%E7%BA%A7%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 13px;">JavaScript高级程序设计</a> <a href="/tags/Jquery/" style="font-size: 13px;">Jquery</a> <a href="/tags/Mysql/" style="font-size: 13px;">Mysql</a> <a href="/tags/NETWORK/" style="font-size: 13.53px;">NETWORK</a> <a href="/tags/Node/" style="font-size: 13.35px;">Node</a> <a href="/tags/PHP/" style="font-size: 13.24px;">PHP</a> <a href="/tags/React/" style="font-size: 13.82px;">React</a> <a href="/tags/RxJS/" style="font-size: 13px;">RxJS</a> <a href="/tags/SVG/" style="font-size: 13px;">SVG</a> <a href="/tags/Sass/" style="font-size: 13px;">Sass</a> <a href="/tags/TypeScript/" style="font-size: 13.29px;">TypeScript</a> <a href="/tags/Vue/" style="font-size: 13.65px;">Vue</a> <a href="/tags/WEB%E5%AE%89%E5%85%A8/" style="font-size: 13.29px;">WEB安全</a> <a href="/tags/Webpack/" style="font-size: 13.59px;">Webpack</a> <a href="/tags/jQuery/" style="font-size: 13.65px;">jQuery</a> <a href="/tags/nodeJS/" style="font-size: 13px;">nodeJS</a> <a href="/tags/python/" style="font-size: 13px;">python</a> <a href="/tags/%E4%B9%A6%E5%8D%95/" style="font-size: 13px;">书单</a> <a href="/tags/%E4%B9%A6%E7%B1%8D/" style="font-size: 13.06px;">书籍</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 13px;">前端</a> <a href="/tags/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/" style="font-size: 13.06px;">前端安全</a> <a href="/tags/%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83/" style="font-size: 13.41px;">命名规范</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 13px;">小程序</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 13.06px;">工具</a> <a href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" style="font-size: 13.47px;">性能优化</a> <a href="/tags/%E6%8F%92%E4%BB%B6/" style="font-size: 13px;">插件</a> <a href="/tags/%E6%A1%86%E6%9E%B6/" style="font-size: 13px;">框架</a> <a href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" style="font-size: 13px;">浏览器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13.18px;">算法</a> <a href="/tags/%E7%BB%84%E4%BB%B6/" style="font-size: 13px;">组件</a> <a href="/tags/%E8%A7%84%E8%8C%83/" style="font-size: 13.88px;">规范</a> <a href="/tags/%E8%BD%AF%E4%BB%B6%E5%AD%A6%E4%B9%A0/" style="font-size: 13px;">软件学习</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 13.35px;">随笔</a> <a href="/tags/%E9%9D%A2%E8%AF%95/" style="font-size: 13.94px;">面试</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a><span class="archive-list-count">312</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/27/1.WEB%E5%89%8D%E7%AB%AFWeb/React/react-router/" class="title">1.WEB前端Web/React/react-router</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-27T13:24:04.185Z" itemprop="datePublished">2020-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/27/1.WEB%E5%89%8D%E7%AB%AFWeb/Front-End-Standards/sass-guide/" class="title">1.WEB前端Web/Front-End-Standards/sass-guide</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-27T13:24:03.487Z" itemprop="datePublished">2020-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/27/hello-world/" class="title">Hello World</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-27T13:24:03.028Z" itemprop="datePublished">2020-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/6-%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93/">6.读书总结</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/26/6.%E8%AF%BB%E4%B9%A6%E6%80%BB%E7%BB%93Book/%E4%BA%BA%E7%94%9F%E9%81%93%E7%90%86/" class="title">人生道理</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-26T01:12:57.000Z" itemprop="datePublished">2020-01-26</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/2-%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">2.编程语言</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/15/2.%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80Programming/English/%E7%94%9F%E6%B4%BB%E8%8B%B1%E8%AF%AD/" class="title">生活英语</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-15T01:12:57.000Z" itemprop="datePublished">2020-01-15</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">Catalogue</h3>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#React-Fiber-架构解析"><span class="toc-number">1.</span> <span class="toc-text">React Fiber 架构解析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#背景介绍"><span class="toc-number">1.1.</span> <span class="toc-text">背景介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#从-React-元素到-Fiber-节点"><span class="toc-number">1.2.</span> <span class="toc-text">从 React 元素到 Fiber 节点</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#React-元素"><span class="toc-number">1.2.1.</span> <span class="toc-text">React 元素</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Fiber-节点"><span class="toc-number">1.2.2.</span> <span class="toc-text">Fiber 节点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#current-树及-workInProgress-树"><span class="toc-number">1.2.3.</span> <span class="toc-text">current 树及 workInProgress 树</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#副作用"><span class="toc-number">1.2.4.</span> <span class="toc-text">副作用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#副作用列表"><span class="toc-number">1.2.5.</span> <span class="toc-text">副作用列表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Fiber-树的根节点"><span class="toc-number">1.2.6.</span> <span class="toc-text">Fiber 树的根节点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Fiber-节点结构"><span class="toc-number">1.2.7.</span> <span class="toc-text">Fiber 节点结构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#stateNode"><span class="toc-number">1.2.7.1.</span> <span class="toc-text">stateNode</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#type"><span class="toc-number">1.2.7.2.</span> <span class="toc-text">type</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#tag"><span class="toc-number">1.2.7.3.</span> <span class="toc-text">tag</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#updateQueue"><span class="toc-number">1.2.7.4.</span> <span class="toc-text">updateQueue</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#memoizedState"><span class="toc-number">1.2.7.5.</span> <span class="toc-text">memoizedState</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#memoizedProps"><span class="toc-number">1.2.7.6.</span> <span class="toc-text">memoizedProps</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#pendingProps"><span class="toc-number">1.2.7.7.</span> <span class="toc-text">pendingProps</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#key"><span class="toc-number">1.2.7.8.</span> <span class="toc-text">key</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#通用算法"><span class="toc-number">1.3.</span> <span class="toc-text">通用算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Render-阶段"><span class="toc-number">1.3.1.</span> <span class="toc-text">Render 阶段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#工作循环的主要步骤"><span class="toc-number">1.3.2.</span> <span class="toc-text">工作循环的主要步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#commit-阶段"><span class="toc-number">1.3.3.</span> <span class="toc-text">commit 阶段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#更新前的生命周期方法"><span class="toc-number">1.3.4.</span> <span class="toc-text">更新前的生命周期方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DOM-更新"><span class="toc-number">1.3.5.</span> <span class="toc-text">DOM 更新</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#更新后的生命周期方法"><span class="toc-number">1.3.6.</span> <span class="toc-text">更新后的生命周期方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#公众号"><span class="toc-number">1.4.</span> <span class="toc-text">公众号</span></a></li></ol></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-5.技能提升Skill/React/React Fiber 架构解析" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      React Fiber 架构解析
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/11/08/5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill/React/React%20Fiber%20%E6%9E%B6%E6%9E%84%E8%A7%A3%E6%9E%90/" class="article-date">
+	  <time datetime="2019-11-08T01:12:57.000Z" itemprop="datePublished">2019-11-08</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/5-%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87/">5.技能提升</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/JavaScript/" rel="tag">JavaScript</a>, <a class="article-tag-link" href="/tags/React/" rel="tag">React</a>, <a class="article-tag-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a>
+  </span>
+
+
+        
+
+	<span class="article-read hidden-xs">
+    	<i class="icon icon-eye-fill" aria-hidden="true"></i>
+    	<span id="/2019/11/08/5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill/React/React%20Fiber%20%E6%9E%B6%E6%9E%84%E8%A7%A3%E6%9E%90/" class="leancloud_visitors"  data-flag-title="React Fiber 架构解析">0</span>
+    </span>
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/11/08/5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill/React/React%20Fiber%20%E6%9E%B6%E6%9E%84%E8%A7%A3%E6%9E%90/#comments" class="article-comment-link">Comments</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count: 7.2k(words)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">Read Count: 26(minutes)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="React-Fiber-架构解析"><a href="#React-Fiber-架构解析" class="headerlink" title="React Fiber 架构解析"></a>React Fiber 架构解析</h1><p>点击关注本<a href="#公众号">公众号</a>获取文档最新更新,并可以领取配套于本指南的 <strong>《前端面试手册》</strong> 以及<strong>最标准的简历模板</strong>.</p>
+<hr>
+<p>本文来源于<a href="https://medium.com/@maxim.koretskyi" target="_blank" rel="noopener">Max Koretskyi aka Wizard</a><br>的<a href="https://medium.com/react-in-depth/inside-fiber-in-depth-overview-of-the-new-reconciliation-algorithm-in-react-e1c04700ef6e" target="_blank" rel="noopener">Inside Fiber: in-depth overview of the new reconciliation algorithm in React
+</a></p>
+<p>向更深入理解React的全貌,建议阅读此<a href="https://github.com/pomber/didact" target="_blank" rel="noopener">仓库</a>,它会交给你如何打造一个简易的react</p>
+<hr>
+<p>React 是一个用于构建用户交互界面的 JavaScript 库，其核心机制就是跟踪组件的状态变化，并将更新的状态映射到到新的界面。在 React 中，我们将此过程称之为<strong>协调</strong>。我们调用 <code>setState</code>方法来改变状态，而框架本身会去检查 state 或 props 是否已经更改来决定是否重新渲染组件。<br />React 的官方文档对 <a href="https://reactjs.org/docs/reconciliation.html" target="_blank" rel="noopener">协调机制</a> 进行了良好的抽象描述： React 的元素、生命周期、 <code>render</code> 方法，以及应用于组件子元素的 diffing 算法综合起到的作用，就是协调。从 <code>render</code> 方法返回的不可变的 React 元素通常称为「虚拟 DOM」。这个术语有助于早期向人们解释 React，但它也引起了混乱，并且不再用于 React 文档。在本文中，我将坚持称它为 React 元素的树。<br />除了 React 元素的树之外，框架总是在内部维护一个实例来持有状态（如组件、 DOM 节点等）。从版本 16 开始， React 推出了内部实例树的新的实现方法，以及被称之为 <strong>Fiber</strong> 的算法。如果想要了解 Fiber 架构带来的优势，可以看下 <a href="https://medium.com/react-in-depth/the-how-and-why-on-reacts-usage-of-linked-list-in-fiber-67f1014d0eb7" target="_blank" rel="noopener">React 在 Fiber 中使用链表的方式和原因</a>。</p>
+<p>这是本系列的第一篇文章，这一系列的目的就是向你描绘出 React 的内部架构。在本文中，我希望能够提供一些与算法相关的重要概念和数据结构，并对其进行深入阐述。一旦我们有足够的背景，我们将探索用于遍历和处理 Fiber 树的算法和主要功能。本系列的下一篇文章将演示 React 如何使用该算法执行初始渲染和处理 state 以及 props 的更新。到那时，我们将继续讨论调度程序的详细信息，子协调过程以及构建 effect 列表的机制。<br />我将给你带来一些非常高阶的知识🧙。我鼓励你阅读来了解 Concurrent React 的内部工作的魔力。如果您计划开始为 React 贡献代码，本系列也将为您提供很好的指导。我是 <a href="https://blog.angularindepth.com/level-up-your-reverse-engineering-skills-8f910ae10630" target="_blank" rel="noopener">逆向工程的坚定信徒</a>，因此本文会有很多最新版本 16.6.0 中的源代码的链接。<br />需要消化的内容绝对是很多的，所以如果你当下还不能很理解的话，不用感到压力。花些时间是值得的。**请注意，只是使用 React 的话，您不需要知道任何文中的内容。本文是关于 React 在内部是如何工作的。</p>
+<h2 id="背景介绍"><a href="#背景介绍" class="headerlink" title="背景介绍"></a>背景介绍</h2><p>如下是我将在整个系列中使用的一个简单的应用程序。我们有一个按钮，点击它将会使屏幕上渲染的数字加 1：<br /><img src="https://cdn.nlark.com/yuque/0/2019/gif/128853/1564754956577-e0ebe7ee-af11-4e2e-8712-2d5eb1b986bb.gif#align=left&display=inline&height=68&originHeight=68&originWidth=210&size=0&status=done&width=210" alt=""><br />而它的实现如下：</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ClickCounter</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">        <span class="keyword">super</span>(props);</span><br><span class="line">        <span class="keyword">this</span>.state = &#123;<span class="attr">count</span>: <span class="number">0</span>&#125;;</span><br><span class="line">        <span class="keyword">this</span>.handleClick = <span class="keyword">this</span>.handleClick.bind(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    handleClick() &#123;</span><br><span class="line">        <span class="keyword">this</span>.setState(<span class="function">(<span class="params">state</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> &#123;<span class="attr">count</span>: state.count + <span class="number">1</span>&#125;;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    render() &#123;</span><br><span class="line">        <span class="keyword">return</span> [</span><br><span class="line">            &lt;button key=<span class="string">"1"</span> onClick=&#123;<span class="keyword">this</span>.handleClick&#125;&gt;Update counter&lt;<span class="regexp">/button&gt;,</span></span><br><span class="line"><span class="regexp">            &lt;span key="2"&gt;&#123;this.state.count&#125;&lt;/</span>span&gt;</span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>你可以在 <a href="https://stackblitz.com/edit/react-t4rdmh" target="_blank" rel="noopener">这里</a> 把玩一下。如您所见，它就是一个可从 <code>render</code> 方法返回两个子元素 – <code>button</code> 和 <code>span</code> 的简单组件。只要你单击该按钮，组件的状态将在处理程序内被更新，而状态的更新就会导致 <code>span</code> 元素内的文本更新。<br />在协调阶段内，React 进行了各种各样的活动。例如，在我们的简单应用程序中，从第一次渲染到状态更新后的期间内，React 执行了如下高阶操作：</p>
+<ul>
+<li>更新了 <code>ClickCounter</code> 组件的内部状态的 <code>count</code> 属性<br /></li>
+<li>获取和比较了 <code>ClickCounter</code> 组件的子组件及其 props<br /></li>
+<li>更新 <code>span</code> 元素的 props<br /></li>
+<li>更新 <code>span</code> 元素的 <code>textContent</code> 属性<br /></li>
+</ul>
+<p>除了上述活动，React 在协调期间还执行了一些其他活动，如调用生命周期方法或更新 refs。<strong>所有这些活动在 Fiber 架构中统称为「工作」。</strong>工作类型通常取决于 React 元素的类型。例如，对于类定义的组件，React 需要创建实例，但是函数定义的组件就不必执行此操作。正如我们所了解的，React 中有许多元素类型，例如：类和函数组件，宿主组件（DOM 节点）portal 等。React 元素的类型由 createElement函数的第一个参数定义，此函数通常在 <code>render</code> 方法中调用以创建元素。<br />在我们开始探索活动细节和 Fiber 算法的主要内容之前，我们首先来熟悉下 React 在内部使用的一些数据结构。</p>
+<h2 id="从-React-元素到-Fiber-节点"><a href="#从-React-元素到-Fiber-节点" class="headerlink" title="从 React 元素到 Fiber 节点"></a>从 React 元素到 Fiber 节点</h2><p>React 中的每个组件都有一个 UI 表示，我们可以称之为从 <code>render</code> 方法返回的一个视图或模板。这是 <code>ClickCounter</code> 组件的模板：</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;button key=<span class="string">"1"</span> onClick=&#123;<span class="keyword">this</span>.onClick&#125;&gt;Update counter&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">&lt;span key="2"&gt;&#123;this.state.count&#125;&lt;/</span>span&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="React-元素"><a href="#React-元素" class="headerlink" title="React 元素"></a>React 元素</h3><p>如果模板经过 JSX 编译器处理，你就会得到一堆 React 元素。这是从 React 组件的 render 方法返回的，但并不是 HTML 。由于我们并没有被强制要求使用 JSX，因此我们的 ClickCounter 组件的 render 方法可以像这样重写：</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ClickCounter</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    render() &#123;</span><br><span class="line">        <span class="keyword">return</span> [</span><br><span class="line">            React.createElement(</span><br><span class="line">                <span class="string">'button'</span>,</span><br><span class="line">                &#123;</span><br><span class="line">                    key: <span class="string">'1'</span>,</span><br><span class="line">                    onClick: <span class="keyword">this</span>.onClick</span><br><span class="line">                &#125;,</span><br><span class="line">                <span class="string">'Update counter'</span></span><br><span class="line">            ),</span><br><span class="line">            React.createElement(</span><br><span class="line">                <span class="string">'span'</span>,</span><br><span class="line">                &#123;</span><br><span class="line">                    key: <span class="string">'2'</span></span><br><span class="line">                &#125;,</span><br><span class="line">                <span class="keyword">this</span>.state.count</span><br><span class="line">            )</span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>render</code> 方法中调用的 <code>React.createElement</code> 会产生两个如下的数据结构：</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        $$<span class="keyword">typeof</span>: <span class="built_in">Symbol</span>(react.element),</span><br><span class="line">        type: <span class="string">'button'</span>,</span><br><span class="line">        key: <span class="string">"1"</span>,</span><br><span class="line">        props: &#123;</span><br><span class="line">            children: <span class="string">'Update counter'</span>,</span><br><span class="line">            onClick: <span class="function"><span class="params">()</span> =&gt;</span> &#123; ... &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        $$<span class="keyword">typeof</span>: <span class="built_in">Symbol</span>(react.element),</span><br><span class="line">        type: <span class="string">'span'</span>,</span><br><span class="line">        key: <span class="string">"2"</span>,</span><br><span class="line">        props: &#123;</span><br><span class="line">            children: <span class="number">0</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，React 为这些对象添加了 <code>$$typeof</code> 属性，从而将它们唯一地标识为 React 元素。此外我们还有属性 <code>type</code>、<code>key</code> 和 <code>props</code> 来描述元素。这些值取自你传递给 <code>React.createElement</code>函数的参数。请注意React 如何将文本内容表示为 <code>span</code> 和 <code>button</code> 节点的子项，以及 click 钩子如何成为 <code>button</code> 元素 props 的一部分。 React 元素上还有其他字段，如 <code>ref</code> 字段，而这超出了本文的范围。<br />而 <code>ClickCounter</code> 的 React 元素就没有什么 props 或 key 属性:</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    $$<span class="keyword">typeof</span>: <span class="built_in">Symbol</span>(react.element),</span><br><span class="line">    key: <span class="literal">null</span>,</span><br><span class="line">    props: &#123;&#125;,</span><br><span class="line">    ref: <span class="literal">null</span>,</span><br><span class="line">    type: ClickCounter</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Fiber-节点"><a href="#Fiber-节点" class="headerlink" title="Fiber 节点"></a>Fiber 节点</h3><p>在<code>协调</code>期间，从 <code>render</code> 方法返回的每个 React 元素的数据都会被合并到 Fiber 节点树中。每个 React 元素都有一个相应的 Fiber 节点。与 React 元素不同，不会在每次渲染时重新创建这些 Fiber 。这些是持有组件状态和 DOM 的可变数据结构。<br />我们之前讨论过，根据不同 React 元素的类型，框架需要执行不同的活动。在我们的示例应用程序中，对于类组件 <code>ClickCounter</code> ，它调用生命周期方法和 <code>render</code> 方法，而对于 <code>span</code> 宿主组件（DOM 节点），它进行得是 DOM 修改。因此，每个 React 元素都会转换为 <a href="https://github.com/facebook/react/blob/769b1f270e1251d9dbdce0fcbd9e92e502d059b8/packages/shared/ReactWorkTags.js" target="_blank" rel="noopener">相应类型</a> 的 Fiber 节点，用于描述需要完成的工作。<br /><strong>您可以将 Fiber 视为表示某些要做的工作的数据结构，或者说，是一个工作单位。Fiber 的架构还提供了一种跟踪、规划、暂停和销毁工作的便捷方式。</strong><br />当 React 元素第一次转换为 Fiber 节点时，React 在 createFiberFromTypeAndProps函数中使用元素中的数据来创建 Fiber。在随后的更新中，React 会再次利用 Fiber 节点，并使用来自相应 React 元素的数据更新必要的属性。如果不再从 <code>render</code> 方法返回相应的 React 元素，React 可能还需要根据 <code>key</code> 属性来移动或删除层级结构中的节点。<br /><em>查看 ChildReconciler函数以查看 React 为现有 Fiber 节点执行的所有活动和相应函数的列表。</em><br />因为React为每个 React 元素创建一个 Fiber 节点，并且因为我们有一个这些元素组成的树，所以我们可以得到一个 Fiber 节点树。对于我们的示例应用程序，它看起来像这样：<br /><img src="https://cdn.nlark.com/yuque/0/2019/webp/128853/1564754956660-11f55b6e-a1fb-4199-8462-0be70e8f1be4.webp#align=left&display=inline&height=242&originHeight=242&originWidth=555&size=0&status=done&width=555" alt=""><br />所有 Fiber 节点都通过链表连接，具体是使用Fiber节点上的 <code>child</code>、<code>sibling</code> 和 <code>return</code> 属性。至于它为什么以这种方式工作，如果您还没有阅读过我的文章，更多详细信息请查看 <a href="https://medium.com/react-in-depth/the-how-and-why-on-reacts-usage-of-linked-list-in-fiber-67f1014d0eb7" target="_blank" rel="noopener">React 在 Fiber 中使用链表的方法和原因</a>。</p>
+<h3 id="current-树及-workInProgress-树"><a href="#current-树及-workInProgress-树" class="headerlink" title="current 树及 workInProgress 树"></a>current 树及 workInProgress 树</h3><p>在第一次渲染之后，React 最终得到一个 Fiber 树，它反映了用于渲染 UI 的应用程序的状态。这棵树通常被称为 <strong>current 树（当前树）</strong>。当 React 开始处理更新时，它会构建一个所谓的 <strong>workInProgress 树（工作过程树）</strong>，它反映了要刷新到屏幕的未来状态。<br />所有工作都在 <code>workInProgress</code> 树的 Fiber 节点上执行。当 React 遍历 <code>current</code> 树时，对于每个现有 Fiber 节点，React 会创建一个构成 <code>workInProgress</code> 树的备用节点，这一节点会使用 render 方法返回的 React 元素中的数据来创建。处理完更新并完成所有相关工作后，React 将准备好一个备用树以刷新到屏幕。一旦这个 <code>workInProgress</code> 树在屏幕上呈现，它就会变成 <code>current</code>树。<br />React 的核心原则之一是一致性。 React 总是一次性更新 DOM - 它不会显示部分中间结果。<code>workInProgress</code> 树充当用户不可见的「草稿」，这样 React 可以先处理所有组件，然后将其更改刷新到屏幕。<br />在源代码中，您将看到很多函数从 <code>current</code> 和 <code>workInProgress</code> 树中获取 Fiber 节点。这是一个这类函数的签名：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">updateHostComponent</span>(<span class="params">current, workInProgress, renderExpirationTime</span>) </span>&#123;...&#125;</span><br></pre></td></tr></table></figure>
+
+<p>每个Fiber节点持有<code>备用</code>域在另一个树的对应部分的引用。来自 <code>current</code> 树中的节点会指向 <code>workInProgress</code> 树中的节点，反之亦然。</p>
+<h3 id="副作用"><a href="#副作用" class="headerlink" title="副作用"></a>副作用</h3><p>我们可以将 React 中的一个组件视为一个使用 state 和 props 来计算 UI 表示的函数。其他所有活动，如改变 DOM 或调用生命周期方法，都应该被视为副作用，或者简单地说是一种效果。<a href="https://reactjs.org/docs/hooks-overview.html" target="_blank" rel="noopener">文档中</a>是这样描述的：<br /><em>您之前可能已经在 React 组件中执行数据提取，订阅或手动更改 DOM。我们将这些操作称为“副作用”（或简称为“效果”），因为它们会影响其他组件，并且在渲染过程中无法完成。</em><br />您可以看到大多 state 和 props 更新都会导致副作用。既然使用副作用是工作（活动）的一种类型，Fiber 节点是一种方便的机制来跟踪除了更新以外的效果。每个 Fiber 节点都可以具有与之相关的副作用，它们可在 <code>effectTag</code> 字段中编码。<br />因此，Fiber 中的副作用基本上定义了处理更新后需要为实例完成的 <a href="https://github.com/facebook/react/blob/b87aabdfe1b7461e7331abb3601d9e6bb27544bc/packages/shared/ReactSideEffectTags.js" target="_blank" rel="noopener">工作</a>。对于宿主组件（DOM 元素），所谓的工作包括添加，更新或删除元素。对于类组件，React可能需要更新 refs 并调用 <code>componentDidMount</code> 和 <code>componentDidUpdate</code> 生命周期方法。对于其他类型的 Fiber ，还有相对应的其他副作用。</p>
+<h3 id="副作用列表"><a href="#副作用列表" class="headerlink" title="副作用列表"></a>副作用列表</h3><p>React 处理更新的素对非常迅速，为了达到这种水平的性能，它采用了一些有趣的技术。<strong>其中之一是构建具有副作用的 Fiber 节点的线性列表，从而能够快速遍历。</strong>遍历线性列表比树快得多，并且没有必要在没有副作用的节点上花费时间。<br />此列表的目标是标记具有 DOM 更新或其他相关副作用的节点。此列表是 <code>finishedWork</code> 树的子集，并使用 <code>nextEffect</code> 属性而不是 <code>current</code> 和 <code>workInProgress</code> 树中使用的 <code>child</code> 属性进行链接。<br />Dan Abramov 为副作用列表提供了一个类比。他喜欢将它想象成一棵圣诞树，「圣诞灯」将所有有效节点捆绑在一起。为了使这个可视化，让我们想象如下的 Fiber 节点树，其中标亮的节点有一些要做的工作。例如，我们的更新导致 <code>c2</code> 被插入到 DOM 中，<code>d2</code> 和 <code>c1</code> 被用于更改属性，而 <code>b2</code>被用于触发生命周期方法。副作用列表会将它们链接在一起，以便 React 稍后可以跳过其他节点：<br /><img src="https://cdn.nlark.com/yuque/0/2019/webp/128853/1564754956620-8176f526-da4f-4099-b339-07e22b914820.webp#align=left&display=inline&height=357&originHeight=357&originWidth=475&size=0&status=done&width=475" alt=""><br />可以看到具有副作用的节点是如何链接在一起的。当遍历节点时，React 使用 <code>firstEffect</code> 指针来确定列表的开始位置。所以上面的图表可以表示为这样的线性列表：<br /><img src="https://cdn.nlark.com/yuque/0/2019/webp/128853/1564754956572-87cc0b5c-77cb-4be0-915f-628f38e3f1c8.webp#align=left&display=inline&height=103&originHeight=103&originWidth=712&size=0&status=done&width=712" alt=""><br />如您所见，React 按照从子到父的顺序应用副作用。<br><a name="FEgIh"></a></p>
+<h3 id="Fiber-树的根节点"><a href="#Fiber-树的根节点" class="headerlink" title="Fiber 树的根节点"></a>Fiber 树的根节点</h3><p>每个 React 应用程序都有一个或多个充当容器的 DOM 元素。在我们的例子中，它是带有 ID 为 <code>container</code> 的 <code>div</code> 元素。React 为每个容器创建一个 Fiber 根对象。您可以使用对 DOM 元素的引用来访问它：</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fiberRoot = query(<span class="string">'#container'</span>)._reactRootContainer._internalRoot</span><br></pre></td></tr></table></figure>
+
+<p>这个 Fiber 根是React保存对 Fiber 树的引用的地方，它存储在 Fiber 根对象的 <code>current</code> 属性中：</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> hostRootFiberNode = fiberRoot.current</span><br></pre></td></tr></table></figure>
+
+<p>Fiber 树以一个特殊类型的 Fiber 节点 <code>HostRoot</code> 开始。它在内部创建的，并充当最顶层组件的父级。<code>HostRoot</code> 节点可通过 <code>stateNode</code> 属性返回到 <code>FiberRoot</code>：</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fiberRoot.current.stateNode === fiberRoot; <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+
+<p>你可以通过 Fiber 根访问最顶层的 <code>HostRoot</code> 节点来探索 Fiber 树，或者可以从组件实例中获取单独的 Fiber 节点，如下所示：</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">compInstance._reactInternalFiber</span><br></pre></td></tr></table></figure>
+
+<h3 id="Fiber-节点结构"><a href="#Fiber-节点结构" class="headerlink" title="Fiber 节点结构"></a>Fiber 节点结构</h3><p>现在让我们看一下为 <code>ClickCounter</code> 组件创建的 Fiber 节点的结构</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    stateNode: <span class="keyword">new</span> ClickCounter,</span><br><span class="line">    type: ClickCounter,</span><br><span class="line">    alternate: <span class="literal">null</span>,</span><br><span class="line">    key: <span class="literal">null</span>,</span><br><span class="line">    updateQueue: <span class="literal">null</span>,</span><br><span class="line">    memoizedState: &#123;<span class="attr">count</span>: <span class="number">0</span>&#125;,</span><br><span class="line">    pendingProps: &#123;&#125;,</span><br><span class="line">    memoizedProps: &#123;&#125;,</span><br><span class="line">    tag: <span class="number">1</span>,</span><br><span class="line">    effectTag: <span class="number">0</span>,</span><br><span class="line">    nextEffect: <span class="literal">null</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以及 <code>span</code> DOM 元素：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    stateNode: <span class="keyword">new</span> ClickCounter,</span><br><span class="line">    type: ClickCounter,</span><br><span class="line">    alternate: <span class="literal">null</span>,</span><br><span class="line">    key: <span class="literal">null</span>,</span><br><span class="line">    updateQueue: <span class="literal">null</span>,</span><br><span class="line">    memoizedState: &#123;<span class="attr">count</span>: <span class="number">0</span>&#125;,</span><br><span class="line">    pendingProps: &#123;&#125;,</span><br><span class="line">    memoizedProps: &#123;&#125;,</span><br><span class="line">    tag: <span class="number">1</span>,</span><br><span class="line">    effectTag: <span class="number">0</span>,</span><br><span class="line">    nextEffect: <span class="literal">null</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Fiber 节点上有很多字段。我在前面的部分中描述了字段 <code>alternate</code>、 <code>effectTag</code> 和 <code>nextEffect</code> 的用途。现在让我们看看为什么需要其他字段。</p>
+<h4 id="stateNode"><a href="#stateNode" class="headerlink" title="stateNode"></a>stateNode</h4><p>保存组件的类实例、DOM 节点或与 Fiber 节点关联的其他 React 元素类型的引用。总的来说，我们可以认为该属性用于保持与一个 Fiber 节点相关联的局部状态。</p>
+<h4 id="type"><a href="#type" class="headerlink" title="type"></a>type</h4><p>定义此 Fiber 节点的函数或类。对于类组件，它指向构造函数，对于 DOM 元素，它指定 HTML 标记。我经常使用这个字段来理解 Fiber 节点与哪个元素相关。</p>
+<h4 id="tag"><a href="#tag" class="headerlink" title="tag"></a>tag</h4><p>定义 <a href="https://github.com/facebook/react/blob/769b1f270e1251d9dbdce0fcbd9e92e502d059b8/packages/shared/ReactWorkTags.js" target="_blank" rel="noopener">Fiber 的类型</a>。它在协调算法中用于确定需要完成的工作。如前所述，工作取决于React元素的类型。函数createFiberFromTypeAndProps将 React 元素映射到相应的 Fiber 节点类型。在我们的应用程序中，<code>ClickCounter</code> 组件的属性 <code>tag</code> 是 1，表示是 <code>ClassComponent</code>（类组件），而 <code>span</code> 元素的属性 <code>tag</code> 是 5，表示是 <code>HostComponent</code>（宿主组件）。</p>
+<h4 id="updateQueue"><a href="#updateQueue" class="headerlink" title="updateQueue"></a>updateQueue</h4><p>状态更新、回调和 DOM 更新的队列。</p>
+<h4 id="memoizedState"><a href="#memoizedState" class="headerlink" title="memoizedState"></a>memoizedState</h4><p>用于创建输出的 Fiber 状态。处理更新时，它会反映当前在屏幕上呈现的状态。</p>
+<h4 id="memoizedProps"><a href="#memoizedProps" class="headerlink" title="memoizedProps"></a>memoizedProps</h4><p>在前一个渲染中用于创建输出的 Fiber 的 props。</p>
+<h4 id="pendingProps"><a href="#pendingProps" class="headerlink" title="pendingProps"></a>pendingProps</h4><p>已从 React 元素中的新数据更新并且需要应用于子组件或 DOM 元素的 props。</p>
+<h4 id="key"><a href="#key" class="headerlink" title="key"></a>key</h4><p>唯一标识符，当具有一组子元素的时候，可帮助 React 确定哪些项发生了更改、添加或删除。它与 <a href="https://reactjs.org/docs/lists-and-keys.html" target="_blank" rel="noopener">此处</a> 描述的 React 的「列表和键」功能有关。我在上面的解释中省略了一堆字段。特别是，我跳过了指针 <code>child</code>、<code>sibling</code> 和 <code>return</code>，它们构成了我在 <a href="https://medium.com/react-in-depth/the-how-and-why-on-reacts-usage-of-linked-list-in-fiber-67f1014d0eb7" target="_blank" rel="noopener">上一篇文章</a> 中描述的树数据结构。以及专属于 Scheduler 的 expirationTime，childExpirationTime 和 mode 等字段类别。</p>
+<h2 id="通用算法"><a href="#通用算法" class="headerlink" title="通用算法"></a>通用算法</h2><p>React 在两个主要阶段执行工作：<code>render</code> 和 <code>commit</code>。<br />在第一个 <code>render</code> 阶段，React 通过 <code>setUpdate</code> 或 <code>React.render</code> 计划性的更新组件，并确定需要在 UI 中更新的内容。如果是初始渲染，React 会为 <code>render</code> 方法返回的每个元素创建一个新的 Fiber 节点。在后续更新中，现有 React 元素的 Fiber 节点将被重复使用和更新。<strong>这一阶段是为了得到标记了副作用的 Fiber 节点树</strong>。副作用描述了在下一个<code>commit</code>阶段需要完成的工作。在当前阶段，React持有标记了副作用的 Fiber 树并将其应用于实例。它遍历副作用列表、执行 DOM 更新和用户可见的其他更改。<br /><strong>我们需要重点理解的是，第一个 <code>render</code> 阶段的工作是可以异步执行的。</strong>React 可以根据可用时间片来处理一个或多个 Fiber 节点，然后停下来暂存已完成的工作，并转而去处理某些事件，接着它再从它停止的地方继续执行。但有时候，它可能需要丢弃完成的工作并再次从顶部开始。由于在此阶段执行的工作不会导致任何用户可见的更改（如 DOM 更新），因此暂停行为才有了意义。<strong>与之相反的是，后续 <code>commit</code> 阶段始终是同步的。</strong>这是因为在此阶段执行的工作会导致用户可见的变化，例如 DOM 更新。这就是为什么 React 需要在一次单一过程中完成这些更新。<br />React 要做的一种工作就是调用生命周期方法。一些方法是在 <code>render</code> 阶段调用的，而另一些方法则是在 <code>commit</code> 阶段调用。这是在第一个 <code>render</code> 阶段调用的生命周期列表：</p>
+<ul>
+<li>[UNSAFE_]componentWillMount（弃用）<br /></li>
+<li>[UNSAFE_]componentWillReceiveProps（弃用）<br /></li>
+<li>getDerivedStateFromProps<br /></li>
+<li>shouldComponentUpdate<br /></li>
+<li>[UNSAFE_]componentWillUpdate（弃用）<br /></li>
+<li>render<br /></li>
+</ul>
+<p>正如你所看到的，从版本 16.3 开始，在 <code>render</code> 阶段执行的一些保留的生命周期方法被标记为 <code>UNSAFE</code>，它们现在在文档中被称为遗留生命周期。它们将在未来的 16.x 发布版本中弃用，而没有 <code>UNSAFE</code> 前缀的方法将在 17.0 中移除。您可以在 <a href="https://reactjs.org/blog/2018/03/27/update-on-async-rendering.html" target="_blank" rel="noopener">此处</a> 详细了解这些更改以及建议的迁移路径。<br />那么这么做的目的是什么呢？<br />好吧，我们刚刚了解到，因为 <code>render</code> 阶段不会产生像 DOM 更新这样的副作用，所以 React 可以异步处理组件的异步更新（甚至可能在多个线程中执行）。但是，标有 UNSAFE 的生命周期经常被误解和滥用。开发人员倾向于将带有副作用的代码放在这些方法中，这可能会导致新的异步渲染方法出现问题。虽然只有没有 UNSAFE 前缀的对应方法将被删除，但它们仍可能在即将出现的并发模式（您可以选择退出）中引起问题。<br />接下来罗列的生命周期方法是在第二个 <code>commit</code> 阶段执行的：</p>
+<ul>
+<li>getSnapshotBeforeUpdate<br /></li>
+<li>componentDidMount<br /></li>
+<li>componentDidUpdate<br /></li>
+<li>componentWillUnmount<br /></li>
+</ul>
+<p>因为这些方法都在同步的 <code>commit</code> 阶段执行，他们可能会包含副作用，并对 DOM 进行一些操作。<br />至此，我们已经有了充分的背景知识，下面我们可以看下用来遍历树和执行一些工作的通用算法。</p>
+<h3 id="Render-阶段"><a href="#Render-阶段" class="headerlink" title="Render 阶段"></a>Render 阶段</h3><p>协调算法始终使用 renderRoot 函数从最顶层的 <code>HostRoot</code> 节点开始。不过，React 会略过已经处理过的 Fiber 节点，直到找到未完成工作的节点。例如，如果在组件树中的深层组件中调用 <code>setState</code> 方法，则 React 将从顶部开始，但会快速跳过各个父项，直到它到达调用了 <code>setState</code>方法的组件。</p>
+<h3 id="工作循环的主要步骤"><a href="#工作循环的主要步骤" class="headerlink" title="工作循环的主要步骤"></a>工作循环的主要步骤</h3><p>所有的 Fiber 节点都会在工作循环中进行处理。如下是该循环的同步部分的实现：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">workLoop</span>(<span class="params">isYieldy</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (!isYieldy) &#123;</span><br><span class="line">    <span class="keyword">while</span> (nextUnitOfWork !== <span class="literal">null</span>) &#123;</span><br><span class="line">      nextUnitOfWork = performUnitOfWork(nextUnitOfWork);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;...&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在上面的代码中，<code>nextUnitOfWork</code> 持有 <code>workInProgress</code> 树中的 Fiber 节点的引用，这个树有一些工作要做。当 React 遍历 Fiber 树时，它会使用这个变量来知晓是否有任何其他 Fiber 节点具有未完成的工作。处理过当前 Fiber 后，变量将持有树中下一个 Fiber 节点的引用或 null。在这种情况下，React 退出工作循环并准备好提交更改。<br />遍历树、初始化或完成工作主要用到 4 个函数：</p>
+<ul>
+<li>performUnitOfWork</li>
+<li>beginWork</li>
+<li>completeUnitOfWork</li>
+<li>completeWork</li>
+</ul>
+<p>为了演示他们的使用方法，我们可以看看如下展示的遍历 Fiber 树的动画。我已经在演示中使用了这些函数的简化实现。每个函数都需要对一个 Fiber 节点进行处理，当 React 从树上下来时，您可以看到当前活动的 Fiber 节点发生了变化。从视频中我们可以清楚地看到算法如何从一个分支转到另一个分支。它首先完成子节点的工作，然后才转移到父节点进行处理。<br /><img src="https://user-gold-cdn.xitu.io/2018/12/3/1677442376e53cda?imageslim#align=left&display=inline&height=420&originHeight=420&originWidth=780&status=uploading&width=780" alt=""><br /><em>注意，垂直方向的连线表示同层关系，而折线连接表示父子关系，例如，<code>b1</code> 没有子节点，而 <code>b2</code>有一个子节点 <code>c1</code>。</em><br />在这个 <a href="https://vimeo.com/302222454" target="_blank" rel="noopener">视频</a> 中我们可以暂停播放并检查当前节点和函数的状态。从概念上讲，你可以将「开始」视为「进入」一个组件，并将「完成」视为「离开」它。在解释这些函数的作用时，您也可以在 <a href="https://stackblitz.com/edit/js-ntqfil%3Ffile=index.js" target="_blank" rel="noopener">这里</a> 使用示例和实现。<br />我们首先开始研究 <code>performUnitOfWork</code> 和 <code>beginWork</code> 这两个函数：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">performUnitOfWork</span>(<span class="params">workInProgress</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> next = beginWork(workInProgress);</span><br><span class="line">    <span class="keyword">if</span> (next === <span class="literal">null</span>) &#123;</span><br><span class="line">        next = completeUnitOfWork(workInProgress);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> next;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">beginWork</span>(<span class="params">workInProgress</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'work performed for '</span> + workInProgress.name);</span><br><span class="line">    <span class="keyword">return</span> workInProgress.child;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>函数 <code>performUnitOfWork</code> 从 <code>workInProgress</code> 树接收一个 Fiber 节点，并通过调用 <code>beginWork</code>函数启动工作。这个函数将启动所有 Fiber 执行工作所需要的活动。出于演示的目的，我们只 log 出 Fiber 节点的名称来表示工作已经完成。<strong>函数 <code>beginWork</code> 始终返回指向要在循环中处理的下一个子节点的指针或 null。</strong><br />如果有下一个子节点，它将被赋值给 <code>workLoop</code> 函数中的变量 <code>nextUnitOfWork</code>。但是，如果没有子节点，React 知道它到达了分支的末尾，因此它可以完成当前节点。<strong>一旦节点完成，它将需要为同层的其他节点执行工作，并在完成后回溯到父节点。</strong>这是 <code>completeUnitOfWork</code> 函数执行的代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">completeUnitOfWork</span>(<span class="params">workInProgress</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="keyword">let</span> returnFiber = workInProgress.return;</span><br><span class="line">        <span class="keyword">let</span> siblingFiber = workInProgress.sibling;</span><br><span class="line">        nextUnitOfWork = completeWork(workInProgress);</span><br><span class="line">        <span class="keyword">if</span> (siblingFiber !== <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="comment">// If there is a sibling, return it</span></span><br><span class="line">            <span class="comment">// to perform work for this sibling</span></span><br><span class="line">            <span class="keyword">return</span> siblingFiber;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (returnFiber !== <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="comment">// If there's no more work in this returnFiber,</span></span><br><span class="line">            <span class="comment">// continue the loop to complete the parent.</span></span><br><span class="line">            workInProgress = returnFiber;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// We've reached the root.</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">completeWork</span>(<span class="params">workInProgress</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'work completed for '</span> + workInProgress.name);</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>你可以看到函数的核心就是一个大的 <code>while</code> 的循环。当 <code>workInProgress</code> 节点没有子节点时，React 会进入此函数。完成当前 Fiber 节点的工作后，它就会检查是否有同层节点。如果找的到，React 退出该函数并返回指向该同层节点的指针。它将被赋值给 <code>nextUnitOfWork</code> 变量，React将从这个节点开始执行分支的工作。我们需要着重理解的是，在当前节点上，React 只完成了前面的同层节点的工作。它尚未完成父节点的工作。<strong>只有在完成以子节点开始的所有分支后，才能完成父节点和回溯的工作。</strong><br />从实现中可以看出，<code>performUnitOfWork</code> 和 <code>completeUnitOfWork</code> 主要用于迭代目的，而主要活动则在 <code>beginWork</code> 和 <code>completeWork</code> 函数中进行。在后续的系列文章中，我们将了解随着 React 进入 <code>beginWork</code> 和 <code>completeWork</code> 函数，<code>ClickCounter</code> 组件和 <code>span</code> 节点会发生什么。</p>
+<h3 id="commit-阶段"><a href="#commit-阶段" class="headerlink" title="commit 阶段"></a><code>commit</code> 阶段</h3><p>这一阶段从函数 completeRoot 开始。在这个阶段，React 更新 DOM 并调用变更生命周期之前及之后方法的地方。<br />当 React 进入这个阶段时，它有 2 棵树和副作用列表。第一个树表示当前在屏幕上渲染的状态，然后在 <code>render</code> 阶段会构建一个备用树。它在源代码中称为 <code>finishedWork</code> 或 <code>workInProgress</code>，表示需要映射到屏幕上的状态。此备用树会用类似的方法通过 <code>child</code> 和 <code>sibling</code> 指针链接到 <code>current</code> 树。<br />然后，有一个副作用列表 – 它是 <code>finishedWork</code> 树的节点子集，通过 <code>nextEffect</code> 指针进行链接。需要记住的是，副作用列表是运行 <code>render</code> 阶段的<em>结果_。渲染的重点就是确定需要插入、更新或删除的节点，以及哪些组件需要调用其生命周期方法。这就是副作用列表告诉我们的内容，<strong>它页正是在 <code>commit</code> 阶段迭代的节点集合。</strong><br />_出于调试目的，可以通过 Fiber 根的属性 <code>current</code>访问 <code>current</code> 树。可以通过 <code>current</code> 树中 <code>HostFiber</code> 节点的 <code>alternate</code> 属性访问 <code>finishedWork</code> 树。</em><br />在 <code>commit</code> 阶段运行的主要函数是 commitRoot 。它执行如下下操作：</p>
+<ul>
+<li>在标记为 <code>Snapshot</code> 副作用的节点上调用 <code>getSnapshotBeforeUpdate</code> 生命周期<br /></li>
+<li>在标记为 <code>Deletion</code> 副作用的节点上调用 <code>componentWillUnmount</code> 生命周期<br /></li>
+<li>执行所有 DOM 插入、更新、删除操作<br /></li>
+<li>将 <code>finishedWork</code> 树设置为 current<br /></li>
+<li>在标记为 <code>Placement</code> 副作用的节点上调用 <code>componentDidMount</code> 生命周期<br /></li>
+<li>在标记为 <code>Update</code> 副作用的节点上调用 <code>componentDidUpdate</code> 生命周期<br /></li>
+</ul>
+<p>在调用变更前方法 <code>getSnapshotBeforeUpdate</code> 之后，React 会在树中提交所有副作用，这会通过两波操作来完成。第一波执行所有 DOM（宿主）插入、更新、删除和 ref 卸载。然后 React 将 <code>finishedWork</code> 树赋值给 <code>FiberRoot</code>，将 <code>workInProgress</code> 树标记为 <code>current</code> 树。这是在提交阶段的第一波之后、第二波之前完成的，因此在 <code>componentWillUnmount</code> 中前一个树仍然是 current，在 <code>componentDidMount/Update</code> 期间已完成工作是 current。在第二波，React 调用所有其他生命周期方法和引用回调。这些方法单独传递执行，从而保证整个树中的所有放置、更新和删除能够被触发执行。<br />以下是运行上述步骤的函数的要点：</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">commitRoot</span>(<span class="params">root, finishedWork</span>) </span>&#123;</span><br><span class="line">    commitBeforeMutationLifecycles()</span><br><span class="line">    commitAllHostEffects();</span><br><span class="line">    root.current = finishedWork;</span><br><span class="line">    commitAllLifeCycles();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这些子函数中都实现了一个循环，该循环遍历副作用列表并检查副作用的类型。当它找到与函数目的相关的副作用时，就会执行。</p>
+<h3 id="更新前的生命周期方法"><a href="#更新前的生命周期方法" class="headerlink" title="更新前的生命周期方法"></a>更新前的生命周期方法</h3><p>例如，这是在副作用树上遍历并检查节点是否具有 <code>Snapshot</code> 副作用的代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">commitBeforeMutationLifecycles</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">while</span> (nextEffect !== <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> effectTag = nextEffect.effectTag;</span><br><span class="line">        <span class="keyword">if</span> (effectTag &amp; Snapshot) &#123;</span><br><span class="line">            <span class="keyword">const</span> current = nextEffect.alternate;</span><br><span class="line">            commitBeforeMutationLifeCycles(current, nextEffect);</span><br><span class="line">        &#125;</span><br><span class="line">        nextEffect = nextEffect.nextEffect;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对于一个类组件，这一副作用意味着会调用 <code>getSnapshotBeforeUpdate</code> 生命周期方法。</p>
+<h3 id="DOM-更新"><a href="#DOM-更新" class="headerlink" title="DOM 更新"></a>DOM 更新</h3><p>commitAllHostEffects是 React 执行 DOM 更新的函数。该函数基本上定义了节点需要完成的操作类型，并执行这些操作：</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">commitAllHostEffects</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">switch</span> (primaryEffectTag) &#123;</span><br><span class="line">        <span class="keyword">case</span> Placement: &#123;</span><br><span class="line">            commitPlacement(nextEffect);</span><br><span class="line">            ...</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">case</span> PlacementAndUpdate: &#123;</span><br><span class="line">            commitPlacement(nextEffect);</span><br><span class="line">            commitWork(current, nextEffect);</span><br><span class="line">            ...</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">case</span> Update: &#123;</span><br><span class="line">            commitWork(current, nextEffect);</span><br><span class="line">            ...</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">case</span> Deletion: &#123;</span><br><span class="line">            commitDeletion(nextEffect);</span><br><span class="line">            ...</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>有趣的是，React 调用 <code>componentWillUnmount</code> 方法作为 <code>commitDeletion</code> 函数中删除过程的一部分。</p>
+<h3 id="更新后的生命周期方法"><a href="#更新后的生命周期方法" class="headerlink" title="更新后的生命周期方法"></a>更新后的生命周期方法</h3><p>commitAllLifecycles 是 React 调用所有剩余生命周期方法的函数。在 React 的当前实现中，唯一会调用的变更方法就是 <code>componentDidUpdate</code>。<br />我们终于讲完了。让我知道您对该文章的看法或在评论中提出问题。我还有关于调度程序、子调和过程以及如何构建副作用列表的文章来对这些内容提供深入的解释。我还计划制作一个视频，在这里我将展示如何使用本文作为基础来调试应用程序。</p>
+<hr>
+<h2 id="公众号"><a href="#公众号" class="headerlink" title="公众号"></a>公众号</h2><p>想要实时关注笔者最新的文章和最新的文档更新请关注公众号<strong>程序员面试官</strong>,后续的文章会优先在公众号更新.</p>
+<p><strong>简历模板:</strong> 关注公众号回复「模板」获取</p>
+<p><strong>《前端面试手册》:</strong> 配套于本指南的突击手册,关注公众号回复「fed」获取</p>
+<p><img src="https://xiaomuzhu-image.oss-cn-beijing.aliyuncs.com/d846f65d5025c4b6c4619662a0669503.png" alt="2019-08-12-03-18-41"></p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a style="word-wrap:break-word;" href="http://yoursite.com/2019/11/08/5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill/React/React%20Fiber%20%E6%9E%B6%E6%9E%84%E8%A7%A3%E6%9E%90/" title="React Fiber 架构解析" target="_blank" rel="external">http://yoursite.com/2019/11/08/5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill/React/React%20Fiber%20%E6%9E%B6%E6%9E%84%E8%A7%A3%E6%9E%90/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/chen08" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/chen08" target="_blank"><span class="text-dark">溟海</span><small class="ml-1x">Web Developer &amp; Designer</small></a></h3>
+        <div>天行健，君子以自强不息，地势坤，君子以厚德载物。 杀不死我的,终将使我强大 没有吃不了的苦,只有享不了的福</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2019/11/08/5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill/Node/%E6%A8%A1%E5%9D%97%E6%9C%BA%E5%88%B6/" title="Node 模块机制"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/11/08/5.%E6%8A%80%E8%83%BD%E6%8F%90%E5%8D%87Skill/React/React-hooks%20%E6%8A%BD%E8%B1%A1%E7%BB%84%E4%BB%B6/" title="React-hooks 抽象组件"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="Catalogue" role="button">
+        <span>[&nbsp;</span><span>Catalogue</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open alipay app scan this qrcode, buy me a coffee!</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open wechat app scan this qrcode, buy me a coffee!</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> alipay</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> wechat payment</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+
+
+<!-- custom analytics part create by xiamo -->
+<!-- <script defer src="https://cdn1.lncld.net/static/js/av-min-1.2.1.js"></script> -->
+<script defer src="/js/av-min-1.2.1.js"></script>
+<script defer>
+AV.init({
+  appId: 'ngFQzHw7z0HgQfrtn4En4WTN-gzGzoHsz',
+  appKey: 'W9hgBBfVDwRGJKoGp5a6HKpx'
+});
+
+function showTime(Counter) {
+	var query = new AV.Query(Counter);
+		var visitors= $('.leancloud_visitors');
+		query.greaterThanOrEqualTo("time", 0);		
+		query.find({
+			success: function(results) {
+				if (results.length == 0) {				
+					return;
+				}
+				var data = results;
+				visitors.each(function(){
+					var url = $(this).attr('id').trim();					
+					for (var i = 0; i < data.length; i++) {
+						var object = data[i];
+						var content = object.get('time');
+						var _url = object.get('url')
+						if(url == _url){
+							$(this).text(content);
+						}
+					}
+				})
+				
+			},
+			error: function(object, error) {
+				console.log("Error: " + error.code + " " + error.message);
+			}
+		});
+}
+
+function addCount(Counter) {
+	var Counter = AV.Object.extend("Counter");
+	url = $(".leancloud_visitors").attr('id').trim();
+	title = $(".leancloud_visitors").attr('data-flag-title').trim();
+	var query = new AV.Query(Counter);
+	query.equalTo("url", url);
+	query.find({
+		success: function(results) {
+			if (results.length > 0) {
+				var counter = results[0];
+				counter.fetchWhenSave(true);
+				counter.increment("time");
+				counter.save(null, {
+					success: function(counter) {
+						var content = counter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(counter, error) {
+						console.log('Failed to save Visitor num, with error message: ' + error.message);
+					}
+				});
+			} else {
+				var newcounter = new Counter();
+				newcounter.set("title", title);
+				newcounter.set("url", url);
+				newcounter.set("time", 1);
+				newcounter.save(null, {
+					success: function(newcounter) {
+					    console.log("newcounter.get('time')="+newcounter.get('time'));
+						var content = newcounter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(newcounter, error) {
+						console.log('Failed to create');
+					}
+				});
+			}
+		},
+		error: function(error) {
+			console.log('Error:' + error.code + " " + error.message);
+		}
+	});
+}
+$(function() {
+	var Counter = AV.Object.extend("Counter");
+	if ($('.leancloud_visitors').length == 1) {
+		addCount(Counter);
+	} else {
+		showTime(Counter);
+	}
+}); 
+</script>
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>
